@@ -7,6 +7,7 @@ Hauptziel:
    bei der nicht ersichtlich ist, wer mit wem kommuniziert oder 
    was kommuniziert wird.
 
+   MACHBARKEITSSTUDIE
 
 Ziele:
 
@@ -21,7 +22,7 @@ Auftraggeber:
    - Jeder :-)
    - Hackergruppe (!eof)
       Hackegruppe ersetzen durch Gemeinschaft
-
+   - CCC Zürich
 
 Ausgangslage:
    Momentane Chat-Programme sind nicht gegenüber einen Angreifer abgesichert, 
@@ -30,7 +31,6 @@ Ausgangslage:
    propritär [skype]
 
 --------------------------------------------------------------------------------
-
 Größe / Bandbreite:
 
    Ausgehend: Immer gleich:
@@ -63,13 +63,89 @@ Design
    public key
    verschleierung
    dezentral
+   noise:
+      auswirkung
 
 Umsetzung
 
 Fazit
    Rückblick
+      Lag aufgrund von verschiedenen Transportmethoden
    Erreichtes (?)
    Offenes
+      Key-Exchange via Type KEYEXCHANGE
+      Diskussion Payload
+      Ascii-Armor immer oder nicht
+         Zu diskutieren
+--------------------------------------------------------------------------------
+Design / Hierarchy / ....
+   Transport-Protokoll
+   Chat darauf, wie machen?
+      Ports, wie tcp,ip?
+--------------------------------------------------------------------------------
+Transportprotokoll
+   Type-ID neu hinzu
+      FIXEDLEN, UTF-8, ZERO PADDED (64)
+   Version neu hinzu
+      FIXEDLEN, UTF-8, ZERO PADDED (16)
+
+   Ascii-Represnation
+      for wikis :-)
+         via gpg -a!
+   Payload
+      Immer gleich groß?
+         Nein, Type-Abhängig?
+            Dann Types tendenziell erkennbar
+               Zukünftige Arbeit
+         Für diese Arbeit: Ja.
+            2*EOFsdt, wie im Dokument
+      PROBLEM:
+         es kann innen drin eine variable größe mehr zeugs stehen, durch onions
+            "sende weiter" -> was denn?
+         Paketende muss andersweitig erkennbar sein
+            1 pro "Verbindung"?
+--------------------------------------------------------------------------------
+Chatprotokoll
+   Schon beschrieben?
+      Nö!
+   Type: CHAT
+--------------------------------------------------------------------------------
+Onions
+   Sign, Sign-Enrypt, Sign-Encrypt-Sign...
+--------------------------------------------------------------------------------
+Beschreibung von den einzelnen Methoden / Paketen
+   DATA
+      Read and drop
+      easy.
+   DATA+FORWARD
+      Read and forward
+      re-encrypt?
+      ascii-armor?
+         always????
+         dependent of transport protocol?
+            probably easier to have the same stuff everywhere
+      append noise of sizestripped?
+         mutates the packet
+         need to have end of packet marker?
+            how does pgp/gpg behave with additional data?
+         sensible anyway?
+   NOISE
+      Drop
+   NOISE+FORWARD
+      Forward
+--------------------------------------------------------------------------------
+Anzahl Peers garantieren?
+   Marktschreier / Telefonbuch öffentlich vorhanden?
+      gpg-keys, adressen
+--------------------------------------------------------------------------------
+Erreichbarkeit von Peers
+   Clients können Seiten pollen [HIDDEN]
+      pastebin, wikipedia, twitter, torrent, e-mail, usenet, facebook, google+, skype, ...
+      funktioniert hinter firewall
+   Clients können Server sein [OPEN]
+      http, smtp, dns (delegation!)
+      "statische ip" nötig
+      skype!
 --------------------------------------------------------------------------------
 Peers finden:
    "Telefonbuch"
@@ -77,6 +153,8 @@ Peers finden:
    Nachbarn
       Broadcast für Kabel-Modem-Netze
    Nicht Teil des Projektes?
+      Immer individuell?
+   Via E-Mail?
 --------------------------------------------------------------------------------
 
 
