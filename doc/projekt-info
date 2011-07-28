@@ -1,0 +1,22 @@
+Entwicklung eines verschlüsseltenten, dezentraler Chat-Clients
+
+Hauptziel:
+
+   Möglichkeit zur Kommunikation von einer mittelgroßen Gruppe
+   (2-50 Personen?), die (nur sehr) schwierig verhinderbar ist, 
+   bei der nicht ersichtlich ist, wer mit wem kommuniziert oder 
+   was kommuniziert wird.
+
+
+Ziele:
+
+   - anonymität (definieren!)
+   - abhörsicherheit
+   - "schlecht anzuhalten"
+      - verschleierung
+
+Auftraggeber:
+   - Gruppe von Journalisten, international, China
+   - Hacker (yeah!)
+
+
