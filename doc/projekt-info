@@ -18,5 +18,67 @@ Ziele:
 Auftraggeber:
    - Gruppe von Journalisten, international, China
    - Hacker (yeah!)
+   - Jeder :-)
+   - Hackergruppe (!eof)
+      Hackegruppe ersetzen durch Gemeinschaft
 
 
+Ausgangslage:
+   Momentane Chat-Programme sind nicht gegenüber einen Angreifer abgesichert, 
+   der umfangreiche Abhörmassnahmen bietet. Die meisten Chat-Protokolle 
+   basieren auf einer zentraler Architektur [irc, silc, skype] oder sind 
+   propritär [skype]
+
+--------------------------------------------------------------------------------
+
+Größe / Bandbreite:
+
+   Ausgehend: Immer gleich:
+      Größe pro Nachricht alle Intervall
+
+
+--------------------------------------------------------------------------------
+EBS: ...
+Der Name des Projektes:
+Projektbeschreibung
+
+--------------------------------------------------------------------------------
+Zeit:
+   Der Aufwand für die Fertigstellung einer Bachelorarbeit beträgt insgesamt mindestens
+    360 Stunden. (aus a_Reglement)
+--------------------------------------------------------------------------------
+Gliederung
+
+Einleitung
+   EBS-Wiedergabe?
+   Motivation
+Ist-Analyse (kurz?)
+Ziele
+   Design einer Lösung
+   Entwurf eines Protypen
+   Definition der verwendeten Protokolle (?)
+      chat, transport, etc.
+   Auffinden von Peers
+Design
+   public key
+   verschleierung
+   dezentral
+
+Umsetzung
+
+Fazit
+   Rückblick
+   Erreichtes (?)
+   Offenes
+--------------------------------------------------------------------------------
+Peers finden:
+   "Telefonbuch"
+      Mehrere im Netz?
+   Nachbarn
+      Broadcast für Kabel-Modem-Netze
+   Nicht Teil des Projektes?
+--------------------------------------------------------------------------------
+
+
+Offene Fragen:
+   - Auftraggeber?
