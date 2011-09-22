@@ -1,0 +1,30 @@
+Projektname    
+   Entwicklung einer Software zur Verwaltung einer Unix-Informatiker-KMU
+   Konzeption eines sicheren Chatprotokolls
+
+   Development of a secure, decentralised Chat-System
+
+Projektstatus  10 - Die Arbeit wurde benotet (Die Note für eine Semester- oder Bachelorarbeit kann nur durch die Studiengangsleitung freigegeben werden)
+Letzter Abgabetermin    09.04.2011
+Projekttyp  Semesterarbeit
+Zusammenfassung   Da der Typ Unix-Informatiker-KMU nicht nur einen KMU, aber auch einen IT-KMU Spezialfall darstellt, soll für die Verwaltung dieser Firma eine Individualsoftware erstellt werden.
+Student  Nico Schottelius
+Betreuungsperson  Beat Seeliger
+
+
+Aufgabenstellung
+
+Ausgangslage
+      Eine Gruppe von Informatikern möchte eine KMU gründen, die sich auf die Automatisierung von IT-Lösungen im Unix-Bereich spezialisiert. Damit sich die Firma direkt nach der Gründung auf das Kerngeschäft konzentrieren kann und die Informatiker Schwächen im Umgang mit administrative Arbeiten aufweisen, soll ein Konzept-Prototyp von einer Software erstellt werden, die die Handhabung der administrativen Prozesse vereinfacht und automatisiert.
+
+Ziel der Arbeit   
+   Es soll eine Softwarelösung entwickelt werden, die die administrativen Prozesse abbildet und weitestgehend automatisiert instrumentalisiert. Die entwickelte Software soll primär informatikerfreundlich, sekundär endnutzernutzbar sein und Schnittstellen zur Erweiterung durch andere Programme vorsehen. Die folgenden administrativen Bereiche sollen mindestens abgebildet werden: - Projektverwaltung - Offertenerstellung - Rechnungsgenerierung - Zeiterfassung Technische Anforderungen sind des weiteren: - Betriebsystemsunabhängiger Zugriff - Serverseitig lauffähig unter unixartigem Betriebssystem
+
+Aufgabenstellung
+     - Detaillierte Beschreibung der administrativen Bereiche [Requirements Analysis/User] (10%) - Evaluation und Auswahl Entwicklungsumgebung [Requirements Analysis/Technical, Architectual Design] (10%) - Implementierung und Test der Software (55%) - Dokumentation der Software (25%)
+
+Erwartetes Resultat  
+   - Dokumentation der administrativen Bereiche sowie deren gewünschte Abbildung in der Software - Begründung der Auswahl der Entwicklungsumgebung - Quelltext der Software - Benutzerhandbuch
+
+Geplante Termine  
+   Beginn vom Projekt mit Vorbesprechung ("`Kickoff"') 2010-10-11 Zwischenbesprechung ("`Design-Review"') 2011-01-14 Projektabschluß mit Vorstellung 2011-04-11 
