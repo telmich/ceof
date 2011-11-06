@@ -15,10 +15,11 @@ Zusammenfassung
 
 Ausgangslage
    Currently, a proprietary, closed source chat system is
-   in place that features encryption and techniques that
-   make it hard to block on network level.
+   used for the [company] internal communication. Especially
+   communication regarding outages and internal coordinations
+   are made using this chat system. As 
 
-   This system is ran by a single commercial company
+   This system is ran by a commercial company
    that is located in Luxembourg, but was recently bought
    by an American company.
 
@@ -327,3 +328,8 @@ Peers finden:
 
 Offene Fragen:
    - Auftraggeber?
+
+--------------------------------------------------------------------------------
+Anderes:
+   that features encryption and techniques that
+   make it hard to block on network level.
