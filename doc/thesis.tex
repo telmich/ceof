@@ -32,6 +32,12 @@
 
 % ----------------------------------------------------------------------------
 \section{Introduction}
+
+Anonymous communication networks were first intro-
+duced by David Chaum in his seminal paper [10] describing
+the mix as a fundamental building block for anonymity.
+(aus tor2)
+
 \subsection{Abstract}
 hier oder weiter oben? - siehe lisa vortrag!
 
@@ -44,6 +50,10 @@ From EBS + EOF
 
 \subsection{Objectives}
 From EOF + Latency "`low"', eventual consistency
+\subsubsection{Steganographic}
+Not for hiding, but to support longer überleben?
+http is pretty well suited for this.
+mixing with smtp, imap, pop3, tcp. etc.
 
 % ----------------------------------------------------------------------------
 \section{Related work/Alternatives/Existing solutions}
@@ -53,6 +63,8 @@ From EOF + Latency "`low"', eventual consistency
 \subsection{Tor}
 \subsection{Comparison}
 All the solutions with objectives.
+\subsection{Conclusions}
+Latency, http/ssh vs. email
 
 % ----------------------------------------------------------------------------
 \section{System Design}
@@ -115,6 +127,10 @@ Different routes for every packet
 
 \subsection{Source based routing}
 Either here or in Intra Machine Intra Client
+\subsection{Peer selection}
+Which peers, how many. Constant? May give upper bounds of latency.
+
+8 * 0.5seconds = 4 seconds delay.
 
 \subsection{Bandwidth usage}
 \begin{verbatim}
