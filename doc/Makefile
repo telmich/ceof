@@ -1,5 +1,5 @@
 SDOC=thesis.tex
-#USDOC=userstories.tex
+PARTS=conclusions.tex sources.tex
 #USLDOC=userstories-loesungen.tex
 #MDOC=manpage.tex
 
@@ -13,7 +13,7 @@ praesi: praesi.tex
 	pdflatex $<
 	pdflatex $<
 
-#$(SDOC): $(USDOC) $(USLDOC) $(MDOC)
+$(SDOC): $(PARTS)
 
 clean:
 	rm -f *.aux *.toc *.log $(USDOC) $(USLDOC) $(MDOC)

@@ -43,12 +43,13 @@ local, skype, untrustworthy
 From EBS + EOF
 
 \subsection{Objectives}
-From EOF
+From EOF + Latency "`low"', eventual consistency
 
 % ----------------------------------------------------------------------------
-\section{Alternatives/Existing solutions}
+\section{Related work/Alternatives/Existing solutions}
 \subsection{IRC+SSL}
 \subsection{SILC}
+\subsection{Onion Routing}
 \subsection{Tor}
 \subsection{Comparison}
 All the solutions with objectives.
@@ -62,9 +63,46 @@ Different programs handle different objectives
 \subsection{Key Exchange}
 Not implemented
 % ----------------------------------------------------------------------------
-\section{Intra-Machine protocol}
+\section{Intra Machine Intra Program Protocol}
 \subsection{Interfaces}
 Sockets, Environment, Paths, etc.
+\subsection{Data Types}
+\subsection{Sub Programs}
+Consists of the following sub-programs:
+encryption, dictionary, key/peer exchange daemon (if possible in this work),
+% ----------------------------------------------------------------------------
+\section{Sub Programs}
+Describe what it does, how it does and where it is implemented.
+
+% ----------------------------------------------------------------------------
+\section{Inter Machine Protocol}
+On the "`wire"'. Different transports. Constant transport.
+
+\subsection{Bandwidth usage}
+\begin{verbatim}
+>>> messages_size=4*1024
+>>> messages_per_second=4
+>>> bytes_per_second=messages_per_second*messages_size
+>>> print(bytes_per_second)
+16384
+>>> bytes_per_day=86400*bytes_per_second
+>>> print(bytes_per_day)
+1415577600
+>>> print(bytes_per_day/1024**2)
+1350.0
+>>> bytes_per_month=month_length*bytes_per_day
+>>> print(bytes_per_month/1024**2)
+41062.5
+>>> print(bytes_per_month/1024**3)
+40.10009765625
+\end{verbatim}
+16 KiB/s or 128 KBit/s, 2 ISDN lines. Around 1.4 GiB per day or
+circa 40 GiB per month.
+
+% ----------------------------------------------------------------------------
+\section{Inter Machine Inter Program protocol}
+After decoding the received packet. Forward, etc.
+Based on part os EOF simple data types.
 
 % ----------------------------------------------------------------------------
 \section{Implementation}
