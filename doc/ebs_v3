@@ -8,9 +8,8 @@ Auftraggeber:
     Thomas Gresch, Leiter e-Integration Services, local.ch
 
 Ausgangslage
-    Currently there are a lot of chat systems available, but none of those
-    systems implements an anonymous, decentralised, secure, peer-to-peer
-    architecture.
+    Currently there are a lot of chat systems available, but none of these
+    systems implements an anonymous, decentralised and secure architecture.
 
     Anonymity is important, if people need to hide to whom they are talking,
     which is for instance true for reporters in dangerous areas, when they
@@ -18,23 +17,23 @@ Ausgangslage
     other situations.
 
     A decentralised architecture helps to avoid easy disruption by eliminating
-    the single point of failure. This supports the ability to continue communications
-    even under attack from an enemy. This is a general requirement for reliable
-    communications, but is necessary for military in war areas as well for reporters.
-
-    A decentralised architecture is usually called peer-to-peer networking.
+    the single point of failure. This supports the ability to continue
+    communications even under attack from an enemy. This is a general
+    requirement for reliable communications, but is necessary e.g. for military
+    in war areas as well for reporters.
 
     Secure chat provides the ability to hide message content from eavesdroppers,
-    as well as ensure message and sender authenticity.
+    as well as to ensure message and sender authenticity.
     Without this technique an attacker could use the information for harmful
     operations or change the content of the messages. This thread is
-    very dangerous in stock market situations, as well in the two situations
+    very dangerous i.e. in stock market situations, as well in the two situations
     described above.
 
     The client, Thomas Gresch from local.ch, is running Skype for internal core
-    communications. As Skype is a closed source, proprietary chat system owned
-    by the American company Microsoft, in case of disruptions it is technically
-    and legally cumbersome to restore core communications within the company.
+    communications. Skype is a closed source, encrypted, proprietary chat system
+    owned by the American company Microsoft. In case of disruptions, whether
+    intended or accidental, it is technically and legally cumbersome to restore
+    core communications within the company.
 
     For this reason the client is seeking for an alternative and supports this
     research project.

@@ -14,7 +14,7 @@ praesi: praesi.tex
 	pdflatex $<
 
 spellcheck:
-	aspell -c doc/ebs_v3 -d en_GB
+	aspell -c ebs_v3 -d en_GB
 
 
 clean:
