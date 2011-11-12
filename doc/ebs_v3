@@ -1,9 +1,5 @@
 Projektname
-    Einer der drei:
-
-    Development of a secure, peer-to-peer, decentralised anonymous chat system
     Development of a secure, decentralised anonymous chat system
-    Development of a secure, peer-to-peer anonymous chat system
 
 Betreuungsperson:
     Giovanni Serafini, Dozent für Angewandte Kryptografie
@@ -44,3 +40,19 @@ Ausgangslage
     research project.
 
 Ziele der Arbeit
+    The objective of this thesis is the design and development of a secure,
+    decentralised chat system, based on a analysis (SWOT) of current
+    chat implementations. The analysis should not only consider chat system,
+    but secure communication protocols 
+
+
+
+    The first objective of this thesis is the analysis (SWOT) of current
+    chat implementations, including a comparision and summary. as a basis
+    for development of a new 
+    for development of a new 
+
+Aufgaben
+
+Resultate
+
