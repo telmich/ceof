@@ -8,19 +8,19 @@ Auftraggeber:
     Thomas Gresch, Leiter e-Integration Services, local.ch
 
 Ausgangslage
-    Currently there are a lot of chat systems available, but none of these
+    Currently a lot of chat systems are available, but none of these
     systems implements an anonymous, decentralised and secure architecture.
 
-    Anonymity is important, if people need to hide to whom they are talking,
-    which is for instance true for reporters in dangerous areas, when they
-    submit messages in danger of life threats, but also applies to various
+    Anonymity is important, when people need to hide to whom they are talking to.
+    This is for instance true for reporters located in dangerous areas, when they
+    submit their messages in danger of life threats, but also applies to various
     other situations.
 
     A decentralised architecture helps to avoid easy disruption by eliminating
     the single point of failure. This supports the ability to continue
     communications even under attack from an enemy. This is a general
     requirement for reliable communications, but is necessary e.g. for military
-    in war areas as well for reporters.
+    in case of war, as well as for reporters.
 
     Secure chat provides the ability to hide message content from eavesdroppers,
     as well as to ensure message and sender authenticity.
@@ -43,13 +43,13 @@ Ziele der Arbeit
     The objective of this thesis is the design and development of a secure,
     decentralised chat system, including protocol definition and prototype
     development, based on a (SWOT-)analysis of current chat implementations.
-    The analysis should not only consider chat system, but related
+    The analysis should not only consider chat systems, but related
     secure and anonymous communication systems as well.
 
 
 Aufgaben
-    - Detailed analysis of current chat systems
-    - Comparison of current chat systems
+    - Detailed analysis of legacy chat systems
+    - Comparison of legacy chat systems
     - Analysis of related communication protocols
     - Development of a new chat protocol
     - Development of chat prototype using the new chat protocol
