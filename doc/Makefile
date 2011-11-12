@@ -13,5 +13,9 @@ praesi: praesi.tex
 	pdflatex $<
 	pdflatex $<
 
+spellcheck:
+	aspell -c doc/ebs_v3 -d en_GB
+
+
 clean:
 	rm -f *.aux *.toc *.log $(USDOC) $(USLDOC) $(MDOC)

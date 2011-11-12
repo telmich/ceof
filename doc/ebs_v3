@@ -49,8 +49,8 @@ Ziele der Arbeit
 
 
 Aufgaben
-    - Detailled analysis of current chat systems
-    - Comparision of current chat systems
+    - Detailed analysis of current chat systems
+    - Comparison of current chat systems
     - Analysis of related communication protocols
     - Development of a new chat protocol
     - Development of chat prototype using the new chat protocol
@@ -58,7 +58,7 @@ Aufgaben
 
 Resultate
     - Report of current chat systems including strength and weaknesses
-    - Short comparision table listing 
-    - Report of related communication protcols including strength and weaknesses
+    - Short comparison table listing 
+    - Report of related communication protocols including strength and weaknesses
     - Protocol definition paper
     - Implementation of a prototype for the new chat system
