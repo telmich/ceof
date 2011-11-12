@@ -39,6 +39,7 @@ Ausgangslage
     For this reason the client is seeking for an alternative and supports this
     research project.
 
+
 Ziele der Arbeit
     The objective of this thesis is the design and development of a secure,
     decentralised chat system, including protocol definition and prototype
@@ -46,7 +47,18 @@ Ziele der Arbeit
     The analysis should not only consider chat system, but related
     secure and anonymous communication systems as well.
 
+
 Aufgaben
+    - Detailled analysis of current chat systems
+    - Comparision of current chat systems
+    - Analysis of related communication protocols
+    - Development of a new chat protocol
+    - Development of chat prototype using the new chat protocol
+
 
 Resultate
-
+    - Report of current chat systems including strength and weaknesses
+    - Short comparision table listing 
+    - Report of related communication protcols including strength and weaknesses
+    - Protocol definition paper
+    - Implementation of a prototype for the new chat system
