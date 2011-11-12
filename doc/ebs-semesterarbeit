@@ -1,62 +1,37 @@
 Projektname    
-   Development of a secure, peer-to-peer, decentralised anonymous chat system
-
+    Development of a secure, peer-to-peer, decentralised anonymous chat system
 
 Betreuungsperson:
-   Giovanni Serafini, Dozent für Angewandte Kryptografie
+    Giovanni Serafini, Dozent für Angewandte Kryptografie
 
 Auftraggeber:
-   Thomas Gresch, local.ch
-
-Zusammenfassung
-   With the help of an analysis of the current used and 
-   the available FOSS-implementation chat systems,
-   a secure chat system should be developed.
+    Thomas Gresch, Leiter e-Integration Services, local.ch
 
 Ausgangslage
-   Currently, a proprietary, closed source chat system is
-   used for the [company] internal communication. Especially
-   communication regarding outages and internal coordinations
-   are made using this chat system. As 
-
-   This system is ran by a commercial company
-   that is located in Luxembourg, but was recently bought
-   by an American company.
-
-   The problem, running core communications in
-   dependency of a single company grew to further bigger
-   problem with the recent acquisition: If the service
-   is denied, and thus the whole communication made impossible,
-   for a specific customer is now not only dependent on the 
-   original companies' decision, but may also made by 
-   the mother company as well as the American government.
+    Currently, the proprietary, closed source chat system Skype is
+    used for the company internal communication. Messages about
+    infrastructure changes, development and changes of applications
+    as well as administrative and outage announcements are made using Skype.
+    
+    The daily workflow depends on the availbility of Skype.
+    
+    Skype, created and developed by a commercial company
+    located in Luxembourg, was recently bought by the American company 
+    Microsoft. As the Skype software is licensed under a proprietary license and
+    is also known to be designed to hide from the user what it is
+    doing and how communications work, this opens a thread for the core communications.
+    
+    In case the Skype company disables the service, for instance by intent
+    or due to a technical accident, it is not easily possible to migrate
+    the existing communication infrastructure, because of the hiding problem
+    illustrated above.
+    
+    The problem, running core communications in dependency of a single company
+    grew to bigger problem with the recent acquisition: If the service
+    is denied, and thus the whole communication made impossible,
+    is not only dependent on the original companies' decision, 
+    but may also made by the mother company as well as the American government.
    
-   because handling
-
-
-   client
-
-   Thus the 
-
-      verschlüsselt
-      tunnelbar
-      anfällig ist für Sperrung durch eine Partei
-      betrieben von amerikanischer Firma(?)
-         - schwierige rechtliche handhabung
-
-      produkt verkauft an andere größere amerikanische
-      firma, die nicht vertraeuenswürdig ist
-
-      Skype, Einzelfirma, nicht vertrauenswürdig
-
-      Eine FOSS-Lösung würde bevorzugt werden, da Transparenz
-      (Funktsweise, Sicherstellung das Daten nicht an Dritte
-      gesendet werden) gegeben wäre.
-      jedoch scheinen bestehende FOSS-Lösungen keine großen Vorteile,
-      bzw. sogar Nachteile gegenüber der properitären
-      Lösung zu haben. 
-
-
    Ziel der Arbeit  [grobe gesamtbeschreibung]
       mitarbeiter sollen von unterwegs mit jedem anderen
       mitarbeiter kommunizieren können (
@@ -163,6 +138,11 @@ Erwartetes Resultat [messbar?]
 
       - Dokumentation der administrativen Bereiche sowie deren gewünschte Abbildung in der Software - Begründung der Auswahl der Entwicklungsumgebung - Quelltext der Software - Benutzerhandbuch
 
+
+Zusammenfassung
+   With the help of an analysis of the current used and 
+   the available FOSS-implementation chat systems,
+   a secure chat system should be developed.
 
 --------------------------------------------------------------------------------
 
