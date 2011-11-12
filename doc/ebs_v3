@@ -41,16 +41,10 @@ Ausgangslage
 
 Ziele der Arbeit
     The objective of this thesis is the design and development of a secure,
-    decentralised chat system, based on a analysis (SWOT) of current
-    chat implementations. The analysis should not only consider chat system,
-    but secure communication protocols 
-
-
-
-    The first objective of this thesis is the analysis (SWOT) of current
-    chat implementations, including a comparision and summary. as a basis
-    for development of a new 
-    for development of a new 
+    decentralised chat system, including protocol definition and prototype
+    development, based on a (SWOT-)analysis of current chat implementations.
+    The analysis should not only consider chat system, but related
+    secure and anonymous communication systems as well.
 
 Aufgaben
 
