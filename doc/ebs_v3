@@ -1,4 +1,46 @@
+Projektname
+    Einer der drei:
+
+    Development of a secure, peer-to-peer, decentralised anonymous chat system
+    Development of a secure, decentralised anonymous chat system
+    Development of a secure, peer-to-peer anonymous chat system
+
+Betreuungsperson:
+    Giovanni Serafini, Dozent für Angewandte Kryptografie
+
+Auftraggeber:
+    Thomas Gresch, Leiter e-Integration Services, local.ch
+
 Ausgangslage
-    Beschreibung Situation chat programme
-    Beschreibung Problem, dass keines anonym, unblockbar, etc. ist
-    local.ch ist daran interessiert, skype
+    Currently there are a lot of chat systems available, but none of those
+    systems implements an anonymous, decentralised, secure, peer-to-peer
+    architecture.
+
+    Anonymity is important, if people need to hide to whom they are talking,
+    which is for instance true for reporters in dangerous areas, when they
+    submit messages in danger of life threats, but also applies to various
+    other situations.
+
+    A decentralised architecture helps to avoid easy disruption by eliminating
+    the single point of failure. This supports the ability to continue communications
+    even under attack from an enemy. This is a general requirement for reliable
+    communications, but is necessary for military in war areas as well for reporters.
+
+    A decentralised architecture is usually called peer-to-peer networking.
+
+    Secure chat provides the ability to hide message content from eavesdroppers,
+    as well as ensure message and sender authenticity.
+    Without this technique an attacker could use the information for harmful
+    operations or change the content of the messages. This thread is
+    very dangerous in stock market situations, as well in the two situations
+    described above.
+
+    The client, Thomas Gresch from local.ch, is running Skype for internal core
+    communications. As Skype is a closed source, proprietary chat system owned
+    by the American company Microsoft, in case of disruptions it is technically
+    and legally cumbersome to restore core communications within the company.
+
+    For this reason the client is seeking for an alternative and supports this
+    research project.
+
+Ziele der Arbeit
