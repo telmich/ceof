@@ -8,6 +8,16 @@ Auftraggeber:
     Thomas Gresch, Leiter e-Integration Services, local.ch
 
 Ausgangslage
+
+2. Ausgangslage:
+2.1 Die Motivation ist noch nicht ganz klar. Die einzelnen Argumente sind nachvollziehbar, der "Sprung" zwischen
+"Reporter in Lebensgefahr" und local.ch ist noch zu gross. Es nicht eine Frage der Inhalte (mit einer Ausnahme),
+sondern der Formulierung. Es geht m.E. darum, das Nutzen (d.h. die Einsatzmöglichkeiten) der neuen Plattform
+hervorzuheben.
+2.2 Die Ausnahme zu den Inhalte (siehe oben): Anonymität und Authentizität sind an sich widersprüchliche Anforderungen- dies stimmt nicht ganz, kann aber als solches wahrgenommen werden - e-Voting-Plattformen müssen beide Anforderungen
+z.B. konjugieren. Hier muss der fachliche Kontext besser beschrieben werden.
+
+
     Currently a lot of chat systems are available, but none of these
     systems implements an anonymous, decentralised and secure architecture.
 
@@ -40,24 +50,53 @@ Ausgangslage
 
 
 Ziele der Arbeit
+3. Ziel der Arbeit
+3.1 Schwerpunkt der BA soll ein Konzept sein. In diesem Sinne schlage ich vor, dass der Abschnitt leicht umformuliert
+wird. Ist das direkte Ziel der Arbeit die Konzeption des Protokolls? Falls so, dann müsste man es noch mehr
+hervorhoben. Man soll nicht das Gefühl haben, dass du primär entwickeln wirst. 
+3.3 Die Umformulierung bzw. die Wahl des Schwerpunkts (Protokoll, und nicht direkt das Chat System) könnten einen
+Einfluss auf dem Titel der Arbeit haben. 
+
     The objective of this thesis is the design and development of a secure,
     decentralised chat system, including protocol definition and prototype
-    development, based on a (SWOT-)analysis of current chat implementations.
+    development, based on a detailled analysis of current chat implementations.
     The analysis should not only consider chat systems, but related
     secure and anonymous communication systems as well.
 
 
 Aufgaben
-    - Detailed analysis of legacy chat systems
-    - Comparison of legacy chat systems
-    - Analysis of related communication protocols
-    - Development of a new chat protocol
-    - Development of chat prototype using the new chat protocol
+4. Aufgabenstellung:
+4.2 Anforderungsanalyse sowie SW-Entwurf müssen hinzugefügt werden.
+4.3 Demo muss hinzugefügt werden.
+4.4 Detailed analysis and comparison of legacy chat systems sollen zusammengefügt werden.
+4.5 Was erwartest du von der Analyse der existierenden Chat-Plattformen bzw. von den Protokollen? Ich gehe davon aus,
+dass dies dir die Chance gibt, deine Anforderungen besser zu formulieren und die innovativen Aspekte der Arbeit
+gezielter darzustellen.
+
+
+    1. Detailed analysis of legacy chat systems
+    2. Comparison of legacy chat systems
+    3. Analysis of related communication protocols
+    4. Development of a new chat protocol
+    5. Development of chat prototype using the new chat protocol
 
 
 Resultate
-    - Report of current chat systems including strength and weaknesses
-    - Short comparison table listing 
-    - Report of related communication protocols including strength and weaknesses
-    - Protocol definition paper
-    - Implementation of a prototype for the new chat system
+5. Erwartete Resultate:
+5.2 Protocol definition Paper ist noch zu generisch :-)
+5.3 Für die Demo: eine Art kurzes Drehbuch.
+
+
+    1. Report of current chat systems including strength and weaknesses
+    2. Short comparison table listing 
+    3. Report of related communication protocols including strength and weaknesses
+    4. Protocol definition paper
+    5. Implementation of a prototype for the new chat system
+
+6. Geplante Termine:
+6.1 Kick-Off: Vorschlag Mitte Dezember
+6.2 Design-Review: Vorschlag Anfang März
+6.3 Schlusspräsentation: Vorschlag: Ende April
+6.4 Achtung: schaue bitte im Reglement, ab wann die 6 Monate zählen (Ab Freigabe oder ab Kick-Off?).
+
+
