@@ -9,22 +9,16 @@ Auftraggeber:
 
 Ausgangslage
 
-2. Ausgangslage:
-2.1 Die Motivation ist noch nicht ganz klar. Die einzelnen Argumente sind nachvollziehbar, der "Sprung" zwischen
-"Reporter in Lebensgefahr" und local.ch ist noch zu gross. Es nicht eine Frage der Inhalte (mit einer Ausnahme),
-sondern der Formulierung. Es geht m.E. darum, das Nutzen (d.h. die Einsatzmöglichkeiten) der neuen Plattform
-hervorzuheben.
-2.2 Die Ausnahme zu den Inhalte (siehe oben): Anonymität und Authentizität sind an sich widersprüchliche Anforderungen- dies stimmt nicht ganz, kann aber als solches wahrgenommen werden - e-Voting-Plattformen müssen beide Anforderungen
-z.B. konjugieren. Hier muss der fachliche Kontext besser beschrieben werden.
-
-
     Currently a lot of chat systems are available, but none of these
     systems implements an anonymous, decentralised and secure architecture.
 
     Anonymity is important, when people need to hide to whom they are talking to.
-    This is for instance true for reporters located in dangerous areas, when they
-    submit their messages in danger of life threats, but also applies to various
-    other situations.
+    This is for instance true in extreme situations, when reporters located in 
+    dangerous areas, submit their messages in danger of life threats, but also 
+    applies to a lot of daily situations like sending confidential messages
+    in untrusted networks: The basic knowledge of who is talking to whom may cause
+    unwanted actions, for instance in politics or at work, when being contacted
+    by a head hunter.
 
     A decentralised architecture helps to avoid easy disruption by eliminating
     the single point of failure. This supports the ability to continue
@@ -36,67 +30,72 @@ z.B. konjugieren. Hier muss der fachliche Kontext besser beschrieben werden.
     as well as to ensure message and sender authenticity.
     Without this technique an attacker could use the information for harmful
     operations or change the content of the messages. This thread is
-    very dangerous i.e. in stock market situations, as well in the two situations
-    described above.
+    very dangerous i.e. in stock market situations, as well in the previously
+    described situations.
 
     The client, Thomas Gresch from local.ch, is running Skype for internal core
     communications. Skype is a closed source, encrypted, proprietary chat system
-    owned by the American company Microsoft. In case of disruptions, whether
-    intended or accidental, it is technically and legally cumbersome to restore
-    core communications within the company.
+    owned by Microsoft. Because of the importance of the internal communications
+    and the intensive efforts from Skype to hide how it is working, the research
+    for an open alternative that may succeed the use of Skype is supported by
+    local.ch.
 
-    For this reason the client is seeking for an alternative and supports this
-    research project.
-
+    The client expects an open documentation about an reliable, secure chat
+    system, which could be used to implement an alternative to Skype.
+    In return the client supports the research of decentralised 
+    and anonymous chat systems.
+    
 
 Ziele der Arbeit
-3. Ziel der Arbeit
-3.1 Schwerpunkt der BA soll ein Konzept sein. In diesem Sinne schlage ich vor, dass der Abschnitt leicht umformuliert
-wird. Ist das direkte Ziel der Arbeit die Konzeption des Protokolls? Falls so, dann müsste man es noch mehr
-hervorhoben. Man soll nicht das Gefühl haben, dass du primär entwickeln wirst. 
-3.3 Die Umformulierung bzw. die Wahl des Schwerpunkts (Protokoll, und nicht direkt das Chat System) könnten einen
-Einfluss auf dem Titel der Arbeit haben. 
 
     The objective of this thesis is the design and development of a secure,
-    decentralised chat system, including protocol definition and prototype
-    development, based on a detailled analysis of current chat implementations.
-    The analysis should not only consider chat systems, but related
-    secure and anonymous communication systems as well.
+    decentralised chat system. The main focus is on defining and documenting
+    the mode of operation and the protocol definition. Additionally a prototype
+    should be implemented. All parts should be based on a detailled analysis of 
+    current chat systems. The analysis should not only consider chat 
+    systems, but related secure and anonymous communication systems as well.
 
 
 Aufgaben
-4. Aufgabenstellung:
-4.2 Anforderungsanalyse sowie SW-Entwurf müssen hinzugefügt werden.
-4.3 Demo muss hinzugefügt werden.
-4.4 Detailed analysis and comparison of legacy chat systems sollen zusammengefügt werden.
-4.5 Was erwartest du von der Analyse der existierenden Chat-Plattformen bzw. von den Protokollen? Ich gehe davon aus,
-dass dies dir die Chance gibt, deine Anforderungen besser zu formulieren und die innovativen Aspekte der Arbeit
-gezielter darzustellen.
 
-
-    1. Detailed analysis of legacy chat systems
-    2. Comparison of legacy chat systems
+    1. Detailed analysis and comparision of legacy chat systems
+        to summarise current chat system features and their 
+        security characteristics.
+    2. Analysse feature and security requirements
     3. Analysis of related communication protocols
     4. Development of a new chat protocol
     5. Development of chat prototype using the new chat protocol
+    6. Preparation of a live demonstration of the prototype
 
 
 Resultate
 5. Erwartete Resultate:
 5.2 Protocol definition Paper ist noch zu generisch :-)
-5.3 Für die Demo: eine Art kurzes Drehbuch.
 
 
-    1. Report of current chat systems including strength and weaknesses
-    2. Short comparison table listing 
+    1. Report and comparision of current chat systems including strength and weaknesses
+    2. Requirement analysis
     3. Report of related communication protocols including strength and weaknesses
-    4. Protocol definition paper
+    4. Protocol definition paper (containing chat features,
+        data types, transport methods, security measures)
     5. Implementation of a prototype for the new chat system
+    6. Presentation of a successful anonymous, decentralised chat session, which
+       includes proof of the required security by using example attacks.
 
-6. Geplante Termine:
-6.1 Kick-Off: Vorschlag Mitte Dezember
-6.2 Design-Review: Vorschlag Anfang März
-6.3 Schlusspräsentation: Vorschlag: Ende April
+Geplante Termine:
+
+    Kick-Off: Ende Januar (nach den Prüfungen)
+    Design-Review: März/April
+    Schlusspräsentation: Juni/Juli
+
+-----------------------cut ---cut ------cut ------------------------------------
+
 6.4 Achtung: schaue bitte im Reglement, ab wann die 6 Monate zählen (Ab Freigabe oder ab Kick-Off?).
 
+    Ab freigabe, aus dem Reglement:
 
+   Die Bachelorarbeit (d. h. vier gebundene Exemplare und als pdf-Datei), das Abstract,
+die unterschriebene Aufgabenstellung sowie die weiteren Arbeitsergebnisse müssen
+innerhalb von sechs Monaten ab Freigabe der Aufgabenstellung im Sekretariat der
+HSZ-T abgegeben und eine elektronische Version der Arbeit an die Betreuungsperson
+per E-Mail gesendet werden.
