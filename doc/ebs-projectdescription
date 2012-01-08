@@ -9,59 +9,57 @@ Auftraggeber:
 
 Ausgangslage
 
-    Currently a lot of chat systems are available, but none of these
+    A lot of chat systems are currently available, but none of these
     systems implements an anonymous, decentralised and secure architecture.
 
     Anonymity is important, when people need to hide to whom they are talking to.
-    This is for instance true in extreme situations, when reporters located in 
-    dangerous areas, submit their messages in danger of life threats, but also 
+    This is for instance true in extreme situations, when reporters located in
+    dangerous areas, submit their messages in danger of life threats, but also
     applies to a lot of daily situations like sending confidential messages
     in untrusted networks: The basic knowledge of who is talking to whom may cause
-    unwanted actions, for instance in politics or at work, when being contacted
+    unwanted actions, for instance in politics or when being contacted
     by a head hunter.
 
-    A decentralised architecture helps to avoid easy disruption by eliminating
-    the single point of failure. This supports the ability to continue
-    communications even under attack from an enemy. This is a general
-    requirement for reliable communications, but is necessary e.g. for military
+    A decentralised architecture helps to improve reliability as communication
+    is permitted to flow via different channels. This supports the ability to
+    continue communications even under attack from an enemy. This is a general
+    requirement for reliable communications, but can be crucial for military
     in case of war, as well as for reporters.
 
     Secure chat provides the ability to hide message content from eavesdroppers,
     as well as to ensure message and sender authenticity.
     Without this technique an attacker could use the information for harmful
-    operations or change the content of the messages. This thread is
+    operations or change the content of the messages. This threat is
     very dangerous i.e. in stock market situations, as well in the previously
     described situations.
 
     The client, Thomas Gresch from local.ch, is running Skype for internal core
     communications. Skype is a closed source, encrypted, proprietary chat system
-    owned by Microsoft. Because of the importance of the internal communications
-    and the intensive efforts from Skype to hide how it is working, the research
-    for an open alternative that may succeed the use of Skype is supported by
-    local.ch.
+    owned by Microsoft. Because of the intensive efforts from Skype to hide how
+    its internals are working, the software is considered untrustworthy.
+    The internal communication is a crucial part of daily business and
+    an outage, whether caused by accident or intend, causes direct monetary loss
+    for the company.
 
-    The client expects an open documentation about an reliable, secure chat
-    system, which could be used to implement an alternative to Skype.
-    In return the client supports the research of decentralised 
-    and anonymous chat systems.
-    
+    For this reason the research for an open alternative that may succeed the
+    use of Skype is supported by local.ch.
 
 Ziele der Arbeit
 
-    The objective of this thesis is the design and development of a secure,
+    The objective of this thesis is the analysis, design and development of a secure,
     decentralised chat system. The main focus is on defining and documenting
     the mode of operation and the protocol definition. Additionally a prototype
-    should be implemented. All parts should be based on a detailled analysis of 
-    current chat systems. The analysis should not only consider chat 
-    systems, but related secure and anonymous communication systems as well.
+    should be implemented. The thesis should be based on a detailled analysis of
+    current chat systems. The analysis will not only consider chat
+    systems, but also related secure and anonymous communication systems.
 
 
 Aufgaben
 
-    1. Detailed analysis and comparision of legacy chat systems
-        to summarise current chat system features and their 
+    1. Detailed analysis and comparison of legacy chat systems
+        to summarise current chat system features and their
         security characteristics.
-    2. Analysse feature and security requirements
+    2. Analysis of features and security requirements
     3. Analysis of related communication protocols
     4. Development of a new chat protocol
     5. Development of chat prototype using the new chat protocol
@@ -73,7 +71,7 @@ Resultate
 5.2 Protocol definition Paper ist noch zu generisch :-)
 
 
-    1. Report and comparision of current chat systems including strength and weaknesses
+    1. Report and comparison of current chat systems including strength and weaknesses
     2. Requirement analysis
     3. Report of related communication protocols including strength and weaknesses
     4. Protocol definition paper (containing chat features,
