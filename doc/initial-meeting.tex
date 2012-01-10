@@ -25,192 +25,128 @@
 \frame{\tableofcontents}
 
 \section{Initial Situation}
+
+\frame
+{
+  \frametitle{Initial Situation}
+  \begin{itemize}
+  \item Various non-secure chat systems available (silc, irc, ...)
+  \item Commercial, encrypted solution (skype)
+  \item Anonymous Routing (Tor)
+  \item No usable decentralised, anonymous secure chat system available
+  \end{itemize}
+}
+
 \section{Motivation}
+\frame
+{
+  \frametitle{Motivation}
+  \begin{itemize}
+     \item Fix the situation
+     \item Close gap
+     \item Chat, geschlossenens netz (keine exit nodes)
+     \item Proof of concept
+  \end{itemize}
+}
+
 \section{Project}
-
-projektphasen, ausgangslage, projektschritte, bedarf, zielsetzung, resultat,
-motivation, was gibt es - was mache ich im vergleich
-
 \frame
 {
-  \frametitle{e}
-  \begin{itemize}[<+->]
-  \item Einmal konfigurieren = toll
-  \item Zweimal konfigurieren = naja, ...
-  \item Neue Sachen machen mehr Spass als alte wiederholen
-  \item Viele Rechner = viel Mühe?
+  \frametitle{Projektphasen}
+  \begin{itemize}
+     \item Current state analysis
+     \item Protocol design
+     \item Implementation of Prototype
   \end{itemize}
 }
 
 \frame
 {
-  \frametitle{Das ist nicht neu...}
-  \begin{itemize}[<+->]
-  \item cfengine
-  \item Puppet
-  \item bcfg2
-  \item chef
-  \item ...
-  \end{itemize}
+  \frametitle{Project Steps}
+  \begin{enumerate}
+     \item Detailed analysis and comparison of legacy chat systems
+        to summarise current chat system features and their
+        security characteristics.
+    \item Analysis of features and security requirements
+    \item Analysis of related communication protocols
+    \item Development of a new chat protocol
+    \item Development of chat prototype using the new chat protocol
+    \item Preparation of a live demonstration of the prototype
+  \end{enumerate}
 }
 
 \frame
 {
-  \frametitle{Warum cdist?}
-  \begin{itemize}[<+->]
-     \item Klein
-     \item Unix
-     \item Leicht zu bedienen
-     \item ... zu erweitern
-     \item Shell
-     \item Weil es Spaß macht!
+  \frametitle{Expected Results}
+  \begin{itemize}
+    \item Report and comparison of current chat systems including strength and weaknesses
+    \item Requirement analysis
+    \item Report of related communication protocols including strength and weaknesses
+    \item Protocol definition paper (containing chat features,
+        data types, transport methods, security measures)
+    \item Implementation of a prototype for the new chat system
+    \item Presentation of a successful anonymous, decentralised chat session, which
+       includes proof of the required security by using example attacks.
   \end{itemize}
 }
 
-\section{Installieren}
-\frame
-{
-  \frametitle{Vorraussetzungen}
-  \begin{itemize}[<+->]
-     \item sshd
-     \item root login via sshd
-     \item Besser: ssh-pubkey konfiguriert (PermitRootLogin without-password)
-     \item git
-     \item Asciidoc (manpages)
-  \end{itemize}
-}
 
 \frame
 {
-  \frametitle{Installation}
+  \frametitle{Questions?}
   \begin{center}
-  git clone git://git.schottelius.org/cdist
+  ?
   \end{center}
 }
 
-\begin{frame}[fragile]
-  \frametitle{Erstellen der Manpages}
 
-  \begin{verbatim}
-  # Braucht asciidoc / a2x
-  make man
-  \end{verbatim}
-\end{frame}
+%\frame
+%{
+%  \frametitle{Funktionalität zusammenfassen}
+%  \begin{itemize}[<+->]
+%     \item "`Typen"' (types)
+%     \item conf/type/*
+%     \item \_\_ vor jedem Namen (Shell-Umgebung)
+%     \item z.B. Netzseite, Mailserver, Wiki, ...
+%  \end{itemize}
+%}
 
-\section{Nutzen}
-\begin{frame}[fragile]
-  \frametitle{Vorbereitung PATH und MANPATH}
+%\begin{frame}[fragile]
+%   \frametitle{Ein neuer Typ}
+%   \begin{small}
+%   \begin{verbatim}
+%   mkdir conf/type/__my_mailserver
+%   cat << eof > conf/type/__my_mailserver/manifest
+%   __package nullmailer --state installed
+%
+%   require="__package/nullmailer" \
+%       __file /etc/nullmailer/remotes \
+%          --source "$__type/files/remotes"
+%   eof
+%   chmod u+x conf/type/__my_mailserver/manifest
+%
+%   mkdir conf/type/__my_mailserver/files
+%   echo my.fancy.smart.host > \
+%       conf/type/__my_mailserver/files/remotes
+%   \end{verbatim}
+%   \end{small}
+%\end{frame}
 
-  \begin{verbatim}
-  cd cdist
-  eval `./bin/cdist-env`
-  echo $PATH
-  echo $MANPATH
-  \end{verbatim}
-\end{frame}
+%\section{Aktualisieren}
+%\begin{frame}[fragile]
+%  \frametitle{Versionen}
+%  \begin{itemize}[<+->]
+%     \item x.y: Stabile Version
+%     \item master: Entwicklung
+%  \end{itemize}
+%\end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Nun los}
-  \begin{verbatim}
-  # So wird es laufen...
-  cdist-deploy-to localhost
-  \end{verbatim}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Der Einstiegspunkt}
-  \begin{small}
-  \begin{verbatim}
-  cat << eof > conf/manifest/init
-  __file /etc/cdist-configured
-
-  case "$__target_host" in
-     localhost)
-         __link /tmp/cdist-testfile          \
-            --source /etc/cdist-configured   \ 
-            --type symbolic
-         __addifnosuchline /tmp/cdist-welcome \
-            --line "Welcome to cdist"
-      ;;
-   esac
-   eof
-   # Muss ausführbar sein
-   chmod u+x conf/manifest/init
-
-  \end{verbatim}
-  \end{small}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Nun los}
-  \begin{verbatim}
-  # Nun läuft es!
-  cdist-deploy-to localhost
-  \end{verbatim}
-\end{frame}
-
-\frame
-{
-  \frametitle{Funktionalität zusammenfassen}
-  \begin{itemize}[<+->]
-     \item "`Typen"' (types)
-     \item conf/type/*
-     \item \_\_ vor jedem Namen (Shell-Umgebung)
-     \item z.B. Netzseite, Mailserver, Wiki, ...
-  \end{itemize}
-}
-
-\begin{frame}[fragile]
-   \frametitle{Ein neuer Typ}
-   \begin{small}
-   \begin{verbatim}
-   mkdir conf/type/__my_mailserver
-   cat << eof > conf/type/__my_mailserver/manifest
-   __package nullmailer --state installed
-
-   require="__package/nullmailer" \
-       __file /etc/nullmailer/remotes \
-          --source "$__type/files/remotes"
-   eof
-   chmod u+x conf/type/__my_mailserver/manifest
-
-   mkdir conf/type/__my_mailserver/files
-   echo my.fancy.smart.host > \
-       conf/type/__my_mailserver/files/remotes
-   \end{verbatim}
-   \end{small}
-\end{frame}
-
-\section{Aktualisieren}
-\begin{frame}[fragile]
-  \frametitle{Versionen}
-  \begin{itemize}[<+->]
-     \item x.y: Stabile Version
-     \item master: Entwicklung
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Stabile Version auswählen}
-  \begin{center}
-  git checkout -b 1.2 origin/1.2
-  \end{center}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Aktualisieren}
-  \begin{center}
-  git pull
-  \end{center}
-\end{frame}
-
-\frame
-{
-  \frametitle{Ende}
-  \begin{block}{Das war's}
-  Viel Spaß - Mehr Infos gibt's auf http://www.nico.schottelius.org/software/cdist/
-  \end{block}
-}
+%\begin{frame}[fragile]
+%  \frametitle{Aktualisieren}
+%  \begin{center}
+%  git pull
+%  \end{center}
+%\end{frame}
 
 
 \end{document}
