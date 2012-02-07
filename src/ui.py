@@ -1,4 +1,6 @@
 import curses
+import curses.textpad
+
 import time
 
 stdscr = curses.initscr()
@@ -40,7 +42,15 @@ window["text"]["window"].border(0)
 window["input"]["window"].refresh()
 window["text"]["window"].refresh()
 
-time.sleep(2)
+#time.sleep(2)
+
+#textpad = curses.textpad.Textbox(window["input"]["window"])
+
+c = -1
+while c != ord('q'):
+    c = window["input"]["window"].getch()
+    window["text"]["window"].addstr(10, 10, chr(c))
+    window["text"]["window"].refresh()
 
 
 # Exit
