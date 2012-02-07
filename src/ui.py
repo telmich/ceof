@@ -6,7 +6,7 @@ import time
 stdscr = curses.initscr()
 
 # Do not display stuff pressed
-curses.noecho()
+#curses.noecho()
 
 # React on characters without return
 curses.cbreak()
@@ -47,7 +47,8 @@ window["text"]["window"].refresh()
 #textpad = curses.textpad.Textbox(window["input"]["window"])
 
 c = -1
-while c != ord('q'):
+window["input"]["window"].move(1,1)
+while c != ord('\n'):
     c = window["input"]["window"].getch()
     window["text"]["window"].addstr(10, 10, chr(c))
     window["text"]["window"].refresh()
