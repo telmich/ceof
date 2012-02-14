@@ -31,154 +31,16 @@
 \newpage
 
 % ----------------------------------------------------------------------------
-\section{Introduction}
-
-Anonymous communication networks were first intro-
-duced by David Chaum in his seminal paper [10] describing
-the mix as a fundamental building block for anonymity.
-(aus tor2)
-
-\subsection{Abstract}
-hier oder weiter oben? - siehe lisa vortrag!
-
-\subsection{Abbreviations}
-\subsection{Starting Position}
-local, skype, untrustworthy
-
-\subsection{Motivation}
-From EBS + EOF
-
-\subsection{Objectives}
-From EOF + Latency "`low"', eventual consistency
-\subsubsection{Steganographic}
-Not for hiding, but to support longer überleben?
-http is pretty well suited for this.
-mixing with smtp, imap, pop3, tcp. etc.
-
+\include{introduction}
+\include{chatsystems}
+\include{requirements}
+\include{comm-protocols}
+\include{protocol}
+\include{implementation}
+\include{implementation}
 % ----------------------------------------------------------------------------
-\section{Related work/Alternatives/Existing solutions}
-\subsection{IRC+SSL}
-\subsection{SILC}
-\subsection{Onion Routing}
-\subsection{Tor}
-\subsection{Comparison}
-All the solutions with objectives.
-\subsection{Conclusions}
+\section{more stuff}
 Latency, http/ssh vs. email
-
-% ----------------------------------------------------------------------------
-\section{System Design}
-The theory behind EOF.
-Search for documents proving/supporting the idea.
-
-Different programs handle different objectives
-\subsection{Use objectives and derive}
-\subsection{Objective 1 ...}
-\subsection{Additional constraints}
-Cross-OS. Posix and/or ansi-c. ui changable.
-\subsection{Key Exchange}
-Not implemented, manually.
-% ----------------------------------------------------------------------------
-\section{Intra Machine Intra Program Protocol}
-\subsection{Interfaces}
-Sockets, Environment, Paths, etc.
-\subsection{Data Types}
-\subsection{Sub Programs}
-Consists of the following sub-programs:
-encryption, dictionary, key/peer exchange daemon (if possible in this work),
-% ----------------------------------------------------------------------------
-\section{Sub Programs}
-Describe what it does, how it does and where it is implemented.
-\subsection{Noise / Dictionary / Database}
-Generate input for times when there is no user input.
-Random or db or or or.
-Networt traffic
-\subsection{Encryption}
-Splitting of encryption into a seperate program can make use of
-multiple computing ressources.
-\subsection{User Interface}
-Own program, indepentend of core.
-\subsection{Transports}
-Receive/Send
-
-% ----------------------------------------------------------------------------
-\section{Inter Machine Protocol}
-On the "`wire"'. Different transports. Constant transport.
-Define name (postcard?!) here. Includes transport specific
-header / meta information.
-
-\subsection{Variable Transports}
-Different transports for one peer.
-\subsection{List of Supported Transports}
-To ensure interoperability, clients which support a specific
-protocol version must support all listed transport protocols.
-\begin{longtable}{|c|c|c|}
-\caption{Transport protocols}\\
-\hline
-\textbf{Protocol} & \textbf{Description} & \textbf{Supported versions}\\
-\hline
-tcp & Transmission Control Protocol & 0.1 - 0.1\\
-\hline
-\end{longtable}
-
-\subsection{Variable Peers}
-Different routes for every packet
-\subsection{Constant sending}
-
-\subsection{Source based routing}
-Either here or in Intra Machine Intra Client
-\subsection{Peer selection}
-Which peers, how many. Constant? May give upper bounds of latency.
-
-8 * 0.5seconds = 4 seconds delay.
-
-\subsection{Bandwidth usage}
-\begin{verbatim}
->>> messages_size=4*1024
->>> messages_per_second=4
->>> bytes_per_second=messages_per_second*messages_size
->>> print(bytes_per_second)
-16384
->>> bytes_per_day=86400*bytes_per_second
->>> print(bytes_per_day)
-1415577600
->>> print(bytes_per_day/1024**2)
-1350.0
->>> bytes_per_month=month_length*bytes_per_day
->>> print(bytes_per_month/1024**2)
-41062.5
->>> print(bytes_per_month/1024**3)
-40.10009765625
-\end{verbatim}
-16 KiB/s or 128 KBit/s, 2 ISDN lines. Around 1.4 GiB per day or
-circa 40 GiB per month.
-
-% ----------------------------------------------------------------------------
-\section{Inter Machine Inter Program Protocol}
-After decoding the received packet. Forward, etc.
-Based on part os EOF simple data types.
-\subsection{Message types}
-List of messages here
-\subsection{Message 1}
-description here
-
-% ----------------------------------------------------------------------------
-\section{Implementation}
-This section describes the actual implementation
-Python?
-\subsection{Non-Cross OS Support}
-Support for different OS would have made development more
-hard, so support for POSIX alike operating systems was targeted.
-
-\subsection{Python-GPG}
-Various implementations \cite{python-gpg}
-PyMe: 3 Nachrichten in 2010
-\url{http://sourceforge.net/mailarchive/forum.php?forum_name=pyme-help&style=threaded}
-
-python-gnupg commits in september 2011 \cite{python-gnupg}
-
-%\input{titel.tex}                   % done
-%\input{erklaerung.tex}              % done
 % ----------------------------------------------------------------------------
 \input{conclusions}
 % ----------------------------------------------------------------------------

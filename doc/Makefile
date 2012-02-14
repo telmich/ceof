@@ -18,4 +18,4 @@ spellcheck:
 
 
 clean:
-	rm -f *.aux *.toc *.log $(USDOC) $(USLDOC) $(MDOC)
+	rm -f *.aux *.toc *.log *.pdf $(USDOC) $(USLDOC) $(MDOC)
