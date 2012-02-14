@@ -31,7 +31,7 @@
   \frametitle{Initial Situation}
   \begin{itemize}
   \item Various non-secure chat systems available (silc, irc, ...)
-  \item Commercial, encrypted solution (skype)
+  \item Commercial, closed, encrypted solution (skype)
   \item Anonymous Routing (Tor)
   \item No usable decentralised, anonymous secure chat system available
   \end{itemize}
@@ -43,16 +43,15 @@
   \frametitle{Motivation}
   \begin{itemize}
      \item Fix the situation
-     \item Close gap
-     \item Chat, geschlossenens netz (keine exit nodes)
-     \item Proof of concept
+     \item Close the gap between chat systems and anonymity systems
+     \item Different scenario: closed network, no exit nodes (only chatters)
   \end{itemize}
 }
 
 \section{Project}
 \frame
 {
-  \frametitle{Projektphases}
+  \frametitle{Projectphases}
   \begin{itemize}
      \item Current state analysis
      \item Protocol design
@@ -90,6 +89,16 @@
   \end{itemize}
 }
 
+\section{Objectives}
+\frame
+{
+  \frametitle{Objectives}
+  \begin{itemize}
+    \item Gain deep understanding of routing, anonymity and encryption
+    \item Find out whether targets are realistic
+    \item If so,\pause proof of concept implementation
+  \end{itemize}
+}
 
 \frame
 {
@@ -98,55 +107,5 @@
   ?
   \end{center}
 }
-
-
-%\frame
-%{
-%  \frametitle{Funktionalität zusammenfassen}
-%  \begin{itemize}[<+->]
-%     \item "`Typen"' (types)
-%     \item conf/type/*
-%     \item \_\_ vor jedem Namen (Shell-Umgebung)
-%     \item z.B. Netzseite, Mailserver, Wiki, ...
-%  \end{itemize}
-%}
-
-%\begin{frame}[fragile]
-%   \frametitle{Ein neuer Typ}
-%   \begin{small}
-%   \begin{verbatim}
-%   mkdir conf/type/__my_mailserver
-%   cat << eof > conf/type/__my_mailserver/manifest
-%   __package nullmailer --state installed
-%
-%   require="__package/nullmailer" \
-%       __file /etc/nullmailer/remotes \
-%          --source "$__type/files/remotes"
-%   eof
-%   chmod u+x conf/type/__my_mailserver/manifest
-%
-%   mkdir conf/type/__my_mailserver/files
-%   echo my.fancy.smart.host > \
-%       conf/type/__my_mailserver/files/remotes
-%   \end{verbatim}
-%   \end{small}
-%\end{frame}
-
-%\section{Aktualisieren}
-%\begin{frame}[fragile]
-%  \frametitle{Versionen}
-%  \begin{itemize}[<+->]
-%     \item x.y: Stabile Version
-%     \item master: Entwicklung
-%  \end{itemize}
-%\end{frame}
-
-%\begin{frame}[fragile]
-%  \frametitle{Aktualisieren}
-%  \begin{center}
-%  git pull
-%  \end{center}
-%\end{frame}
-
 
 \end{document}

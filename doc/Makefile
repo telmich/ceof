@@ -8,7 +8,7 @@ thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
 	pdflatex $<
 
-praesi: praesi.tex
+praesi: initial-meeting.tex
 	pdflatex $<
 	pdflatex $<
 	pdflatex $<
