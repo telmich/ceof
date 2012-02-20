@@ -1,47 +1,48 @@
 % ----------------------------------------------------------------------------
-\section{System Design}
+\section{Chat Protocol Definition}
+\subsection{System Design}
 The theory behind EOF.
 Search for documents proving/supporting the idea.
 
 Different programs handle different objectives
-\subsection{Use objectives and derive}
-\subsection{Objective 1 ...}
-\subsection{Additional constraints}
+\subsubsection{Use objectives and derive}
+\subsubsection{Objective 1 ...}
+\subsubsection{Additional constraints}
 Cross-OS. Posix and/or ansi-c. ui changable.
-\subsection{Key Exchange}
+\subsubsection{Key Exchange}
 Not implemented, manually.
 % ----------------------------------------------------------------------------
-\section{Intra Machine Intra Program Protocol}
-\subsection{Interfaces}
+\subsection{Intra Machine Intra Program Protocol}
+\subsubsection{Interfaces}
 Sockets, Environment, Paths, etc.
-\subsection{Data Types}
-\subsection{Sub Programs}
+\subsubsection{Data Types}
+\subsubsection{Sub Programs}
 Consists of the following sub-programs:
 encryption, dictionary, key/peer exchange daemon (if possible in this work),
 % ----------------------------------------------------------------------------
-\section{Sub Programs}
+\subsection{Sub Programs}
 Describe what it does, how it does and where it is implemented.
-\subsection{Noise / Dictionary / Database}
+\subsubsection{Noise / Dictionary / Database}
 Generate input for times when there is no user input.
 Random or db or or or.
 Networt traffic
-\subsection{Encryption}
+\subsubsection{Encryption}
 Splitting of encryption into a seperate program can make use of
 multiple computing ressources.
-\subsection{User Interface}
+\subsubsection{User Interface}
 Own program, indepentend of core.
-\subsection{Transports}
+\subsubsection{Transports}
 Receive/Send
 
 % ----------------------------------------------------------------------------
-\section{Inter Machine Protocol}
+\subsection{Inter Machine Protocol}
 On the "`wire"'. Different transports. Constant transport.
 Define name (postcard?!) here. Includes transport specific
 header / meta information.
 
-\subsection{Variable Transports}
+\subsubsection{Variable Transports}
 Different transports for one peer.
-\subsection{List of Supported Transports}
+\subsubsection{List of Supported Transports}
 To ensure interoperability, clients which support a specific
 protocol version must support all listed transport protocols.
 \begin{longtable}{|c|c|c|}
@@ -53,18 +54,18 @@ tcp & Transmission Control Protocol & 0.1 - 0.1\\
 \hline
 \end{longtable}
 
-\subsection{Variable Peers}
+\subsubsection{Variable Peers}
 Different routes for every packet
-\subsection{Constant sending}
+\subsubsection{Constant sending}
 
-\subsection{Source based routing}
+\subsubsection{Source based routing}
 Either here or in Intra Machine Intra Client
-\subsection{Peer selection}
+\subsubsection{Peer selection}
 Which peers, how many. Constant? May give upper bounds of latency.
 
 8 * 0.5seconds = 4 seconds delay.
 
-\subsection{Bandwidth usage}
+\subsubsection{Bandwidth usage}
 \begin{verbatim}
 >>> messages_size=4*1024
 >>> messages_per_second=4
@@ -86,12 +87,12 @@ Which peers, how many. Constant? May give upper bounds of latency.
 circa 40 GiB per month.
 
 % ----------------------------------------------------------------------------
-\section{Inter Machine Inter Program Protocol}
+\subsection{Inter Machine Inter Program Protocol}
 After decoding the received packet. Forward, etc.
 Based on part os EOF simple data types.
-\subsection{Message types}
+\subsubsection{Message types}
 List of messages here
-\subsection{Message 1}
+\subsubsection{Message 1}
 description here
 
 

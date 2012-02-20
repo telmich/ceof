@@ -7,6 +7,8 @@
         - direct contact
         - builtin transport protocol => use throw away addresses
     - Implement message types?
+- Latency, http/ssh vs. email
+
 
 - Message types
     - noise
