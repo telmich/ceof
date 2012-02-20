@@ -56,14 +56,15 @@ Ziele der Arbeit
 
 Aufgaben
 
-    1. Detailed analysis and comparison of legacy chat systems
+    1. Detailed analysis and comparison of open and legacy chat systems
         to summarise current chat system features and their
         security characteristics.
     2. Analysis of features and security requirements
     3. Analysis of related communication protocols
     4. Development of a new chat protocol
     5. Development of chat prototype using the new chat protocol
-    6. Preparation of a live demonstration of the prototype
+    6. Test of the prototype
+    7. Preparation of a live demonstration of the prototype
 
 
 Resultate
@@ -73,15 +74,16 @@ Resultate
     3. Report of related communication protocols including strength and weaknesses
     4. Protocol definition paper (containing chat features,
         data types, transport methods, security measures)
-    5. Implementation of a prototype for the new chat system
-    6. Presentation of a successful anonymous, decentralised chat session, which
+    5. Technical documentation and prototype for the new chat system
+    6. Description of test results
+    7. Presentation of a successful anonymous, decentralised chat session, which
        includes proof of the required security by using example attacks.
 
 Geplante Termine:
 
-    Kick-Off: Ende Januar (nach den Prüfungen)
-    Design-Review: März/April
-    Schlusspräsentation: Juni/Juli
+    Kick-Off: Anfang März (nach den Prüfungen)
+    Design-Review: Ende April
+    Schlusspräsentation: Ende Juni
 
 -----------------------cut ---cut ------cut ------------------------------------
 
