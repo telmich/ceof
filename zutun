@@ -1,0 +1,139 @@
+x eingabe ebs
+! plan aufstellen [2012-03-04]
+    - 2012-06-25 - 2012-07-08 mündlichePrüfungen
+
+    - wie weiter?
+    - Wann Ende zwanghaft (i.e. ab Freigabe)?
+        => Nico:                23. August
+        => Dani:                9.  Juni
+
+    - Design Review
+        - Dani:                 März
+        - Nico:                 April
+
+    - arbeit fertig             [2012-05-06]
+    - arbeit korrekturgelesen   [2012-05-13]
+    - arbeit abgegeben          [2012-05-14]
+
+    - präsi halten
+        - Dani:                 Anfang Juni
+        - Nico:                 Ende Juni
+    - poster vorbereiten
+        - nico:                 Mitte Juni
+    - zusammenfassung (1 din a4) vorbereiten 
+        - nico:                 Mitte Juni
+
+    - Plan dem anderem senden   [2012-03-06]
+
+- kick-off: 
+    x Präsentation vorbereiten (ca. 5 bis 8 Folien für 10 bis 15 Minuten) 
+    - halten                    14.03.2012 17:00 - 18:00 Uh
+
+- Chat system analysis [2012-03-04]
+    - lesen: An analysis of Internet chat systems
+    - irc, silc, icq, skype, ...
+    - papers eventuell
+
+- Define requirements
+
+- Research other protocols
+
+- define chat system/protocol
+    - Resend of packets? sequence numbers?
+    - Finding nodes (telefonbuch. telefonbuch? telefonbuch!)
+    - Updating address information?
+        - How fast need/will addresses change?
+        - Local caching?
+        - Request via E-Mail?
+            - direct contact
+            - builtin transport protocol => use throw away addresses
+        - Implement message types?
+    - Latency, http/ssh vs. email
+
+
+    - Message types
+        - noise
+        - message
+        - address information
+        - open for more types?
+        - combination possible? [already in EOF.pdf]
+    - message acknowledgement
+        - tcp vs. udp
+    - routing?
+        - finding nodes
+        - finding paths
+        - source based routing (?)
+        - compare to routing protocols
+
+    - attacks:
+    Timing analysis: Incoming and outgoing messages passing through a relatively under-loaded node can be linked by observing how close together in time they are received and re-sent. However, this weakness can be overcome by buffering several messages and then transmitting them using a pseudorandom timing algorithm.[citation needed]
+    Intersection attacks: Nodes periodically fail or leave the network; any chain that remains functioning cannot have been routed through either the nodes that left or the nodes that recently joined the network, increasing the chances of a successful traffic analysis.
+    Predecessor attacks: A compromised node can keep track of a session as it occurs over multiple chain reformations (chains are periodically torn down and rebuilt). If the same session is observed over the course of enough reformations, the compromised node tends to connect with the particular sender more frequently than any [other] node, increasing the chances of a successful traffic analysis.[2]
+    Exit node sniffing: An exit node (the last node in a chain) has complete access to the content being transmitted from the sender to the recipient; Dan Egerstad, a Swedish researcher, used such an attack to collect the passwords of over 100 email accounts related to foreign embassies.[3] However, this weakness can be overcome by employing end-to-end encryption (that is, encryption between the sender and the recipient), such as SSL.
+
+        [http://en.wikipedia.org/wiki/Onion_routing]    
+
+- Implementation prototype
+    http://www.saltycrane.com/blog/2011/10/python-gnupg-gpg-example/
+    (python3_env)[20:24] brief:~% pip install python-gnupg
+
+    (python3_env)[20:25] brief:~% pip install urwid       
+
+    tcp socket?
+        4223
+
+
+- Poster erstellen (siehe x2_Richtlinie-Poster-Bachelorarbeit_Studiengang-Informatik-der-HSZ-T_V1.1.pdf)
+- Arbeit erstellen: https://ebs.hsz-t.ch/node/165?type=BA
+- Kurzfassung erstellen 
+   ine A4-Seite mit total ca. 4500 Zeichen (mit Leerzeichen; ohne Abbildung). Eine
+   Kurzfassung mit Abbildung besteht aus ca. 3200 Zeichen.
+   Abschnitte Ziel, Grundlagen, Vorgehensweise, Ergebnisse und allenfalls
+   die wichtigsten Quellenangaben der Bachelorarbeit (max. 3).
+   Über der Kurzfassung stehen der Titel der Bachelorarbeit, Autorin(nen)/Autor(en), Hochschule und
+   Studiengang sowie das Datum der Abgabe. Die Abbildung ist beschriftet (Abb.-Text unterhalb der
+   Abbildung; Legende) und möglichst selbsterklärend.
+   Text ist ausformuliert (keine Aufzäh-
+   lungen, Listen oder Tabellen).
+   Hochdeutsch und im Präsens verfasst.
+
+
+Bachelorarbeit ist mindestens einmal pro Monat mit der Betreuungsperson zu
+besprechen. Der Aufwand für die Betreuungsperson beträgt dabei maximal
+ 10 Stunden.
+
+
+
+--------------------------------------------------------------------------------
+Alte Zeiten:
+
+
+1) November
+    Eingabe Vorbereiten / Abgeben
+    Check Thomas
+    Check Giovanni
+    Eingabe ebs
+2) Dezember
+    Struktur Doku fertig machen
+    Vorhandenen Text überarbeiten / neu strukturieren [Weihnachtsferien]
+3) Januar
+    Hintergrundinfos raussuchen [~1 Woche]
+    Hintergrundinfos dokumentieren [ANDERE SYSTEME]
+3-4) Januar/Februar
+    Funktionierende Version coden
+    Anleitung zur Nutzung schreiben [vorm 14. Februar fertig]
+4-5) Februar/März
+    Korrektur & Abgabe [14-28. Februar]
+6) April
+    Vortrag
+    Feiern
+--------------------------------------------------------------------------------
+Kickoff
+    Motivation/Projektplanung
+    Präsi
+    Welches Problem
+    Was neu?
+
+    "Außenstehende verstehen"
+    Bedarf klar machen
+--------------------------------------------------------------------------------
