@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------------
-\section{Chat Protocol Definition}
+\chapter{Chat Protocol Definition}
     4. Protocol definition paper (containing chat features,
             data types, transport methods, security measures)
 
@@ -98,4 +98,203 @@ List of messages here
 \subsubsection{Message 1}
 description here
 
+% ----------------------------------------------------------------------------
 
+\section{Basic data types ("`EOFbdt"')}
+This section specifies the basic datatypes used in EOF.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{The zero byte}
+The zero byte is a byte with the value 0.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Line feed}
+The line feed, "`\textbackslash{}n"', was used to terminate data
+sections, but is \emph{DEPRECATED} now.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{ASCII numbers}
+ASCII numbers use the decimal string representation of a number (versus
+binary representation, which is \emph{never} used between EOFi and EOFs).
+ASCII numbers are often used in a packet header.
+ASCII numbers are used to specify the length of the packet (excluding itself).
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Strings in general}
+Strings are transmitted without termination (i.e. no new line, no 0 byte),
+but are padded with zero bytes, if shorter than the specified length.
+The encoding to be used is always \textbf{UTF-8}\cite{utf8}.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Fixed length strings}
+Fixed length strings contain exactly the specified number of bytes:
+A 128-byte fixed length string consists of at most 128 bytes of text,
+which is then not zero terminated!
+If the text it contains is shorter than the specified length,
+it must be padded with zero bytes.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Variable length strings}
+The EOF protocol currently does not specify any variable length strings.
+All strings are fixed length (see above).
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Noise}
+There are many situations in which an EOFi sends out data to the network,
+although you did not write a message: In fact, as EOFi \textbf{always}
+sends packets in a fixed interval, it needs to have data to encrypt and send.
+
+Noise can be any type of random data. As the current random number generators
+are quite expensive, it is recommend to use a huge dictionary, old
+messages, logfiles, public emails, etc. for noise input.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Unused}
+To make life harder for attackers we try to make packets always be more or
+less the same size. That results in fields being present in a packet, which
+are unsued.
+
+Unused fields should be filled up with noise.
+% Nico: 1.0
+% #############################################################################
+\section{EOF simple data types ("`EOFsdt"')}
+The following sections define the datatypes used in EOF related
+applications. The recommened name for use in source
+code is added in parentheses after the human understandable name.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{EOF commands and command fields (mapping table)}
+An EOF command is exactly \emph{EOF\_L\_CMD} bytes long (fixed length string)
+and contains an ASCII number.
+
+EOF commands are the main method of communication between EOFs and EOFi.
+
+The command field 0 indicates the direction.
+The command field 1 indicates the EOF subsystem.
+\begin{longtable}{|c|c|c|}
+\caption{Command fields}\\
+\hline
+\textbf{Value} & \textbf{Subsystem} / \textbf{Description} & \textbf{Ref}\\
+\hline
+1*** & Message is coming from the EOF implementation &\\
+\hline
+10** & \textbf{eofi2tp}: Transport protocols & p\pageref{eofi2tp}\\
+\hline
+11** & \textbf{eofi2ui}: User interface & p\pageref{eofi2ui}\\
+\hline
+12** & \textbf{eofi2crypto}: Crypto engine & p\pageref{eofi2crypto}\\
+\hline
+13** & \textbf{eofi2noise}: Noise generator & p\pageref{eofi2noise}\\
+\hline
+2*** & Message is coming from EOF subsystem (internally) &\\
+\hline
+20** & \textbf{eofi2tp}: Transport protocols & p\pageref{eofi2tp}\\
+\hline
+21** & \textbf{eofi2ui}: User interface & p\pageref{eofi2ui}\\
+\hline
+22** & \textbf{eofi2crypto}: Crypto engine & p\pageref{eofi2crypto}\\
+\hline
+23** & \textbf{eofi2noise}: Noise generator & p\pageref{eofi2noise}\\
+\hline
+3*** & Message is coming from outside ("`onion packet"')) &\\
+\hline
+\end{longtable}
+The command fields 2 and 3 are defined by the respective subsystem.
+% -----------------------------------------------------------------------------
+\subsection{Identification string (id)}
+\label{idn}
+To identify a packet, each packet contains an identification string,
+which is \emph{EOF\_L\_ID} bytes long. It may contain only the
+following characters:
+\begin{itemize}
+\item A-Z (alphabet in upper case)
+\item a-z (alphabet in lower case)
+\item 0-9 (the digits)
+\item ! (exclamation mark)
+\item - (minus)
+\end{itemize}
+The EOFs or EOFi may chose freely any of the \emph{68719476736}
+possibilities.\footnote{$(26+26+10+2)^6$, as long as EOF\_L\_ID is 6.}
+The characters are limited to those characters to allow easy debugging
+and to keep the non-binary command layout.
+% -----------------------------------------------------------------------------
+\subsection{Size (size)}
+\index{eof.h (File)}%
+All sizes used in this document are "`symbolic sizes"': The real size
+is defined in the attached file "`\emph{eof.h}"'.
+Developers are advised to use the symbolic name in their programs.
+
+A size is is always represented as an ASCII number found in a
+fixed length string of \emph{EOF\_L\_SIZE} bytes.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Nick name (nick)}
+The peer name is a \emph{EOF\_L\_NICKNAME} byte fixed length string.
+It is only used internally to give a peer a rememberable name ("`a nick'").
+It is never transmitted over the network.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Group name (group)}
+The group name is a \emph{EOF\_L\_GROUP} byte fixed length string.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Message text (msgtext)}
+The message text is a \emph{EOF\_L\_MESSAGE} byte fixed length string.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Peer address (addr)}
+The address of a peer, which is is a \emph{EOF\_L\_ADDRESS}
+byte fixed length string. Peer addresses are specified as
+URLs as defined in RFC3986\cite{uri-1}. For more information have
+a look at section \ref{tp} on page \pageref{tp}.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Keyid, the fingerprint (keyid)}
+A (PGP) fingerprint\footnote{See RFC 2440, 11.2. Key IDs and Fingerprints}
+is a \emph{EOF\_L\_KEYID} byte fixed length string.
+It does not contain any spaces.
+It can be retrieved by issuing the following gpg-command:
+\begin{verbatim}
+LC_ALL=C gpg --fingerprint  | \
+   grep "Key fingerprint =" | \
+   sed -e 's/.*=//' -e 's/ //g' 
+\end{verbatim}
+% Nico: 1.0
+% #############################################################################
+\section{EOF packets ("`EOFpkg"')}
+\label{eofpkg}
+% -----------------------------------------------------------------------------
+\subsection{Introduction}
+No packet (including everything) may exceed the size of \emph{EOF\_L\_PKG\_MAX}.
+
+EOF knows about
+\begin{itemize}
+\item commands: internal plaintext packets.
+\item onions: multiple times encrypted packets including routing information
+\item postcards: packets containing transport protocol dependent header
+\end{itemize}
+Commands are the innermost packet type and only seen within EOFi and EOFs.
+Commands are then bundled into a multi layer onion. Each layer contains
+commands after decryption.
+Onions are put onto a postcard afterwards and are sent out on the network.
+\textbf{Only encrypted packets are sent out on the network.}
+% -----------------------------------------------------------------------------
+\subsection{Commands}
+Command packets are used for the communication inside of EOFi and EOFs and
+are described in detail in the following sections:
+\begin{itemize}
+\item eofi2tp, \ref{eofi2tp}, page \pageref{eofi2tp}
+\item eofi2ui, \ref{eofi2ui}, page \pageref{eofi2ui}
+\item eofi2crypto, \ref{eofi2crypto}, page \pageref{eofi2crypto}
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Onions}
+Onions are sent out on the network and are multiple times encrypted.
+They are building the base for the EOF protocol.
+Onions are described in detail in chapter \ref{onions}, page \pageref{onions}.
+% -----------------------------------------------------------------------------
+\subsection{Postcards}
+Onions are afterwards encapsulated into the transport protocol specific
+packet type and sent out onto the network.
+Postcards are described in detail in chapter \ref{postcards}, page \pageref{postcards}.

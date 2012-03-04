@@ -9,56 +9,26 @@ Auftraggeber:
 
 Ausgangslage
 
-    A lot of chat systems are currently available, but none of these
-    systems implements an anonymous, decentralised and secure architecture.
+    A lot of chat systems are currently available, but none of these systems implements an anonymous, decentralised and secure architecture.
 
-    Anonymity is important, when people need to hide to whom they are talking to.
-    This is for instance true in extreme situations, when reporters located in
-    dangerous areas, submit their messages in danger of life threats, but also
-    applies to a lot of daily situations like sending confidential messages
-    in untrusted networks: The basic knowledge of who is talking to whom may cause
-    unwanted actions, for instance in politics or when being contacted
-    by a head hunter.
+    Anonymity is important, when people need to hide to whom they are talking to.  This is for instance true in extreme situations, when reporters located in dangerous areas, submit their messages in danger of life threats, but also applies to a lot of daily situations like sending confidential messages in untrusted networks: The basic knowledge of who is talking to whom may cause unwanted actions, for instance in politics or when being contacted by a head hunter.
 
-    A decentralised architecture helps to improve reliability as communication
-    is permitted to flow via different channels. This supports the ability to
-    continue communications even under attack from an enemy. This is a general
-    requirement for reliable communications, but can be crucial for military
-    in case of war, as well as for reporters.
+    A decentralised architecture helps to improve reliability as communication is permitted to flow via different channels. This supports the ability to continue communications even under attack from an enemy. This is a general requirement for reliable communications, but can be crucial for military in case of war, as well as for reporters.
 
-    Secure chat provides the ability to hide message content from eavesdroppers,
-    as well as to ensure message and sender authenticity.
-    Without this technique an attacker could use the information for harmful
-    operations or change the content of the messages. This threat is
-    very dangerous i.e. in stock market situations, as well in the previously
-    described situations.
+    Secure chat provides the ability to hide message content from eavesdroppers, as well as to ensure message and sender authenticity.  Without this technique an attacker could use the information for harmful operations or change the content of the messages. This threat is very dangerous i.e. in stock market situations, as well in the previously described situations.
 
-    The client, Thomas Gresch from local.ch, is running Skype for internal core
-    communications. Skype is a closed source, encrypted, proprietary chat system
-    owned by Microsoft. Because of the intensive efforts from Skype to hide how
-    its internals are working, the software is considered untrustworthy.
-    The internal communication is a crucial part of daily business and
-    an outage, whether caused by accident or intend, causes direct monetary loss
-    for the company.
+    The client, Thomas Gresch from local.ch, is running Skype for internal core communications. Skype is a closed source, encrypted, proprietary chat system owned by Microsoft. Because of the intensive efforts from Skype to hide how its internals are working, the software is considered untrustworthy.  The internal communication is a crucial part of daily business and an outage, whether caused by accident or intend, causes direct monetary loss for the company.
 
-    For this reason the research for an open alternative that may succeed the
-    use of Skype is supported by local.ch.
+    For this reason the research for an open alternative that may succeed the use of Skype is supported by local.ch.
 
 Ziele der Arbeit
 
-    The objective of this thesis is the analysis, design and development of a secure,
-    decentralised chat system. The main focus is on defining and documenting
-    the mode of operation and the protocol definition. Additionally a prototype
-    should be implemented. The thesis should be based on a detailled analysis of
-    current chat systems. The analysis will not only consider chat
-    systems, but also related secure and anonymous communication systems.
+    The objective of this thesis is the analysis, design and development of a secure, decentralised chat system. The main focus is on defining and documenting the mode of operation and the protocol definition. Additionally a prototype should be implemented. The thesis should be based on a detailled analysis of current chat systems. The analysis will not only consider chat systems, but also related secure and anonymous communication systems.
 
 
 Aufgaben
 
-    1. Detailed analysis and comparison of open and legacy chat systems
-        to summarise current chat system features and their
-        security characteristics.
+    1. Detailed analysis and comparison of open and legacy chat systems to summarise current chat system features and their security characteristics
     2. Analysis of features and security requirements
     3. Analysis of related communication protocols
     4. Development of a new chat protocol
@@ -68,20 +38,19 @@ Aufgaben
 
 
 Resultate
+pe
 
     1. Report and comparison of current chat systems including strength and weaknesses
     2. Requirement analysis
     3. Report of related communication protocols including strength and weaknesses
-    4. Protocol definition paper (containing chat features,
-        data types, transport methods, security measures)
+    4. Protocol definition paper (containing chat features, data types, transport methods, security measures)
     5. Technical documentation and prototype for the new chat system
     6. Description of test results
-    7. Presentation of a successful anonymous, decentralised chat session, which
-       includes proof of the required security by using example attacks.
+    7. Presentation of a successful anonymous, decentralised chat session, which includes proof of the required security by using example attacks.
 
 Geplante Termine:
 
-    Kick-Off: Anfang März (nach den Prüfungen)
+    Kick-Off: Anfang März
     Design-Review: Ende April
     Schlusspräsentation: Ende Juni
 

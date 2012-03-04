@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------------
-\section{Analysis and Comparision of Chat Systems}
+\chapter{Analysis and Comparision of Chat Systems}
 
     1. Detailed analysis and comparison of open and legacy chat systems
         to summarise current chat system features and their
@@ -8,12 +8,54 @@
 
 % ----------------------------------------------------------------------------
 \subsection{IRC, IRC+SSL}
-\url{http://en.wikipedia.org/wiki/Internet_Relay_Chat}
+\begin{quote}
+All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.\ref{irc-wp}
+\end{quote}
 
-All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.
-
-central server
+central server, server network
 optional encryption
+
+Since 1989 deleoped\ref{rfc2810},
+first formally documented in May 1993 by RFC 1459\ref{rfc1459}.
+
+% ----------------------------------------------------------------------------
+A typical setup involves a single process (the server) forming a
+      central point for clients (or other servers) to connect to,
+      
+   This distributed model, which requires each server to have a copy
+   of the global state information, is still the most flagrant problem
+   of the protocol as it is a serious handicap, which limits the maximum
+   size a network can reach.  If the existing networks have been able to
+   keep growing at an incredible pace, we must thank hardware
+   manufacturers for giving us ever more powerful systems.
+
+The server forms the backbone of IRC as it is the only component
+   of the protocol which is able to link all the other components
+   together:
+
+
+   The only network configuration allowed for IRC servers is that of
+   a spanning tree where each server acts as a central node for the rest
+   of the network it sees.
+
+                       1--\
+                           A        D---4
+                       2--/ \      /
+                             B----C
+                            /      \
+                           3        E
+
+   Servers: A, B, C, D, E         Clients: 1, 2, 3, 4
+
+                    [ Fig. 1. Sample small IRC network ]
+
+
+   The IRC protocol provides no mean for two clients to directly
+   communicate.  All communication between clients is relayed by the
+   server(s).
+
+      \ref{rfc2810}
+
 
 % ----------------------------------------------------------------------------
 \subsection{Silc}

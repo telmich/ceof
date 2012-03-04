@@ -1,7 +1,8 @@
 SDOC=thesis.tex
-PARTS=conclusions.tex sources.tex
-#USLDOC=userstories-loesungen.tex
-#MDOC=manpage.tex
+PARTS=chatsystems.tex comm-protocols.tex conclusions.tex
+PARTS+=implementation-prototype.tex references.tex requirements.tex
+PARTS+= initial-meeting.tex introduction.tex othersystems.tex protocol.tex
+PARTS+= test-prototype.tex thesis.tex
 
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
