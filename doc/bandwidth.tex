@@ -1,0 +1,23 @@
+\subsection{Bandwith usage}
+>>> interval=0.2
+>>> pkg_size=4096
+>>> (1/interval)*pkg_size
+20480.0
+>>> ((1/interval)*pkg_size)*8
+163840.0
+>>> convert_bytes(1769472000.0)
+'1.6 G'
+
+
+--------------------------------------------------------------------------------
+SYMBOLS = ('k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+PREFIX = {}
+
+for i, s in enumerate(SYMBOLS):
+    PREFIX[s] = 1 << (i+1)*10
+
+def convert_bytes(n):
+    for s in reversed(SYMBOLS):
+        if n >= PREFIX[s]:
+            value = float(n) / PREFIX[s] 
+            return '%.1f %s' % (value, s)
