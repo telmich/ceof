@@ -1,4 +1,4 @@
-\subsection{Bandwith usage}
+\section{Bandwith usage}
 >>> interval=0.2
 >>> pkg_size=4096
 >>> (1/interval)*pkg_size
@@ -9,7 +9,7 @@
 '1.6 G'
 
 
---------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------
 SYMBOLS = ('k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
 PREFIX = {}
 
@@ -21,3 +21,31 @@ def convert_bytes(n):
         if n >= PREFIX[s]:
             value = float(n) / PREFIX[s] 
             return '%.1f %s' % (value, s)
+% --------------------------------------------------------------------------------
+
+Bandwidth usable:
+
+1999: v.92 modems with 56 kbit/s downstreams, 48 kbit/s upstreams
+1998: ADSL up to 8 Mbit/s,
+2003: ADSL2 up to 12 Mbit/s
+2005: ADSL2+ up to 24 Mbit/s
+
+\ref{bandwidth-progress}
+
+ISDN Basic Rate Interface (single/dual channel) 8/16 kB/s
+ADSL 1,024/128 kB/s 
+VDSL ITU G.993.1    7,000 kB/s   2001
+
+mobile:
+
+GPRS (2.5G) 57.6 kbit/s 28.8 kbit/s 7.2 kB/s    3.6 kB/s
+EDGE (2.75G) (type 1 MS)    236.8 kbit/s    236.8 kbit/s    29.6 kB/s   29.6 kB/s
+UMTS 3G 384 kbit/s  384 kbit/s  48 kB/s 48 kB/s
+HSPA+ (2X2 MIMO)    42 Mbit/s   11.5 Mbit/s 5.25 MB/s   1.437 MB/s
+
+LTE soon coming
+\ref{bandwidth-list}
+% --------------------------------------------------------------------------------
+
+\subsection{Bandwidth growth}
+
