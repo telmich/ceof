@@ -7,37 +7,25 @@
 
 
 % ----------------------------------------------------------------------------
-\subsection{IRC, IRC+SSL}
-\begin{quote}
-All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.\ref{irc-wp}
-\end{quote}
-
-central server, server network
-optional encryption
+\section{IRC}
+\subsection{History}
 
 Since 1989 deleoped\ref{rfc2810},
 first formally documented in May 1993 by RFC 1459\ref{rfc1459}.
 
+\begin{quote}
+All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.\ref{irc-wp}
+\end{quote}
+
 % ----------------------------------------------------------------------------
-A typical setup involves a single process (the server) forming a
-      central point for clients (or other servers) to connect to,
-      
-   This distributed model, which requires each server to have a copy
-   of the global state information, is still the most flagrant problem
-   of the protocol as it is a serious handicap, which limits the maximum
-   size a network can reach.  If the existing networks have been able to
-   keep growing at an incredible pace, we must thank hardware
-   manufacturers for giving us ever more powerful systems.
+\subsection{Architecture}
+central server, server network
+IRC, the \textit{Internet Relay Chat}, has been developed since 1989
+and is defined in severals Internet RFCs.\footnote{See \cite{rfc1459}, 
+\cite{rfc2810}, \cite{rfc2812} and \cite{rfc2813}.}
+IRC networks consist of IRC servers and IRC clients:
 
-The server forms the backbone of IRC as it is the only component
-   of the protocol which is able to link all the other components
-   together:
-
-
-   The only network configuration allowed for IRC servers is that of
-   a spanning tree where each server acts as a central node for the rest
-   of the network it sees.
-
+\begin{verbatim}
                        1--\
                            A        D---4
                        2--/ \      /
@@ -49,16 +37,24 @@ The server forms the backbone of IRC as it is the only component
 
                     [ Fig. 1. Sample small IRC network ]
 
+\end{verbatim}\footnote{Source: \cite{rfc2810}}
+IRC is organised centrally, as stated in \cite{rfc2810}:
+\begin{quote}
+The IRC protocol provides no mean for two clients to directly
+communicate.  All communication between clients is relayed by the
+server(s).
+\end{quote}
 
-   The IRC protocol provides no mean for two clients to directly
-   communicate.  All communication between clients is relayed by the
-   server(s).
-
-      \ref{rfc2810}
-
+There is, however, an unstandartised client extension named 
+\textit{Direct Client-to-Client} (DCC) available in most IRC clients
+that enables direct connections.\footnote{See \cite{dcc}, \cite{dcc2}.}
 
 % ----------------------------------------------------------------------------
-\subsection{Silc}
+\subsection{Security}
+SSL is being used in some networks, but not standartised. [nico]
+optional encryption.
+% ----------------------------------------------------------------------------
+\section{Silc}
 SILC Project develops the Secure Internet Live Conferencing protocol (SILC),
 \url{http://silcnet.org/general/}
 \url{http://silcnet.org/support/documentation/specs/}
@@ -68,9 +64,28 @@ central
 
 
 % ----------------------------------------------------------------------------
-\subsection{Skype}
+\section{Skype}
+More VoIP
+% ----------------------------------------------------------------------------
+\section{MSN}
+More VoIP
+% ----------------------------------------------------------------------------
+\section{ICQ}
+More VoIP
 
 
 % ----------------------------------------------------------------------------
-\subsection{Comparision Table}
+\section{Security features and Comparision}
+
+\begin{longtable}{|c|c|c|}
+\caption{Chat system comparision with security features}\\
+\hline
+\textbf{Name} & \textbf{IRC} & \textbf{SILC}\\
+\hline
+\textbf{Single point of attack} & yes & yes\\
+\hline
+\textbf{Encrypted traffic} & optional & yes\\
+\hline
+\end{longtable}
+
 All the solutions with objectives.
