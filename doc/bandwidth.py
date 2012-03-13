@@ -24,3 +24,7 @@ def convert_bytes(n):
 
 print("Bitrate/s: %s (%s)" % (bitrate, convert_bytes(bitrate/8)))
 
+for i in list(range(1,10)) + list(range(20,110,10)) + [500, 1000, 10000, 100000]:
+    print("Bandwidth (total, network)/s %s: %s" % (i, convert_bytes(i*(bitrate/8))))
+
+
