@@ -7,6 +7,8 @@
 \usepackage{german}
 \usepackage{graphicx}
 \usepackage{beamerthemesplit}
+%\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade} 
+
 \setbeamercovered{dynamic}
 \usetheme{Malmoe}
 \usecolortheme{crane}
@@ -16,7 +18,12 @@
 
 \author{Nico -telmich- Schottelius}
 
-\date{??. ?? 2012}
+\date{2012-03-14}
+
+%\pgfdeclareimage[height=0.5cm]{myalias}{pselogo} %declare logo image with an alias here
+%\pgfuseimage{myalias}} %use the image right after
+\titlegraphic{\includegraphics[width=2cm,height=2cm]{zhaw_logo_de}}
+
 
 \begin{document}
 \frame{\titlepage}
@@ -24,16 +31,35 @@
 %\section[Outline]{}
 \frame{\tableofcontents}
 
+\frame
+{
+  \frametitle{Who am I?}
+  \begin{itemize}
+  \item Ex-ETH Sysadministrator, currently Devops-Engineer at local.ch
+  \item Long time FOSS developer 
+  \item Interested in privacy and anonymity
+  \item Last semester student at ZHAW/HSZ-T
+  \begin{enumerate}
+      \item  Information Security and Kryptography
+      \item  Networks and Internet Communications
+      \item  Operating Systems
+      \item  Theoretical Computer Science and Automata Theory
+      \item  Scientific Computing
+  \end{enumerate}
+  \end{itemize}
+}
+
 \section{Initial Situation}
 
 \frame
 {
   \frametitle{Initial Situation}
   \begin{itemize}
-  \item Various non-secure chat systems available (silc, irc, ...)
-  \item Commercial, closed, encrypted solution (skype)
-  \item Anonymous Routing (Tor)
-  \item No usable decentralised, anonymous secure chat system available
+      \item Various chat systems available
+      \item Not anonymous
+      \item Not decentralised
+      \item Not secure
+      \item Client using a closed source, encrypted, proprietary chat system
   \end{itemize}
 }
 
@@ -42,13 +68,37 @@
 {
   \frametitle{Motivation}
   \begin{itemize}
-     \item Fix the situation
-     \item Close the gap between chat systems and anonymity systems
-     \item Different scenario: closed network, no exit nodes (only chatters)
+     \item Personal
+     \begin{itemize}
+        \item Support Freedom of Speech
+        \item Close the gap between chat systems and anonymity systems (like TOR)
+    \end{itemize}
+     \item Client
+     \begin{itemize}
+        \item Skype due to its nature untrustworthy, but very good usable
+        \item Client seeks for long term replacement 
+        \item Sponsors research
+    \end{itemize}
   \end{itemize}
 }
 
 \section{Project}
+\frame
+{
+  \frametitle{Project planning: Chaos model}
+  \begin{enumerate}
+     \item Resolve the most important issue first\footnote{See \url{http://en.wikipedia.org/wiki/Chaos_model}}
+     \item An issue is an incomplete programming task.
+      \begin{enumerate}
+         \item The most important issue is a combination of big, urgent, and robust.
+         \item Big issues provide value to users as working functionality.
+         \item Urgent issues are timely in that they would otherwise hold up other work.
+         \item Robust issues are trusted and tested. Developers can then safely focus their attention elsewhere.
+      \end{enumerate}
+     \item To resolve means to bring it to a point of stability.
+  \end{enumerate}
+}
+
 \frame
 {
   \frametitle{Projectphases}
@@ -56,6 +106,16 @@
      \item Current state analysis
      \item Protocol design
      \item Implementation of Prototype
+  \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Dates}
+  \begin{itemize}
+     \item Kick-Off: 2012-03-14
+     \item Design-Review: End of April
+     \item Defense: End of June
   \end{itemize}
 }
 
@@ -85,9 +145,9 @@
 {
   \frametitle{Expected Results}
   \begin{itemize}
-    \item Report and comparison of current chat systems including strength and weaknesses
-    \item Requirement analysis
-    \item Report of related communication protocols including strength and weaknesses
+    \item Report and comparison of current chat systems including strength and weaknesses (DR)
+    \item Requirement analysis (DR)
+    \item Report of related communication protocols including strength and weaknesses (DR)
   \end{itemize}
 }
 \frame
@@ -95,10 +155,10 @@
   \frametitle{Expected Results (2)}
   \begin{itemize}
      \item Protocol definition paper (containing chat features,
-        data types, transport methods, security measures)
-    \item Implementation of a prototype for the new chat system
+        data types, transport methods, security measures) (DR)
+    \item Implementation of a prototype for the new chat system (DF)
     \item Presentation of a successful anonymous, decentralised chat session, which
-       includes proof of the required security by using example attacks.
+       includes proof of the required security by using example attacks. (DF)
   \end{itemize}
 }
 
@@ -120,5 +180,25 @@
   ?
   \end{center}
 }
+
+\frame
+{
+  \frametitle{Tor}
+  \begin{itemize}
+    \item Anonymous access to resources (web pages)
+    \item Encrypted transportation, unencrypted after exit node
+    \item "`It focuses only on protecting the transport of data."' (tor website)
+    \item Here: Different scenario: closed network, no exit nodes (only chatters)
+  \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Privacy, Security and Anonymity}
+    \begin{center}
+    \includegraphics[scale=0.5]{privacy-security-anon1-300x253.jpg}
+    \end{center}
+}
+
 
 \end{document}
