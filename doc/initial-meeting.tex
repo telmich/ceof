@@ -31,6 +31,7 @@
 %\section[Outline]{}
 \frame{\tableofcontents}
 
+\section{Introduction}
 \frame
 {
   \frametitle{Who am I?}
@@ -40,99 +41,129 @@
   \item Interested in privacy and anonymity
   \item Last semester student at ZHAW/HSZ-T
   \begin{enumerate}
-      \item  Information Security and Kryptography
-      \item  Networks and Internet Communications
-      \item  Operating Systems
-      \item  Theoretical Computer Science and Automata Theory
-      \item  Scientific Computing
+      \item  Information Security and Kryptography (Informationssicherheit und Kryptografie)
+      \item  Networks and Internet Communications (Netzwerke und Internet-Kommunikation)
+      \item  Operating Systems (Betriebssysteme)
+      \item  Theoretical Computer Science and Automata Theory (Theoretische Informatik und Automatentheorie)
+      \item  Scientific Computing (Wissenschaftliches Rechnen)
   \end{enumerate}
   \end{itemize}
 }
 
-\section{Initial Situation}
-
 \frame
 {
-  \frametitle{Initial Situation}
+  \frametitle{Project description}
   \begin{itemize}
-      \item Various chat systems available
-      \item Not anonymous
-      \item Not decentralised
-      \item Not secure
-      \item Client using a closed source, encrypted, proprietary chat system
+  \item Development of a
+  \begin{enumerate}
+      \item  secure
+      \item  decentralised
+      \item  anonymous
+  \end{enumerate}
+  \item chat system
   \end{itemize}
 }
 
-\section{Motivation}
+\frame
+{
+  \frametitle{Secure}
+  \begin{itemize}
+  \item Hide message content
+  \item Ensure message and sender authenticity
+  \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Decentralised}
+  \begin{itemize}
+  \item Flow via different channels
+  \item Continue communications even under attack from an enemy
+  \end{itemize}
+}
+
+
+\frame
+{
+  \frametitle{Anonymous}
+  \begin{itemize}
+  \item Hide to whom they are talking to
+  \end{itemize}
+}
+
 \frame
 {
   \frametitle{Motivation}
   \begin{itemize}
+     \item Client (local.ch, Thomas Gresch)
+     \begin{itemize}
+        \item Using Skype that, due to its nature, is untrustworthy, but very good usable
+        \item Client seeks for long term replacement 
+        \item Sponsors research
+    \end{itemize}
      \item Personal
      \begin{itemize}
         \item Support Freedom of Speech
         \item Close the gap between chat systems and anonymity systems (like TOR)
     \end{itemize}
-     \item Client
-     \begin{itemize}
-        \item Skype due to its nature untrustworthy, but very good usable
-        \item Client seeks for long term replacement 
-        \item Sponsors research
-    \end{itemize}
   \end{itemize}
 }
 
+% \section{Initial Situation}
+
+\frame
+{
+  \frametitle{Current Situation}
+  \begin{itemize}
+      \item Various chat systems available
+      \begin{itemize}
+          \item Identifiable who you are talking to (irc, silc, icq, skype?)
+          \item Centralised (irc, silc, icq, skype partly)
+          \item Insecure (irc partly, icq)
+          \item Unknown (skype)
+      \end{itemize}
+      \item Client using Skype, closed source, encrypted, proprietary chat system
+  \end{itemize}
+}
+
+%\section{Motivation}
 \section{Project}
 \frame
 {
-  \frametitle{Project planning: Chaos model}
-  \begin{enumerate}
-     \item Resolve the most important issue first\footnote{See \url{http://en.wikipedia.org/wiki/Chaos_model}}
-     \item An issue is an incomplete programming task.
-      \begin{enumerate}
-         \item The most important issue is a combination of big, urgent, and robust.
-         \item Big issues provide value to users as working functionality.
-         \item Urgent issues are timely in that they would otherwise hold up other work.
-         \item Robust issues are trusted and tested. Developers can then safely focus their attention elsewhere.
-      \end{enumerate}
-     \item To resolve means to bring it to a point of stability.
-  \end{enumerate}
+  \frametitle{Planning via Chaos model}
+  \begin{center}
+    Resolve the most important issue first
+    $$Most\ important \choose{} big, urgent, robust$$
+  \end{center}
 }
-
 \frame
 {
-  \frametitle{Projectphases}
+  \frametitle{Projectphases and Dates}
   \begin{itemize}
+     \item \alert{Kick-Off: 2012-03-14 (today)}
      \item Current state analysis
-     \item Protocol design
-     \item Implementation of Prototype
+     \item Initial protocol design
+     \item \alert{Design-Review: End of April}
+     \item Final protocol design
+     \item Implementation (including testing) of Prototype
+     \item \alert{Defense: End of June}
   \end{itemize}
 }
-
 \frame
 {
-  \frametitle{Dates}
-  \begin{itemize}
-     \item Kick-Off: 2012-03-14
-     \item Design-Review: End of April
-     \item Defense: End of June
-  \end{itemize}
-}
-
-\frame
-{
-  \frametitle{Project Steps}
+  \frametitle{Work before Design Review}
   \begin{enumerate}
      \item Detailed analysis and comparison of legacy chat systems
         to summarise current chat system features and their
         security characteristics.
     \item Analysis of features and security requirements
     \item Analysis of related communication protocols
+    \item Development of a new chat protocol
   \end{enumerate}
 }
 \frame
 {
-  \frametitle{Project Steps (2)}
+  \frametitle{Work before Defense}
   \begin{enumerate}
     \setcounter{enumi}{3}
     \item Development of a new chat protocol
@@ -145,9 +176,9 @@
 {
   \frametitle{Expected Results}
   \begin{itemize}
-    \item Report and comparison of current chat systems including strength and weaknesses (DR)
-    \item Requirement analysis (DR)
-    \item Report of related communication protocols including strength and weaknesses (DR)
+    \item Report and comparison of current chat systems including strength and weaknesses
+    \item Requirement analysis
+    \item Report of related communication protocols including strength and weaknesses
   \end{itemize}
 }
 \frame
@@ -155,10 +186,10 @@
   \frametitle{Expected Results (2)}
   \begin{itemize}
      \item Protocol definition paper (containing chat features,
-        data types, transport methods, security measures) (DR)
-    \item Implementation of a prototype for the new chat system (DF)
+        data types, transport methods, security measures)
+    \item Implementation of a prototype for the new chat system
     \item Presentation of a successful anonymous, decentralised chat session, which
-       includes proof of the required security by using example attacks. (DF)
+       includes proof of the required security by using example attacks
   \end{itemize}
 }
 
@@ -196,8 +227,34 @@
 {
   \frametitle{Privacy, Security and Anonymity}
     \begin{center}
-    \includegraphics[scale=0.5]{privacy-security-anon1-300x253.jpg}
+    \includegraphics[scale=0.5]{privacy-security-anon1-300x253.jpg}\footnote{From \url{http://www.concurringopinions.com/archives/2011/01/privacy-vs-security-vs-anonymity.html}}
     \end{center}
+}
+
+\frame
+{
+  \frametitle{Project planning: Chaos model}
+  \begin{enumerate}
+     \item Resolve the most important issue first\footnote{See \url{http://en.wikipedia.org/wiki/Chaos_model}}
+     \item An issue is an incomplete programming task.
+      \begin{enumerate}
+         \item The most important issue is a combination of big, urgent, and robust.
+         \item Big issues provide value to users as working functionality.
+         \item Urgent issues are timely in that they would otherwise hold up other work.
+         \item Robust issues are trusted and tested. Developers can then safely focus their attention elsewhere.
+      \end{enumerate}
+     \item To resolve means to bring it to a point of stability.
+  \end{enumerate}
+}
+
+\frame
+{
+  \frametitle{Dates}
+  \begin{itemize}
+     \item Kick-Off: 2012-03-14
+     \item Design-Review: End of April
+     \item Defense: End of June
+  \end{itemize}
 }
 
 
