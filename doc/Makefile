@@ -6,6 +6,7 @@ PARTS+= test-prototype.tex thesis.tex
 
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
+	bibtex thesis.aux
 	pdflatex $<
 	pdflatex $<
 
