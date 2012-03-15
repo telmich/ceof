@@ -1,0 +1,358 @@
+\section{Interface to the user interface ("`eofi2ui"')}
+\label{eofi2ui}
+This section specifies the commands used between the EOFs
+"`user interface"' and EOFi. As the user interface has to translate
+the user commands ("`ui2user"') to \emph{eofi2ui} commands, the
+section titles refer to the \emph{ui2user} and \emph{eofi2ui} commands.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{UI startup}
+What todo, when the UI starts.
+Connect to EOFi. Find out about
+\begin{itemize}
+\item joined group,
+\item connected marktscheier
+\item and open queries.
+\end{itemize}
+It thus issues the following commands:
+register, list joined groups, list open queries, list marktschreier.
+% -----------------------------------------------------------------------------
+\subsection{Connection}
+All user interfaces connect to the user interface socket, as specified
+on page \pageref{puisocket}, section \ref{puisocket}.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1100: Acknowledge}
+The is a general acknowledge answer. The request with the
+same \emph{ID} as the packet was successful.
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1100 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+\end{longtable}
+\subsubsection{Example}
+\begin{verbatim}
+1100abfudh
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1101: Failure}
+The is a general failure answer. The request with the
+same \emph{ID} as the packet failed.
+Details are specified in the reason message.
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1101 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Reason & EOFsdt: msgtxt & Why the connection was refused & Too many UIs connected.\\
+\hline
+\end{longtable}
+If the failed command was "`2100"', EOFi will close the socket afterwards.
+\subsubsection{Example}
+\begin{verbatim}
+1101abfudhSome error\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1102: Exit requested}
+This is a  shutdown request to the UI.
+After this message EOFi will exit and there is no communication possible.
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1102 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+\end{longtable}
+\subsubsection{Example}
+\begin{verbatim}
+1102abf93a
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1103: Recieved message}
+This message is issued by EOFi, if a message is received.
+\subsubsection{Parameters}
+\index{Command!1103}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1103 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+nick & EOFsdt & The sender & telmich\\
+\hline
+msgtext & EOFsdt & The message & Hallo, mein Freund!\\
+\hline
+\end{longtable}
+\subsubsection{Example}
+\begin{verbatim}
+1103abfudhtelmich\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0Hallo!\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+\end{verbatim}
+\subsubsection{Possible answers}
+\begin{itemize}
+\item None: EOFi does not resend this packet if the UI lost it.
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1104: List of peers}
+This is the answer to command \emph{2106} and thus contains the
+same ID, as the \emph{2106} request command.
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1104 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Number of peers (nop) & EOFsdt: size & How many peers follow & 20\\
+\hline
+$nop * Peer$ & EOFsdt: nick & The nickname & telmich\\
+\hline
+\end{longtable}
+The last field is repeated as many times as specified in number of peers.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1105: Peer information}
+This is the answer to command \emph{2105} and thus contains the
+same ID, as the \emph{2105} request command.
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1105 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Keyid & EOFsdt:keyid & This peers pgp-keyid & 389E5481065EAA253...\\
+\hline
+Number of addresses (noa) & EOFsdt: size & & 1\\
+\hline
+$noa * address$ & EOFsdt: addr & Adress of peer & tcp:127.0.0.1:4243\\
+\hline
+\end{longtable}
+The last field is repeated as often, as specified in the number of addresses
+field.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{1106: Peer renamed}
+This is the answer to command \emph{2104} and thus contains the
+same ID, as the \emph{2104} request command. It is sent out to
+\textbf{all} connected user interfaces.
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 1106 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Oldnick & EOFsdt & Old nick name & susi\\
+\hline
+Newnick & EOFsdt & New nick name & heinz\\
+\hline
+\end{longtable}
+\subsubsection{Possible answers}
+\begin{itemize}
+\item None
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2100: Register user interface}
+This must be the \emph{first} message sent by the UI. If the answer is not
+\emph{1100}, the UI should close the socket afterwards.
+
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{Command 2100 parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item 1100
+\item 1101
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2101: Deregister user interface}
+
+\subsubsection{Parameters}
+\begin{itemize}
+\item none
+\end{itemize}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item none
+\end{itemize}
+
+EOFi will close the connection to the UI after receiving this message.
+
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2102: /peer add}
+The UI adds a peer to the list of known peers.
+
+\subsubsection{Parameters}
+\index{Command!2102: /peer add}%
+\begin{longtable}{|c|c|c|c|}
+\caption{2102: /peer add parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Nick & EOFsdt: nick & Name you identify the peer with & telmich\\
+\hline
+Address & EOFsdt: addr & Where we can make the first contact & tcp:10.0.42.42:4242\\
+\hline
+Keyid & EOFsdt: keyid & PGP fingerprint of the peers key & F27987E34E66...\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item 1100
+\item 1101
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2103: /peer send}
+The UI wants to submit a message to a peer.
+
+\subsubsection{Parameters}
+\index{Command!/peer send}%
+\begin{longtable}{|c|c|c|c|}
+\caption{2103: /peer send parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Nick & EOFsdt: nick & Name you identify the peer with & telmich\\
+\hline
+Message & EOFsdt: msgtxt & The message itself & Hallo, wie geht es Dir?\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item 1100
+\item 1101
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2104: /peer rename}
+The UI wants to rename a peer.
+
+\subsubsection{Parameters}
+\index{Command!/peer rename}%
+\begin{longtable}{|c|c|c|c|}
+\caption{/peer rename parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Oldnick & EOFsdt & Old nick name & susi\\
+\hline
+Newnick & EOFsdt & New nick name & heinz\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item 1106
+\item 1101
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+\subsection{2105: /peer show}
+The UI requests details about a peer.
+
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{2105: /peer show parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+Nick name & EOFsdt & Nick name, as known by EOFi & karl-otto\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item 1101
+\item 1105
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2106: /peer list}
+The UI requests the list of known peers.
+
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{2106: /peer list parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item 1101
+\item 1104
+\end{itemize}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{2199: /quit}
+The user interface requests EOFi and all other EOFs to exit.
+The EOFi will not answer, but send an exit request to all other
+EOFs.
+
+\subsubsection{Parameters}
+\begin{longtable}{|c|c|c|c|}
+\caption{2199: /quit parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+ID & EOFsdt: id & packet id & afdb12\\
+\hline
+\end{longtable}
+
+\subsubsection{Possible answers}
+\begin{itemize}
+\item none
+\end{itemize}
+% Nico: 1.0
+
