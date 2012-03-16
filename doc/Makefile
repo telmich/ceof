@@ -3,6 +3,7 @@ PARTS=chatsystems.tex comm-protocols.tex conclusions.tex
 PARTS+=implementation-prototype.tex references.tex requirements.tex
 PARTS+= initial-meeting.tex introduction.tex othersystems.tex protocol.tex
 PARTS+= test-prototype.tex thesis.tex
+PARTS+= proto/ui.tex proto/user.tex
 
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<

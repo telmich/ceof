@@ -3,4 +3,6 @@
 *.lot
 *.pdf
 *.toc
+*.dvi
+*.idx
 rfc.bib

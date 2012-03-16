@@ -1,0 +1,160 @@
+\section{The user interface ("`ui2user"')}
+This section specifies the appereance of a user interface to the user.
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{Minimal philosophy}
+All EOF compliant user interfaces must support the named commands, so the
+user can change the UI, but can be sure that this minimal amount of
+commands is always available.
+
+Every user interface \emph{may} add additional input methods or commands.
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{Commands in general}
+All commands begin with a "`/"' as first character (adopted from IRC).
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{Command length}
+The user interfaces need only to accept commands up to a length of
+\emph{EOF\_L\_UI\_INPUT}.
+If the user inputs longer commands, they should be truncated
+to \emph{EOF\_L\_UI\_INPUT} bytes.
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{Send text}
+If the entered text does not begin with a "`/"', it should be treated
+as a message to the current selected destination (either
+a \emph{peer} or \emph{group} of peers.
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/peer add $<$nick$>$ $<$initial addr$>$ $<$keyid$>$}
+Add the peer as \textit{name} to the list of known peers.
+
+\index{Command!/peer add}%
+\begin{longtable}{|c|c|c|c|}
+\caption{/peer add parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+Nick & EOFsdt & Name you identify the peer with & telmich\\
+\hline
+Initial addr & EOFsdt & Where we can make the first contact & tcp:10.0.42.42:4242\\
+\hline
+Keyid & EOFsdt & The PGP fingerprint of the peers public key & F27987E34E66...\\
+\hline
+\end{longtable}
+
+\subsubsection{Example}
+\begin{verbatim}
+/peer add telmich tcp:10.0.42.42:4242 F27987E34E7866B2BA39C2FD793EB8FC325251FE
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/peer send $<$nick$>$ $<$msgtext...$>$}
+Send message \textit{msgtext} to peer \textit{nick}.
+
+\index{Command!/peer send}%
+\begin{longtable}{|c|c|c|c|}
+\caption{/peer send parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+Nick & EOFsdt & Name you identify the peer with & telmich\\
+\hline
+Msgtext & EOFsdt & The message itself & Hallo, wie geht es Dir?\\
+\hline
+\end{longtable}
+
+\subsubsection{Example}
+\begin{verbatim}
+/peer send telmich Hallo, wie geht es Dir?
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/peer rename $<$oldnick$>$ $<$newnick$>$}
+Renames the peer.
+\index{Command!/peer rename}%
+\begin{longtable}{|c|c|c|c|}
+\caption{/peer rename parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+Oldnick & EOFsdt & Old nick name & susi\\
+\hline
+Newnick & EOFsdt & New nick name & heinz\\
+\hline
+\end{longtable}
+
+\subsubsection{Example}
+\begin{verbatim}
+/peer rename susi heinz
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/peer show $<$nick$>$}
+Display detailled information about peer.
+\index{Command!/peer show}%
+\begin{longtable}{|c|c|c|c|}
+\caption{/peer rename parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+Nick name & EOFsdt & Nick name as known by EOFi & karl-otto\\
+\hline
+\end{longtable}
+
+\subsubsection{Example}
+\begin{verbatim}
+/peer show karl-otto
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/peer list}
+List currently known peers. This command does not accept any parameters.
+
+\subsubsection{Example}
+\begin{verbatim}
+/peer list
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/exit}
+Request the user interface to exit. It will deregister from EOFi,
+but EOFi will continue to run (even with no user interface attached).
+\subsubsection{Example}
+\begin{verbatim}
+/exit
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/quit}
+The UI tells EOFi to quit.
+The EOFi will tell all EOFs to quit and quits.
+Afterwards the UI will also quit.
+\subsubsection{Example}
+\begin{verbatim}
+/quit
+\end{verbatim}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{Aliases}
+Aliases may optionally be provided by the UI. If an UI provides
+support for aliases, it must implement the "`\emph{/alias}"' command.
+
+The following aliases should be provided by default,
+to aid new users using EOF.
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/alias $<aliasname>$ $<command...>$}
+This command should be used to setup aliases.
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/msg $<nick>$ $<msgtext>$}
+Should be an alias for \textit{/peer send $<$nick$>$ $<$msgtext$>$}
+% Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{/whois $<nick>$}
+Should be an alias for \textit{/peer show $<$nick$>$}
+% Nico: 1.0
+
+
