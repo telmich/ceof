@@ -1,14 +1,21 @@
 \section{The user interface ("`ui2user"')}
-This section specifies the appereance of a user interface to the user.
+This section specifies the recommended appereance of a 
+user interface to the user. Due to the modular architecture it is likely
+that different user interfaces will appear and this section defines
+commands that \textbf{should} be implemented by every user interface
+to provide a consistent look and feel towards the user.
 % Nico: 1.0
 %---------------------------------------------------------------------
 \subsection{Minimal philosophy}
-All EOF compliant user interfaces must support the named commands, so the
+All EOF compliant user interfaces should support the named commands, so the
 user can change the UI, but can be sure that this minimal amount of
 commands is always available.
 
 Every user interface \emph{may} add additional input methods or commands.
 % Nico: 1.0
+%---------------------------------------------------------------------
+\subsection{Command line / Text input}
+Every user interface should provide a line to enter commands.
 %---------------------------------------------------------------------
 \subsection{Commands in general}
 All commands begin with a "`/"' as first character (adopted from IRC).
