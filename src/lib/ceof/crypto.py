@@ -18,6 +18,8 @@
 # along with ceof. If not, see <http://www.gnu.org/licenses/>.
 #
 #
+# Python-Gnupg: http://packages.python.org/python-gnupg/
+#
 
 import ceof
 import gnupg
@@ -79,6 +81,15 @@ class Crypto(object):
         else:
             return None
 
+    def decrypt(self, data):
+        if not self.private_key:
+            raise NoPrivKeyError 
+            
+        return self._gpg.decrypt(data)
+
+    def encrypt(self, data, recipients):
+        return self._gpg.encrypt(data, recipients)
+
     def export(self):
         if not self.private_key:
             raise NoPrivKeyError 
@@ -92,5 +103,17 @@ class Crypto(object):
             
         print(self.private_key)
 
+# encrypted_ascii_data = gpg.encrypt(data, recipients)
+# >>> encrypted_ascii_data = gpg.encrypt_file(stream, recipients) # e.g. after stream = open(filename, "rb")
+# 
+# decrypted_data = gpg.decrypt(data)
+# decrypted_data = gpg.decrypt_file(stream) # e.g. after stream = open(filename, "rb")
+
 # import_result = gpg.import_keys(key_data)
 # import_result = gpg.recv_keys('server-name', 'keyid1', 'keyid2', ...)
+
+# encrypted_data = gpg.encrypt(data, recipients, sign=signer_fingerprint, passphrase=signer_passphrase)
+# decrypted_data = gpg.decrypt(data, passphrase=recipient_passphrase)
+
+# signed_data = gpg.sign(message)
+# verified = gpg.verify(data)

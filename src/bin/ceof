@@ -52,7 +52,6 @@ def commandline():
     #    parents=[parser['loglevel']])
     #parser['banner'].set_defaults(func=ceof.banner.banner)
 
-    # Key management: FIXME: To be added:  "-n", "--name", -c --comment -a --address
     parser['key'] = parser['sub'].add_parser('key',
         parents=[parser['all']])
     parser['key'].add_argument('-e', '--export',
@@ -72,6 +71,25 @@ def commandline():
          help='Show private/public key pair', action='store_true')
     parser['key'].set_defaults(func=ceof_key)
 
+    parser['server'] = parser['sub'].add_parser('server',
+        parents=[parser['all']])
+    parser['server'].add_argument('-a', '--address',
+         help='Listen on this address for UI connections', action='store',
+         default='127.0.0.1')
+    parser['server'].add_argument('-p', '--port',
+         help='Listen on this port for UI connections', action='store',
+         default='4242')
+    parser['server'].set_defaults(func=ceof_uiserver)
+
+    parser['crypto'] = parser['sub'].add_parser('crypto',
+        parents=[parser['all']])
+    parser['crypto'].add_argument('--encrypt',
+         help='Encrypt from stdin (specify recipients)', 
+         action='store', nargs='+')
+    parser['crypto'].add_argument('--decrypt',
+         help='Decrypt from stdin', action='store_true')
+    parser['crypto'].set_defaults(func=ceof_crypto)
+
     for p in parser:
         parser[p].epilog = "Get ceof at http://www.nico.schottelius.org/software/ceof/"
 
@@ -90,6 +108,30 @@ def commandline():
     except ceof.config.ConfigError as e:
         print("Configuration directory issues may be fixed using -c parameter")
         raise
+
+def ceof_uiserver(args):
+    import ceof.uiserver
+
+    serv = ceof.uiserver.UIServer(args.address, args.port)
+    serv.run()
+
+def ceof_crypto(args):
+    import sys
+    import ceof.crypto
+    
+    print(args)
+    config = ceof.config.Config(args.config_dir)
+    crypto = ceof.crypto.Crypto(config)
+
+    if args.decrypt or args.encrypt:
+        data = sys.stdin.readlines()
+        data = "".join(data)
+
+    if args.decrypt:
+        print(crypto.decrypt(data))
+    if args.encrypt:
+        print(crypto.encrypt(data, args.encrypt))
+
 
 def ceof_key(args):
     import ceof.crypto
