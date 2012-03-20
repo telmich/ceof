@@ -52,6 +52,15 @@ def commandline():
     #    parents=[parser['loglevel']])
     #parser['banner'].set_defaults(func=ceof.banner.banner)
 
+    parser['crypto'] = parser['sub'].add_parser('crypto',
+        parents=[parser['all']])
+    parser['crypto'].add_argument('--encrypt',
+         help='Encrypt from stdin (specify recipients)',
+         action='store', nargs='+')
+    parser['crypto'].add_argument('--decrypt',
+         help='Decrypt from stdin', action='store_true')
+    parser['crypto'].set_defaults(func=ceof_crypto)
+
     parser['key'] = parser['sub'].add_parser('key',
         parents=[parser['all']])
     parser['key'].add_argument('-e', '--export',
@@ -91,15 +100,6 @@ def commandline():
          help='Port to connect to', action='store',
          default='4242')
     parser['ui'].set_defaults(func=ceof_ui)
-
-    parser['crypto'] = parser['sub'].add_parser('crypto',
-        parents=[parser['all']])
-    parser['crypto'].add_argument('--encrypt',
-         help='Encrypt from stdin (specify recipients)', 
-         action='store', nargs='+')
-    parser['crypto'].add_argument('--decrypt',
-         help='Decrypt from stdin', action='store_true')
-    parser['crypto'].set_defaults(func=ceof_crypto)
 
     for p in parser:
         parser[p].epilog = "Get ceof at http://www.nico.schottelius.org/software/ceof/"
