@@ -64,7 +64,6 @@ class TCPServer(object):
                 data = conn.recv(1024)
                 if not data:
                     break
-                log.debug("Received %s: %s" % (addr, data.decode("utf-8").rstrip()))
                 self.data_handler(data)
 
         except (socket.error, KeyboardInterrupt):
