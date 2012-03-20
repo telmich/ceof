@@ -19,10 +19,15 @@
 #
 #
 
+import ceof
 import gnupg
 import logging
 
-log = logging.getLogger("ceof.crypto")
+log = logging.getLogger(__name__)
+
+class CryptoError(ceof.Error):
+    pass
+
 
 class Crypto(object):
     """Manage cryptographic functions"""
@@ -37,8 +42,17 @@ class Crypto(object):
         self.comment = comment
 
         self._gpg = gnupg.GPG(gnupghome=config.gpg_config_dir)
+        self._private_keys = self._gpg.list_keys(True)
 
     def gen_key(self):
+        """Generate new private/public key pair, if none existing"""
+
+        if not self.private_key:
+            self._gen_key()
+        else:
+            raise CryptoError("Private Key already existing")
+
+    def _gen_key(self):
         """Generate new private/public key pair"""
 
         input_data = self._gpg.gen_key_input(key_type="RSA",
@@ -48,6 +62,22 @@ class Crypto(object):
         log.info("Generating key: (%s)" % input_data)
 
         self.key = self._gpg.gen_key(input_data)
+
+    @property
+    def private_key(self):
+        
+        # There should only be one private key / we are only
+        # interested in the first one
+        if not len(self._private_keys) == 0:
+            return self._private_keys[0]
+        else:
+            return None
+
+    def show(self):
+        if not self.private_key:
+            raise CryptoError("No private/public key pair found (hint: generate a new one)")
+            
+        print(self.private_key)
 
 # ascii_armored_public_keys = gpg.export_keys(keyids) # same as gpg.export_keys(keyids, False)
 #  ascii_armored_private_keys = gpg.export_keys(keyids, True) # True => private keys

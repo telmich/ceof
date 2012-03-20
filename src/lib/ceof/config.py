@@ -23,7 +23,7 @@ import ceof
 import logging
 import os
 
-log = logging.getLogger("ceof.config")
+log = logging.getLogger(__name__)
 
 class ConfigError(ceof.Error):
     pass
@@ -55,7 +55,6 @@ class Config(object):
     def _create_directories(self):
         """Create required configuration directories"""
         os.makedirs(self.config_dir, exist_ok=True)
-        log.debug(self.gpg_config_dir)
         os.makedirs(self.gpg_config_dir, exist_ok=True)
 
     @property

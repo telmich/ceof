@@ -52,13 +52,22 @@ def commandline():
     #    parents=[parser['loglevel']])
     #parser['banner'].set_defaults(func=ceof.banner.banner)
 
-    # Config and install (common stuff)
+    # Key management: FIXME: To be added:  "-n", "--name", -c --comment -a --address
     parser['key'] = parser['sub'].add_parser('key',
         parents=[parser['all']])
     parser['key'].add_argument('-e', '--export',
          help='Export public key to stdout', action='store_true')
     parser['key'].add_argument('-g', '--gen-key',
          help='Generate new private/public key pair', action='store_true')
+    parser['key'].add_argument('--name',
+         help='Name (for key generate)', action='store', 
+         default="Your Friendly Name")
+    parser['key'].add_argument('--email-address',
+         help='E-Mail-Address (for key generate)', action='store',
+         default="you@example.org")
+    #parser['key'].add_argument('--comment',
+    #     help='E-Mail-Address (for key generate)', action='store',
+    #     default="
     parser['key'].add_argument('-s', '--show',
          help='Show private/public key pair', action='store_true')
     parser['key'].set_defaults(func=ceof_key)
@@ -85,11 +94,17 @@ def commandline():
 def ceof_key(args):
     import ceof.crypto
     
+    #print(args)
     config = ceof.config.Config(args.config_dir)
-    crypto = ceof.crypto.Crypto(config)
+    crypto = ceof.crypto.Crypto(config, name=args.name,
+        email=args.email_address)
+
     if args.gen_key:
         crypto.gen_key()
-
+    if args.show:
+        crypto.show()
+    if args.export:
+        crypto.export()
 
 if __name__ == "__main__":
     # Sys is needed for sys.exit()
@@ -110,6 +125,11 @@ if __name__ == "__main__":
         import ceof
 
         log = logging.getLogger("ceof")
+
+        # Setup root logger for us only
+        rootlog = logging.getLogger(None)
+        logfilter = logging.Filter(name='ceof')
+        rootlog.addFilter(logfilter)
 
         logging.basicConfig(format='%(levelname)s: %(message)s')
 
