@@ -51,62 +51,36 @@ Thus the requirement for this chat system is to survive the attack of a single
 party and to continue delivering the chat service.
 % Nico: 1
 % -----------------------------------------------------------------------------
-\section{Reliable against single user attacks}
-Traditional chat networks depend on one or more central organised servers.
-An attacker can stop all communication, if she runs a successful denial
-of service ("`DoS"') attack against the central systems.
-To protect against this, EOF uses a dynamic peer-to-peer network, which works
-as long as the minimun number of peers and the destination peer is available.
-It has no dependency on a central server.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\section{Hide packets in network stream}
-As said before, we don't think it's possible to hide the participation in the
-chat network. To be able to send packets, although an attacker \emph{knows}
-about the participation, EOF embeds all chat packets into other (well known)
-protocols (which is knows as steganography\cite{stegano-1}).
-EOF does not implement nor specify \emph{transport protocols} itself.
-The EOF community is urged to implement them in a creative way: Usage
-of well-known protocols like TCP\cite{tcp-1}, HTTP\cite{http-1},
-SMTP\cite{smtp-1} or even transmission of packets on avian
-carriers\cite{avian-1} are encouraged. The tunneling of EOF packets through
-those protocols (also know as obfuscation) makes it harder to detect
-and \emph{block} EOF traffic.
-If an attacker wants you to stop sending messages, she has to completly
-remove you from the network, because any open protocol may be (ab)used to
-encapsulate EOF packets into it.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\section{Non security related features}
-To be able to be compete with other chat protocols, EOF needs
-to support \emph{direct} and \emph{group chat}, which is
-implemented by two different chat destinations:
-\begin{enumerate}
-\item \emph{Peers}
-\item \emph{Groups of peers}
-\end{enumerate}
-A peer is just another person (direct chat), a group of peers is the EOF
-equivalent of the IRC channel\cite{irc-1}. As there is no central server,
-groups of peers are managed by each client, and thus the compositions of
-group members may be different on different peers.
--- 
-Additionally, for practical reasons, EOF must support the following
-chat features:
-\begin{enumerate}
-\item Direct chat ("`message is only seen by one person"')
-\item Group chat ("`message is sent to specific group, which may consist of
-more than one person"')
-\end{enumerate}
-
+%\section{Non security related features}
+%To be able to be compete with other chat protocols, \emph{direct} 
+%and \emph{group chat} should be supported.
+%\subsection{Direct chat
+%implemented by two different chat destinations:
+%\begin{enumerate}
+%\item \emph{Peers}
+%\item \emph{Groups of peers}
+%\end{enumerate}
+%A peer is just another person (direct chat), a group of peers is the EOF
+%equivalent of the IRC channel\cite{irc-1}. As there is no central server,
+%groups of peers are managed by each client, and thus the compositions of
+%group members may be different on different peers.
+%-- 
+%Additionally, for practical reasons, EOF must support the following
+%chat features:
+%\begin{enumerate}
+%\item Direct chat ("`message is only seen by one person"')
+%\item Group chat ("`message is sent to specific group, which may consist of
+%more than one person"')
+%\end{enumerate}
 % -----------------------------------------------------------------------------
 \section{Summary}
 \begin{enumerate}
-\item Nobody, but the intended receiver(s) know(s) \emph{that} you wrote a message.
+%\item Nobody, but the intended receiver(s) know(s) \emph{that} you wrote a message.
 \item Nobody, but the intended receiver(s) can view the \emph{message content}.
 \item Nobody, but the intended receiver(s) can \emph{verify} the source of the message being you.
-\item Nobody, but the intended receiver(s) know(s) \emph{who} you sent a message to.
+\item Nobody, but the intended receiver(s) know(s) \emph{who} the message was sent to.
 \item The network must survive attacks of a single attacker.
-\item Hard (if not practilcally impossible) to block chatting.
+%\item Hard (if not practilcally impossible) to block chatting.
 \end{enumerate}
 
 
