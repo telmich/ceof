@@ -23,6 +23,7 @@
 def commandline():
     """Parse command line"""
     import argparse
+    import ceof.config
 
     # Construct parser others can reuse
     parser = {}
@@ -54,8 +55,12 @@ def commandline():
     # Config and install (common stuff)
     parser['key'] = parser['sub'].add_parser('key',
         parents=[parser['all']])
+    parser['key'].add_argument('-e', '--export',
+         help='Export public key to stdout', action='store_true')
     parser['key'].add_argument('-g', '--gen-key',
-         help='Generate new private/public key pair', action='store')
+         help='Generate new private/public key pair', action='store_true')
+    parser['key'].add_argument('-s', '--show',
+         help='Show private/public key pair', action='store_true')
     parser['key'].set_defaults(func=ceof_key)
 
     for p in parser:
@@ -70,10 +75,21 @@ def commandline():
         logging.root.setLevel(logging.DEBUG)
 
     log.debug(args)
-    args.func(args)
+
+    try:
+        args.func(args)
+    except ceof.config.ConfigError as e:
+        print("Configuration directory issues may be fixed using -c parameter")
+        raise
 
 def ceof_key(args):
-    print(args)
+    import ceof.crypto
+    
+    config = ceof.config.Config(args.config_dir)
+    crypto = ceof.crypto.Crypto(config)
+    if args.gen_key:
+        crypto.gen_key()
+
 
 if __name__ == "__main__":
     # Sys is needed for sys.exit()
