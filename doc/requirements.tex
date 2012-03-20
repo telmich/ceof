@@ -16,13 +16,22 @@ part of the chat network, it is impossible to guarantee anonymity.
 
 Thus the implementation should support be resistent against a high percentage
 of attacker nodes in the network.
-
-The provide anonymity of two people talking to each other is \textbf{not} 
+% -----------------------------------------------------------------------------
+\subsection{Sender to receiver anonymity}
+Providing anonymity of two people talking to each other is \textbf{not} 
 required due to the objectives of this thesis.
 % Nico: 1 => reformulate
 % -----------------------------------------------------------------------------
+\subsection{Receiver identification}
+The receiver should be able to verify the identity of the sender, so she
+can be sure that the message originated from the correct person.
+% Nico: 1 => reformulate
+% -----------------------------------------------------------------------------
 \section{Confidentiality}
-Hide message content
+The content of the conversations should be hidden from eavesdropper.
+Being able to read the content of messages may also reveal the identity
+of the chat partners and thus the anonymity would vanish.
+% Nico: 1 => reformulate
 
 % FIXME: solution:
 % We encrypt every message via public-key cryptography\cite{pgp-1},
@@ -30,7 +39,9 @@ Hide message content
 % 
 % -----------------------------------------------------------------------------
 \section{Integrity}
-Data Not changed
+As messages may contain important content, it is necessary that the integrity
+is guaranteed.
+% Nico: 1 => reformulate
 % -----------------------------------------------------------------------------
 \section{Availability}
 Most traditional systems rely on central infrastructure to operate, in which a
@@ -39,54 +50,6 @@ No service can be run reliable, if an attacker with infinite resources is assume
 Thus the requirement for this chat system is to survive the attack of a single
 party and to continue delivering the chat service.
 % Nico: 1
-% -----------------------------------------------------------------------------
-\section{Verify sender}
-Before the encrypt the packet, it is signed via public-key
-cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
-% -----------------------------------------------------------------------------
-\section{Data integrity}
-Before the encrypt the packet, it is signed via public-key
-cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
-% -----------------------------------------------------------------------------
-\section{Obfuscation}
-- Hide message sending
-
-We don't think it's possible to hide that you are part of the chat network,
-because some heuristics will be developed to detect the chat packets.
-So we use a different idea:
-Every participant of an EOF network will constantly send chat packets
-with a pre-defined frequency (for instance every 250 ms).
-If you don't chat, \emph{noise} is sent.\footnote{Noise is just random
-data, see below for a more detailled description of noise.}
-The noise is also used to defend against timing analysis.
-In case you are sending out a message, the message packet will be added to the
-queue and sent within the next free time slot.
-
-From outside it can easily be seen, that you are part of the network,
-but not, if you sent a message.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\section{Hide message receiver}
-The message packets are always sent indirectly via onion routing\cite{onion-1}.
-The idea is taken from the Tor project\cite{tor-1}, though EOF uses an enhanced
-version: EOF does not know about entry or exit nodes. If you are the intended
-receiver you may or may not continue to forward the message, which is defined
-by the sender of the message. That said, EOF must use source
-routing\cite{source-routing-1}.
-
-To support onion routing, the sender of a packet needs to encrypt the packet
-multiple times, once for each host that receives the packet. This may look
-as follows:
-\begin{enumerate}
-\item Create message (from noise or user input)
-\item Create source path
-\item Create packet for last peer ("`pkg-last"')
-\item Create packet for last-1 peer including \emph{pkg-last}
-\item Continue until first peer is reached
-\item Sent packet to first peer
-\end{enumerate}
-Thus every peer only knows the previous and the next peer.
-% Nico: 1.0
 % -----------------------------------------------------------------------------
 \section{Reliable against single user attacks}
 Traditional chat networks depend on one or more central organised servers.
