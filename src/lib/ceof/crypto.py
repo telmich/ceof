@@ -28,6 +28,12 @@ log = logging.getLogger(__name__)
 class CryptoError(ceof.Error):
     pass
 
+class NoPrivKeyError(CryptoError):
+    def __init__(self):
+        self.message = "No private/public key pair found (hint: generate a new one)"
+
+    def __str__(self):
+        return self.message
 
 class Crypto(object):
     """Manage cryptographic functions"""
@@ -73,15 +79,18 @@ class Crypto(object):
         else:
             return None
 
+    def export(self):
+        if not self.private_key:
+            raise NoPrivKeyError 
+            
+        # , True = private
+        print(self._gpg.export_keys(self.private_key['keyid']))
+
     def show(self):
         if not self.private_key:
-            raise CryptoError("No private/public key pair found (hint: generate a new one)")
+            raise NoPrivKeyError 
             
         print(self.private_key)
 
-# ascii_armored_public_keys = gpg.export_keys(keyids) # same as gpg.export_keys(keyids, False)
-#  ascii_armored_private_keys = gpg.export_keys(keyids, True) # True => private keys
-
 # import_result = gpg.import_keys(key_data)
 # import_result = gpg.recv_keys('server-name', 'keyid1', 'keyid2', ...)
-
