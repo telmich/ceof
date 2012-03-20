@@ -6,3 +6,5 @@
 *.dvi
 *.idx
 rfc.bib
+*.bbl
+*.blg
