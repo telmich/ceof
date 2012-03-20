@@ -81,6 +81,17 @@ def commandline():
          default='4242')
     parser['server'].set_defaults(func=ceof_uiserver)
 
+    # User interface
+    parser['ui'] = parser['sub'].add_parser('ui',
+        parents=[parser['all']])
+    parser['ui'].add_argument('-a', '--address',
+         help='Address to connect to', action='store',
+         default='127.0.0.1')
+    parser['ui'].add_argument('-p', '--port',
+         help='Port to connect to', action='store',
+         default='4242')
+    parser['ui'].set_defaults(func=ceof_ui)
+
     parser['crypto'] = parser['sub'].add_parser('crypto',
         parents=[parser['all']])
     parser['crypto'].add_argument('--encrypt',
@@ -109,6 +120,12 @@ def commandline():
         print("Configuration directory issues may be fixed using -c parameter")
         raise
 
+def ceof_ui(args):
+    import ceof.ui
+
+    ui = ceof.ui.UI(args)
+    ui.run()
+
 def ceof_uiserver(args):
     import ceof.uiserver
 
@@ -119,7 +136,6 @@ def ceof_crypto(args):
     import sys
     import ceof.crypto
     
-    print(args)
     config = ceof.config.Config(args.config_dir)
     crypto = ceof.crypto.Crypto(config)
 

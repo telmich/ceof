@@ -20,7 +20,7 @@
 #
 #
 
-import argparse
+import ceof
 import curses
 import curses.textpad
 import socket
@@ -28,13 +28,11 @@ import sys
 import time
 
 
-VERSION="0.1"
-NAME="ceof"
-
-class CeofUI(object):
+class UI(object):
+    """UI class for end user usage"""
 
     def __init__(self, args):
-        self.host = args.connect_to
+        self.host = args.address
         self.port = args.port
         self.net = CeofUINet(self.host, self.port)
 
@@ -72,7 +70,7 @@ class CeofUI(object):
                 self.window["text"]["height"] + self.window["header"]["height"], 0)
 
         # Header: With version and name
-        self.window["header"]["window"].insstr(0, 0, NAME + " - " + VERSION)
+        self.window["header"]["window"].insstr(0, 0, "ceof - " + ceof.VERSION)
 
         # Text: enable scrolling
         self.window["text"]["window"].scrollok(True)
@@ -161,7 +159,7 @@ class CeofUI(object):
             else:
                 self.append_text(str(self.net.error))
 
-    def main(self):
+    def run(self):
         self.curses_start()
         self.init_windows()
         self.try_to_connect()
@@ -203,40 +201,4 @@ class CeofUINet(object):
 
         #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.socket.connect((self.host, int(self.port)))
-
-
-def commandline(argv):
-    parser = {}
-    
-    parser['main'] = argparse.ArgumentParser(description="ceof " + VERSION)
-    parser['main'].add_argument('-p', '--port', help='Port to connect to',
-        default="4242")
-    parser['main'].add_argument('-c', '--connect-to', help='Host to connect to',
-        default="127.0.0.1")
-
-    #parser['main'].set_defaults(func=ceof)
-
-    args = parser['main'].parse_args(argv)
-
-    gui = CeofUI(args)
-
-    gui.main()
-
-if __name__ == "__main__":
-    try:
-        commandline(sys.argv[1:])
-
-    except KeyboardInterrupt:
-        pass
-
-    sys.exit(0)
-
-
-
-# Old stuff
-################################################################################
-# Do not display stuff pressed
-#curses.noecho()
-#win = curses.newwin(height, width, begin_y, begin_x)
-#stdscr.border(0)
 
