@@ -1,31 +1,48 @@
 \chapter{Analysis of features and security requirements}
-
-2. Requirement analysis
-
-- no real time -> within minutes
-    - eventual consistency / asynchronous?
-
-\section{Abstract}
-EOF is a chat protocol that supports secure chatting.
-Secure chatting consists of the following features:
-\begin{enumerate}
-\item Nobody, but the intended receiver(s) know(s) \emph{that} you wrote a message.
-\item Nobody, but the intended receiver(s) can view the \emph{message content}.
-\item Nobody, but the intended receiver(s) can \emph{verify} the source of the message being you.
-\item Nobody, but the intended receiver(s) know(s) \emph{who} you sent a message to.
-\item The network must survive attacks of a single attacker.
-\item Hard (if not practilcally impossible) to block chatting.
-\end{enumerate}
-Additionally, for practical reasons, EOF must support the following
-chat features:
-\begin{enumerate}
-\item Direct chat ("`message is only seen by one person"')
-\item Group chat ("`message is sent to specific group, which may consist of
-more than one person"')
-\end{enumerate}
-% Nico: 1.0
+\label{requirements}
 % -----------------------------------------------------------------------------
-\section{Hide message sending}
+From the previous analysis of chat systems and related communication protocols,
+several drawbacks can be seen. Most systems suffer a single point of failure,
+which is due to the central architecture. Further the message content is often
+neither protected nor verified.
+
+The following security features are derived from the weaknesses of the previously
+analysed systems as well from the thesis objectives.
+% -----------------------------------------------------------------------------
+\section{Anonymity}
+One of the main objectives of this thesis is to provide a chat system that
+hides who is talking to whom. Thus the implementation must support
+% -----------------------------------------------------------------------------
+\section{Confidentiality}
+Hide message content
+
+% FIXME: solution:
+% We encrypt every message via public-key cryptography\cite{pgp-1},
+% so that only the receiver can decrypt and view the message content.
+% 
+% -----------------------------------------------------------------------------
+\section{Integrity}
+Data Not changed
+% -----------------------------------------------------------------------------
+\section{Availability}
+Most traditional systems rely on central infrastructure to operate, in which a
+single party (like the operator) can disable the service. 
+No service can be run reliable, if an attacker with infinite resources is assumed.
+Thus the requirement for this chat system is to survive the attack of a single
+party and to continue delivering the chat service.
+% Nico: 1
+% -----------------------------------------------------------------------------
+\section{Verify sender}
+Before the encrypt the packet, it is signed via public-key
+cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
+% -----------------------------------------------------------------------------
+\section{Data integrity}
+Before the encrypt the packet, it is signed via public-key
+cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
+% -----------------------------------------------------------------------------
+\section{Obfuscation}
+- Hide message sending
+
 We don't think it's possible to hide that you are part of the chat network,
 because some heuristics will be developed to detect the chat packets.
 So we use a different idea:
@@ -40,15 +57,6 @@ queue and sent within the next free time slot.
 From outside it can easily be seen, that you are part of the network,
 but not, if you sent a message.
 % Nico: 1.0
-% -----------------------------------------------------------------------------
-\section{Hide message content}
-We encrypt every message via public-key cryptography\cite{pgp-1},
-so that only the receiver can decrypt and view the message content.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\section{Verify sender}
-Before the encrypt the packet, it is signed via public-key
-cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \section{Hide message receiver}
@@ -99,7 +107,7 @@ remove you from the network, because any open protocol may be (ab)used to
 encapsulate EOF packets into it.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\section{Real world usability}
+\section{Non security related features}
 To be able to be compete with other chat protocols, EOF needs
 to support \emph{direct} and \emph{group chat}, which is
 implemented by two different chat destinations:
@@ -111,5 +119,24 @@ A peer is just another person (direct chat), a group of peers is the EOF
 equivalent of the IRC channel\cite{irc-1}. As there is no central server,
 groups of peers are managed by each client, and thus the compositions of
 group members may be different on different peers.
-% Nico: 1.0
+-- 
+Additionally, for practical reasons, EOF must support the following
+chat features:
+\begin{enumerate}
+\item Direct chat ("`message is only seen by one person"')
+\item Group chat ("`message is sent to specific group, which may consist of
+more than one person"')
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+\section{Summary}
+\begin{enumerate}
+\item Nobody, but the intended receiver(s) know(s) \emph{that} you wrote a message.
+\item Nobody, but the intended receiver(s) can view the \emph{message content}.
+\item Nobody, but the intended receiver(s) can \emph{verify} the source of the message being you.
+\item Nobody, but the intended receiver(s) know(s) \emph{who} you sent a message to.
+\item The network must survive attacks of a single attacker.
+\item Hard (if not practilcally impossible) to block chatting.
+\end{enumerate}
+
 
