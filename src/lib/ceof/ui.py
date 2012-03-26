@@ -36,109 +36,43 @@ class UI(object):
         self.port = args.port
         self.net = CeofUINet(self.host, self.port)
 
+        self.prompt = "> "
+
     def curses_start(self):
         # Begin curse
         self.window = curses.initscr()
+        self.stdscr = self.window
 
         # React on characters without return
         curses.cbreak()
 
         # Enable cursor support
         self.window.keypad(1)
+
+        # Hardware capabilities
         self.window.idlok(1)
 
-    def new_window(self, height, offset):
-        return curses.newwin(height, 0, offset , 0)
-
-
-    def scroll(self):
-        """Scroll up"""
-        # Enable scrolling at all
+        # Scrolling
         self.window.scrollok(1)
-        self.window.scroll()
-        self.window.scrollok(0)
 
-    def init_windows(self):
-        self.window = {}
-
-        # Header data
-        self.window["header"] = {}
-        self.window["input"] = {}
-        self.window["text"] = {}
-
-
-        self.window["header"]["height"] = 2
-        self.window["header"]["window"] = \
-            self.new_window(self.window["header"]["height"], 0)
-
-        self.window["text"]["height"] = self.height - \
-            self.window["input"]["height"] - self.window["header"]["height"]
-        self.window["text"]["window"] = \
-            curses.newwin(self.window["text"]["height"], 0, self.window["header"]["height"], 0)
-
-        self.window["input"]["height"] = 3
-        self.window["input"]["window"] = \
-            curses.newwin(self.window["input"]["height"], 0, 
-                self.window["text"]["height"] + self.window["header"]["height"], 0)
-
-
-        #self.window["input"]["window"].border(1, 1, 0, 0, 0, 0, 0, 0)
-        #self.window["input"]["window"].border(1, 1, 0, 1, 1, 1, 1, 1)
-        # Header: With version and name
-
-        # Text: enable scrolling
-        self.window["text"]["window"].scrollok(True)
-        #self.window["text"]["window"].idlok(1)
-
-        # Input: Allow better editing
-        #self.window["input"]["tb"] = curses.textpad.Textbox(self.window["input"]["window"])
-
-        #self.clean_window("input")
-        #self.clean_window("text")
-
-        self.refresh_windows()
-
-    #def refresh_windows_specific(self, windows):
-    #    """refresh/redraw all windows specified in windows list"""
-#
-#        for window in windows:
-#            self.window[window]["window"].refresh()
 
     def refresh_windows(self):
         self.height, self.width = self.window.getmaxyx()
         
-
         # define scroll region
-        self.window.setscrreg(2, self.height-1)
+        self.window.setscrreg(2, self.height-2)
 
-    def orefresh_windows(self):
-        # Add bars
-        #self.window["header"]["window"].insstr(1, 0, self.width * '-')
-        #self.window["input"]["window"].insstr(0, 0, self.width * '-')
-
-        #self.window["text"]["window"].border()
-        self.window["header"]["window"].border(1, 1, 1, 0, 1, 1, 0, 0)
-        self.window["header"]["window"].insstr(0, 1, "ceof - " + ceof.VERSION)
-        #self.window["input"]["window"].border(1, 1, 0, 1, 0, 0, 1, 1)
-
-        self.window["input"]["window"].clear()
-        self.window["input"]["window"].border()
-        self.window["input"]["window"].insstr(1, 1, "> ")
-
-        self.refresh_windows_specific(self.window)
-
-    def clean_window(self, window):
-        return
-        self.window.erase()
-        self.refresh_windows_specific([window])
+    def prepare_input_line(self):
+        """Move cursor to the input line"""
+        self.window.move(self.height-1,1)
+        self.window.clrtoeol()
+        self.window.insstr(self.height-1, 1, self.prompt)
+        self.window.move(self.height-1, len(self.prompt) + 1)
 
     def read_line(self):
 
-        #line = self.window["input"]["tb"].edit()
-        #self.clean_window("input")
-        #return line
+        self.prepare_input_line()
 
-        self.window.move(self.height-1,2)
         line = []
         while True:
             c = self.window.getch()
@@ -151,12 +85,13 @@ class UI(object):
             else:
                 line.append(chr(c))
 
-        self.clean_window("input")
+        # Delete line
         return "".join(line)
 
     def write_text(self, window, x, y, text):
         """write text to a window"""
         self.window.addstr(x, y, text)
+        self.scroll()
         self.window.refresh()
 
     def write_line(self, line):
@@ -192,7 +127,7 @@ class UI(object):
                 self.append_text(str(self.net.error))
 
     def orun(self):
-        """ test run """
+        """ test run -- works"""
         self.curses_start()
 
         #win = curses.newwin(20, 0, 0 , 0)
@@ -202,6 +137,7 @@ class UI(object):
         for i in range(2,12):
             self.stdscr.addstr(10,3, "test%d" % (i))
             self.stdscr.scroll()
+            self.stdscr.move(30,2)
             self.stdscr.getch()
         #win.setscrreg(1,18)
 
@@ -217,12 +153,14 @@ class UI(object):
         self.curses_stop()
 
 
+    def draw_title(self):
+        """(Re-)draw title"""
+        self.window.insstr(0, 1, "ceof - " + ceof.VERSION)
+        self.window.insstr(1, 0, self.width * '-')
+
     def run(self):
         self.curses_start()
         #self.init_windows()
-        self.refresh_windows()
-        self.window.insstr(0, 1, "ceof - " + ceof.VERSION)
-        self.window.insstr(1, 0, self.width * '-')
         self.refresh_windows()
         #self.try_to_connect()
 
@@ -233,7 +171,6 @@ class UI(object):
             if line == "/quit" or line == "q":
                 break
             else:
-                #self.write_text("text", 1, 1, line)
                 self.write_line(line)
 
         self.curses_stop()
