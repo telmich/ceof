@@ -34,6 +34,19 @@ as a message to the current selected destination (either
 a \emph{peer} or \emph{group} of peers.
 % Nico: 1.0
 %---------------------------------------------------------------------
+\subsection{/help)
+The help command should print a short usage information to the user.
+\index{Command!/help}%
+\begin{longtable}{|c|c|c|c|}
+\caption{/help parameters}\\
+\hline
+\textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
+\hline
+Command & EOFsdt & Optional command named without starting / & /help connect\\
+\hline
+\end{longtable}
+FIXME: specify optional type
+%---------------------------------------------------------------------
 \subsection{/connect $<$host$>$ $<$port$>$}
 The connect command can be used to connect to an EOF
 implementation.
