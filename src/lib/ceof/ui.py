@@ -24,6 +24,7 @@ import ceof
 import curses
 import curses.textpad
 import socket
+import signal
 import sys
 import time
 
@@ -37,6 +38,15 @@ class UI(object):
         self.net = CeofUINet(self.host, self.port)
 
         self.prompt = "> "
+
+        self._init_signals()
+
+    def _init_signals(self):
+        signal.signal(signal.SIGWINCH, self.signal_handler)
+
+    def signal_handler(self, signal, stack):
+        self.refresh_windows()
+        #self.write_line("Resized")
 
     def curses_start(self):
         # Begin curse
@@ -62,6 +72,7 @@ class UI(object):
     def refresh_windows(self):
         """Called on SIGWINCH?"""
         self.height, self.width = self.window.getmaxyx()
+        curses.resizeterm(self.height, self.width)
 
         # (Re-)define scroll region
         self.window.setscrreg(2, self.height-2)
@@ -92,10 +103,17 @@ class UI(object):
             #if c != ord('\n'):
             if c == ord('\n'):
                 break
-            #elif c == curses.KEY_BACKSPACE:
-            #    line.append("B")
+            elif c == curses.KEY_RESIZE:
+                continue
+            # Read error on SIGWINCH (not documented, but found in reality)
+            elif c == -1:
+                continue
             else:
-                line.append(chr(c))
+                try:
+                    line.append(chr(c))
+                except ValueError as e:
+                    line = "Bad key: %s" % (str(c))
+                    break
 
         return "".join(line)
 
