@@ -25,8 +25,8 @@ import ceof.ui.net
 
 import curses
 import curses.textpad
+import re
 import signal
-import sys
 
 
 class Main(object):
@@ -160,6 +160,15 @@ class Main(object):
             else:
                 self.append_text(str(self.net.error))
 
+    def cmd_connect(self, args):
+        """/connect"""
+        self.write_line(str(args))
+        self.try_to_connect()
+
+    def cmd_quit(self, args):
+        """/quit"""
+        self.doquit = True
+
     def draw_title(self):
         """(Re-)draw title"""
 
@@ -182,12 +191,19 @@ class Main(object):
         self.doquit = False
         while not self.doquit:
             line = self.read_line()
+            match = re.search(r"^/(connect|quit)(.*)", line)
 
-            if line == "/quit" or line == "q":
-                break
+            # Commands matching
+            if match:
+                self.write_line(match.group(1))
+                fnname = "cmd_" + match.group(1)
+                fnargs = match.group(2).split()
+                f = getattr(self, fnname)
+                f(fnargs)
             # Ignore empty input
             elif line == "":
                 continue
+            # Send text
             else:
                 self.write_line(line)
 
