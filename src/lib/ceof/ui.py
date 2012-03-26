@@ -47,11 +47,16 @@ class UI(object):
         self.window.keypad(1)
         self.window.idlok(1)
 
-        # Enable scrolling at all
-        self.window.scrollok(1)
-
     def new_window(self, height, offset):
         return curses.newwin(height, 0, offset , 0)
+
+
+    def scroll(self):
+        """Scroll up"""
+        # Enable scrolling at all
+        self.window.scrollok(1)
+        self.window.scroll()
+        self.window.scrollok(0)
 
     def init_windows(self):
         self.window = {}
@@ -158,8 +163,7 @@ class UI(object):
         """Write line of text to text window and scroll"""
 
         #lineno = self.window["text"]["height"] - 1
-        lineno = 2
-        self.window.scroll()
+        lineno = self.height-3
         self.refresh_windows()
         self.write_text("text", lineno, 1, line)
 
@@ -231,7 +235,6 @@ class UI(object):
             else:
                 #self.write_text("text", 1, 1, line)
                 self.write_line(line)
-                print(line)
 
         self.curses_stop()
 
