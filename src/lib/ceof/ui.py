@@ -49,27 +49,39 @@ class UI(object):
         # Enable cursor support
         self.window.keypad(1)
 
-        # Hardware capabilities
+        # Hardware term support
         self.window.idlok(1)
 
-        # Scrolling
+        # Enable scrolling at all
         self.window.scrollok(1)
 
+    def scroll(self):
+        """Scroll up"""
+        self.window.scroll()
 
     def refresh_windows(self):
+        """Called on SIGWINCH?"""
         self.height, self.width = self.window.getmaxyx()
-        
-        # define scroll region
+
+        # (Re-)define scroll region
         self.window.setscrreg(2, self.height-2)
+
+        self.draw_title()
+        self.window.refresh()
 
     def prepare_input_line(self):
         """Move cursor to the input line"""
+
+        # Clear input line
         self.window.move(self.height-1,1)
         self.window.clrtoeol()
+
+        # Draw prompt
         self.window.insstr(self.height-1, 1, self.prompt)
         self.window.move(self.height-1, len(self.prompt) + 1)
 
     def read_line(self):
+        """Read and return a line of text"""
 
         self.prepare_input_line()
 
@@ -85,22 +97,26 @@ class UI(object):
             else:
                 line.append(chr(c))
 
-        # Delete line
         return "".join(line)
 
-    def write_text(self, window, x, y, text):
-        """write text to a window"""
+    def write_text(self, x, y, text):
+        """
+            Write text to a window
+
+        """
         self.window.addstr(x, y, text)
-        self.scroll()
-        self.window.refresh()
+        self.refresh_windows()
 
     def write_line(self, line):
         """Write line of text to text window and scroll"""
 
-        #lineno = self.window["text"]["height"] - 1
-        lineno = self.height-3
+        # -1 = prompt
+        lineno = self.height-2
         self.refresh_windows()
-        self.write_text("text", lineno, 1, line)
+
+        """First scroll up, then add the text"""
+        self.scroll()
+        self.write_text(lineno, 1, line)
 
     def append_text(self, text):
         """Write text at current position in text window"""
@@ -126,37 +142,18 @@ class UI(object):
             else:
                 self.append_text(str(self.net.error))
 
-    def orun(self):
-        """ test run -- works"""
-        self.curses_start()
-
-        #win = curses.newwin(20, 0, 0 , 0)
-        self.stdscr.setscrreg(2,20)
-        self.stdscr.scrollok(1)
-        #self.stdscr.border(0)
-        for i in range(2,12):
-            self.stdscr.addstr(10,3, "test%d" % (i))
-            self.stdscr.scroll()
-            self.stdscr.move(30,2)
-            self.stdscr.getch()
-        #win.setscrreg(1,18)
-
-        #inwin = curses.newwin(3, 0, 13 , 0)
-
-
-
-    #cbreak(); noecho(); idlok(stdscr, 1);
-    #intrflush(stdscr, FALSE); nodelay(stdscr, TRUE);
-    #init_pair(63, 0, 0);
-    #resizeterm(term_height, term_width);
-    
-        self.curses_stop()
-
-
     def draw_title(self):
         """(Re-)draw title"""
-        self.window.insstr(0, 1, "ceof - " + ceof.VERSION)
-        self.window.insstr(1, 0, self.width * '-')
+
+        self.window.move(0,0)
+        self.window.clrtoeol()
+        #self.window.insstr(0, 1, "ceof - " + ceof.VERSION)
+        self.window.addstr("ceof - " + ceof.VERSION)
+
+        self.window.move(1,0)
+        self.window.clrtoeol()
+        #self.window.insstr(1, 0, self.width * '-')
+        self.window.addstr(self.width * '-')
 
     def run(self):
         self.curses_start()
@@ -170,6 +167,9 @@ class UI(object):
 
             if line == "/quit" or line == "q":
                 break
+            # Ignore empty input
+            elif line == "":
+                continue
             else:
                 self.write_line(line)
 
@@ -198,4 +198,25 @@ class CeofUINet(object):
 
         #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.socket.connect((self.host, int(self.port)))
+
+# Old stuff
+#    def orun(self):
+#        """ test run -- works"""
+#        self.curses_start()
+#
+#        #win = curses.newwin(20, 0, 0 , 0)
+#        self.stdscr.setscrreg(2,20)
+#        self.stdscr.scrollok(1)
+#        #self.stdscr.border(0)
+#        for i in range(2,12):
+#            self.stdscr.addstr(10,3, "test%d" % (i))
+#            self.stdscr.scroll()
+#            self.stdscr.move(30,2)
+#            self.stdscr.getch()
+#        #win.setscrreg(1,18)
+#
+#        #inwin = curses.newwin(3, 0, 13 , 0)
+#    
+#        self.curses_stop()
+
 
