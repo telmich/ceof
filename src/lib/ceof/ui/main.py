@@ -21,21 +21,21 @@
 #
 
 import ceof
+import ceof.ui.net
+
 import curses
 import curses.textpad
-import socket
 import signal
 import sys
-import time
 
 
-class UI(object):
+class Main(object):
     """UI class for end user usage"""
 
     def __init__(self, args):
         self.host = args.address
         self.port = args.port
-        self.net = CeofUINet(self.host, self.port)
+        self.net = ceof.ui.net.Net(self.host, self.port)
 
         self.prompt = "> "
 
@@ -192,49 +192,3 @@ class UI(object):
                 self.write_line(line)
 
         self.curses_stop()
-
-
-class CeofUINet(object):
-    """
-    This class handles the network connection to the chat server
-    """
-
-    def __init__(self, host, port):
-        self.host = host
-        self.port = port
-
-    def connect(self):
-        try:
-            self.socket = socket.create_connection((self.host, self.port))
-        except socket.error as e:
-            self.connected = False
-            self.error = e
-        else:
-            self.connected = True
-
-        return self.connected
-
-        #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.socket.connect((self.host, int(self.port)))
-
-# Old stuff
-#    def orun(self):
-#        """ test run -- works"""
-#        self.curses_start()
-#
-#        #win = curses.newwin(20, 0, 0 , 0)
-#        self.stdscr.setscrreg(2,20)
-#        self.stdscr.scrollok(1)
-#        #self.stdscr.border(0)
-#        for i in range(2,12):
-#            self.stdscr.addstr(10,3, "test%d" % (i))
-#            self.stdscr.scroll()
-#            self.stdscr.move(30,2)
-#            self.stdscr.getch()
-#        #win.setscrreg(1,18)
-#
-#        #inwin = curses.newwin(3, 0, 13 , 0)
-#    
-#        self.curses_stop()
-
-

@@ -121,9 +121,7 @@ def commandline():
         raise
 
 def ceof_ui(args):
-    import ceof.ui
-
-    ui = ceof.ui.UI(args)
+    ui = ceof.UI(args)
     ui.run()
 
 def ceof_uiserver(args):

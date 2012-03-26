@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # 2012 Nico Schottelius (nico-ceof at schottelius.org)
@@ -19,14 +20,28 @@
 #
 #
 
-VERSION     = "0.0.1"
+import ceof
+import socket
 
-BANNER = """
-eof
-"""
+class Net(object):
+    """
+    This class handles the network connection to the chat server
+    """
 
-class Error(Exception):
-    """Base exception class for this project"""
-    pass
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
 
-from ceof.ui.main import Main as UI
+    def connect(self):
+        try:
+            self.socket = socket.create_connection((self.host, self.port))
+        except socket.error as e:
+            self.connected = False
+            self.error = e
+        else:
+            self.connected = True
+
+        return self.connected
+
+        #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.socket.connect((self.host, int(self.port)))
