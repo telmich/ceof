@@ -28,14 +28,14 @@ import curses.textpad
 import re
 import signal
 
-
 class Main(object):
     """UI class for end user usage"""
 
     def __init__(self, args):
-        self.host = args.address
-        self.port = args.port
-        self.net = ceof.ui.net.Net(self.host, self.port)
+        #self.host = args.address
+        #self.port = args.port
+        #self.net = ceof.ui.net.Net(self.host, self.port)
+        self.net = ceof.ui.net.Net(args.address, args.port)
 
         self.prompt = "> "
 
@@ -149,7 +149,7 @@ class Main(object):
         curses.endwin()
 
     def connect(self):
-        self.write_line("Trying to connect to %s:%s ... " % (self.host, self.port))
+        self.write_line("Trying to connect to %s:%s ... " % (self.net.host, self.net.port))
         return self.net.connect()
 
     def try_to_connect(self):
@@ -163,6 +163,15 @@ class Main(object):
     def cmd_connect(self, args):
         """/connect"""
         self.write_line(str(args))
+
+FIXME: ValueError:
+
+        if len(args) >= 1:
+            self.net.host = args[0]
+
+            if len(args) >= 2:
+                self.net.port = int(args[1])
+
         self.try_to_connect()
 
     def cmd_quit(self, args):
