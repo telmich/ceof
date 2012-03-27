@@ -32,5 +32,14 @@ class EOFID(object):
 
     def __init__(self):
         self.seed = random.randint(0, ceof.EOF_ID_MAX)
-        print("Random number of the day: %s" % self.seed)
+        self.counter = self.seed
 
+    def get_next(self):
+        """Return next sequence number"""
+
+        if self.counter == ceof.EOF_ID_MAX:
+            self.counter = 0
+        else:
+            self.counter = self.counter + 1
+
+        return self.counter
