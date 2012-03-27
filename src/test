@@ -1,0 +1,5 @@
+export PYTHONPATH=$PYTHONPATH:$(pwd -P)/lib
+
+python3 -m ceof.test
+
+#python3 -m unittest "$@"

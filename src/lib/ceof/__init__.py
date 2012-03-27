@@ -39,6 +39,10 @@ EOF_L_UI_INPUT           =  256
 EOF_L_PKG_ONION          =  EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
 EOF_L_PKG_MAX            =  65536
 
+# Baseformat for IDs
+EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
+EOF_ID_MAX              = (len(EOF_ID_CHARS)**EOF_L_ID)-1
+
 # /* commands */
 EOF_CMD_TPS                 = "1000"
 EOF_CMD_TPL_START           = "1001"
@@ -51,9 +55,6 @@ EOF_CMD_TPS_SENT            = "2000"
 EOF_CMD_TPS_NOT_SENT        = "2001"
 EOF_CMD_TPL_RECV            = "2002"
 EOF_CMD_TPL_LISTENING       = "2003"
-
-# /* queue/id */
-EOF_QUEUE_ID_CHARS          = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
 
 # /* user interfaces: already implemented */
 EOF_CMD_UI_ACK              = "1100"
@@ -117,5 +118,5 @@ class Error(Exception):
     pass
 
 from ceof.ui.main import Main as UI
-
 from ceof.server.ui import Server as UIServer
+from ceof.eofid import EOFID
