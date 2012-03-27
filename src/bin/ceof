@@ -88,7 +88,7 @@ def commandline():
     parser['server'].add_argument('-p', '--port',
          help='Listen on this port for UI connections', action='store',
          default='4242')
-    parser['server'].set_defaults(func=ceof_uiserver)
+    parser['server'].set_defaults(func=ceof_server)
 
     # User interface
     parser['ui'] = parser['sub'].add_parser('ui',
@@ -124,11 +124,9 @@ def ceof_ui(args):
     ui = ceof.UI(args)
     ui.run()
 
-def ceof_uiserver(args):
-    import ceof.uiserver
-
-    serv = ceof.uiserver.UIServer(args.address, args.port)
-    serv.run()
+def ceof_server(args):
+    uiserv = ceof.UIServer(args.address, args.port)
+    uiserv.run()
 
 def ceof_crypto(args):
     import sys

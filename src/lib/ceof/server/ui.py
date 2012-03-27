@@ -22,17 +22,17 @@
 #
 
 import ceof
-import ceof.tcpserver
+import ceof.server.tcp
 import logging
 import socket
 
 log = logging.getLogger(__name__)
 
-class UIServer(object):
+class Server(object):
     """Server to accept UI connections"""
 
     def __init__(self, address, port):
-        self.tcpserver = ceof.tcpserver.TCPServer(address, port, self.handler)
+        self.tcpserver = ceof.server.tcp.TCPServer(address, port, self.handler)
 
     def run(self):
         self.tcpserver.run()
