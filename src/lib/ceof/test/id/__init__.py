@@ -36,15 +36,24 @@ class IDTestCase(unittest.TestCase):
         """Ensure numbers do not overflow"""
         self.eofid.counter = ceof.EOF_ID_MAX
         self.eofid.inc()
-
         self.assertEqual(self.eofid.counter, 0)
 
-    def test_convert(self):
-        """Test conversions"""
-
-        self.assertEqual(ceof.EOFID.convert_to_id(20), '00000k')
-        self.assertEqual(ceof.EOFID.convert_to_id(64), '000010')
-        self.assertEqual(ceof.EOFID.convert_to_id(ceof.EOF_ID_MAX), '!!!!!!')
+    def test_getnext_id(self):
+        """Test that get_next returns correct id"""
 
         self.eofid.counter = 63
         self.assertEqual(self.eofid.get_next(), '000010')
+
+    def test_convert_to_id(self):
+        """Test conversions (int => id)"""
+
+        self.assertEqual(ceof.EOFID.int_to_id(20), '00000k')
+        self.assertEqual(ceof.EOFID.int_to_id(64), '000010')
+        self.assertEqual(ceof.EOFID.int_to_id(ceof.EOF_ID_MAX), '!!!!!!')
+
+    def test_convert_to_int(self):
+        """Test conversions (id => int)"""
+
+        self.assertEqual(ceof.EOFID.id_to_int('00000k'), 20)
+        self.assertEqual(ceof.EOFID.id_to_int('000010'), 64)
+        self.assertEqual(ceof.EOFID.id_to_int('!!!!!!'), ceof.EOF_ID_MAX)
