@@ -41,7 +41,8 @@ EOF_L_PKG_MAX            =  65536
 
 # Baseformat for IDs
 EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
-EOF_ID_MAX              = (len(EOF_ID_CHARS)**EOF_L_ID)-1
+EOF_ID_BASE             = len(EOF_ID_CHARS)
+EOF_ID_MAX              = (EOF_ID_BASE**EOF_L_ID)-1
 
 # /* commands */
 EOF_CMD_TPS                 = "1000"

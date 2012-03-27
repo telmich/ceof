@@ -34,12 +34,39 @@ class EOFID(object):
         self.seed = random.randint(0, ceof.EOF_ID_MAX)
         self.counter = self.seed
 
-    def get_next(self):
-        """Return next sequence number"""
+    def inc(self):
+        """Increment and take care of overflow"""
 
         if self.counter == ceof.EOF_ID_MAX:
             self.counter = 0
         else:
             self.counter = self.counter + 1
 
-        return self.counter
+    def get_next(self):
+        """Return converted ID"""
+        self.inc()
+
+        return self.__class__.convert_to_id(self.counter)
+
+    @staticmethod
+    def convert_to_id(to_convert):
+        """Return (next) ID"""
+        index = ceof.EOF_L_ID-1
+        eofid = []
+
+        while index >= 0:
+            part = ceof.EOF_ID_BASE**index
+
+            # Fits in? Record and subtract
+            if (to_convert - part) >= 0:
+                times = int(to_convert / part)
+                to_convert = to_convert - (times*part)
+            else:
+                times = 0
+
+            # Append selected symbol
+            eofid.append(ceof.EOF_ID_CHARS[times])
+            #print("%s:%s" % (index, eofid))
+            index = index - 1
+
+        return "".join(eofid)

@@ -32,11 +32,19 @@ class IDTestCase(unittest.TestCase):
         """Ensure seed is good"""
         self.assertTrue(self.eofid.seed >= 0 and self.eofid.seed <= ceof.EOF_ID_MAX)
 
-
     def test_overflow(self):
         """Ensure numbers do not overflow"""
         self.eofid.counter = ceof.EOF_ID_MAX
-        self.eofid.get_next()
+        self.eofid.inc()
 
         self.assertEqual(self.eofid.counter, 0)
 
+    def test_convert(self):
+        """Test conversions"""
+
+        self.assertEqual(ceof.EOFID.convert_to_id(20), '00000k')
+        self.assertEqual(ceof.EOFID.convert_to_id(64), '000010')
+        self.assertEqual(ceof.EOFID.convert_to_id(ceof.EOF_ID_MAX), '!!!!!!')
+
+        self.eofid.counter = 63
+        self.assertEqual(self.eofid.get_next(), '000010')
