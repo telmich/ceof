@@ -164,13 +164,15 @@ class Main(object):
         """/connect"""
         self.write_line(str(args))
 
-FIXME: ValueError:
-
         if len(args) >= 1:
             self.net.host = args[0]
 
             if len(args) >= 2:
-                self.net.port = int(args[1])
+                try:
+                    self.net.port = int(args[1])
+                except ValueError as ve:
+                    self.write_line("/connect: %s: %s" % (args, ve))
+                    return
 
         self.try_to_connect()
 
