@@ -24,6 +24,7 @@
 import ceof
 import ceof.server.tcp
 import logging
+import re
 import socket
 
 log = logging.getLogger(__name__)
@@ -34,9 +35,40 @@ class Server(object):
     def __init__(self, address, port):
         self.tcpserver = ceof.server.tcp.TCPServer(address, port, self.handler)
 
+        # Supported commands
+        self.commands = [ ceof.EOF_CMD_UI_REGISTER
+        ]
+
+        self.commands_re = "^(" + "|".join(self.commands) + ")$"
+
     def run(self):
         self.tcpserver.run()
 
-    def handler(self, data):
-        """Handle incoming data"""
-        print(data)
+    def handler(self, conn, addr):
+        """Handle incoming connection"""
+
+        log.info("Connected by %s" % str(addr))
+
+        try:
+            while 1:
+                data = conn.recv(ceof.EOF_L_CMD)
+                
+                # Connection lost
+                if not data:
+                    break
+
+                cmd = data.decode("utf-8")
+                
+                # Possible / supported commands
+                match = re.search(self.commands_re, cmd)
+                
+                if match:
+                    print("Supported: %s" % (cmd))
+                else:
+                    print("Unsupported: %s" % (cmd))
+
+        except (socket.error, KeyboardInterrupt):
+            conn.close()
+            raise
+
+        conn.close()

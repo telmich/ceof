@@ -33,10 +33,15 @@ class TCPServerError(ceof.Error):
 class TCPServer(object):
     """Server to accept connections"""
 
-    def __init__(self, address, port, handler):
+    def __init__(self, address, port, handler=None):
         self.address        = address
         self.port           = port
-        self.data_handler   = handler
+
+        if handler:
+            self.handler   = handler
+        else:
+            self.handler   = self.conn_handler
+            
 
     def run(self):
         """Main loop"""
@@ -50,12 +55,13 @@ class TCPServer(object):
         try:
             while 1:
                 conn, addr = s.accept()
-                self.conn_handler(conn, addr)
+                self.handler(conn, addr)
 
         except (socket.error, KeyboardInterrupt):
             s.close()
 
 
+    # Default if not setup from external
     def conn_handler(self, conn, addr):
         log.info("Connected by %s" % str(addr))
 
@@ -64,7 +70,7 @@ class TCPServer(object):
                 data = conn.recv(1024)
                 if not data:
                     break
-                self.data_handler(data)
+                print("Internal: " + data.decode('utf-8'))
 
         except (socket.error, KeyboardInterrupt):
             conn.close()

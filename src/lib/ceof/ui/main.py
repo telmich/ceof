@@ -211,7 +211,7 @@ class Main(object):
         self.curses_start()
         #self.init_windows()
         self.refresh_windows()
-        #self.try_to_connect()
+        self.try_to_connect()
 
         self.doquit = False
         while not self.doquit:
