@@ -40,6 +40,7 @@ class Main(object):
         self.prompt = "> "
 
         self._init_signals()
+        self.eofid = ceof.EOFID()
 
     def _init_signals(self):
         signal.signal(signal.SIGWINCH, self.signal_handler)
@@ -156,10 +157,10 @@ class Main(object):
 
         for i in range(0,3):
             if self.connect():
-                self.write_line("Connected to %s:%s" % (self.net.host, self.net.port))
+                self.write_line("TCP connected to %s:%s" % (self.net.host, self.net.port))
                 break
             else:
-                self.append_text(str(self.net.error))
+                self.write_line(str(self.net.error))
 
     def cmd_connect(self, args):
         """/connect"""
@@ -178,6 +179,16 @@ class Main(object):
                     return
 
         self.try_to_connect()
+        if self.net.connected:
+            self.eof_connect()
+
+    def eof_connect(self):
+        """Begin logical connection, register"""
+
+        cmd = "2100"
+        eofid = self.eofid.get_next()
+        data = "%s%s" % (cmd, eofid)
+        self.net.send(bytes(data, 'utf-8'))
 
     def cmd_quit(self, args):
         """/quit"""

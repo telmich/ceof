@@ -31,6 +31,7 @@ class Net(object):
     def __init__(self, host, port):
         self.host = host
         self.port = port
+        self.connected = False
 
     def connect(self):
         """Connect to remote Chat Server"""
@@ -52,3 +53,8 @@ class Net(object):
 
         if self.connected:
             self.socket.close()
+
+    def send(self, data):
+        """Send data"""
+
+        self.socket.sendall(data)
