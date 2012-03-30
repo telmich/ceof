@@ -33,6 +33,7 @@ class Net(object):
         self.port = port
 
     def connect(self):
+        """Connect to remote Chat Server"""
         try:
             self.socket = socket.create_connection((self.host, self.port))
         except socket.error as e:
@@ -45,3 +46,9 @@ class Net(object):
 
         #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.socket.connect((self.host, int(self.port)))
+
+    def disconnect(self):
+        """Disconnect from chat server"""
+
+        if self.connected:
+            self.socket.close()

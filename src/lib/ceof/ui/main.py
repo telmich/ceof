@@ -165,7 +165,9 @@ class Main(object):
         """/connect"""
         self.write_line(str(args))
 
+        # Arguments given? Assume different connection, close current!
         if len(args) >= 1:
+            self.net.disconnect()
             self.net.host = args[0]
 
             if len(args) >= 2:
