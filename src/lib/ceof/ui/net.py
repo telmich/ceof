@@ -58,3 +58,8 @@ class Net(object):
         """Send data"""
 
         self.socket.sendall(data)
+
+    def recv(self, length):
+        """Receive data"""
+
+        return self.socket.recv(length)

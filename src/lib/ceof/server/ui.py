@@ -40,6 +40,8 @@ class Server(object):
         ]
 
         self.commands_re = "^(" + "|".join(self.commands) + ")$"
+        self.eofid = ceof.EOFID()
+        self.ui_eofid = None
 
     def run(self):
         self.tcpserver.run()
@@ -48,6 +50,8 @@ class Server(object):
         """Handle incoming connection"""
 
         log.info("Connected by %s" % str(addr))
+
+        self.conn = conn
 
         try:
             while 1:
@@ -63,6 +67,11 @@ class Server(object):
                 match = re.search(self.commands_re, cmd)
                 
                 if match:
+                    print("CMD: " + cmd)
+                    fnname = "cmd_" + cmd
+                    f = getattr(self, fnname)
+                    f()
+
                     print("Supported: %s" % (cmd))
                 else:
                     print("Unsupported: %s" % (cmd))
@@ -72,3 +81,16 @@ class Server(object):
             raise
 
         conn.close()
+
+    def cmd_2100(self):
+        """Register UI"""
+        
+        ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        self.ui_name = self.conn.recv(ceof.EOF_L_UI_NAME)
+
+        log.debug(ui_eofid)
+        log.info("Registered UI: %s" % self.ui_name)
+
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, ui_eofid))
+        self.conn.sendall(answer)
+

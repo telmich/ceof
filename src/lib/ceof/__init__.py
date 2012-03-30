@@ -35,6 +35,7 @@ EOF_L_NICKNAME           =  128
 EOF_L_MESSAGE            =  128
 EOF_L_ADDRESS            =  128
 EOF_L_GROUP              =  128
+EOF_L_UI_NAME            =  128
 EOF_L_UI_INPUT           =  256
 EOF_L_PKG_ONION          =  EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
 EOF_L_PKG_MAX            =  65536
@@ -113,6 +114,17 @@ EOF_P_PIDFILE            = EOF_P_SLASH + "pid"
 EOF_P_CRYPTO_DIR         = EOF_P_SLASH + "crypto"
 EOF_P_CRYPTO_KEY         = EOF_P_CRYPTO_DIR + EOF_P_SLASH + "mykeyid"
 
+def fillup(data, length):
+    """Return string with fill character filled up"""
+    return data.ljust(length, '\0')
+
+def encode(data):
+    """Encode string for network transfer"""
+    return bytes(data, 'utf-8')
+
+def decode(data):
+    """Return string without leading zeros"""
+    return data.decode('utf-8').rstrip('\0')
 
 class Error(Exception):
     """Base exception class for this project"""

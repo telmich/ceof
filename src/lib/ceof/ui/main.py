@@ -162,6 +162,14 @@ class Main(object):
             else:
                 self.write_line(str(self.net.error))
 
+        if self.net.connected:
+            self.write_line("Attempting logical connection ... ")
+            self.eof_connect()
+        else:
+            self.write_line("Did not manage to connect")
+            
+
+
     def cmd_connect(self, args):
         """/connect"""
         self.write_line(str(args))
@@ -179,16 +187,30 @@ class Main(object):
                     return
 
         self.try_to_connect()
-        if self.net.connected:
-            self.eof_connect()
 
     def eof_connect(self):
         """Begin logical connection, register"""
 
         cmd = "2100"
         eofid = self.eofid.get_next()
-        data = "%s%s" % (cmd, eofid)
-        self.net.send(bytes(data, 'utf-8'))
+        name = ceof.fillup("ceof ui", ceof.EOF_L_UI_NAME)
+
+        data = "%s%s%s" % (cmd, eofid, name)
+        self.net.send(ceof.encode(data))
+
+        cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+
+        # Looks good so far, verify ID
+        if cmd_answer == ceof.EOF_CMD_UI_ACK:
+            eofid_answer = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+
+            if eofid_answer == eofid:
+                self.write_line("Successfully connected")
+            else:
+                self.write_line("Received wrong ID: %s" % eofid_answer)
+        else:
+            self.write_line("Did not receive ack: %s" % cmd_answer)
+
 
     def cmd_quit(self, args):
         """/quit"""
