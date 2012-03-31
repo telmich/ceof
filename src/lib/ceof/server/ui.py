@@ -76,6 +76,7 @@ class UI(object):
                     print("Supported: %s" % (cmd))
                 else:
                     print("Unsupported: %s" % (cmd))
+                    break
 
         except (socket.error, KeyboardInterrupt):
             conn.close()

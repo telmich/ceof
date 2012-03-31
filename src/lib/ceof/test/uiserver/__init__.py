@@ -33,6 +33,8 @@ class SocketMock(object):
 
         self.sendall_buf = b''
 
+        self.closed = False
+
     def recv(self, length):
         """Return data from pre allocated buffer"""
 
@@ -50,7 +52,8 @@ class SocketMock(object):
         return data
 
     def close(self):
-        pass
+        """Register close call"""
+        self.closed = True
         
     def sendall(self, data):
         """Return data the client wanted to send"""
@@ -83,29 +86,24 @@ class UIServer(unittest.TestCase):
         self.uiserver.handler(conn, "Fake Connection")
 
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertTrue(self.uiserver.conn.closed)
 
-#    def test_overflow(self):
-#        """Ensure numbers do not overflow"""
-#        self.eofid.counter = ceof.EOF_ID_MAX
-#        self.eofid.inc()
-#        self.assertEqual(self.eofid.counter, 0)
-#
-#    def test_getnext_id(self):
-#        """Test that get_next returns correct id"""
-#
-#        self.eofid.counter = 63
-#        self.assertEqual(self.eofid.get_next(), '000010')
-#
-#    def test_convert_to_id(self):
-#        """Test conversions (int => id)"""
-#
-#        self.assertEqual(ceof.EOFID.int_to_id(20), '00000k')
-#        self.assertEqual(ceof.EOFID.int_to_id(64), '000010')
-#        self.assertEqual(ceof.EOFID.int_to_id(ceof.EOF_ID_MAX), '!!!!!!')
-#
-#    def test_convert_to_int(self):
-#        """Test conversions (id => int)"""
-#
-#        self.assertEqual(ceof.EOFID.id_to_int('00000k'), 20)
-#        self.assertEqual(ceof.EOFID.id_to_int('000010'), 64)
-#        self.assertEqual(ceof.EOFID.id_to_int('!!!!!!'), ceof.EOF_ID_MAX)
+    def test_cmd_2101(self):
+        """Emulate 2101 cmd behaviour"""
+        eofid = ceof.EOFID().get_next()
+        answers = ceof.encode(ceof.EOF_CMD_UI_DEREGISTER + eofid)
+
+        conn = SocketMock(answers)
+        self.uiserver.handler(conn, "Fake Connection")
+        self.assertTrue(self.uiserver.conn.closed)
+
+
+    def test_cmd_unknown(self):
+        """Send unknown command"""
+        eofid = ceof.EOFID().get_next()
+        answers = ceof.encode("foo1" + eofid)
+
+        conn = SocketMock(answers)
+        self.uiserver.handler(conn, "Fake Connection")
+        self.assertTrue(self.uiserver.conn.closed)
+
