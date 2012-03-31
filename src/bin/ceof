@@ -80,15 +80,16 @@ def commandline():
          help='Show private/public key pair', action='store_true')
     parser['key'].set_defaults(func=ceof_key)
 
-    parser['server'] = parser['sub'].add_parser('server',
+    # Server to accept ui connections
+    parser['uiserver'] = parser['sub'].add_parser('server',
         parents=[parser['all']])
-    parser['server'].add_argument('-a', '--address',
+    parser['uiserver'].add_argument('-a', '--address',
          help='Listen on this address for UI connections', action='store',
          default='127.0.0.1')
-    parser['server'].add_argument('-p', '--port',
+    parser['uiserver'].add_argument('-p', '--port',
          help='Listen on this port for UI connections', action='store',
          default='4242')
-    parser['server'].set_defaults(func=ceof_server)
+    parser['uiserver'].set_defaults(func=ceof_uiserver)
 
     # User interface
     parser['ui'] = parser['sub'].add_parser('ui',
@@ -124,7 +125,7 @@ def ceof_ui(args):
     ui = ceof.UI(args)
     ui.run()
 
-def ceof_server(args):
+def ceof_uiserver(args):
     uiserv = ceof.UIServer(args.address, args.port)
     uiserv.run()
 

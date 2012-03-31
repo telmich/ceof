@@ -29,7 +29,7 @@ import socket
 
 log = logging.getLogger(__name__)
 
-class Server(object):
+class UI(object):
     """Server to accept UI connections"""
 
     def __init__(self, address, port):
@@ -67,6 +67,7 @@ class Server(object):
                 match = re.search(self.commands_re, cmd)
                 
                 if match:
+                    # FIXME: change to log.debug
                     print("CMD: " + cmd)
                     fnname = "cmd_" + cmd
                     f = getattr(self, fnname)
@@ -85,12 +86,12 @@ class Server(object):
     def cmd_2100(self):
         """Register UI"""
         
-        ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
         self.ui_name = self.conn.recv(ceof.EOF_L_UI_NAME)
 
-        log.debug(ui_eofid)
+        log.debug("recv id " + self.ui_eofid)
         log.info("Registered UI: %s" % self.ui_name)
 
-        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, ui_eofid))
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
         self.conn.sendall(answer)
 

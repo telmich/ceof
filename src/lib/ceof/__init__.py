@@ -131,5 +131,5 @@ class Error(Exception):
     pass
 
 from ceof.ui.main import Main as UI
-from ceof.server.ui import Server as UIServer
+from ceof.server.ui import UI as UIServer
 from ceof.eofid import EOFID
