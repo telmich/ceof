@@ -97,6 +97,22 @@ class UIServer(unittest.TestCase):
         self.uiserver.handler(conn, "Fake Connection")
         self.assertTrue(self.uiserver.conn.closed)
 
+    def test_cmd_2102(self):
+        """Test /peer add"""
+
+        eofid = ceof.EOFID().get_next()
+        nick = ceof.fillup("Testnick", ceof.EOF_L_NICKNAME)
+        address = ceof.fillup("tcp:192.168.42.2:22", ceof.EOF_L_ADDRESS)
+        keyid = ceof.fillup("A0314E7124560CD3F8885B354918CADD1A6B3063", ceof.EOF_L_KEYID)
+
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_ACK + eofid)
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_ADD + eofid + nick + address + keyid)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertFalse(self.uiserver.conn.closed)
 
     def test_cmd_unknown(self):
         """Send unknown command"""
