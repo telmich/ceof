@@ -51,7 +51,8 @@ that enables direct connections.\footnote{See \cite{dcc}, \cite{dcc2}.}
 
 % ----------------------------------------------------------------------------
 \subsection{Security}
-SSL is being used in some networks, but not standartised. [nico]
+TLS as defined in \cite{rfc2246} is being used in some networks, 
+but its use is not standardised.
 optional encryption.
 % ----------------------------------------------------------------------------
 \section{ICQ}
@@ -65,19 +66,31 @@ America Online acquired Mirabilis on June 8, 1998, for 407dollar million (dollar
 In 2001, ICQ had over 100 million accounts registered.[2] In April 2010, AOL sold ICQ to Digital Sky Technologies for dollar187.5 million.[3]
 
 % ----------------------------------------------------------------------------
-\subsection{Architecture}
+\subsection{Architecture, Protocol, Security}
+Uses the oscar \cite{oscar}
+Plain text, centralised, auth plaintext or md5 hashed password
 % ----------------------------------------------------------------------------
 \section{Silc}
+Secure internet live chat.
 % ----------------------------------------------------------------------------
 \subsection{History}
+7 Silc networks
+
+Sep 26, 2009
+SILC Server 1.1.18 is out! This version adds heartbeat support and fixes some bugs. 
+
+No version controlled source code, only tar balls from 2009.
+
+Bug form does not return any bugs.
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
+Centralised
 % ----------------------------------------------------------------------------
 \subsection{Security}
+This means that chats might be compromised, if the server itself is compromised. 
 
 SILC Project develops the Secure Internet Live Conferencing protocol (SILC),
 \url{http://silcnet.org/general/}
-\url{http://silcnet.org/support/documentation/specs/}
 
 central
 \url{http://silcnet.org/support/documentation/wp/silc_protocol.php}
