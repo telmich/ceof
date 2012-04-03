@@ -44,9 +44,13 @@ class Noise(object):
 
     def start(self):
         """Really run"""
-
-        self.process = multiprocessing.Process(target=self.noise_gen.run)
-        self.process.start()
+        try:
+            self.process = multiprocessing.Process(target=self.noise_gen.run)
+            self.process.start()
+        except KeyboardInterrupt:
+            print("Caught sigint in parent")
+            self.queue.close()
+            self.queue.cancel_join_thread()
 
 class Generator(object):
     """Generate noise"""
@@ -62,8 +66,6 @@ class Generator(object):
         self.msg_size = ceof.EOF_L_MSG_FULL
 
         self._init_files()
-
-        self.doexit = False
 
         random.seed()
 
@@ -84,27 +86,32 @@ class Generator(object):
     def run(self):
         """Main loop"""
 
-        # everything that is not fitting in a message size is appended here
-        file_end_buffer=""
-        f = open(self.nextfile(), 'r')
+        try:
+            # everything that is not fitting in a message size is appended here
+            file_end_buffer=""
+            f = open(self.nextfile(), 'r')
 
-        while not self.doexit:
-            # File end buffer is large enough
-            if len(file_end_buffer) >= self.msg_size:
-                msg=file_end_buffer[0:self.msg_size]
-                file_end_buffer=file_end_buffer[self.msg_size:]
+            while True:
+                # File end buffer is large enough
+                if len(file_end_buffer) >= self.msg_size:
+                    msg=file_end_buffer[0:self.msg_size]
+                    file_end_buffer=file_end_buffer[self.msg_size:]
 
-            # Read from file as usual
-            else:
-                msg = f.read(self.msg_size)
+                # Read from file as usual
+                else:
+                    msg = f.read(self.msg_size)
 
-            # Not enough bytes in file and file_end_buffer => go to next file
-            if len(msg) < self.msg_size:
-                f.close()
-                f = open(self.nextfile(), 'r')
-                file_end_buffer=file_end_buffer + msg
+                # Not enough bytes in file and file_end_buffer => go to next file
+                if len(msg) < self.msg_size:
+                    f.close()
+                    f = open(self.nextfile(), 'r')
+                    file_end_buffer=file_end_buffer + msg
 
-            # Put noise into queue
-            else:
-                self.queue.put(msg)
+                # Put noise into queue
+                else:
+                    self.queue.put(msg)
 
+        except KeyboardInterrupt:
+            print("Caught sigint in child")
+            self.queue.close()
+            self.queue.cancel_join_thread()
