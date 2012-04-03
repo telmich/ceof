@@ -26,7 +26,8 @@ eof
 """
 
 # /* Lengths */
-EOF_L_RW_SIZE            =  2
+#EOF_L_RW_SIZE            =  2
+EOF_L_VERSION            =  2
 EOF_L_CMD                =  4
 EOF_L_SIZE               =  6
 EOF_L_ID                 =  6
@@ -37,7 +38,7 @@ EOF_L_ADDRESS            =  128
 EOF_L_GROUP              =  128
 EOF_L_UI_NAME            =  128
 EOF_L_UI_INPUT           =  256
-EOF_L_PKG_ONION          =  EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
+EOF_L_MSG_FULL           =  EOF_L_VERSION+EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
 EOF_L_PKG_MAX            =  65536
 
 # Baseformat for IDs
@@ -130,6 +131,10 @@ class Error(Exception):
     """Base exception class for this project"""
     pass
 
+# Convienence
 from ceof.ui.main import Main as UI
 from ceof.server.ui import UI as UIServer
 from ceof.eofid import EOFID
+from ceof.config import Config
+from ceof.noise import Noise
+#from ceof.crypto import Crypto

@@ -43,6 +43,8 @@ class UI(object):
         self.eofid = ceof.EOFID()
         self.ui_eofid = None
 
+        self.peers = {}
+
     def run(self):
         self.tcpserver.run()
 
@@ -86,6 +88,18 @@ class UI(object):
 
     def cmd_2100(self):
         """Register UI"""
+        
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        self.ui_name = self.conn.recv(ceof.EOF_L_UI_NAME)
+
+        log.debug("recv id " + self.ui_eofid)
+        log.info("Registered UI: %s" % self.ui_name)
+
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
+        self.conn.sendall(answer)
+
+    def cmd_2102(self):
+        """Register Peer"""
         
         self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
         self.ui_name = self.conn.recv(ceof.EOF_L_UI_NAME)

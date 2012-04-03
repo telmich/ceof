@@ -1,0 +1,11 @@
+1 send packet every interval
+    real packets first
+        via ... pipe? ja!
+    read packets from 2 sources? [noise, data]
+    test via tcp-server on other side?
+2 ui client
+3 server 
+    - ui (tcp listener)
+    - send packets (see above)
+4 generate noise
+

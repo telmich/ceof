@@ -26,17 +26,33 @@ import queue
 
 log = logging.getLogger(__name__)
 
-class CryptoError(ceof.Error):
+class TransportError(ceof.Error):
     pass
 
 class Transport(object):
     """Transport network packets"""
 
-    def __init__(self, queue, interval):
-        self.queue = queue
+    def __init__(self, queue, interval, num_peers):
+
+        # Receive real messages from here
+        self.message_queue = queue
+
+        # Get fake messages from here
+        self.noise_queue = ceof.Noise()
+
+        # Send every interal seconds (1/4 for instance)
         self.interval = interval
+
+        # Have num_peers per route
+        self.num_peers = num_peers
+
+        
         self.doexit = False
 
+
+    def route_to(self, peer):
+        """Get num_peers without the current destination"""
+        self.config.get_distinct_peers(self.num_peers, peer)
 
     def send(self, text, destination):
         """Send packet from queue"""
@@ -52,10 +68,18 @@ class Transport(object):
             # Try to get message, send noise otherwise
             try:
                 text, destination = self.queue.get(True, interval)
+                message = True
             except queue.Empty:
-                text = self.noise()
-                destination = self.random_recipient()
+                message = False
 
+            # ...... raise NoiseQueueEmptyError
+            if not message:
+                try:
+                    text = self.noise_queue.get()
+                except queue.Empty:
+                    raise ceof.
+
+                destination = self.random_recipient()
             # message = [recipient, message]
 
             self.send(message)

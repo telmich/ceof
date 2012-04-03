@@ -111,6 +111,7 @@ class UIServer(unittest.TestCase):
         conn = SocketMock(answers)
 
         self.uiserver.handler(conn, "Fake Connection")
+
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
         self.assertFalse(self.uiserver.conn.closed)
 

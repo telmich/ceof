@@ -80,6 +80,11 @@ def commandline():
          help='Show private/public key pair', action='store_true')
     parser['key'].set_defaults(func=ceof_key)
 
+    # Noise engine - prints noise to stdout
+    parser['noise'] = parser['sub'].add_parser('noise',
+        parents=[parser['all']])
+    parser['noise'].set_defaults(func=ceof_noise)
+
     # Server to accept ui connections
     parser['uiserver'] = parser['sub'].add_parser('server',
         parents=[parser['all']])
@@ -116,24 +121,31 @@ def commandline():
     log.debug(args)
 
     try:
-        args.func(args)
+        config = ceof.Config(args.config_dir)
+        args.func(args, config)
     except ceof.config.ConfigError as e:
         print("Configuration directory issues may be fixed using -c parameter")
         raise
 
-def ceof_ui(args):
+def ceof_noise(args, config):
+    noise = ceof.Noise(config.noise_dir)
+    noise.start()
+
+    while True:
+        print("Noise: \"%s\"" % noise.get())
+
+def ceof_ui(args, config):
     ui = ceof.UI(args)
     ui.run()
 
-def ceof_uiserver(args):
+def ceof_uiserver(args, config):
     uiserv = ceof.UIServer(args.address, args.port)
     uiserv.run()
 
-def ceof_crypto(args):
+def ceof_crypto(args, config):
     import sys
     import ceof.crypto
     
-    config = ceof.config.Config(args.config_dir)
     crypto = ceof.crypto.Crypto(config)
 
     if args.decrypt or args.encrypt:
@@ -193,8 +205,8 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-    except ceof.Error as e:
-        log.error(e)
+    except (ceof.Error, ImportError) as e:
+        print(e)
         exit_code = 1
 
     # Determine exit code by return value of function

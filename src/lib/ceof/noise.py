@@ -36,13 +36,16 @@ class Noise(object):
     def __init__(self, noise_dir):
         self.noise_dir = noise_dir
         self.queue = multiprocessing.Queue()
-        self.noise_gen = Generator(self.noise_dir)
+        self.noise_gen = Generator(self.queue, self.noise_dir)
 
-    def run(self):
+    def get(self):
+        """Get next noise message"""
+        return self.queue.get()
+
+    def start(self):
         """Really run"""
 
-        self.process = multiprocessing.Process(target=self.noise.run, 
-            args=(self.queue,))
+        self.process = multiprocessing.Process(target=self.noise_gen.run)
         self.process.start()
 
 class Generator(object):
@@ -59,6 +62,8 @@ class Generator(object):
         self.msg_size = ceof.EOF_L_MSG_FULL
 
         self._init_files()
+
+        self.doexit = False
 
         random.seed()
 
@@ -102,5 +107,4 @@ class Generator(object):
             # Put noise into queue
             else:
                 self.queue.put(msg)
-
 
