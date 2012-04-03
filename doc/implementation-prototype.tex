@@ -108,12 +108,15 @@ To generate noise, all files from a specific directory are read.
 Should be UTF-8 encoded files.
 
 \begin{verbatim}
-[6:20] brief:core% cd ~/.ceof 
-[6:20] brief:.ceof% mkdir noise
-[6:21] brief:.ceof% cd noise 
-[6:21] brief:noise% find ~/p/linux/linus -name '*.c' -type f -exec ln -fs {} \;
-[6:22] brief:noise% ls | wc -l
-16633
+% cd ~/.ceof 
+% mkdir noise
+% cd noise 
+# Linux Kernel is a good source for noise
+% find ~/p/linux/linus -name '*.c' -type f -exec ln -fs {} \;
+# Add some rfcs to the noise soup
+% find ~/oeffentlich/rechner/netz/rfc/mirror/rfcs-text-only/ -name '*.txt' -type f -exec ln -fs {} \;
+% ls | wc -l
+23287
 \end{verbatim}
 
 % ----------------------------------------------------------------------------
@@ -132,6 +135,14 @@ python-gnupg commits in september 2011 \cite{python-gnupg}
 
 Selected python-gnupg
 
+
+% ----------------------------------------------------------------------------
+\section{Performance}
+\subsection{Packet size}
+Re-testing of crypt (using test/recrypt): 5.2 - 5.3 KiB per packet.
+
+\subsection{Bandwidth usage}
+After protocol overhead...
 
 % ----------------------------------------------------------------------------
 \section{Usage}
