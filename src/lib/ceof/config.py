@@ -56,7 +56,12 @@ class Config(object):
         """Create required configuration directories"""
         os.makedirs(self.config_dir, exist_ok=True)
         os.makedirs(self.gpg_config_dir, exist_ok=True)
+        os.makedirs(self.noise_dir, exist_ok=True)
 
     @property
     def gpg_config_dir(self):
         return os.path.join(self.config_dir, "gnupg")
+
+    @property
+    def noise_dir(self):
+        return os.path.join(self.config_dir, "noise")
