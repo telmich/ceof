@@ -102,6 +102,17 @@ cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
 \section{Modular Design}
 UI seperated.
 Portable Core.
+% ----------------------------------------------------------------------------
+\subsection{Noise Engine}
+To generate noise, all files from a specific directory are read.
+Should be UTF-8 encoded files.
+
+\begin{verbatim}
+[6:05] brief:core% cd ~/.ceof 
+[6:20] brief:.ceof% mkdir noise
+[6:21] brief:.ceof% cd noise 
+[6:21] brief:noise% find ~/p/linux/linus -name '*.c' -type f -exec ln -fs {} \;
+\end{verbatim}
 
 % ----------------------------------------------------------------------------
 This section describes the actual implementation
