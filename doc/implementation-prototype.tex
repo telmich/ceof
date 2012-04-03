@@ -108,10 +108,12 @@ To generate noise, all files from a specific directory are read.
 Should be UTF-8 encoded files.
 
 \begin{verbatim}
-[6:05] brief:core% cd ~/.ceof 
+[6:20] brief:core% cd ~/.ceof 
 [6:20] brief:.ceof% mkdir noise
 [6:21] brief:.ceof% cd noise 
 [6:21] brief:noise% find ~/p/linux/linus -name '*.c' -type f -exec ln -fs {} \;
+[6:22] brief:noise% ls | wc -l
+16633
 \end{verbatim}
 
 % ----------------------------------------------------------------------------
