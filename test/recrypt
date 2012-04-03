@@ -1,0 +1,25 @@
+i=1
+
+tmp=$(mktemp /tmp/ceoftest.XXXXXXXXXXXX)
+tmp2=$(mktemp /tmp/ceoftest.XXXXXXXXXXXX)
+
+msg="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+
+while [ $i -le 8 ]; do
+    echo "$msg" > "$tmp"
+    cat  "$tmp2" >> "$tmp"
+
+    cat "$tmp" | ./bin/ceof crypto --encrypt A0314E7124560CD3F8885B354918CADD1A6B3063 > "$tmp2"
+
+    echo "$i --------"
+    cat "$tmp2"
+
+    i=$((i+1))
+done
+
+cat "$tmp2" > "$tmp"
+
+ls -lh "$tmp"
+
+rm -f "$tmp" "$tmp2"
