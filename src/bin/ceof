@@ -132,7 +132,7 @@ def ceof_noise(args, config):
     noise.start()
 
     while True:
-        print("Noise: \"%s\"" % noise.get())
+        print("Noise: ---\"%s\"---" % noise.get())
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)
