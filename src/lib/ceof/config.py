@@ -36,6 +36,12 @@ class Peer(object):
         self.fingerprint = fingerprint
         self.addresses = addresses
 
+    def __str__(self):
+        return "%s/%s/%s" % (self.name, self.fingerprint, str(self.addresses))
+
+    def __repr__(self):
+        return "<%s/%s>" % (self.name, self.fingerprint)
+
     def address_add(self, address):
         self.addresses.append(address)
 
