@@ -69,15 +69,14 @@ class UI(object):
                 match = re.search(self.commands_re, cmd)
                 
                 if match:
-                    # FIXME: change to log.debug
-                    print("CMD: " + cmd)
+                    log.debug("CMD: " + cmd)
                     fnname = "cmd_" + cmd
                     f = getattr(self, fnname)
                     f()
 
-                    print("Supported: %s" % (cmd))
+                    log.debug("Supported: %s" % (cmd))
                 else:
-                    print("Unsupported: %s" % (cmd))
+                    log.error("Unsupported command: %s" % (cmd))
                     break
 
         except (socket.error, KeyboardInterrupt):
