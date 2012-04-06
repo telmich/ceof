@@ -36,6 +36,11 @@ class Config(object):
         self._verify_config_dir()
         self._create_directories()
 
+        try:
+            self.myid = ceof.Peer.from_disk(self.id_dir)
+        except ceof.config.peer.PeerError:
+            self.myid = False
+
     def _init_config_dir(self, config_dir):
         """Find/setup configuration config_dir"""
         # Prefer what the user said
@@ -58,6 +63,7 @@ class Config(object):
         os.makedirs(self.gpg_config_dir, exist_ok=True)
         os.makedirs(self.noise_dir, exist_ok=True)
         os.makedirs(self.peer_dir, exist_ok=True)
+        os.makedirs(self.id_dir, exist_ok=True)
 
     def list_peers(self):
         Peer.listpeers(self.peer_dir)
@@ -67,6 +73,10 @@ class Config(object):
         return os.path.join(self.config_dir, "gnupg")
 
     @property
+    def id_dir(self):
+        return os.path.join(self.config_dir, "id")
+
+    @property
     def noise_dir(self):
         return os.path.join(self.config_dir, "noise")
 
@@ -74,5 +84,3 @@ class Config(object):
     def peer_dir(self):
         return os.path.join(self.config_dir, "peer")
 
-
-from ceof.config.peer import Peer
