@@ -59,31 +59,47 @@ def commandline():
          action='store', nargs='+')
     parser['crypto'].add_argument('--decrypt',
          help='Decrypt from stdin', action='store_true')
-    parser['crypto'].set_defaults(func=ceof_crypto)
-
-    parser['key'] = parser['sub'].add_parser('key',
-        parents=[parser['all']])
-    parser['key'].add_argument('-e', '--export',
+    parser['crypto'].add_argument('-e', '--export',
          help='Export public key to stdout', action='store_true')
-    parser['key'].add_argument('-g', '--gen-key',
+    parser['crypto'].add_argument('-g', '--gen-key',
          help='Generate new private/public key pair', action='store_true')
-    parser['key'].add_argument('--name',
+    parser['crypto'].add_argument('-l', '--length',
+         help='Specify bit length for key generation', action='store',
+         default=2048)
+    parser['crypto'].add_argument('--name',
          help='Name (for key generate)', action='store', 
          default="Your Friendly Name")
-    parser['key'].add_argument('--email-address',
+    parser['crypto'].add_argument('--email-address',
          help='E-Mail-Address (for key generate)', action='store',
          default="you@example.org")
-    #parser['key'].add_argument('--comment',
-    #     help='E-Mail-Address (for key generate)', action='store',
-    #     default="
-    parser['key'].add_argument('-s', '--show',
+    parser['crypto'].add_argument('-s', '--show',
          help='Show private/public key pair', action='store_true')
-    parser['key'].set_defaults(func=ceof_key)
+
+    parser['crypto'].set_defaults(func=ceof_crypto)
 
     # Noise engine - prints noise to stdout
     parser['noise'] = parser['sub'].add_parser('noise',
         parents=[parser['all']])
     parser['noise'].set_defaults(func=ceof_noise)
+
+    # Server to accept ui connections
+    parser['peer'] = parser['sub'].add_parser('peer',
+        parents=[parser['all']])
+    parser['peer'].add_argument('peer', nargs='?',
+         help='Name of the peer', action='store')
+    parser['peer'].add_argument('-a', '--add',
+         help='Add a peer', action='store_true')
+    parser['peer'].add_argument('-r', '--remove',
+         help='Remove a peer', action='store_true')
+    parser['peer'].add_argument('-l', '--list',
+         help='List peers', action='store_true')
+    parser['peer'].add_argument('-f', '--fingerprint',
+         help='Specify fingerprint for peer', action='store')
+    parser['peer'].add_argument('--add-address',
+         help='Add an address to a peer', action='store_true')
+    parser['peer'].add_argument('--remove-address',
+         help='Remove an address from a peer', action='store_true')
+    parser['peer'].set_defaults(func=ceof_peer)
 
     # Server to accept ui connections
     parser['uiserver'] = parser['sub'].add_parser('server',
@@ -122,10 +138,11 @@ def commandline():
 
     try:
         config = ceof.Config(args.config_dir)
-        args.func(args, config)
     except ceof.config.ConfigError as e:
         print("Configuration directory issues may be fixed using -c parameter")
         raise
+
+    args.func(args, config)
 
 def ceof_noise(args, config):
     noise = ceof.Noise(config.noise_dir)
@@ -133,6 +150,14 @@ def ceof_noise(args, config):
 
     while True:
         print("Noise: ---\"%s\"---" % noise.get())
+
+def ceof_peer(args, config):
+    print(args)
+
+    if args.add:
+        print(crypto.decrypt(data))
+    elif args.remove:
+        print(crypto.encrypt(data, args.encrypt))
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)
@@ -146,7 +171,8 @@ def ceof_crypto(args, config):
     import sys
     import ceof.crypto
     
-    crypto = ceof.crypto.Crypto(config)
+    crypto = ceof.crypto.Crypto(config.gpg_config_dir, 
+        name=args.name, email=args.email_address)
 
     if args.decrypt or args.encrypt:
         data = sys.stdin.readlines()
@@ -154,23 +180,13 @@ def ceof_crypto(args, config):
 
     if args.decrypt:
         print(crypto.decrypt(data))
-    if args.encrypt:
+    elif args.encrypt:
         print(crypto.encrypt(data, args.encrypt))
-
-
-def ceof_key(args):
-    import ceof.crypto
-    
-    #print(args)
-    config = ceof.config.Config(args.config_dir)
-    crypto = ceof.crypto.Crypto(config, name=args.name,
-        email=args.email_address)
-
-    if args.gen_key:
+    elif args.gen_key:
         crypto.gen_key()
-    if args.show:
+    elif args.show:
         crypto.show()
-    if args.export:
+    elif args.export:
         crypto.export()
 
 if __name__ == "__main__":
