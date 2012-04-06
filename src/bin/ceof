@@ -86,7 +86,8 @@ def commandline():
     parser['peer'] = parser['sub'].add_parser('peer',
         parents=[parser['all']])
     parser['peer'].add_argument('peer', nargs='?',
-         help='Name of the peer', action='store')
+         help='Name of the peer (myself: you)', action='store',
+         default="myself")
     parser['peer'].add_argument('-a', '--add',
          help='Add a peer', action='store_true')
     parser['peer'].add_argument('-r', '--remove',

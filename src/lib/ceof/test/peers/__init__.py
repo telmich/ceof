@@ -50,7 +50,7 @@ class Peers(unittest.TestCase):
                 addresses = self.base_address + str(address_index)
                 address_index = address_index + 1
 
-            self.peerlist.append(ceof.config.Peer(name, fingerprint, addresses))
+            self.peerlist.append(ceof.Peer(name, fingerprint, addresses))
 
         for peer in self.peerlist:
             peer.to_disk(self.peer_dir)
@@ -79,6 +79,12 @@ class Peers(unittest.TestCase):
         self.assertEqual(subdir_name, peer.fingerprint)
         self.assertEqual(subdir_content, files)
 
+    def test_read_nonexistent_peer(self):
+        """Check that loading of non-existing directories fails"""
+
+        self.assertRaises(ceof.config.peer.PeerError, 
+            ceof.config.peer.Peer.from_disk, "/nonexistentdirectory")
+
     def test_read_peers_from_disk(self):
         """Check that all peers from disk are loaded"""
 
@@ -86,7 +92,6 @@ class Peers(unittest.TestCase):
         peers.sort()
         self.peerlist.sort()
         self.assertEqual(peers, self.peerlist)
-
 
     def test_get_number_of_random_peers(self):
         """From a given list, return a number of random peers"""
@@ -96,7 +101,7 @@ class Peers(unittest.TestCase):
 
         self.assertNotEqual(random_1, random_2)
 
-        # Remove random and they should be equal, because we selected
+        # Remove random and they should be equal, because we selected all peers
         random_1.sort()
         random_2.sort()
 
