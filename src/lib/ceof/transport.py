@@ -26,38 +26,82 @@ import queue
 
 log = logging.getLogger(__name__)
 
-class TransportError(ceof.Error):
-    pass
+class NoiseQueueEmptyError(ceof.Error):
+    def __init__(self):
+        self.message = "Noise Queue empty - probably a bug?"
+
+    def __str__(self):
+        return self.message
 
 class Transport(object):
     """Transport network packets"""
 
-    def __init__(self, queue, interval, num_peers):
+    def __init__(self, queue, interval, num_peers, noise_dir):
 
         # Receive real messages from here
         self.message_queue = queue
 
         # Get fake messages from here
-        self.noise_queue = ceof.Noise()
+        self._init_noise(noise_dir)
 
         # Send every interal seconds (1/4 for instance)
         self.interval = interval
 
         # Have num_peers per route
         self.num_peers = num_peers
-
         
         self.doexit = False
 
+    def _init_noise(self, noise_dir):
+        """Init noise handler"""
 
-    def route_to(self, peer):
-        """Get num_peers without the current destination"""
-        self.config.get_distinct_peers(self.num_peers, peer)
+        self._noise = ceof.Noise(noise_dir)
+        self._noise.start()
+
+    def _get_noise_message(self):
+        """Get next noise message"""
+        return self._noise.get()
+
+    def route_to(self, real_peer):
+        """Get route to be used for this packet"""
+        peers = self.config.peers.get(random=True, limit=self.num_peers)
+
+        peer_index = random.randrange(0, self.num_peers)
+
+    def create_onion(self, real_peer, ^):
+        """Create onion packet"""
+
+        # First peer that receives is the last one to last decrypt
+        first_peer = True
+        msg=""
+        for peer in peers:
+            address = peer.get_address(random=True)
+
+            if peer == real_peer:
+                if first_peer:
+                    cmd = ceof.EOF_CMD_ONION_MSG_DROP
+                else:
+                    cmd = ceof.EOF_CMD_ONION_MSG_FORWARD
+            else:
+                if first_peer:
+                    cmd = ceof.EOF_CMD_ONION_DROP
+                else:
+                    cmd = ceof.EOF_CMD_ONION_DROP
+
+
+                flag |= 
+                onion(DROP, eofid.getnext(), addr, group, msg)
+                onion(DROP, eofid.getnext(), addr, group, msg)
+            else:
+
+    def create_postcard(self, pkg, destination):
+
+
 
     def send(self, text, destination):
         """Send packet from queue"""
 
-        path = self.create_route_to(destination)
+        route = self.route_to(destination)
 
         self.onion(...)?
 
@@ -67,19 +111,17 @@ class Transport(object):
         while not self.doexit:
             # Try to get message, send noise otherwise
             try:
-                text, destination = self.queue.get(True, interval)
+                text, destination = self.message_queue.get(False)
                 message = True
             except queue.Empty:
                 message = False
 
-            # ...... raise NoiseQueueEmptyError
             if not message:
                 try:
                     text = self.noise_queue.get()
                 except queue.Empty:
-                    raise ceof.
+                    raise NoiseQueueEmptyError
 
                 destination = self.random_recipient()
-            # message = [recipient, message]
 
-            self.send(message)
+            self.send(text, destination)

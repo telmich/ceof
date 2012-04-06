@@ -28,78 +28,6 @@ log = logging.getLogger(__name__)
 class ConfigError(ceof.Error):
     pass
 
-class Peer(object):
-    """Handle peer information"""
-    
-    def __init__(self, name, fingerprint, addresses):
-        self.name = name
-        self.fingerprint = fingerprint
-        self.addresses = addresses
-
-    def __str__(self):
-        return "%s/%s/%s" % (self.name, self.fingerprint, str(self.addresses))
-
-    def __repr__(self):
-        return "<%s/%s>" % (self.name, self.fingerprint)
-
-    def address_add(self, address):
-        self.addresses.append(address)
-
-    @staticmethod
-    def listpeers(base_dir):
-        peers = []
-
-        for peerdirname in os.listdir(base_dir):
-            peerdir = os.path.join(base_dir, peerdirname)
-            
-            peers.append(Peer.fromdisk(peerdir))
-
-        return peers
-
-    @staticmethod
-    def fromdisk(directory):
-        name_path = os.path.join(directory, "name")
-        fingerprint_path = os.path.join(directory, "fingerprint")
-        addresses_path = os.path.join(directory, "addresses")
-
-        with open(name_path, 'r') as f:
-            name = f.read().rstrip()
-
-        with open(fingerprint_path, 'r') as f:
-            fingerprint = f.read().rstrip()
-
-        with open(addresses_path, 'r') as f:
-            addresses = f.read().splitlines()
-
-        return Peer(name, fingerprint, addresses)
-
-    def todisk(self, directory):
-        name_path = os.path.join(directory, "name")
-        fingerprint_path = os.path.join(directory, "fingerprint")
-        addresses_path = os.path.join(directory, "addresses")
-
-        with open(name_path, 'w') as f:
-            f.write(self.name)
-
-        with open(fingerprint_path, 'w') as f:
-            f.write(self.fingerprint)
-
-        with open(addresses_path, 'w') as f:
-            addresses = '\n'.join(self.addresses)
-            f.write(addresses)
-
-    def address_add(self, address):
-        """Add address to list"""
-        self.addresses.append(address)
-
-    def address_replace(self, address):
-        """Replace address list with new address"""
-        self.addresses = [address]
-
-
-    def delete(self, name):
-        pass
-
 class Config(object):
     """Load and store ceof configuration"""
 
@@ -146,3 +74,5 @@ class Config(object):
     def peer_dir(self):
         return os.path.join(self.config_dir, "peer")
 
+
+from ceof.config.peer import Peer

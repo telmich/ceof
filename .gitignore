@@ -5,3 +5,4 @@ infos
 *.vrb
 python-env
 #/test
+__pycache__/
