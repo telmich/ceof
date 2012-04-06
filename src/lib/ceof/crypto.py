@@ -22,10 +22,14 @@
 #
 
 import ceof
-import gnupg
 import logging
 
 log = logging.getLogger(__name__)
+
+try:
+    import gnupg
+except ImportError:
+    raise ceof.Error("Required module gnupg not found.")
 
 class CryptoError(ceof.Error):
     pass
@@ -40,16 +44,16 @@ class NoPrivKeyError(CryptoError):
 class Crypto(object):
     """Manage cryptographic functions"""
 
-    def __init__(self, config, name="Your Friendly Name", 
+    def __init__(self, gpg_dir, name="Your Friendly Name", 
         email="you@example.org", comment="EOF42KEY", key_length=2048):
 
-        self.config = config
+        self.gpg_dir = gpg_dir
         self.name = name
         self.email = email
         self.key_length = key_length
         self.comment = comment
 
-        self._gpg = gnupg.GPG(gnupghome=config.gpg_config_dir)
+        self._gpg = gnupg.GPG(gnupghome=gpg_dir)
         self._private_keys = self._gpg.list_keys(True)
 
     def gen_key(self):
