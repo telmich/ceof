@@ -22,8 +22,9 @@
 import ceof
 import functools
 import logging
-import random
 import os
+import os.path
+import random
 
 log = logging.getLogger(__name__)
 
@@ -92,14 +93,20 @@ class Peer(object):
         fingerprint_path = os.path.join(directory, "fingerprint")
         addresses_path = os.path.join(directory, "addresses")
 
-        with open(name_path, 'r') as f:
-            name = f.read().rstrip()
+        if not os.path.isdir(directory):
+            raise PeerError("Peer directory %s does not exist" % directory)
 
-        with open(fingerprint_path, 'r') as f:
-            fingerprint = f.read().rstrip()
+        try:
+            with open(name_path, 'r') as f:
+                name = f.read().rstrip()
 
-        with open(addresses_path, 'r') as f:
-            addresses = f.read().splitlines()
+            with open(fingerprint_path, 'r') as f:
+                fingerprint = f.read().rstrip()
+
+            with open(addresses_path, 'r') as f:
+                addresses = f.read().splitlines()
+        except IOError as e:
+            raise PeerError("IOError: %s" % e)
 
         return cls(name, fingerprint, addresses)
 
