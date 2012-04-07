@@ -25,6 +25,15 @@ import os
 
 log = logging.getLogger(__name__)
 
+# /* paths */ - FIXME: probably obsolete
+#EOF_P_CONFIGDIR          = ".ceof"
+#EOF_P_UI_SOCKET          = EOF_P_SLASH + "ui" + EOF_P_SLASH + "socket"
+#EOF_P_TP_DIR             = EOF_P_SLASH + "tp"
+#EOF_P_PIDFILE            = EOF_P_SLASH + "pid"
+#EOF_P_CRYPTO_DIR         = EOF_P_SLASH + "crypto"
+#EOF_P_CRYPTO_KEY         = EOF_P_CRYPTO_DIR + EOF_P_SLASH + "mykeyid"
+
+
 class ConfigError(ceof.Error):
     pass
 

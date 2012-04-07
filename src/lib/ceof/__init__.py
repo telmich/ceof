@@ -101,20 +101,6 @@ EOF_UI_PEER_LIST         = "/peer list"
 EOF_UI_PEER_SEND         = "/peer send"
 EOF_UI_HELP              = "/help"
 
-# /* environment variables */
-EOF_ENV_UI_SOCKET        = "EOF_UI_SOCKET"
-EOF_ENV_EOF_HOME         = "EOF_HOME"
-EOF_ENV_HOME             = "HOME"
-
-# /* paths */
-EOF_P_SLASH              = "/"
-EOF_P_CONFIGDIR          = ".ceof"
-EOF_P_UI_SOCKET          = EOF_P_SLASH + "ui" + EOF_P_SLASH + "socket"
-EOF_P_TP_DIR             = EOF_P_SLASH + "tp"
-EOF_P_PIDFILE            = EOF_P_SLASH + "pid"
-EOF_P_CRYPTO_DIR         = EOF_P_SLASH + "crypto"
-EOF_P_CRYPTO_KEY         = EOF_P_CRYPTO_DIR + EOF_P_SLASH + "mykeyid"
-
 def fillup(data, length):
     """Return string with fill character filled up"""
     return data.ljust(length, '\0')

@@ -85,9 +85,8 @@ def commandline():
     # Server to accept ui connections
     parser['peer'] = parser['sub'].add_parser('peer',
         parents=[parser['all']])
-    parser['peer'].add_argument('peer', nargs='?',
-         help='Name of the peer (myself: you)', action='store',
-         default="myself")
+    parser['peer'].add_argument('name', nargs='?',
+         help='Name of the peer (myself: you)', action='store')
     parser['peer'].add_argument('-a', '--add',
          help='Add a peer', action='store_true')
     parser['peer'].add_argument('-r', '--remove',
@@ -97,9 +96,9 @@ def commandline():
     parser['peer'].add_argument('-f', '--fingerprint',
          help='Specify fingerprint for peer', action='store')
     parser['peer'].add_argument('--add-address',
-         help='Add an address to a peer', action='store_true')
+         help='Add an address to a peer', action='append')
     parser['peer'].add_argument('--remove-address',
-         help='Remove an address from a peer', action='store_true')
+         help='Remove an address from a peer', action='append')
     parser['peer'].set_defaults(func=ceof_peer)
 
     # Server to accept ui connections
@@ -153,12 +152,11 @@ def ceof_noise(args, config):
         print("Noise: ---\"%s\"---" % noise.get())
 
 def ceof_peer(args, config):
-    print(args)
+    ceof.config.peer.commandline(args, config)
 
-    if args.add:
-        print(crypto.decrypt(data))
-    elif args.remove:
-        print(crypto.encrypt(data, args.encrypt))
+#    if args.add:
+
+#    elif args.remove:
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)

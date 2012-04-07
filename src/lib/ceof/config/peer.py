@@ -25,11 +25,33 @@ import logging
 import os
 import os.path
 import random
+import sys
 
 log = logging.getLogger(__name__)
 
+PEER_NAME_MYSELF = "myself"
+
 class PeerError(ceof.Error):
     pass
+
+class NoSuchPeerError(PeerError):
+    pass
+
+def commandline(args, config):
+    """Handle command line arguments"""
+    print((args, config))
+
+    if args.remove and args.add:
+        raise PeerError("Cannot add and remove a peer at the same time")
+
+    if (args.add or args.remove) and not args.name:
+        raise PeerError("Cannot add/remove peer without name")
+
+    if args.add:
+        directory = sys.modules[__name__].Peer.get_peer_dir(config, args.name)
+        print(directory)
+        #print(__name__.Peer.get_peer_dir(config, args.name))
+
 
 @functools.total_ordering
 class Peer(object):
@@ -56,8 +78,13 @@ class Peer(object):
         self.addresses.append(address)
 
     @staticmethod
-    def writepeers(base_dir, listofpeers):
-        pass
+    def get_peer_dir(config, name):
+        """Support loading myself or regular peers"""
+
+        if name == PEER_NAME_MYSELF:
+            return config.id_dir
+        else:
+            return os.path.join(config.peer_dir, name)
 
     @classmethod
     def list_random_peers(cls, base_dir, num_peers):
@@ -94,7 +121,7 @@ class Peer(object):
         addresses_path = os.path.join(directory, "addresses")
 
         if not os.path.isdir(directory):
-            raise PeerError("Peer directory %s does not exist" % directory)
+            raise NoSuchPeerError("Peer directory %s does not exist" % directory)
 
         try:
             with open(name_path, 'r') as f:
