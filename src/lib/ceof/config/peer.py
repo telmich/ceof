@@ -59,10 +59,10 @@ class Peer(object):
         return ((self.name, self.fingerprint) < (other.name, other.fingerprint))
 
     @staticmethod
-    def get_peer_dir(config, name):
+    def get_peer_dir(base_dir, name):
         """Return peer directory"""
 
-        return os.path.join(config.peer_dir, name)
+        return os.path.join(base_dir, name)
 
     @classmethod
     def commandline(cls, args, config):
@@ -80,7 +80,7 @@ class Peer(object):
 
         # Find peer on disk, if existing
         if args.add or args.remove:
-            directory = cls.get_peer_dir(config, args.name)
+            directory = cls.get_peer_dir(config.peer_dir, args.name)
 
             try:
                 peer = cls.from_disk(directory)
@@ -102,13 +102,18 @@ class Peer(object):
         # Only remove if existing
         elif args.remove:
             if peer:
-                shutil.rmtree(directory)
+                peer.remove_from_disk(config.peer_dir)
+        elif args.add_address:
+            if not peer:
+                raise PeerError("Cannot add address to non-existing peer %s" % (args.name))
 
-
-        #elif (args.add_address or args.remove_address) and not peer:
+        elif args.remove_address:
+            if not peer:
+                raise PeerError("Cannot remove address from non-existing peer %s" % (args.name))
 
         elif args.list:
-            pass
+            for peer in  cls.list_peers(config.peer_dir):
+                print(peer)
 
 
     @classmethod
@@ -194,5 +199,7 @@ class Peer(object):
         """Remove address from list"""
         self.addresses.remove(address)
 
-    def delete(self, name):
-        pass
+    def remove_from_disk(self, base_dir):
+        """Remove peer from disk"""
+
+        shutil.rmtree(self.get_peer_dir(base_dir, self.name))
