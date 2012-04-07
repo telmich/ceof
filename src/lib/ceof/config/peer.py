@@ -37,27 +37,12 @@ class PeerError(ceof.Error):
 class NoSuchPeerError(PeerError):
     pass
 
-def commandline(args, config):
-    """Handle command line arguments"""
-    print((args, config))
-
-    if args.remove and args.add:
-        raise PeerError("Cannot add and remove a peer at the same time")
-
-    if (args.add or args.remove) and not args.name:
-        raise PeerError("Cannot add/remove peer without name")
-
-    if args.add:
-        directory = sys.modules[__name__].Peer.get_peer_dir(config, args.name)
-        print(directory)
-        #print(__name__.Peer.get_peer_dir(config, args.name))
-
 
 @functools.total_ordering
 class Peer(object):
     """Handle peer information"""
     
-    def __init__(self, name, fingerprint, addresses):
+    def __init__(self, name, fingerprint, addresses=[]):
         self.name = name
         self.fingerprint = fingerprint
         self.addresses = addresses
@@ -74,9 +59,6 @@ class Peer(object):
     def __lt__(self, other):
         return ((self.name, self.fingerprint) < (other.name, other.fingerprint))
 
-    def address_add(self, address):
-        self.addresses.append(address)
-
     @staticmethod
     def get_peer_dir(config, name):
         """Support loading myself or regular peers"""
@@ -85,6 +67,37 @@ class Peer(object):
             return config.id_dir
         else:
             return os.path.join(config.peer_dir, name)
+
+    @classmethod
+    def commandline(cls, args, config):
+        """Handle command line arguments"""
+        print((args, config))
+
+        if args.remove and args.add:
+            raise PeerError("Cannot add and remove a peer at the same time")
+
+        if (args.add or args.remove) and not args.name:
+            raise PeerError("Cannot add/remove peer without name")
+
+        # Find peer on disk, if existing
+        if args.add or args.remove:
+            directory = cls.get_peer_dir(config, args.name)
+
+            try:
+                peer = cls.from_disk(directory)
+            except NoSuchPeerError:
+                peer = None
+
+            print(directory)
+
+            #print(__name__.Peer.get_peer_dir(config, args.name))
+
+        # The actual code part
+        if args.add:
+            print("adding")
+        elif args.list:
+            pass
+
 
     @classmethod
     def list_random_peers(cls, base_dir, num_peers):
@@ -162,13 +175,16 @@ class Peer(object):
             f.write(addresses)
 
     def address_add(self, address):
-        """Add address to list"""
+        """Add address to peer"""
         self.addresses.append(address)
 
     def address_replace(self, address):
         """Replace address list with new address"""
         self.addresses = [address]
 
+    def address_remove(self, address):
+        """Remove address from list"""
+        self.addresses.remove(address)
 
     def delete(self, name):
         pass
