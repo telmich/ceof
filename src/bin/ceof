@@ -152,11 +152,7 @@ def ceof_noise(args, config):
         print("Noise: ---\"%s\"---" % noise.get())
 
 def ceof_peer(args, config):
-    ceof.config.peer.commandline(args, config)
-
-#    if args.add:
-
-#    elif args.remove:
+    ceof.Peer.commandline(args, config)
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)
