@@ -1,0 +1,18 @@
+- make peer add work from command line
+    - name, fingerprint
+    - add/remove addresses
+
+- create other nodes
+    - add listeners
+        - like peers: addresses (just special peer)
+            - finish peer command line interface to add addresses from script [x]
+                - add myself or real peer [x]               |
+                    - merge disk and given peer             ! !
+                    - write back to tisk                    |
+                    - check address for supported scheme    |
+                        - implement tcp                     v
+
+
+- add transport protocol
+    - implement in python for portability (i.e. no external dependency)
+    - add my listener
