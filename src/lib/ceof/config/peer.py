@@ -96,8 +96,7 @@ class Peer(object):
 
             if args.add_address:
                 for address in args.add_address:
-                    if not address in peer.addresses:
-                        peer.add_address(address)
+                    peer.add_address(address)
 
             peer.to_disk(directory)
 
@@ -111,19 +110,15 @@ class Peer(object):
                 raise PeerError("Cannot add address to non-existing peer %s" % (args.name))
 
             for address in args.add_address:
-                if not address in peer.addresses:
-                    peer.add_address(address)
+                peer.add_address(address)
             peer.to_disk(directory)
 
         elif args.remove_address:
             if not peer:
                 raise PeerError("Cannot remove address from non-existing peer %s" % (args.name))
             for address in args.remove_address:
-                try:
-                    peer.remove_address(address)
-                # Ignore removal of absent addresses
-                except ValueError:
-                    pass
+                peer.remove_address(address)
+
             peer.to_disk(directory)
 
         if args.list:
@@ -208,11 +203,13 @@ class Peer(object):
 
     def add_address(self, address):
         """Add address to peer"""
-        self.addresses.append(address)
+        if not address in self.addresses:
+            self.addresses.append(address)
 
     def remove_address(self, address):
         """Remove address from list"""
-        self.addresses.remove(address)
+        if address in self.addresses:
+            self.addresses.remove(address)
 
     def remove_from_disk(self, base_dir):
         """Remove peer from disk"""
