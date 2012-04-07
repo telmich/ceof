@@ -76,8 +76,18 @@ def commandline():
          default="you@example.org")
     parser['crypto'].add_argument('-s', '--show',
          help='Show private/public key pair', action='store_true')
-
     parser['crypto'].set_defaults(func=ceof_crypto)
+
+    # Transport protocols - listene
+    parser['listener'] = parser['sub'].add_parser('listener',
+        parents=[parser['all']])
+    parser['listener'].add_argument('-a', '--add',
+         help='Add an address to listen on', action='append')
+    parser['listener'].add_argument('-l', '--list',
+         help='List listener', action='store_true')
+    parser['listener'].add_argument('-r', '--remove',
+         help='Remove an address to listen on', action='append')
+    parser['listener'].set_defaults(func=ceof.transport.Listener.commandline)
 
     # Noise engine - prints noise to stdout
     parser['noise'] = parser['sub'].add_parser('noise',
@@ -101,7 +111,7 @@ def commandline():
          help='Add an address to a peer', action='append')
     parser['peer'].add_argument('--remove-address',
          help='Remove an address from a peer', action='append')
-    parser['peer'].set_defaults(func=ceof_peer)
+    parser['peer'].set_defaults(func=ceof.Peer.commandline)
 
     # Server to accept ui connections
     parser['uiserver'] = parser['sub'].add_parser('server',
@@ -152,9 +162,6 @@ def ceof_noise(args, config):
 
     while True:
         print("Noise: ---\"%s\"---" % noise.get())
-
-def ceof_peer(args, config):
-    ceof.Peer.commandline(args, config)
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)

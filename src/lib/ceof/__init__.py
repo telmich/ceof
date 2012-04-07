@@ -125,5 +125,6 @@ from ceof.config import Config
 from ceof.noise import Noise
 
 from ceof.config.peer import Peer
+from ceof.transport import Main as Transport
 
 #from ceof.crypto import Crypto
