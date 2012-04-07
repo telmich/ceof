@@ -25,6 +25,7 @@ import logging
 import os
 import os.path
 import random
+import shutil
 import sys
 
 log = logging.getLogger(__name__)
@@ -98,6 +99,10 @@ class Peer(object):
                     peer.add_address(address)
 
             peer.to_disk(directory)
+        # Only remove if existing
+        elif args.remove:
+            if peer:
+                shutil.rmtree(directory)
 
 
         #elif (args.add_address or args.remove_address) and not peer:
