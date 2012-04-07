@@ -61,6 +61,8 @@ def commandline():
          help='Decrypt from stdin', action='store_true')
     parser['crypto'].add_argument('-e', '--export',
          help='Export public key to stdout', action='store_true')
+    parser['crypto'].add_argument('-f', '--fingerprint',
+         help='Show key fingerprint', action='store_true')
     parser['crypto'].add_argument('-g', '--gen-key',
          help='Generate new private/public key pair', action='store_true')
     parser['crypto'].add_argument('-l', '--length',
@@ -177,6 +179,8 @@ def ceof_crypto(args, config):
         print(crypto.decrypt(data))
     elif args.encrypt:
         print(crypto.encrypt(data, args.encrypt))
+    elif args.fingerprint:
+        print(crypto.fingerprint)
     elif args.gen_key:
         crypto.gen_key()
     elif args.show:

@@ -85,6 +85,11 @@ class Crypto(object):
         else:
             return None
 
+    @property
+    def fingerprint(self):
+        """Return GPG fingerprint"""
+        return self.private_key['fingerprint']
+        
     def decrypt(self, data):
         if not self.private_key:
             raise NoPrivKeyError 

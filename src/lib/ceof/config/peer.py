@@ -76,8 +76,11 @@ class Peer(object):
         if args.remove and args.add:
             raise PeerError("Cannot add and remove a peer at the same time")
 
-        if (args.add or args.remove) and not args.name:
-            raise PeerError("Cannot add/remove peer without name")
+        if (args.add or args.remove or args.add_address or args.remove_address) and not args.name:
+           raise PeerError("Cannot add/remove/change peer without name")
+
+        if args.add and not args.fingerprint:
+            raise PeerError("Cannot add peer without fingerprint")
 
         # Find peer on disk, if existing
         if args.add or args.remove:
