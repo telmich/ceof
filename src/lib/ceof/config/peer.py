@@ -91,13 +91,22 @@ class Peer(object):
             except NoSuchPeerError:
                 peer = None
 
-            print(directory)
-
-            #print(__name__.Peer.get_peer_dir(config, args.name))
-
         # The actual code part
         if args.add:
-            print("adding")
+            if peer:
+                raise PeerError("Peer %s already exists with fingerprint %s" % (peer.name, peer.fingerprint))
+
+            peer = cls(args.name, args.fingerprint)
+
+            if args.add_address:
+                for address in args.add_address:
+                    peer.add_address(address)
+
+            peer.to_disk(directory)
+
+
+        #elif (args.add_address or args.remove_address) and not peer:
+
         elif args.list:
             pass
 
@@ -155,7 +164,7 @@ class Peer(object):
 
     def to_disk(self, base_dir):
         
-        directory = os.path.join(base_dir, self.fingerprint)
+        directory = os.path.join(base_dir, self.name)
 
         if os.path.exists(directory):
             if not os.path.isdir(directory):
@@ -177,15 +186,11 @@ class Peer(object):
             addresses = '\n'.join(self.addresses)
             f.write(addresses)
 
-    def address_add(self, address):
+    def add_address(self, address):
         """Add address to peer"""
         self.addresses.append(address)
 
-    def address_replace(self, address):
-        """Replace address list with new address"""
-        self.addresses = [address]
-
-    def address_remove(self, address):
+    def remove_address(self, address):
         """Remove address from list"""
         self.addresses.remove(address)
 
