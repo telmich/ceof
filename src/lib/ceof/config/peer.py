@@ -79,7 +79,7 @@ class Peer(object):
             raise PeerError("Cannot add peer without fingerprint")
 
         # Find peer on disk, if existing
-        if args.add or args.remove:
+        if args.add or args.remove or args.add_address or args.remove_address:
             directory = cls.get_peer_dir(config.peer_dir, args.name)
 
             try:
@@ -96,22 +96,37 @@ class Peer(object):
 
             if args.add_address:
                 for address in args.add_address:
-                    peer.add_address(address)
+                    if not address in peer.addresses:
+                        peer.add_address(address)
 
             peer.to_disk(directory)
-        # Only remove if existing
+
         elif args.remove:
+           # Only remove if existing
             if peer:
                 peer.remove_from_disk(config.peer_dir)
-        elif args.add_address:
+
+        if args.add_address:
             if not peer:
                 raise PeerError("Cannot add address to non-existing peer %s" % (args.name))
+
+            for address in args.add_address:
+                if not address in peer.addresses:
+                    peer.add_address(address)
+            peer.to_disk(directory)
 
         elif args.remove_address:
             if not peer:
                 raise PeerError("Cannot remove address from non-existing peer %s" % (args.name))
+            for address in args.remove_address:
+                try:
+                    peer.remove_address(address)
+                # Ignore removal of absent addresses
+                except ValueError:
+                    pass
+            peer.to_disk(directory)
 
-        elif args.list:
+        if args.list:
             for peer in  cls.list_peers(config.peer_dir):
                 print(peer)
 
