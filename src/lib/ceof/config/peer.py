@@ -29,8 +29,6 @@ import sys
 
 log = logging.getLogger(__name__)
 
-PEER_NAME_MYSELF = "myself"
-
 class PeerError(ceof.Error):
     pass
 
@@ -61,12 +59,9 @@ class Peer(object):
 
     @staticmethod
     def get_peer_dir(config, name):
-        """Support loading myself or regular peers"""
+        """Return peer directory"""
 
-        if name == PEER_NAME_MYSELF:
-            return config.id_dir
-        else:
-            return os.path.join(config.peer_dir, name)
+        return os.path.join(config.peer_dir, name)
 
     @classmethod
     def commandline(cls, args, config):
@@ -162,9 +157,9 @@ class Peer(object):
 
         return cls(name, fingerprint, addresses)
 
-    def to_disk(self, base_dir):
+    def to_disk(self, directory):
         
-        directory = os.path.join(base_dir, self.name)
+        #directory = os.path.join(base_dir, self.name)
 
         if os.path.exists(directory):
             if not os.path.isdir(directory):
