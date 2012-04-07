@@ -72,7 +72,6 @@ class Config(object):
         os.makedirs(self.gpg_config_dir, exist_ok=True)
         os.makedirs(self.noise_dir, exist_ok=True)
         os.makedirs(self.peer_dir, exist_ok=True)
-        os.makedirs(self.id_dir, exist_ok=True)
 
     def list_peers(self):
         Peer.listpeers(self.peer_dir)
