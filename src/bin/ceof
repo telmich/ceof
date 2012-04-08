@@ -76,7 +76,7 @@ def commandline():
          default="you@example.org")
     parser['crypto'].add_argument('-s', '--show',
          help='Show private/public key pair', action='store_true')
-    parser['crypto'].set_defaults(func=ceof_crypto)
+    parser['crypto'].set_defaults(func=ceof.Crypto.commandline)
 
     # Transport protocols - listener
     parser['listener'] = parser['sub'].add_parser('listener',
@@ -194,30 +194,6 @@ def ceof_ui(args, config):
 def ceof_uiserver(args, config):
     uiserv = ceof.UIServer(args.address, args.port)
     uiserv.run()
-
-def ceof_crypto(args, config):
-    import sys
-    import ceof.crypto
-    
-    crypto = ceof.crypto.Crypto(config.gpg_config_dir, 
-        name=args.name, email=args.email_address)
-
-    if args.decrypt or args.encrypt:
-        data = sys.stdin.readlines()
-        data = "".join(data)
-
-    if args.decrypt:
-        print(crypto.decrypt(data))
-    elif args.encrypt:
-        print(crypto.encrypt(data, args.encrypt))
-    elif args.fingerprint:
-        print(crypto.fingerprint)
-    elif args.gen_key:
-        crypto.gen_key()
-    elif args.show:
-        crypto.show()
-    elif args.export:
-        crypto.export()
 
 if __name__ == "__main__":
     # Sys is needed for sys.exit()

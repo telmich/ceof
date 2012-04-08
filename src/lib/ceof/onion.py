@@ -55,7 +55,7 @@ class Onion(object):
     def chain(self, chained_pkg):
         """Create onion chain"""
 
-        print(chained_pkg)
+        log.debug(chained_pkg)
         onion_chain = ""
         lastaddr=""
         for pkg in chained_pkg:
@@ -73,7 +73,7 @@ class Onion(object):
 
         # empty core of the onion
         eofmsg = ceof.EOFMsg(cmd=cmd)
-        print(repr(str(eofmsg)))
+        log.debug(repr(str(eofmsg)))
 
         # Nothing added when dropping the package
         if cmd == ceof.EOF_CMD_ONION_DROP:

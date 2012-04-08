@@ -23,6 +23,7 @@
 
 import ceof
 import logging
+import sys 
 
 log = logging.getLogger(__name__)
 
@@ -62,6 +63,29 @@ class Crypto(object):
 
         self._gpg = gnupg.GPG(gnupghome=gpg_dir)
         self._private_keys = self._gpg.list_keys(True)
+
+    @classmethod
+    def commandline(cls, args, config):
+        crypto = cls(config.gpg_config_dir, 
+            name=args.name, email=args.email_address)
+
+        if args.decrypt or args.encrypt:
+            data = sys.stdin.readlines()
+            data = "".join(data)
+
+        if args.decrypt:
+            print(crypto.decrypt(data))
+        elif args.encrypt:
+            print(crypto.encrypt(data, args.encrypt))
+        elif args.fingerprint:
+            print(crypto.fingerprint)
+        elif args.gen_key:
+            crypto.gen_key()
+        elif args.show:
+            crypto.show()
+        elif args.export:
+            crypto.export()
+
 
     def gen_key(self):
         """Generate new private/public key pair, if none existing"""

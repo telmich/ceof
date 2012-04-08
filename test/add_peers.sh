@@ -37,8 +37,16 @@ for peer in *; do
     # And now to the main (my) account
     $ceof peer peer$peer --add --fingerprint "$fingerprint"
     for address in $($ceof -c "$dir" listener -l); do
-        echo "Adding to myself $peer frompeer address $address"
+        echo "Adding $peer to myself with address $address"
             $ceof peer peer$peer --add-address "$address"
     done
 
+    # And add my main account to test accounts
+    echo "Adding myself to $peer ..."
+    fromfingerprint=$($ceof crypto --fingerprint)
+    $ceof -c $dir peer nico --add --fingerprint "$fromfingerprint"
+    for address in $($ceof listener -l); do
+        echo "Adding to peer $peer myself with address $address"
+        $ceof -c $dir peer peer$frompeer --add-address "$address"
+    done
 done
