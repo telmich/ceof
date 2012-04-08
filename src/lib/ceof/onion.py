@@ -39,45 +39,57 @@ class Onion(object):
 
     @classmethod
     def commandline(cls, args, config):
-        if args.create and not args.message:
-            raise OnionError("Requiring message and peer for onion create")
+        if args.message and not args.name:
+            raise OnionError("Requiring peer name for onion")
 
-        if args.onion_to:
-            peer = ceof.Peer.from_disk(config.peer_dir, args.onion_to)
-            route = ceof.Transport.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
-            onion = ceof.Transport.chained_pkg(route, peer, "test")
-            print(onion)
+        if args.message:
+            peer = ceof.Peer.from_disk(config.peer_dir, args.name)
+            route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
+            chain = ceof.TransportProtocol.chained_pkg(route, peer, args.message)
+            onion = cls.onion_chain(chain)
+            print(chain)
 
-    @staticmethod
-    def onion_chain(chained_pkg):
+    @classmethod
+    def onion_chain(cls, chained_pkg):
         """Create onion chain"""
 
+        print(chained_pkg)
         onion_chain = ""
-        for part in chained_pkg:
-            onion_chain = onion_pkg(pkg, onion_chain)
+        lastaddr=""
+        for pkg in chained_pkg:
+            print(pkg)
+            onion_chain = cls.onion_pkg(pkg, onion_chain, lastaddr)
+            lastaddr = pkg['address']
+            print(onion_chain)
 
         return onion_chain
 
     @staticmethod
     def onion_pkg(pkg, onion, lastaddr):
         """Create an onion"""
-        if pkg['cmd'] == ceof.EOF_CMD_ONION_DROP:
-            core = cmd + noise(EOF_L_ID + EOF_L_ADDRESS + EOF_L_GROUP + EOF_L_MESSAGE)
 
-        elif pkg['cmd'] == ceof.EOF_CMD_ONION_FORWARD:
+        cmd = pkg['cmd']
+
+        # empty core of the onion
+        core = ceof.EOFMsg(cmd=cmd)
+
+        # Nothing added when dropping the package
+        if cmd == ceof.EOF_CMD_ONION_DROP:
+            pass
+        elif cmd == ceof.EOF_CMD_ONION_FORWARD:
             address = ceof.fillup(lastaddr, EOF_L_ADDRESS)
 
-            core = cmd + noise(EOF_L_ID) + address + noise(EOF_L_GROUP + EOF_L_MESSAGE)
+            core = cmd + ceof.fillup(ceof.EOF_L_ID) + address + ceof.fillup(ceof.EOF_L_GROUP + ceof.EOF_L_MESSAGE)
 
-        elif pkg['cmd'] == ceof.EOF_CMD_ONION_MSG_DROP:
-            message = ceof.fillup(lastaddr, pkg['message'])
-            core = cmd + eof_id + noise(EOF_L_ADDRESS + EOF_L_GROUP) + message
+        elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
+            message = pkg['message']
+            core = cmd + eof_id + ceof.fillup(EOF_L_ADDRESS + EOF_L_GROUP) + message
             
-        elif pkg['cmd'] == ceof.EOF_CMD_ONION_MSG_FORWARD:
+        elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             address = ceof.fillup(lastaddr, EOF_L_ADDRESS)
-            message = ceof.fillup(lastaddr, pkg['message'])
+            message = pkg['message']
 
-            core = cmd + eof_id + address + noise(EOF_L_GROUP) + message
+            core = cmd + eof_id + address + ceof.fillup(EOF_L_GROUP) + message
             
         return crypto.encrypt(core + onion, pkg['peer']['fingerprint'])
 

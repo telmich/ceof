@@ -97,10 +97,12 @@ def commandline():
     # Onion
     parser['onion'] = parser['sub'].add_parser('onion',
         parents=[parser['all']])
+    parser['onion'].add_argument('name', nargs='?',
+         help='Name of the peer', action='store')
     parser['onion'].add_argument('-l', '--list',
          help='List available transport protocols', action='store_true')
-    parser['onion'].add_argument('-p', '--peer',
-         help='Peer to create onion for', action='store')
+    parser['onion'].add_argument('-m', '--message',
+         help='Create onion with this message for peer', action='store')
     parser['onion'].set_defaults(func=ceof.Onion.commandline)
 
      # Server to accept ui connections

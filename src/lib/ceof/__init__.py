@@ -101,6 +101,10 @@ EOF_UI_PEER_LIST         = "/peer list"
 EOF_UI_PEER_SEND         = "/peer send"
 EOF_UI_HELP              = "/help"
 
+def fill_and_trim(data, length):
+    """Ensure exact length is given, strip away longer stuff"""
+    return data[:length].ljust(length, '\0')
+
 def fillup(data, length):
     """Return string with fill character filled up"""
     return data.ljust(length, '\0')
