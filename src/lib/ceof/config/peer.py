@@ -133,7 +133,7 @@ class Peer(object):
         if len(peers) < num_peers:
             raise PeerError("Requesting more random peers than available (%s > %s)" % (num_peers, len(peers)))
 
-        for peer in range(num_peers):
+        for peer_no in range(num_peers):
             peer_index = random.randrange(len(peers))
 
             # Skip if found peer to avoid
@@ -143,13 +143,14 @@ class Peer(object):
                     if len(peers) == 1:
                         raise PeerError("Exhausted all possible random peers (only skipped peer left)")
 
-                    print("Skipping %s" % notthispeer)
+                    log.debug("Skipping %s" % notthispeer)
                     continue
 
             peer = peers.pop(peer_index)
 
             random_peers.append(peer)
 
+        log.debug("Random peers:" + str(random_peers))
         return random_peers
 
     @classmethod

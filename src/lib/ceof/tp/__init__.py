@@ -39,18 +39,21 @@ class TransportProtocol(object):
 
     @classmethod
     def commandline(cls, args, config):
+        if (args.route_to or args.chain_to) and not args.name:
+            raise TransportProtocolError("Requiring peer name for routing/chaining")
+
         if args.list:
             for protocol in cls.list_protocols():
                 print(protocol)
         elif args.route_to:
-            peer = ceof.Peer.from_disk(config.peer_dir, args.route_to)
+            peer = ceof.Peer.from_disk(config.peer_dir, args.name)
             route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
             print(route)
-        elif args.onion_to:
-            peer = ceof.Peer.from_disk(config.peer_dir, args.onion_to)
+        elif args.chain_to:
+            peer = ceof.Peer.from_disk(config.peer_dir, args.name)
             route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
-            onion = cls.chained_pkg(route, peer, "test")
-            print(onion)
+            chain = cls.chained_pkg(route, peer, "test")
+            print(chain)
 
     @staticmethod
     def list_protocols():
@@ -99,7 +102,7 @@ class TransportProtocol(object):
         pkg = []
         for router in route:
             router_pkg = {}
-            router_pkg['peer'] = peer
+            router_pkg['peer'] = router
             router_pkg['address'] = peer.random_address()
 
             if router == peer:
@@ -122,78 +125,9 @@ class TransportProtocol(object):
 
         return pkg
 
+################################################################################
     @staticmethod
-    def onion_chain(chained_pkg):
-        """Create onion chain"""
-
-        onion_chain = ""
-        for part in chained_pkg:
-            onion_chain = onion_pkg(pkg, onion_chain)
-
-        return onion_chain
-
-    @staticmethod
-    def onion_pkg(pkg, onion, lastaddr):
-        """Create an onion"""
-        if pkg['cmd'] == ceof.EOF_CMD_ONION_DROP:
-            core = cmd + noise(EOF_L_ID + EOF_L_ADDRESS + EOF_L_GROUP + EOF_L_MESSAGE)
-
-        elif pkg['cmd'] == ceof.EOF_CMD_ONION_FORWARD:
-            address = ceof.fillup(lastaddr, EOF_L_ADDRESS)
-
-            core = cmd + noise(EOF_L_ID) + address + noise(EOF_L_GROUP + EOF_L_MESSAGE)
-
-        elif pkg['cmd'] == ceof.EOF_CMD_ONION_MSG_DROP:
-            message = ceof.fillup(lastaddr, pkg['message'])
-            core = cmd + eof_id + noise(EOF_L_ADDRESS + EOF_L_GROUP) + message
-            
-        elif pkg['cmd'] == ceof.EOF_CMD_ONION_MSG_FORWARD:
-            address = ceof.fillup(lastaddr, EOF_L_ADDRESS)
-            message = ceof.fillup(lastaddr, pkg['message'])
-
-            core = cmd + eof_id + address + noise(EOF_L_GROUP) + message
-            
-        return crypto.encrypt(core + onion, pkg['peer']['fingerprint'])
-
-class NoiseQueueEmptyError(ceof.Error):
-    def __init__(self):
-        self.message = "Noise Queue empty - probably a bug?"
-
-    def __str__(self):
-        return self.message
-
-class Transport(object):
-    """Transport network packets"""
-
-    def __init__(self, queue, interval, num_peers, noise_dir):
-
-        # Receive real messages from here
-        self.message_queue = queue
-
-        # Get fake messages from here
-        self._init_noise(noise_dir)
-
-        # Send every interal seconds (1/4 for instance)
-        self.interval = interval
-
-        # Have num_peers per route
-        self.num_peers = num_peers
-        
-        self.doexit = False
-
-    def _init_noise(self, noise_dir):
-        """Init noise handler"""
-
-        self._noise = ceof.Noise(noise_dir)
-        self._noise.start()
-
-    def _get_noise_message(self):
-        """Get next noise message"""
-        return self._noise.get()
-    #def create_postcard(self, pkg, destination):
-
-
-    def send(self, text, destination):
+    def send(text, destination):
         """Send packet from queue"""
 
         route = self.route_to(destination)

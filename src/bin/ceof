@@ -94,7 +94,16 @@ def commandline():
         parents=[parser['all']])
     parser['noise'].set_defaults(func=ceof_noise)
 
-    # Server to accept ui connections
+    # Onion
+    parser['onion'] = parser['sub'].add_parser('onion',
+        parents=[parser['all']])
+    parser['onion'].add_argument('-l', '--list',
+         help='List available transport protocols', action='store_true')
+    parser['onion'].add_argument('-p', '--peer',
+         help='Peer to create onion for', action='store')
+    parser['onion'].set_defaults(func=ceof.Onion.commandline)
+
+     # Server to accept ui connections
     parser['peer'] = parser['sub'].add_parser('peer',
         parents=[parser['all']])
     parser['peer'].add_argument('name', nargs='?',
@@ -127,12 +136,14 @@ def commandline():
     # Transport protocols
     parser['tp'] = parser['sub'].add_parser('tp',
         parents=[parser['all']])
+    parser['tp'].add_argument('name', nargs='?',
+         help='Name of the peer', action='store')
+    parser['tp'].add_argument('--chain-to',
+         help='Generate onion package for given peer', action='store_true')
     parser['tp'].add_argument('-l', '--list',
          help='List available transport protocols', action='store_true')
-    parser['tp'].add_argument('-o', '--onion-to',
-         help='Generate onion package for given peer', action='store')
     parser['tp'].add_argument('-r', '--route-to',
-         help='Generate route to given peer', action='store')
+         help='Generate route to given peer', action='store_true')
     parser['tp'].set_defaults(func=ceof.TransportProtocol.commandline)
 
      # User interface
