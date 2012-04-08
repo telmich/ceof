@@ -20,6 +20,7 @@
 #
 
 import ceof
+import ceof.tp
 import logging
 import os
 import os.path
@@ -70,6 +71,10 @@ class Listener(object):
 
     def add_listener(self, listener):
         """Add listener"""
+
+        if not ceof.TransportProtocol.verify_scheme(listener):
+            raise ListenerError("Unknown protocol in address %s" % listener)
+
         if not listener in self.listener:
             self.listener.append(listener)
 

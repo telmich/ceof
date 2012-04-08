@@ -113,14 +113,7 @@ def commandline():
          help='Remove an address from a peer', action='append')
     parser['peer'].set_defaults(func=ceof.Peer.commandline)
 
-    # Transport protocols
-    parser['tp'] = parser['sub'].add_parser('tp',
-        parents=[parser['all']])
-    parser['tp'].add_argument('-l', '--list',
-         help='List available transport protocols', action='store_true')
-    parser['tp'].set_defaults(func=ceof.TransportProtocol.commandline)
-
-    # Server to accept ui connections
+   # Server to accept ui connections
     parser['uiserver'] = parser['sub'].add_parser('server',
         parents=[parser['all']])
     parser['uiserver'].add_argument('-a', '--address',
@@ -131,7 +124,14 @@ def commandline():
          default='4242')
     parser['uiserver'].set_defaults(func=ceof_uiserver)
 
-    # User interface
+    # Transport protocols
+    parser['tp'] = parser['sub'].add_parser('tp',
+        parents=[parser['all']])
+    parser['tp'].add_argument('-l', '--list',
+         help='List available transport protocols', action='store_true')
+    parser['tp'].set_defaults(func=ceof.TransportProtocol.commandline)
+
+     # User interface
     parser['ui'] = parser['sub'].add_parser('ui',
         parents=[parser['all']])
     parser['ui'].add_argument('-a', '--address',
