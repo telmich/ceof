@@ -1,6 +1,5 @@
 
 - send packet
-    x add all other peers to each peer and myself
     - get random route
     - test nodes listen on their listeners
     - test nodes act on EOF messages (forward, drop)
