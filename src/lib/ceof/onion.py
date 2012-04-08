@@ -71,7 +71,9 @@ class Onion(object):
         cmd = pkg['cmd']
 
         # empty core of the onion
-        core = ceof.EOFMsg(cmd=cmd)
+        eofmsg = ceof.EOFMsg(cmd=cmd)
+        eofmsg.group = "muuu"
+        print("msg: " + str(eofmsg) + "x")
 
         # Nothing added when dropping the package
         if cmd == ceof.EOF_CMD_ONION_DROP:

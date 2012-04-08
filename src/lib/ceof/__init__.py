@@ -123,6 +123,7 @@ class Error(Exception):
 
 # Convienence
 from ceof.config            import Config
+from ceof.eofmsg            import EOFMsg
 from ceof.eofid             import EOFID
 from ceof.config.listener   import Listener
 from ceof.noise             import Noise

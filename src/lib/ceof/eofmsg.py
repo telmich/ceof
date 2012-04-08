@@ -39,6 +39,9 @@ class EOFMsg(object):
         self.group      = group
         self.msgtext    = msgtext
 
+    def __str__(self):
+        return self.message
+
     def get_message(self):
         return self.version + self.cmd + self.eofid + self.address + self.group + self.msgtext
 
