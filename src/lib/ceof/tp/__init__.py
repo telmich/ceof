@@ -49,7 +49,7 @@ class TransportProtocol(object):
         elif args.onion_to:
             peer = ceof.Peer.from_disk(config.peer_dir, args.onion_to)
             route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
-            onion = cls.onion_pkg(route, peer, "test")
+            onion = cls.chained_pkg(route, peer, "test")
             print(onion)
 
     @staticmethod
@@ -89,37 +89,71 @@ class TransportProtocol(object):
 
         return peers
 
-    def onion_pkg(route, peer, message):
-        """Create onion packet"""
+    @staticmethod
+    def chained_pkg(route, peer, message):
+        """Create chained packet"""
 
         # First peer that receives is the last one that last decrypts
         first_peer = True
         msg=""
         pkg = []
         for router in route:
-            address = peer.random_address()
+            router_pkg = {}
+            router_pkg['peer'] = peer
+            router_pkg['address'] = peer.random_address()
 
             if router == peer:
+                router_pkg['message'] = message
                 if first_peer:
-                    cmd = ceof.EOF_CMD_ONION_MSG_DROP
+                    router_pkg['cmd'] = ceof.EOF_CMD_ONION_MSG_DROP
                     first_peer = False
                 else:
-                    cmd = ceof.EOF_CMD_ONION_MSG_FORWARD
+                    router_pkg['cmd'] = ceof.EOF_CMD_ONION_MSG_FORWARD
             else:
+                payload = ""
                 if first_peer:
-                    cmd = ceof.EOF_CMD_ONION_DROP
+                    router_pkg['cmd'] = ceof.EOF_CMD_ONION_DROP
                     first_peer = False
                 else:
-                    cmd = ceof.EOF_CMD_ONION_FORWARD
+                    router_pkg['cmd'] = ceof.EOF_CMD_ONION_FORWARD
 
-            pkg.append("%s/%s/%s" % (router.name, address, cmd))
+            pkg.append(router_pkg)
+            # pkg.append("%s/%s/%s" % (router.name, address, cmd))
 
         return pkg
 
-                #flag |= 
-#                onion(DROP, eofid.getnext(), addr, group, msg)
-#                onion(DROP, eofid.getnext(), addr, group, msg)
+    @staticmethod
+    def onion_chain(chained_pkg):
+        """Create onion chain"""
 
+        onion_chain = ""
+        for part in chained_pkg:
+            onion_chain = onion_pkg(pkg, onion_chain)
+
+        return onion_chain
+
+    @staticmethod
+    def onion_pkg(pkg, onion, lastaddr):
+        """Create an onion"""
+        if pkg['cmd'] == ceof.EOF_CMD_ONION_DROP:
+            core = cmd + noise(EOF_L_ID + EOF_L_ADDRESS + EOF_L_GROUP + EOF_L_MESSAGE)
+
+        elif pkg['cmd'] == ceof.EOF_CMD_ONION_FORWARD:
+            address = ceof.fillup(lastaddr, EOF_L_ADDRESS)
+
+            core = cmd + noise(EOF_L_ID) + address + noise(EOF_L_GROUP + EOF_L_MESSAGE)
+
+        elif pkg['cmd'] == ceof.EOF_CMD_ONION_MSG_DROP:
+            message = ceof.fillup(lastaddr, pkg['message'])
+            core = cmd + eof_id + noise(EOF_L_ADDRESS + EOF_L_GROUP) + message
+            
+        elif pkg['cmd'] == ceof.EOF_CMD_ONION_MSG_FORWARD:
+            address = ceof.fillup(lastaddr, EOF_L_ADDRESS)
+            message = ceof.fillup(lastaddr, pkg['message'])
+
+            core = cmd + eof_id + address + noise(EOF_L_GROUP) + message
+            
+        return crypto.encrypt(core + onion, pkg['peer']['fingerprint'])
 
 class NoiseQueueEmptyError(ceof.Error):
     def __init__(self):
