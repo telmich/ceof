@@ -26,10 +26,7 @@ import os
 log = logging.getLogger(__name__)
 
 # /* paths */ - FIXME: probably obsolete
-#EOF_P_CONFIGDIR          = ".ceof"
-#EOF_P_TP_DIR             = EOF_P_SLASH + "tp"
 #EOF_P_PIDFILE            = EOF_P_SLASH + "pid"
-
 
 class ConfigError(ceof.Error):
     pass
@@ -41,11 +38,6 @@ class Config(object):
         self._init_config_dir(config_dir)
         self._verify_config_dir()
         self._create_directories()
-
-        try:
-            self.myid = ceof.Peer.from_disk(self.id_dir)
-        except ceof.config.peer.PeerError:
-            self.myid = False
 
     def _init_config_dir(self, config_dir):
         """Find/setup configuration config_dir"""

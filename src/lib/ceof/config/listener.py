@@ -78,6 +78,6 @@ class Listener(object):
         if listener in self.listener:
             self.listener.remove(listener)
 
-
     def list_listener(self):
+        """Return all registered listener"""
         return self.listener
