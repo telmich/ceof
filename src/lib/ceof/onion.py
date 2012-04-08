@@ -62,7 +62,7 @@ class Onion(object):
             log.debug("Chain pkg:" + str(pkg))
             onion_chain = self.pkg(pkg, onion_chain, lastaddr)
             lastaddr = pkg['address']
-            print("Returned Chain: %s" % str(onion_chain))
+            log.debug("Returned Chain: %s" % str(onion_chain))
 
         return onion_chain
 
@@ -89,4 +89,4 @@ class Onion(object):
             eofmsg.msgtext = pkg['message']
             eofmsg.address = lastaddr
 
-        return self.crypto.encrypt(str(eofmsg) + onion, pkg['peer'].fingerprint)
+        return str(self.crypto.encrypt(str(eofmsg) + onion, pkg['peer'].fingerprint))

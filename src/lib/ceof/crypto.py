@@ -129,13 +129,13 @@ class Crypto(object):
         return self._gpg.decrypt(data)
 
     def encrypt(self, data, recipients):
-        data = self._gpg.encrypt(data, recipients, always_trust=True)
-        log.debug(data)
+        encrypted_data = self._gpg.encrypt(data, recipients, always_trust=True)
+        log.debug(encrypted_data)
 
-        if len(str(data)) == 0:
+        if len(str(encrypted_data)) == 0:
             raise NoPubKeyError(recipients)
 
-        return self._gpg.encrypt(data, recipients)
+        return encrypted_data
 
     def export(self):
         if not self.private_key:
