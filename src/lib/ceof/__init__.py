@@ -130,6 +130,7 @@ from ceof.config.listener   import Listener
 from ceof.noise             import Noise
 from ceof.onion             import Onion
 from ceof.config.peer       import Peer
+from ceof.server            import Server
 from ceof.tp                import TransportProtocol
 from ceof.ui.main           import Main     as UI
 from ceof.server.ui         import UI       as UIServer

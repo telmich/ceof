@@ -62,9 +62,6 @@ class Config(object):
         os.makedirs(self.noise_dir, exist_ok=True)
         os.makedirs(self.peer_dir, exist_ok=True)
 
-    def list_peers(self):
-        Peer.listpeers(self.peer_dir)
-
     @property
     def gpg_config_dir(self):
         return os.path.join(self.config_dir, "gnupg")

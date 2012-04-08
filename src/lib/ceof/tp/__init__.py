@@ -24,7 +24,7 @@ import ceof
 import logging
 import os.path
 import random
-import re
+import urllib.parse
 
 log = logging.getLogger(__name__)
 
@@ -70,17 +70,28 @@ class TransportProtocol(object):
         return protocols
      
     @classmethod
+    def get_module(cls, address):
+        """Get module handling address"""
+
+        if not cls.verify_scheme(address):
+            handler = None
+        else:
+            url = urllib.parse(address)
+            modname = __name__ + url.scheme
+            print(modname)
+            handler = modname
+
+        return handler
+
+
+    @classmethod
     def verify_scheme(cls, address):
         """Verify given address if the scheme (=protocol) is available"""
         protocols = cls.list_protocols()
 
-        match = re.match("(.*?)://", address)
-        if not match:
-            return False
+        url = urllib.parse(address)
 
-        protocol = match.group(1)
-
-        return protocol in protocols
+        return url.scheme in protocols
 
     @staticmethod
     def route_to(peer_dir, peer, num_peers):

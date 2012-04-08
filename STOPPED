@@ -1,10 +1,7 @@
-
-- send packet
-    - get random route
+- send and receive packet
     - test nodes listen on their listeners
+        - create first listener +  create first sender
+            ! implement tcp tp
+
     - test nodes act on EOF messages (forward, drop)
 
-- create other nodes
-
-
-- implement tcp tp

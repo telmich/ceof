@@ -63,7 +63,6 @@ class Listener(object):
             for address in listener.list_listener():
                 print(address)
     
-
     def to_disk(self):
         with open(self.filename, 'w') as f:
             listener = '\n'.join(self.listener)

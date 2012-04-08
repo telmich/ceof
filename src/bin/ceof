@@ -124,8 +124,21 @@ def commandline():
          help='Remove an address from a peer', action='append')
     parser['peer'].set_defaults(func=ceof.Peer.commandline)
 
+   # General Server
+    parser['server'] = parser['sub'].add_parser('server',
+        parents=[parser['all']])
+    parser['server'].add_argument('-l', '--listener',
+         help='Start listener server', action='store_true')
+    parser['server'].add_argument('-a', '--ui-address',
+         help='Listen on this address for UI connections', action='store',
+         default='127.0.0.1')
+    parser['server'].add_argument('-p', '--ui-port',
+         help='Listen on this port for UI connections', action='store',
+         default='4242')
+    parser['server'].set_defaults(func=ceof.Server.commandline)
+
    # Server to accept ui connections
-    parser['uiserver'] = parser['sub'].add_parser('server',
+    parser['uiserver'] = parser['sub'].add_parser('uiserver',
         parents=[parser['all']])
     parser['uiserver'].add_argument('-a', '--address',
          help='Listen on this address for UI connections', action='store',
