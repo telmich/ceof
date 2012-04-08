@@ -1,7 +1,3 @@
 - create other nodes
-    - add listeners
-        - check address for supported scheme 
-            - add transport protocol stack
-                i implement in python for portability (i.e. no external dependency)
-                - implement tcp                     v
-        - check addresses for peers as well (via transpor?)
+
+- implement tcp tp
