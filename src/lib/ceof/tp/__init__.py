@@ -46,7 +46,11 @@ class TransportProtocol(object):
             peer = ceof.Peer.from_disk(config.peer_dir, args.route_to)
             route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
             print(route)
-
+        elif args.onion_to:
+            peer = ceof.Peer.from_disk(config.peer_dir, args.onion_to)
+            route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
+            onion = cls.onion_pkg(route, peer, "test")
+            print(onion)
 
     @staticmethod
     def list_protocols():
@@ -78,20 +82,44 @@ class TransportProtocol(object):
     @staticmethod
     def route_to(peer_dir, peer, num_peers):
         """Get route to a peer"""
-        peers = ceof.Peer.list_random_peers(peer_dir, num_peers)
+        peers = ceof.Peer.list_random_peers(peer_dir, num_peers, notthispeer=peer)
 
         peer_index = random.randrange(len(peers))
         peers.insert(peer_index, peer)
 
         return peers
 
+    def onion_pkg(route, peer, message):
+        """Create onion packet"""
 
-import ceof
-import logging
-import queue
-#import time
+        # First peer that receives is the last one that last decrypts
+        first_peer = True
+        msg=""
+        pkg = []
+        for router in route:
+            address = peer.random_address()
 
-log = logging.getLogger(__name__)
+            if router == peer:
+                if first_peer:
+                    cmd = ceof.EOF_CMD_ONION_MSG_DROP
+                    first_peer = False
+                else:
+                    cmd = ceof.EOF_CMD_ONION_MSG_FORWARD
+            else:
+                if first_peer:
+                    cmd = ceof.EOF_CMD_ONION_DROP
+                    first_peer = False
+                else:
+                    cmd = ceof.EOF_CMD_ONION_FORWARD
+
+            pkg.append("%s/%s/%s" % (router.name, address, cmd))
+
+        return pkg
+
+                #flag |= 
+#                onion(DROP, eofid.getnext(), addr, group, msg)
+#                onion(DROP, eofid.getnext(), addr, group, msg)
+
 
 class NoiseQueueEmptyError(ceof.Error):
     def __init__(self):
@@ -128,32 +156,6 @@ class Transport(object):
     def _get_noise_message(self):
         """Get next noise message"""
         return self._noise.get()
-
-    def create_onion(self, real_peer):
-        """Create onion packet"""
-
-        # First peer that receives is the last one to last decrypt
-        first_peer = True
-        msg=""
-        for peer in peers:
-            address = peer.get_address(random=True)
-
-            if peer == real_peer:
-                if first_peer:
-                    cmd = ceof.EOF_CMD_ONION_MSG_DROP
-                else:
-                    cmd = ceof.EOF_CMD_ONION_MSG_FORWARD
-            else:
-                if first_peer:
-                    cmd = ceof.EOF_CMD_ONION_DROP
-                else:
-                    cmd = ceof.EOF_CMD_ONION_DROP
-
-
-                #flag |= 
-                onion(DROP, eofid.getnext(), addr, group, msg)
-                onion(DROP, eofid.getnext(), addr, group, msg)
-
     #def create_postcard(self, pkg, destination):
 
 

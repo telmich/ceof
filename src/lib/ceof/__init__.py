@@ -118,12 +118,11 @@ class Error(Exception):
     pass
 
 # Convienence
-from ceof.ui.main import Main as UI
-from ceof.server.ui import UI as UIServer
-from ceof.eofid import EOFID
-from ceof.config import Config
-from ceof.noise import Noise
-
+from ceof.ui.main           import Main     as UI
+from ceof.server.ui         import UI       as UIServer
+from ceof.eofid             import EOFID
+from ceof.config            import Config
+from ceof.noise             import Noise
 from ceof.config.peer       import Peer
 from ceof.config.listener   import Listener
 

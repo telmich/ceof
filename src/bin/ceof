@@ -129,6 +129,8 @@ def commandline():
         parents=[parser['all']])
     parser['tp'].add_argument('-l', '--list',
          help='List available transport protocols', action='store_true')
+    parser['tp'].add_argument('-o', '--onion-to',
+         help='Generate onion package for given peer', action='store')
     parser['tp'].add_argument('-r', '--route-to',
          help='Generate route to given peer', action='store')
     parser['tp'].set_defaults(func=ceof.TransportProtocol.commandline)

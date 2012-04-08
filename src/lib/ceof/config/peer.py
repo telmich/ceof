@@ -125,15 +125,27 @@ class Peer(object):
 
 
     @classmethod
-    def list_random_peers(cls, base_dir, num_peers):
+    def list_random_peers(cls, base_dir, num_peers, notthispeer=None):
         peers = cls.list_peers(base_dir)
         random_peers = []
 
+        # FIXME: can one packet travel more than one time through one node?
         if len(peers) < num_peers:
             raise PeerError("Requesting more random peers than available (%s > %s)" % (num_peers, len(peers)))
 
         for peer in range(num_peers):
             peer_index = random.randrange(len(peers))
+
+            # Skip if found peer to avoid
+            if notthispeer:
+                if peers[peer_index] == notthispeer:
+                    # Not able to skip me
+                    if len(peers) == 1:
+                        raise PeerError("Exhausted all possible random peers (only skipped peer left)")
+
+                    print("Skipping %s" % notthispeer)
+                    continue
+
             peer = peers.pop(peer_index)
 
             random_peers.append(peer)
@@ -206,7 +218,7 @@ class Peer(object):
         if not address in self.addresses:
             self.addresses.append(address)
 
-    def random_addresses(self):
+    def random_address(self):
         """Return random address of peer"""
         return self.addresses[random.randrange(len(self.addresses))]
 
