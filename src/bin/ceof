@@ -65,6 +65,8 @@ def commandline():
          help='Show key fingerprint', action='store_true')
     parser['crypto'].add_argument('-g', '--gen-key',
          help='Generate new private/public key pair', action='store_true')
+    parser['crypto'].add_argument('-i', '--import', dest='import_key',
+         help='Import public key from stdin', action='store_true')
     parser['crypto'].add_argument('-l', '--length',
          help='Specify bit length for key generation', action='store',
          default=2048)

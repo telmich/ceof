@@ -69,9 +69,8 @@ class Crypto(object):
         crypto = cls(config.gpg_config_dir, 
             name=args.name, email=args.email_address)
 
-        if args.decrypt or args.encrypt:
-            data = sys.stdin.readlines()
-            data = "".join(data)
+        if args.decrypt or args.encrypt or args.import_key:
+            data = sys.stdin.read()
 
         if args.decrypt:
             print(crypto.decrypt(data))
@@ -85,6 +84,8 @@ class Crypto(object):
             crypto.show()
         elif args.export:
             crypto.export()
+        elif args.import_key:
+            crypto.import_key(data)
 
 
     def gen_key(self):
@@ -143,6 +144,11 @@ class Crypto(object):
         # , True = private
         print(self._gpg.export_keys(self.private_key['keyid']))
 
+
+    def import_key(self, key_data):
+        """Import given key"""
+        self._gpg.import_keys(key_data)
+
     def show(self):
         if not self.private_key:
             raise NoPrivKeyError 
@@ -154,9 +160,6 @@ class Crypto(object):
 # 
 # decrypted_data = gpg.decrypt(data)
 # decrypted_data = gpg.decrypt_file(stream) # e.g. after stream = open(filename, "rb")
-
-# import_result = gpg.import_keys(key_data)
-# import_result = gpg.recv_keys('server-name', 'keyid1', 'keyid2', ...)
 
 # encrypted_data = gpg.encrypt(data, recipients, sign=signer_fingerprint, passphrase=signer_passphrase)
 # decrypted_data = gpg.decrypt(data, passphrase=recipient_passphrase)

@@ -32,14 +32,20 @@ for peer in *; do
             echo "Adding to peer $peer from $frompeer address $address"
             $ceof -c $dir peer peer$frompeer --add-address "$address"
         done
+
+        echo "Importing public key from $frompeer to $peer"
+        $ceof -c "$fromdir" crypto --export | $ceof -c $dir crypto --import
     done
 
-    # And now to the main (my) account
+    # And now TO the main (my) account
     $ceof peer peer$peer --add --fingerprint "$fingerprint"
     for address in $($ceof -c "$dir" listener -l); do
         echo "Adding $peer to myself with address $address"
             $ceof peer peer$peer --add-address "$address"
     done
+
+    echo "Importing public key from $peer to myself"
+    $ceof -c "$dir" crypto --export | $ceof crypto --import
 
     # And add my main account to test accounts
     echo "Adding myself to $peer ..."
@@ -49,4 +55,7 @@ for peer in *; do
         echo "Adding to peer $peer myself with address $address"
         $ceof -c $dir peer peer$frompeer --add-address "$address"
     done
+
+    echo "Importing public key from myself to $peer"
+    $ceof crypto --export | $ceof -c $dir crypto --import
 done
