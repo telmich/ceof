@@ -41,6 +41,10 @@ class TransportProtocol(object):
         if args.list:
             for protocol in cls.list_protocols():
                 print(protocol)
+        elif args.route_to:
+            peer = ceof.Peer.from_disk(config.peer_dir, args.route_to)
+            print(peer)
+
 
     @staticmethod
     def list_protocols():
@@ -69,28 +73,16 @@ class TransportProtocol(object):
 
         return protocol in protocols
 
+    @staticmethod
+    def route_to(self, peer, num_peers):
+        """Get route to a peer"""
+        peers = ceof.Peer.list_random_peers(config.peer_dir, num_peers)
 
+        peer_index = random.randrange(len(peers))
+        peers.insert(peer)
 
-# -*- coding: utf-8 -*-
-#
-# 2012 Nico Schottelius (nico-ceof at schottelius.org)
-#
-# This file is part of ceof.
-#
-# ceof is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# ceof is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with ceof. If not, see <http://www.gnu.org/licenses/>.
-#
-#
+        return peers
+
 
 import ceof
 import logging
@@ -135,16 +127,7 @@ class Transport(object):
         """Get next noise message"""
         return self._noise.get()
 
-    def route_to(self, peer):
-        """Get route to a peer"""
-        peers = ceof.Peer.list_random_peers(config.peer_dir, self.num_peers)
-
-        peer_index = random.randrange(len(peers))
-        peers.insert(peer)
-
-        return peers
-
-    def create_onion(self, real_peer, ^):
+    def create_onion(self, real_peer):
         """Create onion packet"""
 
         # First peer that receives is the last one to last decrypt
@@ -165,13 +148,11 @@ class Transport(object):
                     cmd = ceof.EOF_CMD_ONION_DROP
 
 
-                flag |= 
+                #flag |= 
                 onion(DROP, eofid.getnext(), addr, group, msg)
                 onion(DROP, eofid.getnext(), addr, group, msg)
-            else:
 
-    def create_postcard(self, pkg, destination):
-
+    #def create_postcard(self, pkg, destination):
 
 
     def send(self, text, destination):
@@ -179,7 +160,7 @@ class Transport(object):
 
         route = self.route_to(destination)
 
-        self.onion(...)?
+        self.onion()
 
     def _run(self):
         """Main loop"""

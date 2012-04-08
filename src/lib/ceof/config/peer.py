@@ -45,6 +45,7 @@ class Peer(object):
         self.name = name
         self.fingerprint = fingerprint
         self.addresses = addresses
+        random.seed()
 
     def __str__(self):
         return "%s/%s/%s" % (self.name, self.fingerprint, str(self.addresses))
@@ -79,10 +80,8 @@ class Peer(object):
 
         # Find peer on disk, if existing
         if args.add or args.remove or args.add_address or args.remove_address:
-            directory = cls.get_peer_dir(config.peer_dir, args.name)
-
             try:
-                peer = cls.from_disk(directory)
+                peer = cls.from_disk(config.peer_dir, args.name)
             except NoSuchPeerError:
                 peer = None
 
@@ -129,7 +128,6 @@ class Peer(object):
     def list_random_peers(cls, base_dir, num_peers):
         peers = cls.list_peers(base_dir)
         random_peers = []
-        random.seed()
 
         if len(peers) < num_peers:
             raise PeerError("Requesting more random peers than available (%s > %s)" % (num_peers, len(peers)))
@@ -146,15 +144,15 @@ class Peer(object):
     def list_peers(cls, base_dir):
         peers = []
 
-        for peerdirname in os.listdir(base_dir):
-            peerdir = os.path.join(base_dir, peerdirname)
-            
-            peers.append(cls.from_disk(peerdir))
+        for name in os.listdir(base_dir):
+            peers.append(cls.from_disk(base_dir, name))
 
         return peers
 
     @classmethod
-    def from_disk(cls, directory):
+    def from_disk(cls, base_dir, name):
+        directory = cls.get_peer_dir(base_dir, name)
+
         name_path = os.path.join(directory, "name")
         fingerprint_path = os.path.join(directory, "fingerprint")
         addresses_path = os.path.join(directory, "addresses")
@@ -207,6 +205,14 @@ class Peer(object):
 
         if not address in self.addresses:
             self.addresses.append(address)
+
+    def random_addresses(self):
+        """Return random address of peer"""
+        return self.addresses[random.randrange(len(self.addresses))]
+
+    def list_addresses(self):
+        """List address of peer"""
+        return self.addresses
 
     def remove_address(self, address):
         """Remove address from list"""
