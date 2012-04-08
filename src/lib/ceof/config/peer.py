@@ -67,7 +67,6 @@ class Peer(object):
     @classmethod
     def commandline(cls, args, config):
         """Handle command line arguments"""
-        print((args, config))
 
         if args.remove and args.add:
             raise PeerError("Cannot add and remove a peer at the same time")

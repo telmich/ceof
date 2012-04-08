@@ -39,7 +39,8 @@ while [ $i -lt $peers ]; do
         while [ $j -le $addresses ]; do
             port=$((port+1))
             j=$((j+1))
-            echo $ceof listener -c "$dir" -a ${protobase}:${port}
+            echo Adding ${protobase}:${port}
+            $ceof listener -c "$dir" -a ${protobase}:${port}
         done
     fi
 

@@ -56,7 +56,7 @@ class Listener(object):
                 listener.add_listener(address)
             listener.to_disk()
         elif args.remove:
-            for address in args.add:
+            for address in args.remove:
                 listener.remove_listener(address)
             listener.to_disk()
         elif args.list:
