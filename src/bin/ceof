@@ -78,7 +78,7 @@ def commandline():
          help='Show private/public key pair', action='store_true')
     parser['crypto'].set_defaults(func=ceof_crypto)
 
-    # Transport protocols - listene
+    # Transport protocols - listener
     parser['listener'] = parser['sub'].add_parser('listener',
         parents=[parser['all']])
     parser['listener'].add_argument('-a', '--add',
@@ -87,7 +87,7 @@ def commandline():
          help='List listener', action='store_true')
     parser['listener'].add_argument('-r', '--remove',
          help='Remove an address to listen on', action='append')
-    parser['listener'].set_defaults(func=ceof.transport.Listener.commandline)
+    parser['listener'].set_defaults(func=ceof.Listener.commandline)
 
     # Noise engine - prints noise to stdout
     parser['noise'] = parser['sub'].add_parser('noise',
@@ -112,6 +112,13 @@ def commandline():
     parser['peer'].add_argument('--remove-address',
          help='Remove an address from a peer', action='append')
     parser['peer'].set_defaults(func=ceof.Peer.commandline)
+
+    # Transport protocols
+    parser['tp'] = parser['sub'].add_parser('tp',
+        parents=[parser['all']])
+    parser['tp'].add_argument('-l', '--list',
+         help='List available transport protocols', action='store_true')
+    parser['tp'].set_defaults(func=ceof.TransportProtocol.commandline)
 
     # Server to accept ui connections
     parser['uiserver'] = parser['sub'].add_parser('server',

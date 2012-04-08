@@ -38,19 +38,9 @@ class TransportProtocol(object):
 
     @classmethod
     def commandline(cls, args, config):
-        listener = cls(config.listener)
-
-        if args.add:
-            for address in args.add:
-                listener.add_listener(address)
-            listener.to_disk()
-        elif args.remove:
-            for address in args.add:
-                listener.remove_listener(address)
-            listener.to_disk()
-        elif args.list:
-            for address in listener.list_listener():
-                print(address)
+        if args.list:
+            for protocol in cls.list_protocols():
+                print(protocol)
 
     @staticmethod
     def list_protocols():

@@ -124,7 +124,8 @@ from ceof.eofid import EOFID
 from ceof.config import Config
 from ceof.noise import Noise
 
-from ceof.config.peer import Peer
-from ceof.transport import Main as Transport
+from ceof.config.peer       import Peer
+from ceof.config.listener   import Listener
 
+from ceof.tp import TransportProtocol
 #from ceof.crypto import Crypto
