@@ -88,15 +88,16 @@ class Peer(object):
         # The actual code part
         if args.add:
             if peer:
-                raise PeerError("Peer %s already exists with fingerprint %s" % (peer.name, peer.fingerprint))
-
-            peer = cls(args.name, args.fingerprint)
+                if not peer.fingerprint == args.fingerprint:
+                    raise PeerError("Peer %s already exists with different fingerprint %s" % (peer.name, peer.fingerprint))
+            else:
+                peer = cls(args.name, args.fingerprint)
 
             if args.add_address:
                 for address in args.add_address:
                     peer.add_address(address)
 
-            peer.to_disk(directory)
+            peer.to_disk(config.peer_dir)
 
         elif args.remove:
            # Only remove if existing
@@ -109,7 +110,7 @@ class Peer(object):
 
             for address in args.add_address:
                 peer.add_address(address)
-            peer.to_disk(directory)
+            peer.to_disk(config.peer_dir)
 
         elif args.remove_address:
             if not peer:
@@ -117,7 +118,7 @@ class Peer(object):
             for address in args.remove_address:
                 peer.remove_address(address)
 
-            peer.to_disk(directory)
+            peer.to_disk(config.peer_dir)
 
         if args.list:
             for peer in  cls.list_peers(config.peer_dir):
@@ -187,10 +188,9 @@ class Peer(object):
 
         return cls(name, fingerprint, addresses)
 
-    def to_disk(self, directory):
+    def to_disk(self, base_dir):
+        directory = self.get_peer_dir(base_dir, self.name)
         
-        #directory = os.path.join(base_dir, self.name)
-
         if os.path.exists(directory):
             if not os.path.isdir(directory):
                 raise ceof.config.ConfigError("%s exist but is not a directory" % directory)

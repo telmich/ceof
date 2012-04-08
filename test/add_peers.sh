@@ -52,8 +52,8 @@ for peer in *; do
     fromfingerprint=$($ceof crypto --fingerprint)
     $ceof -c $dir peer nico --add --fingerprint "$fromfingerprint"
     for address in $($ceof listener -l); do
-        echo "Adding to peer $peer myself with address $address"
-        $ceof -c $dir peer peer$frompeer --add-address "$address"
+        echo "Adding myself to peer $peer with address $address"
+        $ceof -c $dir peer nico --add-address "$address"
     done
 
     echo "Importing public key from myself to $peer"

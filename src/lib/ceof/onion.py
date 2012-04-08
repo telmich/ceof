@@ -62,7 +62,7 @@ class Onion(object):
             log.debug("Chain pkg:" + str(pkg))
             onion_chain = self.pkg(pkg, onion_chain, lastaddr)
             lastaddr = pkg['address']
-            log.debug("Returned Chain: %s" % str(onion_chain))
+            print("Returned Chain: %s" % str(onion_chain))
 
         return onion_chain
 

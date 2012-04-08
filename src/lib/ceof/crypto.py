@@ -129,7 +129,7 @@ class Crypto(object):
         return self._gpg.decrypt(data)
 
     def encrypt(self, data, recipients):
-        data = self._gpg.encrypt(data, recipients)
+        data = self._gpg.encrypt(data, recipients, always_trust=True)
         log.debug(data)
 
         if len(str(data)) == 0:
