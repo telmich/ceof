@@ -34,6 +34,13 @@ except ImportError:
 class CryptoError(ceof.Error):
     pass
 
+class NoPubKeyError(CryptoError):
+    def __init__(self, fingerprint):
+        self.message = "Public key %s missing" % (fingerprint)
+
+    def __str__(self):
+        return self.message
+
 class NoPrivKeyError(CryptoError):
     def __init__(self):
         self.message = "No private/public key pair found (hint: generate a new one)"
@@ -97,6 +104,12 @@ class Crypto(object):
         return self._gpg.decrypt(data)
 
     def encrypt(self, data, recipients):
+        data = self._gpg.encrypt(data, recipients)
+        log.debug(data)
+
+        if len(str(data)) == 0:
+            raise NoPubKeyError(recipients)
+
         return self._gpg.encrypt(data, recipients)
 
     def export(self):

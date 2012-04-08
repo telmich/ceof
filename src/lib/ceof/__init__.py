@@ -123,6 +123,7 @@ class Error(Exception):
 
 # Convienence
 from ceof.config            import Config
+from ceof.crypto            import Crypto
 from ceof.eofmsg            import EOFMsg
 from ceof.eofid             import EOFID
 from ceof.config.listener   import Listener
@@ -133,4 +134,3 @@ from ceof.tp                import TransportProtocol
 from ceof.ui.main           import Main     as UI
 from ceof.server.ui         import UI       as UIServer
 
-#from ceof.crypto import Crypto
