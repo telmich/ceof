@@ -25,21 +25,21 @@ BANNER = """
 eof
 """
 
-# /* Lengths */
-#EOF_L_RW_SIZE            =  2
-EOF_L_VERSION            =  2
-EOF_L_CMD                =  4
-EOF_L_SIZE               =  6
-EOF_L_ID                 =  6
-EOF_L_KEYID              =  40
-EOF_L_NICKNAME           =  128
-EOF_L_MESSAGE            =  128
-EOF_L_ADDRESS            =  128
-EOF_L_GROUP              =  128
-EOF_L_UI_NAME            =  128
-EOF_L_UI_INPUT           =  256
-EOF_L_MSG_FULL           =  EOF_L_VERSION+EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
-EOF_L_PKG_MAX            =  65536
+# Lengths and sizes
+EOF_L_VERSION           = 2
+EOF_L_CMD               = 4
+EOF_L_SIZE              = 6
+EOF_L_ID                = 6
+EOF_L_KEYID             = 40
+EOF_L_NICKNAME          = 128
+EOF_L_MESSAGE           = 128
+EOF_L_ADDRESS           = 128
+EOF_L_GROUP             = 128
+EOF_L_UI_NAME           = 128
+EOF_L_UI_INPUT          = 256
+EOF_L_MSG_FULL          = EOF_L_VERSION+EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
+EOF_L_PKG_MAX           = 65536
+EOF_L_ROUTERS           = 7
 
 # Baseformat for IDs
 EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"

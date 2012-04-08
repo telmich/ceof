@@ -23,6 +23,7 @@
 import ceof
 import logging
 import os.path
+import random
 import re
 
 log = logging.getLogger(__name__)
@@ -43,7 +44,8 @@ class TransportProtocol(object):
                 print(protocol)
         elif args.route_to:
             peer = ceof.Peer.from_disk(config.peer_dir, args.route_to)
-            print(peer)
+            route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
+            print(route)
 
 
     @staticmethod
@@ -74,12 +76,12 @@ class TransportProtocol(object):
         return protocol in protocols
 
     @staticmethod
-    def route_to(self, peer, num_peers):
+    def route_to(peer_dir, peer, num_peers):
         """Get route to a peer"""
-        peers = ceof.Peer.list_random_peers(config.peer_dir, num_peers)
+        peers = ceof.Peer.list_random_peers(peer_dir, num_peers)
 
         peer_index = random.randrange(len(peers))
-        peers.insert(peer)
+        peers.insert(peer_index, peer)
 
         return peers
 
