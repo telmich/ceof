@@ -42,6 +42,9 @@ class Onion(object):
         if args.message and not args.name:
             raise OnionError("Requiring peer name for onion")
 
+        if args.send and not args.message:
+            raise OnionError("Requiring message for message sending...")
+
         if args.message:
             peer = ceof.Peer.from_disk(config.peer_dir, args.name)
             route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
@@ -52,6 +55,25 @@ class Onion(object):
             onion_chain = onion.chain(chain)
             print(onion_chain)
 
+        if args.send:
+            first = chain[-1]
+            address = first['address']
+            print("Sending generated message via %s to %s" % (str(chain), str(address)))
+
+            import socket
+            import urllib.parse
+            url = urllib.parse.urlparse(address)
+            host, port = url.netloc.split(":")
+            host = "127.0.0.1"
+            try:
+                mysocket = socket.create_connection((host, port))
+            except socket.error as e:
+                raise OnionError("Cannot connect to %s: %s" % ((host, port), e))
+
+            data = onion_chain.encode('utf-8')
+            mysocket.sendall(data)
+
+    # FIXME: do not encrypt last round, because we send to this peer!
     def chain(self, chained_pkg):
         """Create onion chain"""
 

@@ -21,8 +21,11 @@
 import ceof
 import logging
 import select
+import queue
+import socket
 import multiprocessing
 import urllib.parse
+import time
 
 log = logging.getLogger(__name__)
 
@@ -60,12 +63,51 @@ class Listener(object):
             # File deskriptors for select()
             self.fds.append(self.queue[name]._reader)
 
-        # wait for input
-        (select_res,[],[]) = select.select(self.fds,[],[])
+        while True:
+            # wait for input - unportable it seems
+            #(select_res,[],[]) = select.select(self.fds,[],[])
+
+            for q in self.queue.values():
+                data = False
+                try:
+                    data = q.get(block=False)
+                except queue.Empty:
+                    pass
+
+                if data:
+                    message = data.decode('utf-8')
+                    print("Got message: %s" % (message))
+
+            # Spinner - ugly, but not as ugly as searching for fds
+            # returned by select and match on queue and get then...
+            time.sleep(0.5)
 
         #p.join()
 
     def child(self, address, port, queue):
         print("running in child")
-        server = ceof.server.tcp.TCPServer(address, port)
+        self.child_queue = queue
+        server = ceof.server.tcp.TCPServer(address, port, handler=self.child_handler)
         server.run()
+
+    def child_handler(self, conn, addr):
+        print("Connected by %s" % str(addr))
+
+        data = []
+        while 1:
+            try:
+                tmp = conn.recv(1024)
+                if not tmp:
+                    break
+            
+                data.append(tmp)
+
+            except (socket.error, KeyboardInterrupt):
+                conn.close()
+                raise
+
+        # Done, send data
+        message = b''.join(data)
+        print("Submitting data to parent: %s" % message.decode('utf-8'))
+        self.child_queue.put(message)
+        conn.close()
