@@ -1,9 +1,13 @@
 - send and receive packet
-    - implement listener first
-
     - test nodes listen on their listeners
         - create first listener +  create first sender
             ! implement tcp tp
 
     - test nodes act on EOF messages (forward, drop)
+
+    - listener address != handler address:
+        tcp://0.0.0.0:5352 => 0.0.0.0 for listening, 77.109... real address for other peers
+
+    x check all addresses, ensure all peers listen on different ports
+    x implement listener first [hack]
 
