@@ -1,4 +1,6 @@
 - send and receive packet
+    - implement listener first
+
     - test nodes listen on their listeners
         - create first listener +  create first sender
             ! implement tcp tp
