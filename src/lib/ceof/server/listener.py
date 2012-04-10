@@ -88,7 +88,11 @@ class Listener(object):
         print("running in child")
         self.child_queue = queue
         server = ceof.server.tcp.TCPServer(address, port, handler=self.child_handler)
-        server.run()
+
+        try:
+            server.run()
+        except socket.error as e:
+            print("Failed to run on %s:%s: %s" % (address, port, e))
 
     def child_handler(self, conn, addr):
         print("Connected by %s" % str(addr))
