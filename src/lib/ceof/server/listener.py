@@ -43,6 +43,8 @@ class Listener(object):
         self.process    = {}
         self.fds        = []
 
+        self.upstream_queue = queue
+
     # Start own process for each listener => use available cores!
     def run(self):
         for listener in self.listener:
@@ -76,7 +78,8 @@ class Listener(object):
 
                 if data:
                     message = data.decode('utf-8')
-                    print("Got message: %s" % (message))
+                    self.upstream_queue.put(message)
+                    log.debug("Forwarded message: %s to upstream" % (message))
 
             # Spinner - ugly, but not as ugly as searching for fds
             # returned by select and match on queue and get then...
