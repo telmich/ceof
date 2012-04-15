@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 # Nico Schottelius, Fri Apr  6 15:43:17 CEST 2012
 #
 # Add test peers to each other peer
@@ -12,14 +12,16 @@ cd $dir
 
 cd $peerdir
 
-for peer in *; do
+#for peer in *; do
+for peer in $(seq 0 9); do
 
-    dir="$peerdir/$peer"
+    #dir="$peerdir/$peer"
+    dir="$peerdir/peer$peer"
 
     echo $peer ...
     $ceof -c $dir listener --list
     
-    $ceof -c $dir server --listener &
+    $ceof -c $dir server &
 
     read a
 done
