@@ -129,8 +129,12 @@ def commandline():
    # General Server
     parser['server'] = parser['sub'].add_parser('server',
         parents=[parser['all']])
-    parser['server'].add_argument('-l', '--listener',
-         help='Start listener server', action='store_true')
+    parser['server'].add_argument('-l', '--no-listener',
+         help='Disable listener server', action='store_false')
+    parser['server'].add_argument('-s', '--no-sender',
+         help='Disable sender server', action='store_false')
+    parser['server'].add_argument('-u', '--no-ui',
+         help='Disable UI server', action='store_false')
     parser['server'].add_argument('-a', '--ui-address',
          help='Listen on this address for UI connections', action='store',
          default='127.0.0.1')
