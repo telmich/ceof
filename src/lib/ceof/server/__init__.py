@@ -82,12 +82,41 @@ class Server(object):
             self.process['listener'] = multiprocessing.Process(target=self.server['listener'].run)
             self.handler['listener'] = self._handle_listener
 
-    def _handle_listener(self, eofmsg, onion):
+    def _init_onion(self):
+        self._onion = ceof.Onion(self.config.gpg_config_dir)
+
+    def _handle_listener(self, data):
         """Handle incoming packet from listener"""
         log.debug("Handling incoming message from listener: %s" % message)
 
-    def _init_onion(self):
-        self.onion = ceof.Onion(self.config)
+        # Decode into eofmsg and do appropriate action
+        msg, rest = self._onion.unpack(data)
+        eofmsg = ceof.EOFMsg()
+        eofmsg.set_message(msg)
+
+
+        # Drop? done.
+        if cmd == ceof.EOF_CMD_ONION_DROP:
+            pass
+
+        elif cmd == ceof.EOF_CMD_ONION_FORWARD:
+            # Forward to next
+            # FIXME: add padding?
+            self.queue['sender'].put((eofmsg.address, rest))
+
+        elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
+            # Add to UIServer queue
+            # FIXME: get sender info, verify signature
+            self.queue['ui'].put(eofmsg.msgtext)
+    
+        elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
+            # Forward to next
+            # FIXME: add padding?
+            self.queue['sender'].put((eofmsg.address, forward_data))
+            # Forward to UI
+            # FIXME: get sender info, verify signature
+            self.queue['ui'].put(eofmsg.msgtext)
+
 
     def run(self):
         """Run specified servers"""
@@ -116,7 +145,7 @@ class Server(object):
             # Spinner - ugly, but not as ugly as searching for fds
             # returned by select and match on queue and get then...
             log.debug("loop,....")
-            time.sleep(0.5)
+            time.sleep(ceof.EOF_TIME_QPOLL)
 
         # FIXME: Kill and join on exit
         for process in self.process.values():
