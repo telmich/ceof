@@ -2,8 +2,15 @@
     - decrypt packet
     - decode packet and do...
         - forward
+            - add padding?
+            - add sender server and queue
         - drop
+            - do nothing :-)
         - show
+            - get sender name
+            - verify signature
+            - group support?
 
-    - listener address != handler address:
-        tcp://0.0.0.0:5352 => 0.0.0.0 for listening, 77.109... real address for other peers
+- listener address != handler address:
+    tcp://0.0.0.0:5352 => 0.0.0.0 for listening, 77.109... real address for other peers
+    - listener id: sanitise for filesystem (python?) and save string
