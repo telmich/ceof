@@ -67,7 +67,8 @@ class Sender(object):
                 destination = self.random_peer_random_address()
 
             try:
-                self.send(destination, pkg)
+                if message:
+                    self.send(destination, pkg)
             except SenderError as e:
                 log.warn(e)
 
