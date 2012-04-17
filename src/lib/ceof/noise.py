@@ -35,22 +35,22 @@ class Noise(object):
 
     def __init__(self, noise_dir):
         self.noise_dir = noise_dir
-        self.queue = multiprocessing.Queue()
-        self.noise_gen = Generator(self.queue, self.noise_dir)
+        self._queue = multiprocessing.Queue()
+        self._noise_gen = Generator(self._queue, self.noise_dir)
 
-    def get(self):
+    def get(self, block=True):
         """Get next noise message"""
-        return self.queue.get()
+        return self._queue.get(block)
 
     def start(self):
-        """Really run"""
+        """Run child to provide us with data"""
         try:
-            self.process = multiprocessing.Process(target=self.noise_gen.run)
-            self.process.start()
+            self._process = multiprocessing.Process(target=self._noise_gen.run)
+            self._process.start()
         except KeyboardInterrupt:
-            print("Caught sigint in parent")
-            self.queue.close()
-            self.queue.cancel_join_thread()
+            log.debug("Caught sigint in parent")
+            self._queue.close()
+            self._queue.cancel_join_thread()
 
 class Generator(object):
     """Generate noise"""
@@ -112,6 +112,6 @@ class Generator(object):
                     self.queue.put(msg)
 
         except KeyboardInterrupt:
-            print("Caught sigint in child")
+            log.debug("Caught sigint in child")
             self.queue.close()
             self.queue.cancel_join_thread()

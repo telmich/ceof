@@ -83,7 +83,7 @@ class Listener(object):
 
             # Spinner - ugly, but not as ugly as searching for fds
             # returned by select and match on queue and get then...
-            time.sleep(0.5)
+            time.sleep(ceof.EOF_TIME_QPOLL)
 
         #p.join()
 

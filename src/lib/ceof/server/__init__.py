@@ -119,7 +119,8 @@ class Server(object):
         elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
             # Add to UIServer queue
             # FIXME: get sender info, verify signature
-            self.queue['ui'].put(eofmsg.msgtext)
+            #self.queue['ui'].put(eofmsg.msgtext)
+            print(eofmsg.msgtext)
     
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             # Forward to next
@@ -127,7 +128,8 @@ class Server(object):
             self.queue['sender'].put((eofmsg.address, rest))
             # Forward to UI
             # FIXME: get sender info, verify signature
-            self.queue['ui'].put(eofmsg.msgtext)
+            print(eofmsg.msgtext)
+            ##self.queue['ui'].put(eofmsg.msgtext)
 
 
     def run(self):
@@ -156,7 +158,6 @@ class Server(object):
 
             # Spinner - ugly, but not as ugly as searching for fds
             # returned by select and match on queue and get then...
-            log.debug("loop,....")
             time.sleep(ceof.EOF_TIME_QPOLL)
 
         # FIXME: Kill and join on exit

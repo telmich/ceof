@@ -36,6 +36,8 @@ class Sender(object):
 
         self._upstream_queue = queue
         self._noise = ceof.Noise(noise_dir)
+        # FIXME: remove start(), do automatically on startup, fix commandline
+        self._noise.start()
         self._peer_dir = peer_dir
 
     def run(self):
@@ -44,23 +46,29 @@ class Sender(object):
         log.debug("Sender child started")
 
         while True:
+            log.debug("Sender polling for data to be sent")
             # Try to get message, send noise otherwise
             try:
-                destination, pkg = self.message_queue.get(False)
+                destination, pkg = self._upstream_queue.get(block=False)
                 message = True
             except queue.Empty:
                 message = False
 
             if not message:
+                log.debug("No message received")
                 try:
                     # FIXME: need to create onion packet from it!
                     pkg = self._noise.get()
+                    log.debug("Noise: %s" % pkg)
                 except queue.Empty:
                     raise NoiseQueueEmptyError
 
                 destination = self.random_peer_random_address()
 
-            self.send(destination, pkg)
+            try:
+                self.send(destination, pkg)
+            except SenderError as e:
+                log.warn(e)
 
             time.sleep(self.interval)
 
@@ -68,13 +76,16 @@ class Sender(object):
         """Return a random address of a random peer"""
         peers = ceof.Peer.list_random_peers(self._peer_dir, 1)
 
-        return peers[0].random_address()
+        address = peers[0].random_address()
+
+        log.debug("Seleted random address %s" % address)
+        return address
 
     def send(self, address, pkg):
         """Send out message"""
 
         # FIXME: remove hard coded tcp
-        print("Sending message %s to %s" % (str(pkg), str(address)))
+        log.debug("Sending message %s to %s" % (str(pkg), str(address)))
 
         import socket
         import urllib.parse
@@ -86,6 +97,6 @@ class Sender(object):
         except socket.error as e:
             raise SenderError("Cannot connect to %s: %s" % ((host, port), e))
 
-        mysocket.sendall(data)
+        mysocket.sendall(pkg)
         mysocket.close()
 
