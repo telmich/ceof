@@ -61,7 +61,7 @@ class Server(object):
 
         self._init_listener()
         self._init_onion()
-        #self._init_sender()
+        self._init_sender()
         #self._init_ui()
 
     @staticmethod
@@ -84,6 +84,18 @@ class Server(object):
 
     def _init_onion(self):
         self._onion = ceof.Onion(self.config.gpg_config_dir)
+
+    def _init_sender(self):
+        # FIXME: monitor server for crashes and abort program,
+        # if server aborts
+        if self.sender:
+            # We don't poll on this queue, only submit
+            senderqueue = multiprocessing.Queue()
+
+            self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
+                senderqueue, self.config.noise_dir, self.config.peer_dir)
+            self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
+
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
@@ -112,7 +124,7 @@ class Server(object):
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             # Forward to next
             # FIXME: add padding?
-            self.queue['sender'].put((eofmsg.address, forward_data))
+            self.queue['sender'].put((eofmsg.address, rest))
             # Forward to UI
             # FIXME: get sender info, verify signature
             self.queue['ui'].put(eofmsg.msgtext)
