@@ -20,101 +20,72 @@
 
 import ceof
 import logging
-import select
 import queue
-import socket
-import multiprocessing
-import urllib.parse
 import time
 
 log = logging.getLogger(__name__)
 
-#class ServerError(ceof.Error):
-#    pass
+class SenderError(ceof.Error):
+    pass
 
-class Listener(object):
-    """Listen server"""
+class Sender(object):
+    """Sender server"""
 
-    def __init__(self, listener, queue=None):
-        self.listener = listener
+    def __init__(self, interval, queue, noise_dir, peer_dir):
+        self.interval = interval
 
-        # Queue to put received packets into
-        self.queue      = {}
-        self.process    = {}
-        self.fds        = []
+        self._upstream_queue = queue
+        self._noise = ceof.Noise(noise_dir)
+        self._peer_dir = peer_dir
 
-        self.upstream_queue = queue
-
-    # Start own process for each listener => use available cores!
     def run(self):
-        for listener in self.listener:
-            url = urllib.parse.urlparse(listener)
+        """Main loop"""
 
-            address, port = url.netloc.split(":")
-            name = address + port
-
-            print("Listening on %s:%s" % (address, port))
-            print(self.queue)
-            print(type(self.queue))
-
-            self.queue[name]  = multiprocessing.Queue()
-            self.process[name] = multiprocessing.Process(target=self.child, 
-                args=(address, port, self.queue[name],))
-            self.process[name].start()
-
-            # File deskriptors for select()
-            self.fds.append(self.queue[name]._reader)
+        log.debug("Sender child started")
 
         while True:
-            # wait for input - unportable it seems
-            #(select_res,[],[]) = select.select(self.fds,[],[])
-
-            for q in self.queue.values():
-                data = False
-                try:
-                    data = q.get(block=False)
-                except queue.Empty:
-                    pass
-
-                if data:
-                    message = data.decode('utf-8')
-                    self.upstream_queue.put(message)
-                    log.debug("Forwarded message: %s to upstream" % (message))
-
-            # Spinner - ugly, but not as ugly as searching for fds
-            # returned by select and match on queue and get then...
-            time.sleep(0.5)
-
-        #p.join()
-
-    def child(self, address, port, queue):
-        print("running in child")
-        self.child_queue = queue
-        server = ceof.server.tcp.TCPServer(address, port, handler=self.child_handler)
-
-        try:
-            server.run()
-        except socket.error as e:
-            print("Failed to run on %s:%s: %s" % (address, port, e))
-
-    def child_handler(self, conn, addr):
-        print("Connected by %s" % str(addr))
-
-        data = []
-        while 1:
+            # Try to get message, send noise otherwise
             try:
-                tmp = conn.recv(1024)
-                if not tmp:
-                    break
-            
-                data.append(tmp)
+                destination, pkg = self.message_queue.get(False)
+                message = True
+            except queue.Empty:
+                message = False
 
-            except (socket.error, KeyboardInterrupt):
-                conn.close()
-                raise
+            if not message:
+                try:
+                    # FIXME: need to create onion packet from it!
+                    pkg = self._noise.get()
+                except queue.Empty:
+                    raise NoiseQueueEmptyError
 
-        # Done, send data
-        message = b''.join(data)
-        print("Submitting data to parent: %s" % message.decode('utf-8'))
-        self.child_queue.put(message)
-        conn.close()
+                destination = self.random_peer_random_address()
+
+            self.send(destination, pkg)
+
+            time.sleep(self.interval)
+
+    def random_peer_random_address(self):
+        """Return a random address of a random peer"""
+        peers = ceof.Peer.list_random_peers(self._peer_dir, 1)
+
+        return peers[0].random_address()
+
+    def send(self, address, pkg):
+        """Send out message"""
+
+        # FIXME: remove hard coded tcp
+        print("Sending message %s to %s" % (str(pkg), str(address)))
+
+        import socket
+        import urllib.parse
+        url = urllib.parse.urlparse(address)
+        host, port = url.netloc.split(":")
+        host = "127.0.0.1"
+        try:
+            mysocket = socket.create_connection((host, port))
+        except socket.error as e:
+            raise SenderError("Cannot connect to %s: %s" % ((host, port), e))
+
+        mysocket.sendall(data)
+        mysocket.close()
+

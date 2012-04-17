@@ -135,33 +135,3 @@ class TransportProtocol(object):
             # pkg.append("%s/%s/%s" % (router.name, address, cmd))
 
         return pkg
-
-################################################################################
-    @staticmethod
-    def send(text, destination):
-        """Send packet from queue"""
-
-        route = self.route_to(destination)
-
-        self.onion()
-
-    def _run(self):
-        """Main loop"""
-
-        while not self.doexit:
-            # Try to get message, send noise otherwise
-            try:
-                text, destination = self.message_queue.get(False)
-                message = True
-            except queue.Empty:
-                message = False
-
-            if not message:
-                try:
-                    text = self.noise_queue.get()
-                except queue.Empty:
-                    raise NoiseQueueEmptyError
-
-                destination = self.random_recipient()
-
-            self.send(text, destination)
