@@ -46,8 +46,8 @@ class EOFMsg(object):
         return self.version + self.cmd + self.eofid + self.address + self.group + self.msgtext
 
     def set_message(self, message):
-        if not len(message) == EOF_L_MSG_FULL:
-            raise EOFMsgError("Message length (%s) should be %s" % (len(message, EOF_L_MSG_FULL)))
+        if not len(message) == ceof.EOF_L_MSG_FULL:
+            raise EOFMsgError("Message length (%s) should be %s" % (len(message), ceof.EOF_L_MSG_FULL))
 
         index = 0
         self.cmd        = message[index:index+ceof.EOF_L_CMD]

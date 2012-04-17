@@ -30,6 +30,9 @@ import queue
 
 log = logging.getLogger(__name__)
 
+class NoiseError(ceof.Error):
+    pass
+
 class Noise(object):
     """Abstract away noise handling in a subprocess"""
 
@@ -72,6 +75,9 @@ class Generator(object):
     def _init_files(self):
         """(Re-) Init file list"""
         self._files = os.listdir(self.noise_dir)
+
+        if len(self._files) < 1:
+            raise NoiseError("Need at least one file for noise input")
 
     def nextfile(self):
         """Return next file to be read for noise input"""

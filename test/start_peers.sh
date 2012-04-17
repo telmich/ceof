@@ -13,10 +13,9 @@ cd $dir
 cd $peerdir
 
 #for peer in *; do
-for peer in $(seq 0 9); do
+for peer in $(seq 0 2); do
 
-    #dir="$peerdir/$peer"
-    dir="$peerdir/peer$peer"
+    dir="$peerdir/$peer"
 
     echo $peer ...
     $ceof -c $dir listener --list

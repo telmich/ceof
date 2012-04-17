@@ -60,6 +60,7 @@ class Sender(object):
                     # FIXME: need to create onion packet from it!
                     pkg = self._noise.get()
                     log.debug("Noise: %s" % pkg)
+                    pkg = ceof.encode(pkg)
                 except queue.Empty:
                     raise NoiseQueueEmptyError
 

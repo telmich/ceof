@@ -76,7 +76,7 @@ class TransportProtocol(object):
         if not cls.verify_scheme(address):
             handler = None
         else:
-            url = urllib.parse(address)
+            url = urllib.parse.urlparse(address)
             modname = __name__ + url.scheme
             print(modname)
             handler = modname
@@ -89,7 +89,7 @@ class TransportProtocol(object):
         """Verify given address if the scheme (=protocol) is available"""
         protocols = cls.list_protocols()
 
-        url = urllib.parse(address)
+        url = urllib.parse.urlparse(address)
 
         return url.scheme in protocols
 

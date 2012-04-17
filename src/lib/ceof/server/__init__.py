@@ -99,12 +99,19 @@ class Server(object):
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
-        log.debug("Handling incoming message from listener: %s" % message)
+        log.debug("Handling incoming message from listener: %s" % data)
 
         # Decode into eofmsg and do appropriate action
         msg, rest = self._onion.unpack(data)
         eofmsg = ceof.EOFMsg()
-        eofmsg.set_message(msg)
+        try:
+            eofmsg.set_message(msg)
+        except ceof.eofmsg.EOFMsgError as e:
+            log.warn("Discarding bogus packet: %s" % e)
+            log.debug(data)
+            return
+
+        cmd = eofmsg.cmd
 
 
         # Drop? done.
@@ -130,6 +137,9 @@ class Server(object):
             # FIXME: get sender info, verify signature
             print(eofmsg.msgtext)
             ##self.queue['ui'].put(eofmsg.msgtext)
+
+        else:
+            log.warn("Ignoring malformatted packet: %s" % data)
 
 
     def run(self):

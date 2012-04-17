@@ -12,12 +12,14 @@ cd $dir
 
 cd $peerdir
 
-for peer in *; do
+#for peer in *; do
+for peer in $(seq 0 2); do
 
     dir="$peerdir/$peer"
     fingerprint=$($ceof -c "$dir" crypto --fingerprint)
 
-    for frompeer in *; do
+    #for frompeer in *; do
+    for frompeer in $(seq 0 2); do
         if [ $frompeer = $peer ]; then
             echo "Skipping $peer to itself"
             continue
