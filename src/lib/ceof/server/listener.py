@@ -88,17 +88,17 @@ class Listener(object):
         #p.join()
 
     def child(self, address, port, queue):
-        print("running in child")
+        log.debug("Running in child of listener for address %s:%s" % (address, port))
         self.child_queue = queue
         server = ceof.server.tcp.TCPServer(address, port, handler=self.child_handler)
 
         try:
             server.run()
         except socket.error as e:
-            print("Failed to run on %s:%s: %s" % (address, port, e))
+            log.error("Failed to run on %s:%s: %s" % (address, port, e))
 
     def child_handler(self, conn, addr):
-        print("Connected by %s" % str(addr))
+        log.debug("Connected by %s" % str(addr))
 
         data = []
         while 1:
@@ -115,6 +115,6 @@ class Listener(object):
 
         # Done, send data
         message = b''.join(data)
-        print("Submitting data to parent: %s" % message.decode('utf-8'))
+        log.debug("Submitting data to parent: %s" % message.decode('utf-8'))
         self.child_queue.put(message)
         conn.close()
