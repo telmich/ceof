@@ -94,12 +94,16 @@ EOF_CMD_ONION_MSG_FORWARD   = "3003"
 EOF_CMD_ONION_ACK           = "3004"
 
 # /* UI commands */
-EOF_UI_EXIT              = "/exit"
-EOF_UI_QUIT              = "/quit"
-EOF_UI_PEER_ADD          = "/peer add"
-EOF_UI_PEER_LIST         = "/peer list"
-EOF_UI_PEER_SEND         = "/peer send"
-EOF_UI_HELP              = "/help"
+EOF_UI_EXIT                 = "/exit"
+EOF_UI_QUIT                 = "/quit"
+EOF_UI_PEER_ADD             = "/peer add"
+EOF_UI_PEER_LIST            = "/peer list"
+EOF_UI_PEER_SEND            = "/peer send"
+EOF_UI_HELP                 = "/help"
+
+# Times for sending packets / polling on queues
+EOF_TIME_SEND                = 1/4
+EOF_TIME_QPOLL               = (EOF_TIME_SEND)/2
 
 def fill_and_trim(data, length):
     """Ensure exact length is given, strip away longer stuff"""
@@ -133,5 +137,6 @@ from ceof.config.peer       import Peer
 from ceof.server            import Server
 from ceof.tp                import TransportProtocol
 from ceof.ui.main           import Main     as UI
+from ceof.server.listener   import Listener as ListenerServer
+from ceof.server.sender     import Sender   as SenderServer
 from ceof.server.ui         import UI       as UIServer
-

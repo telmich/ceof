@@ -60,6 +60,7 @@ class Onion(object):
             address = first['address']
             print("Sending generated message via %s to %s" % (str(chain), str(address)))
 
+            # FIXME: use SenderServer Function!
             import socket
             import urllib.parse
             url = urllib.parse.urlparse(address)
@@ -119,8 +120,8 @@ class Onion(object):
         # FIXME: converting to string may fail if binary
         plaintext = str(self.crypto.decrypt(pkg))
 
-        eofmsg = plaintext[EOF_L_MSG_FULL:]
+        msg = plaintext[EOF_L_MSG_FULL:]
         rest = plaintext[:EOF_L_MSG_FULL]
 
-        return (eofmsg, rest)
+        return (msg, rest)
 
