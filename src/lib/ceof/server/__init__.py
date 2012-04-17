@@ -60,6 +60,7 @@ class Server(object):
         self.ui_port = ui_port
 
         self._init_listener()
+        self._init_onion()
         #self._init_sender()
         #self._init_ui()
 
@@ -79,8 +80,14 @@ class Server(object):
             self.server['listener'] = Listener(listener.listener, 
                 self.queue['listener'])
             self.process['listener'] = multiprocessing.Process(target=self.server['listener'].run)
-            self.handler['listener'] = self.listen_handler
+            self.handler['listener'] = self._handle_listener
 
+    def _handle_listener(self, eofmsg, onion):
+        """Handle incoming packet from listener"""
+        log.debug("Handling incoming message from listener: %s" % message)
+
+    def _init_onion(self):
+        self.onion = ceof.Onion(self.config)
 
     def run(self):
         """Run specified servers"""
@@ -114,7 +121,3 @@ class Server(object):
         # FIXME: Kill and join on exit
         for process in self.process.values():
             process.join()
-
-    def listen_handler(self, message):
-        """Handle incoming packet from listener"""
-        log.debug("Handling incoming message from listener: %s" % message)

@@ -112,3 +112,15 @@ class Onion(object):
             eofmsg.address = lastaddr
 
         return str(self.crypto.encrypt(str(eofmsg) + onion, pkg['peer'].fingerprint))
+
+    def unpack(self, pkg):
+        """Unpack an onion"""
+
+        # FIXME: converting to string may fail if binary
+        plaintext = str(self.crypto.decrypt(pkg))
+
+        eofmsg = plaintext[EOF_L_MSG_FULL:]
+        rest = plaintext[:EOF_L_MSG_FULL]
+
+        return (eofmsg, rest)
+
