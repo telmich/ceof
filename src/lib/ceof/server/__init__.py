@@ -88,12 +88,14 @@ class Server(object):
     def _init_sender(self):
         # FIXME: monitor server for crashes and abort program,
         # if server aborts
+
+        # Always create queue to avoid keyerror when sender is disabled
+        self.queue['sender'] = multiprocessing.Queue()
+
         if self.sender:
             # We don't poll on this queue, only submit
-            senderqueue = multiprocessing.Queue()
-
             self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
-                senderqueue, self.config.noise_dir, self.config.peer_dir)
+                self.queue['sender'], self.config.noise_dir, self.config.peer_dir)
             self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
 
 
