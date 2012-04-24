@@ -44,6 +44,8 @@ All \textbf{3***} packets have the same length and contain the same fields:
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
+version & EOFsdt & EOF Version & 0\\
+\hline
 id & EOFsdt & Packet id & alg4f!\\
 \hline
 addr & EOFsdt & Adress of next peer & tcp:123.123.123.132:8080\\
@@ -53,6 +55,7 @@ group & EOFsdt & The destination group & !eof\\
 msgtext & EOFsdt & The message & Hallo, mein Freund!\\
 \hline
 \end{longtable}
+Version is always 0. Is though for future changes in the protocol.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{3000: Drop packet}
