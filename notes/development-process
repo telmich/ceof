@@ -68,3 +68,8 @@ how to prevent?
 how?
 tcp - not
 rudp
+
+9) could not decrypt packet
+
+send to next-next peer, not to next
+address (of peer) vs forward_address of packet for peer
