@@ -63,8 +63,7 @@ class Onion(object):
             log.debug("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
 
             # FIXME: use SenderServer Function!
-            data = onion_chain.encode('utf-8')
-            ceof.SenderServer.send(address, data)
+            ceof.SenderServer.send(address, onion_chain)
 
     #def chain(self, chained_pkg):
     #def chain(self, chain, onion):

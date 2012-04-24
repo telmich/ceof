@@ -100,6 +100,7 @@ class Sender(object):
         except socket.error as e:
             raise SenderError("Cannot connect to %s: %s" % ((host, port), e))
 
-        mysocket.sendall(pkg)
+        network_pkg = ceof.encode(pkg)
+        mysocket.sendall(network_pkg)
         mysocket.close()
 
