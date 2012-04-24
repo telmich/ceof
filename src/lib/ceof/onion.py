@@ -120,8 +120,8 @@ class Onion(object):
         # FIXME: converting to string may fail if binary
         plaintext = str(self.crypto.decrypt(pkg))
 
-        msg = plaintext[ceof.EOF_L_MSG_FULL:]
-        rest = plaintext[:ceof.EOF_L_MSG_FULL]
+        msg = plaintext[:ceof.EOF_L_MSG_FULL]
+        rest = plaintext[ceof.EOF_L_MSG_FULL:]
 
         return (msg, rest)
 

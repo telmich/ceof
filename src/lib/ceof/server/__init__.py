@@ -110,6 +110,8 @@ class Server(object):
             log.warn("Discarding bogus packet: %s" % e)
             return
 
+        log.debug(eofmsg)
+
         cmd = eofmsg.cmd
 
 
@@ -138,7 +140,7 @@ class Server(object):
             ##self.queue['ui'].put(eofmsg.msgtext)
 
         else:
-            log.warn("Ignoring malformatted packet: %s" % data)
+            log.warn("Ignoring unknown cmd: %s (%s)" % (cmd, data))
 
 
     def run(self):
