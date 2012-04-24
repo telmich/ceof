@@ -130,7 +130,7 @@ class Crypto(object):
 
     def encrypt(self, data, recipients):
         encrypted_data = self._gpg.encrypt(data, recipients, always_trust=True)
-        log.debug(encrypted_data)
+        #log.debug(encrypted_data)
 
         if len(str(encrypted_data)) == 0:
             raise NoPubKeyError(recipients)
@@ -143,7 +143,6 @@ class Crypto(object):
             
         # , True = private
         print(self._gpg.export_keys(self.private_key['keyid']))
-
 
     def import_key(self, key_data):
         """Import given key"""

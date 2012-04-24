@@ -49,59 +49,70 @@ class Onion(object):
             peer = ceof.Peer.from_disk(config.peer_dir, args.name)
             route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
             chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
+            # Copy for debug
+            orig_chain = list(chain)
 
             onion = cls(config.gpg_config_dir)
             onion_chain = onion.chain(chain)
             print("Onion chain: %s" % onion_chain)
 
         if args.send:
-            first = chain[-1]
-            peer = first['peer']
-            address = first['address']
-            log.debug("Sending generated message via %s to %s @ %s" % (str(chain), str(peer), str(address)))
+            first_link = orig_chain[-1]
+            peer = first_link['peer']
+            address = peer.random_address()
+            log.debug("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
 
             # FIXME: use SenderServer Function!
             data = onion_chain.encode('utf-8')
             ceof.SenderServer.send(address, data)
 
     #def chain(self, chained_pkg):
-    def chain(self, chain, onion):
-        """Create onion chain"""
+    #def chain(self, chain, onion):
+    def chain(self, chain):
+        """Create an onion chain"""
 
         #log.debug(chained_pkg)
-        onion_chain = ""
-        lastaddr=""
-        for pkg in chained_pkg:
-            log.debug("Chain pkg:" + str(pkg))
-            onion_chain = self.pkg(pkg, onion_chain, lastaddr)
-            lastaddr = pkg['address']
+        #onion_chain = ""
+        #lastaddr=""
 
-        return onion_chain
+        # Pakets left to be encrypted:
 
-    def pkg(self, pkg, onion, lastaddr):
-        """Create an onion"""
+        # Get our packet to work on
+        pkg = chain.pop()
+        log.debug("Onion: Encrypting for %s, chain = %s" % (str(pkg), str(chain)))
+
+        # If there is more, call us again
+        if chain:
+            inner_part = self.chain(chain)
+        else:
+            inner_part = ""
 
         cmd = pkg['cmd']
 
-        # empty core of the onion
+        # create empty core of the onion
         eofmsg = ceof.EOFMsg(cmd=cmd)
-        log.debug(repr(str(eofmsg)))
 
         # Nothing added when dropping the package
         if cmd == ceof.EOF_CMD_ONION_DROP:
             pass
-
         elif cmd == ceof.EOF_CMD_ONION_FORWARD:
-            eofmsg.address = lastaddr
+            # FIXME: add noise?
+            eofmsg.address = pkg['forward_address']
 
         elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
+            # FIXME: add noise?
             eofmsg.msgtext = pkg['message']
             
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             eofmsg.msgtext = pkg['message']
-            eofmsg.address = lastaddr
+            eofmsg.address = pkg['forward_address']
 
-        return str(self.crypto.encrypt(str(eofmsg) + onion, pkg['peer'].fingerprint))
+        # We have the eofmsg and the inner part
+        # Encrypt both and return
+
+        onion = self.crypto.encrypt(str(eofmsg) + str(inner_part), pkg['peer'].fingerprint)
+
+        return str(onion)
 
     def unpack(self, pkg):
         """Unpack an onion"""

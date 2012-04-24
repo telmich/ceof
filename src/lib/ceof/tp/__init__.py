@@ -113,7 +113,7 @@ class TransportProtocol(object):
         for router in route:
             router_pkg = {}
             router_pkg['peer'] = router
-            router_pkg['address'] = peer.random_address()
+            #router_pkg['address'] = peer.random_address()
 
             if router == peer:
                 router_pkg['message'] = message
@@ -122,15 +122,14 @@ class TransportProtocol(object):
                     first_peer = False
                 else:
                     router_pkg['cmd'] = ceof.EOF_CMD_ONION_MSG_FORWARD
-                    router_pkg['destination'] = chain[-1]['address']
+                    router_pkg['forward_address'] = chain[-1]['peer'].random_address()
             else:
-                payload = ""
                 if first_peer:
                     router_pkg['cmd'] = ceof.EOF_CMD_ONION_DROP
                     first_peer = False
                 else:
                     router_pkg['cmd'] = ceof.EOF_CMD_ONION_FORWARD
-                    router_pkg['destination'] = chain[-1]['address']
+                    router_pkg['forward_address'] = chain[-1]['peer'].random_address()
 
             chain.append(router_pkg)
             # pkg.append("%s/%s/%s" % (router.name, address, cmd))

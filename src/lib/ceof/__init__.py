@@ -41,7 +41,7 @@ EOF_L_MSG_FULL          = EOF_L_VERSION+EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_G
 EOF_L_PKG_MAX           = 65536
 EOF_L_ROUTERS           = 7
 # FIXME for testing
-EOF_L_ROUTERS           = 2
+EOF_L_ROUTERS           = 3
 
 # Baseformat for IDs
 EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
@@ -104,7 +104,7 @@ EOF_UI_PEER_SEND            = "/peer send"
 EOF_UI_HELP                 = "/help"
 
 # Times for sending packets / polling on queues
-EOF_TIME_SEND                = 1
+EOF_TIME_SEND                = 5
 EOF_TIME_QPOLL               = (EOF_TIME_SEND)/2
 
 def fill_and_trim(data, length):

@@ -108,7 +108,6 @@ class Server(object):
             eofmsg.set_message(msg)
         except ceof.eofmsg.EOFMsgError as e:
             log.warn("Discarding bogus packet: %s" % e)
-            log.debug(data)
             return
 
         cmd = eofmsg.cmd
