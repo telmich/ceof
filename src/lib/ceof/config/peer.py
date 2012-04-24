@@ -130,24 +130,25 @@ class Peer(object):
         peers = cls.list_peers(base_dir)
         random_peers = []
 
-        # FIXME: can one packet travel more than one time through one node?
-        if len(peers) < num_peers:
-            raise PeerError("Requesting more random peers than available (%s > %s)" % (num_peers, len(peers)))
+        # FIXME: if notthispeer is in the list, we need even +1!
+        if notthispeer:
+            need_peers = num_peers + 1
+        else:
+            need_peers = num_peers
+
+        if len(peers) < need_peers:
+            raise PeerError("Requesting more random peers than available (%s > %s)" % (need_peers, len(peers)))
 
         for peer_no in range(num_peers):
             peer_index = random.randrange(len(peers))
 
-            # Skip if found peer to avoid
-            if notthispeer:
-                if peers[peer_index] == notthispeer:
-                    # Not able to skip me
-                    if len(peers) == 1:
-                        raise PeerError("Exhausted all possible random peers (only skipped peer left)")
-
-                    log.debug("Skipping %s" % notthispeer)
-                    continue
-
             peer = peers.pop(peer_index)
+
+            # If the chosen peer is to be avoided, select another one
+            if notthispeer:
+                if peer == notthispeer:
+                    peer_index = random.randrange(len(peers))
+                    peer = peers.pop(peer_index)
 
             random_peers.append(peer)
 

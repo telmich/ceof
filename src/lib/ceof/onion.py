@@ -47,7 +47,7 @@ class Onion(object):
 
         if args.message:
             peer = ceof.Peer.from_disk(config.peer_dir, args.name)
-            route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
+            route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
             chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
             # Copy for debug
             orig_chain = list(chain)

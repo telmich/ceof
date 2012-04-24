@@ -39,9 +39,9 @@ EOF_L_UI_NAME           = 128
 EOF_L_UI_INPUT          = 256
 EOF_L_MSG_FULL          = EOF_L_VERSION+EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_GROUP+EOF_L_MESSAGE
 EOF_L_PKG_MAX           = 65536
-EOF_L_ROUTERS           = 7
-# FIXME for testing
-EOF_L_ROUTERS           = 3
+
+# Number of peers to add to travel the packet through
+EOF_L_ADDITIONAL_PEERS  = 2
 
 # Baseformat for IDs
 EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
