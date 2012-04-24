@@ -48,44 +48,33 @@ class Onion(object):
         if args.message:
             peer = ceof.Peer.from_disk(config.peer_dir, args.name)
             route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
-            chain = ceof.TransportProtocol.chained_pkg(route, peer, args.message)
+            chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
 
             onion = cls(config.gpg_config_dir)
-
             onion_chain = onion.chain(chain)
-            print(onion_chain)
+            print("Onion chain: %s" % onion_chain)
 
         if args.send:
             first = chain[-1]
+            peer = first['peer']
             address = first['address']
-            print("Sending generated message via %s to %s" % (str(chain), str(address)))
+            log.debug("Sending generated message via %s to %s @ %s" % (str(chain), str(peer), str(address)))
 
             # FIXME: use SenderServer Function!
-            import socket
-            import urllib.parse
-            url = urllib.parse.urlparse(address)
-            host, port = url.netloc.split(":")
-            host = "127.0.0.1"
-            try:
-                mysocket = socket.create_connection((host, port))
-            except socket.error as e:
-                raise OnionError("Cannot connect to %s: %s" % ((host, port), e))
-
             data = onion_chain.encode('utf-8')
-            mysocket.sendall(data)
+            ceof.SenderServer.send(address, data)
 
-    # FIXME: do not encrypt last round, because we send to this peer!
-    def chain(self, chained_pkg):
+    #def chain(self, chained_pkg):
+    def chain(self, chain, onion):
         """Create onion chain"""
 
-        log.debug(chained_pkg)
+        #log.debug(chained_pkg)
         onion_chain = ""
         lastaddr=""
         for pkg in chained_pkg:
             log.debug("Chain pkg:" + str(pkg))
             onion_chain = self.pkg(pkg, onion_chain, lastaddr)
             lastaddr = pkg['address']
-            log.debug("Returned Chain: %s" % str(onion_chain))
 
         return onion_chain
 

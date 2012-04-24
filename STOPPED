@@ -11,6 +11,8 @@
             - verify signature
             - group support?
 
+        - DEBUG: find out, why decrypting is not possible!
+
 - listener address != handler address:
     tcp://0.0.0.0:5352 => 0.0.0.0 for listening, 77.109... real address for other peers
     - listener id: sanitise for filesystem (python?) and save string

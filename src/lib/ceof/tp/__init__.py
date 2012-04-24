@@ -104,13 +104,12 @@ class TransportProtocol(object):
         return peers
 
     @staticmethod
-    def chained_pkg(route, peer, message):
+    def chain_to(route, peer, message):
         """Create chained packet"""
 
         # First peer that receives is the last one that last decrypts
         first_peer = True
-        msg=""
-        pkg = []
+        chain = []
         for router in route:
             router_pkg = {}
             router_pkg['peer'] = router
@@ -131,7 +130,7 @@ class TransportProtocol(object):
                 else:
                     router_pkg['cmd'] = ceof.EOF_CMD_ONION_FORWARD
 
-            pkg.append(router_pkg)
+            chain.append(router_pkg)
             # pkg.append("%s/%s/%s" % (router.name, address, cmd))
 
-        return pkg
+        return chain

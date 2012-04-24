@@ -20,7 +20,7 @@ for peer in $(seq 0 2); do
     echo $peer ...
     $ceof -c $dir listener --list
     
-    $ceof -c $dir server &
+    $ceof -c $dir server -d &
 
-    read a
+#    read a
 done

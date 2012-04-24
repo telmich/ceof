@@ -37,7 +37,7 @@ class Sender(object):
         self._upstream_queue = queue
         self._noise = ceof.Noise(noise_dir)
         # FIXME: remove start(), do automatically on startup, fix commandline
-        self._noise.start()
+        #self._noise.start()
         self._peer_dir = peer_dir
 
     def run(self):
@@ -83,7 +83,8 @@ class Sender(object):
         log.debug("Seleted random address %s" % address)
         return address
 
-    def send(self, address, pkg):
+    @staticmethod
+    def send(address, pkg):
         """Send out message"""
 
         # FIXME: remove hard coded tcp
