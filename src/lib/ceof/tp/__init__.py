@@ -122,6 +122,7 @@ class TransportProtocol(object):
                     first_peer = False
                 else:
                     router_pkg['cmd'] = ceof.EOF_CMD_ONION_MSG_FORWARD
+                    router_pkg['destination'] = chain[-1]['address']
             else:
                 payload = ""
                 if first_peer:
@@ -129,6 +130,7 @@ class TransportProtocol(object):
                     first_peer = False
                 else:
                     router_pkg['cmd'] = ceof.EOF_CMD_ONION_FORWARD
+                    router_pkg['destination'] = chain[-1]['address']
 
             chain.append(router_pkg)
             # pkg.append("%s/%s/%s" % (router.name, address, cmd))
