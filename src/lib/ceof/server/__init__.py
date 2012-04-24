@@ -44,7 +44,7 @@ class Server(object):
 
     """
 
-    def __init__(self, config, listener=True, sender=True, ui=True,
+    def __init__(self, config, listener=True, noise=True, ui=True,
         ui_addr='127.0.0.1', ui_port='4242'):
 
         self.config = config
@@ -54,7 +54,7 @@ class Server(object):
         self.handler = {}
 
         self.listener = listener
-        self.sender = sender
+        self.noise = noise
         self.ui = ui
         self.ui_addr = ui_addr
         self.ui_port = ui_port
@@ -68,7 +68,7 @@ class Server(object):
     def commandline(args, config):
         log.debug(args)
 
-        server = Server(config, args.no_listener, args.no_sender, args.no_ui,
+        server = Server(config, args.no_listener, args.no_noise, args.no_ui,
             args.ui_address, args.ui_port)
 
         server.run()
@@ -86,18 +86,13 @@ class Server(object):
         self._onion = ceof.Onion(self.config.gpg_config_dir)
 
     def _init_sender(self):
-        # FIXME: monitor server for crashes and abort program,
-        # if server aborts
+        # FIXME: monitor server for crashes and abort program, if sender server aborts
 
-        # Always create queue to avoid keyerror when sender is disabled
-        self.queue['sender'] = multiprocessing.Queue()
-
-        if self.sender:
-            # We don't poll on this queue, only submit
-            self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
-                self.queue['sender'], self.config.noise_dir, self.config.peer_dir)
-            self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
-
+        # This queue is special: we only submit data, don't poll
+        self.sender_queue = multiprocessing.Queue()
+        self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
+            self.sender_queue, self.config.noise_dir, self.config.peer_dir, self.noise)
+        self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
@@ -116,7 +111,6 @@ class Server(object):
 
         cmd = eofmsg.cmd
 
-
         # Drop? done.
         if cmd == ceof.EOF_CMD_ONION_DROP:
             pass
@@ -124,7 +118,8 @@ class Server(object):
         elif cmd == ceof.EOF_CMD_ONION_FORWARD:
             # Forward to next
             # FIXME: add padding?
-            self.queue['sender'].put((eofmsg.address, rest))
+            log.debug("Scheduling packet for forward: %s" % rest)
+            self.sender_queue.put((eofmsg.address, rest))
 
         elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
             # Add to UIServer queue
@@ -135,7 +130,8 @@ class Server(object):
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             # Forward to next
             # FIXME: add padding?
-            self.queue['sender'].put((eofmsg.address, rest))
+            log.debug("Scheduling packet for forward: %s" % rest)
+            self.sender_queue.put((eofmsg.address, rest))
             # Forward to UI
             # FIXME: get sender info, verify signature
             print(eofmsg.msgtext)

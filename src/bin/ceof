@@ -131,8 +131,8 @@ def commandline():
         parents=[parser['all']])
     parser['server'].add_argument('-l', '--no-listener',
          help='Disable listener server', action='store_false')
-    parser['server'].add_argument('-s', '--no-sender',
-         help='Disable sender server', action='store_false')
+    parser['server'].add_argument('-n', '--no-noise',
+         help='Disable noise sending', action='store_false')
     parser['server'].add_argument('-u', '--no-ui',
          help='Disable UI server', action='store_false')
     parser['server'].add_argument('-a', '--ui-address',

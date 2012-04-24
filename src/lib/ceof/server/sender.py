@@ -31,14 +31,14 @@ class SenderError(ceof.Error):
 class Sender(object):
     """Sender server"""
 
-    def __init__(self, interval, queue, noise_dir, peer_dir):
+    def __init__(self, interval, queue, noise_dir, peer_dir, send_noise=True):
         self.interval = interval
 
         self._upstream_queue = queue
         self._noise = ceof.Noise(noise_dir)
-        # FIXME: remove start(), do automatically on startup, fix commandline
-        #self._noise.start()
+        self._noise.start()
         self._peer_dir = peer_dir
+        self._send_noise = send_noise
 
     def run(self):
         """Main loop"""
@@ -54,8 +54,8 @@ class Sender(object):
             except queue.Empty:
                 message = False
 
-            if not message:
-                log.debug("No message received")
+            if not message and self._send_noise:
+                log.debug("No message received - acquiring noise")
                 try:
                     # FIXME: need to create onion packet from it!
                     pkg = self._noise.get()
@@ -80,7 +80,7 @@ class Sender(object):
 
         address = peers[0].random_address()
 
-        log.debug("Seleted random address %s" % address)
+        log.debug("Selected random address %s" % address)
         return address
 
     @staticmethod
