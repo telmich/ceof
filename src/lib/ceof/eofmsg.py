@@ -40,6 +40,7 @@ class EOFMsg(object):
         self.msgtext    = msgtext
 
     def __str__(self):
+        #return (self.cmd, self.eofid, self.address, self.group, self.msgtext)
         return self.message
 
     def get_message(self):
@@ -50,11 +51,13 @@ class EOFMsg(object):
             raise EOFMsgError("Message length (%s) should be %s" % (len(message), ceof.EOF_L_MSG_FULL))
 
         index = 0
+        self.version    = message[index:index+ceof.EOF_L_VERSION]
+        index = index + ceof.EOF_L_VERSION
         self.cmd        = message[index:index+ceof.EOF_L_CMD]
         index = index + ceof.EOF_L_CMD
         self.eofid      = message[index:index+ceof.EOF_L_ID]
         index = index + ceof.EOF_L_ID
-        self.address    = message[index:index+ceof.EOF_L_ADRESS]
+        self.address    = message[index:index+ceof.EOF_L_ADDRESS]
         index = index + ceof.EOF_L_ADDRESS
         self.group      = message[index:index+ceof.EOF_L_GROUP]
         index = index + ceof.EOF_L_GROUP
