@@ -1,9 +1,10 @@
 SDOC=thesis.tex
 PARTS=chatsystems.tex comm-protocols.tex conclusions.tex
 PARTS+=implementation-prototype.tex references.tex requirements.tex
-PARTS+= initial-meeting.tex introduction.tex othersystems.tex protocol.tex
+PARTS+= introduction.tex othersystems.tex protocol.tex
 PARTS+= test-prototype.tex thesis.tex
 PARTS+= proto/ui.tex proto/user.tex proto/transport.tex
+PARTS+= proto/basic-data.tex proto/simple-data.tex proto/packet-types.tex
 
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<

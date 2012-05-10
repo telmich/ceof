@@ -14,6 +14,8 @@
 \setbeamercovered{dynamic}
 \usetheme{Malmoe}
 \usecolortheme{crane}
+\setbeamertemplate{footline}[page number]
+
 
 \title{Development of a secure, decentralised anonymous chat system}
 \subtitle{Design Review}
@@ -43,7 +45,7 @@
   \item Interested in privacy and anonymity
   \item Last semester student at ZHAW/HSZ-T
   \begin{enumerate}
-      \item  Information Security and Kryptography (Informationssicherheit und Kryptografie)
+      \item  Information Security and Cryptography (Informationssicherheit und Kryptografie)
       \item  Networks and Internet Communications (Netzwerke und Internet-Kommunikation)
       \item  Operating Systems (Betriebssysteme)
       \item  Theoretical Computer Science and Automata Theory (Theoretische Informatik und Automatentheorie)
@@ -112,14 +114,7 @@
   %\frametitle{\textcolor{blue}{Chat Systems}}
   \frametitle{Chat Systems}
   \begin{itemize}
-      \item Analysis and comparison of
-      \begin{itemize}
-          \item IRC (Internet Relay Chat)
-          \item SILC (Secure Internet Live Chat)
-          \item XMPP (also know as Jabber)
-          \item Skype
-      \end{itemize}
-      \item Overview
+     \item Overview
       \begin{itemize}
           \item Analysis and comparison done
           \item Needs cleanup for final paper
@@ -128,22 +123,21 @@
       \begin{itemize}
           \item OK
       \end{itemize}
-  \end{itemize}
+      \pause \item Details: Analysis and comparison of
+      \begin{itemize}
+          \item IRC (Internet Relay Chat)
+          \item SILC (Secure Internet Live Chat)
+          \item XMPP (also know as Jabber)
+          \item Skype
+      \end{itemize}
+   \end{itemize}
 }
 
 \frame
 {
   \frametitle{Communication Protocols}
   \begin{itemize}
-      \item Protocols
-      \begin{itemize}
-          \item Onion Routing / MIX
-          \item Tor
-          \item OTR
-          \item IP
-          \item RUDP
-      \end{itemize}
-      \item Overview
+     \item Overview
       \begin{itemize}
           \item RUDP seems deeply related - further investigation
           \item Strength and weaknesses only partial related
@@ -153,21 +147,22 @@
       \begin{itemize}
           \item OK
       \end{itemize}
-  \end{itemize}
+      \pause \item Details: Protocols
+      \begin{itemize}
+          \item Onion Routing / MIX
+          \item Tor
+          \item OTR
+          \item IP
+          \item RUDP
+      \end{itemize}
+   \end{itemize}
 }
 
 \frame
 {
   \frametitle{Security Features}
   \begin{itemize}
-      \item Related Features
-      \begin{itemize}
-          \item Anonymity
-          \item Confidentiality
-          \item Integrity
-          \item Availability
-      \end{itemize}
-      \item Overview
+     \item Overview
       \begin{itemize}
           \item Description present
           \item Needs cleaner integration into thesis
@@ -176,21 +171,21 @@
       \begin{itemize}
           \item OK
       \end{itemize}
-  \end{itemize}
+      \pause \item Details: Related Features
+      \begin{itemize}
+          \item Anonymity
+          \item Confidentiality
+          \item Integrity
+          \item Availability
+      \end{itemize}
+   \end{itemize}
 }
 
 \frame
 {
   \frametitle{Chat Protocol Definition}
   \begin{itemize}
-      \item Data Types 
-      \begin{itemize}
-          \item Basic
-          \item Simple
-          \item Packets
-          \item Messages
-      \end{itemize}
-      \item Overview
+     \item Overview
       \begin{itemize}
           \item Data types complete
           \item Routing shortly described, needs further work
@@ -200,14 +195,30 @@
       \begin{itemize}
           \item OK (ahead of time table)
       \end{itemize}
-  \end{itemize}
+      \pause \item Details: Data Types 
+      \begin{itemize}
+          \item Basic
+          \item Simple
+          \item Packets
+          \item Messages
+      \end{itemize}
+   \end{itemize}
 }
 
 \frame
 {
   \frametitle{Prototype}
   \begin{itemize}
-      \item Components
+     \item Overview
+      \begin{itemize}
+          \item Python Implementation
+          \item Working for 3 Hosts
+      \end{itemize}
+      \item Status
+      \begin{itemize}
+          \item OK (ahead of time table)
+      \end{itemize}
+      \pause \item Details: Components
       \begin{itemize}
           \item Configuration (peer)
           \item Crypto Engine
@@ -219,16 +230,7 @@
           \item Transport Protocol (tcp)
           \item \textit{UI} (Additional code from other project)
       \end{itemize}
-      \item Overview
-      \begin{itemize}
-          \item Python Implementation
-          \item Working for 3 Hosts
-      \end{itemize}
-      \item Status
-      \begin{itemize}
-          \item OK (ahead of time table)
-      \end{itemize}
-  \end{itemize}
+   \end{itemize}
 }
 
 \frame
@@ -240,6 +242,10 @@
           \item Poster
           \item Live Demo
           \item Final Presentation
+      \end{itemize}
+      \item Additional
+      \begin{itemize}
+          \item UI Project
       \end{itemize}
       \item Status
       \begin{itemize}
@@ -282,7 +288,7 @@
     \item Finish 80\%-chapters 1-3
     \item Finish Protocol Definition
     \item Write Tests for Prototype
-    \item Prepare Demo and Final Presentation
+    \item Prepare Demo, Poster and Final Presentation
     \item Setup date for defense (today)
   \end{itemize}
 }

@@ -1,31 +1,26 @@
-\section{Interface to the user interface ("`eofi2ui"')}
+\section{Interface between the chat server and the user interface ("`cs2ui"')}
 \label{eofi2ui}
-This section specifies the commands used between the EOFs
-"`user interface"' and EOFi. As the user interface has to translate
-the user commands ("`ui2user"') to \emph{eofi2ui} commands, the
-section titles refer to the \emph{ui2user} and \emph{eofi2ui} commands.
+This section specifies the commands used between the user interface (UI)
+and chat server (CS).
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\subsection{UI startup}
-What todo, when the UI starts.
-Connect to EOFi. Find out about
-\begin{itemize}
-\item joined group,
-\item connected marktscheier
-\item and open queries.
-\end{itemize}
-It thus issues the following commands:
-register, list joined groups, list open queries, list marktschreier.
-% -----------------------------------------------------------------------------
 \subsection{Connection}
-All user interfaces connect via tcp to port 6667.
+The chat server provides a TCP listener on port 6667, to which the UI connects 
+to. Alternate ports may be used, but need to be specified explicitly.
+% -----------------------------------------------------------------------------
+\subsection{Commands: Classes and packet description}
+All packets exchanged between EOFi and the UI are formatted as
+\textit{EOF commands}. EOF commands always begin with 4 bytes, 
+which contain a numeric code encoded in UTF-8.
 
-% to the user interface socket, as specified
-% on page \pageref{puisocket}, section \ref{puisocket}.
+Commands sent by the server begin with \textbf{11}, commands send by the
+UI begin with \textbf{21}.
+% -----------------------------------------------------------------------------
+\subsection{ID}
 % -----------------------------------------------------------------------------
 \subsection{1100: Acknowledge}
-The is a general acknowledge answer. The request with the
-same \emph{ID} as the packet was successful.
+The is a general acknowledge answer. 
+The request with the same \emph{ID} as the packet was successful.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
 \caption{Command 1100 parameters}\\
