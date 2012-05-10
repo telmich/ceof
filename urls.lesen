@@ -14,6 +14,24 @@
     http://en.wikipedia.org/wiki/Anonymity
     
 
+\appendix
+\chapter{Sources}
+\begin{thebibliography}{42}
+\bibitem{pgp-1} http://en.wikipedia.org/wiki/Public-key\_cryptography
+\bibitem{onion-1} http://en.wikipedia.org/wiki/Onion\_routing
+\bibitem{tor-1} https://wiki.torproject.org/noreply/TheOnionRouter
+\bibitem{irc-1} RFC 1459: http://www.irchelp.org/irchelp/rfc/rfc.html
+\bibitem{source-routing-1} http://en.wikipedia.org/wiki/Source\_routing
+\bibitem{tcp-1} RFC 793: http://www.faqs.org/rfcs/rfc793.html
+\bibitem{http-1} RFC 2616: http://www.faqs.org/rfcs/rfc2616.html
+\bibitem{smtp-1} RFC 2821: http://www.faqs.org/rfcs/rfc2821.html
+\bibitem{avian-1} RFC 1149: http://www.faqs.org/rfcs/rfc1149.html
+\bibitem{uri-1} RFC 3986: http://www.faqs.org/rfcs/rfc3986.html
+\bibitem{!eof} https://www.eof.name
+\bibitem{stegano-1} http://en.wikipedia.org/wiki/Steganography
+\bibitem{utf8} RFC3629: UTF-8: http://www.ietf.org/rfc/rfc3629.txt
+\end{thebibliography}
+
 Gelesen:
 
     http://en.wikipedia.org/wiki/Mix_network # unklar wer zu wem
