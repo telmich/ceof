@@ -9,14 +9,18 @@ The chat server provides a TCP listener on port 6667, to which the UI connects
 to. Alternate ports may be used, but need to be specified explicitly.
 % -----------------------------------------------------------------------------
 \subsection{Commands: Classes and packet description}
-All packets exchanged between EOFi and the UI are formatted as
+All packets exchanged between CS and the UI are formatted as
 \textit{EOF commands}. EOF commands always begin with 4 bytes, 
-which contain a numeric code encoded in UTF-8.
-
+which contain a numeric code encoded in UTF-8 (like "`1100"').
 Commands sent by the server begin with \textbf{11}, commands send by the
 UI begin with \textbf{21}.
+% Nico: ok
 % -----------------------------------------------------------------------------
 \subsection{ID}
+To identify the answer to a command, each command supplies an ID, the so called
+\textit{EOFID}. This ID is a simple base64 encoded integer, based on the
+following characters: 
+"`0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"'.
 % -----------------------------------------------------------------------------
 \subsection{1100: Acknowledge}
 The is a general acknowledge answer. 
