@@ -3,12 +3,11 @@ The following sections define the simple datatypes.
 They are further referenced as "`EOFsdt"'.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-% -----------------------------------------------------------------------------
 \subsection{Identification string (id)}
-\label{idn}
-To identify a packet, each packet contains an identification string,
-which is \emph{EOF\_L\_ID} bytes long. It may contain only the
-following characters:
+\label{eofid}
+To identify a message, a message may contain an identification string,
+called the \textit{EOFID}.
+This ID is an integer that is encoded based on the following characters:
 \begin{itemize}
 \item A-Z (alphabet in upper case)
 \item a-z (alphabet in lower case)
@@ -16,51 +15,122 @@ following characters:
 \item ! (exclamation mark)
 \item - (minus)
 \end{itemize}
-The EOFs or EOFi may chose freely any of the \emph{68719476736}
-possibilities.\footnote{$(26+26+10+2)^6$, as long as EOF\_L\_ID is 6.}
-The characters are limited to those characters to allow easy debugging
-and to keep the non-binary command layout.
+The order of the characters is as following:
+"`\textit{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!}"'.
+The length of an EOFID is 6 bytes, which results in
+\emph{68719476736} possible ids.\footnote{$(26+26+10+2)^6$}.
+The characters where selected allow easy debugging.
 % -----------------------------------------------------------------------------
-\subsection{Size (size)}
-\index{eof.h (File)}%
-All sizes used in this document are "`symbolic sizes"': The real size
-is defined in the attached file "`\emph{eof.h}"'.
-Developers are advised to use the symbolic name in their programs.
-
-A size is is always represented as an ASCII number found in a
-fixed length string of \emph{EOF\_L\_SIZE} bytes.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Nick name (nick)}
-The peer name is a \emph{EOF\_L\_NICKNAME} byte fixed length string.
-It is only used internally to give a peer a rememberable name ("`a nick'").
-It is never transmitted over the network.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Group name (group)}
-The group name is a \emph{EOF\_L\_GROUP} byte fixed length string.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Message text (msgtext)}
-The message text is a \emph{EOF\_L\_MESSAGE} byte fixed length string.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Peer address (addr)}
-The address of a peer, which is is a \emph{EOF\_L\_ADDRESS}
-byte fixed length string. Peer addresses are specified as
-URLs as defined in RFC3986\cite{uri-1}. For more information have
-a look at section \ref{tp} on page \pageref{tp}.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Keyid, the fingerprint (keyid)}
-A (PGP) fingerprint\footnote{See RFC 2440, 11.2. Key IDs and Fingerprints}
-is a \emph{EOF\_L\_KEYID} byte fixed length string.
-It does not contain any spaces.
-It can be retrieved by issuing the following gpg-command:
+\subsubsection{Examples}
+The following examples en- and decode integers into the specified format.
+Use is made of the Python reference implementation:
 \begin{verbatim}
-LC_ALL=C gpg --fingerprint  | \
-   grep "Key fingerprint =" | \
-   sed -e 's/.*=//' -e 's/ //g' 
+>>> import ceof
+>>> ceof.EOFID.int_to_id(42)
+'00000G'
+>>> ceof.EOFID.int_to_id(1)
+'000001'
+>>> ceof.EOFID.int_to_id(64)
+'000010'
+>>> ceof.EOFID.id_to_int('000010')
+64
+>>> ceof.EOFID.id_to_int('!!!!!!')
+68719476735
+>>> ceof.EOFID.id_to_int('a-----')
+11794116542
+>>> ceof.EOFID.id_to_int('000000')
+0
 \end{verbatim}
 % Nico: 1.0
-
+% -----------------------------------------------------------------------------
+\subsection{Size}
+A size is is always represented as an ASCII number in a fixed length
+string of 6 bytes.
+\subsubsection{Examples}
+\begin{verbatim}
+>>> import ceof
+>>> ceof.fillup("10", 6)
+'10\x00\x00\x00\x00'
+>>> ceof.fillup("10000", 6)
+'10000\x00'
+>>> ceof.fillup("100000", 6)
+'100000'
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Peer name}
+The peer name is a 128 byte fixed length string.
+\subsubsection{Examples}
+\begin{verbatim}
+>>> import ceof
+>>> ceof.fillup("Thomas Hü", 128)
+'Thomas Hü\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Group name}
+The group name is a 128 byte fixed length string.
+\subsubsection{Examples}
+\begin{verbatim}
+>>> import ceof
+>>> ceof.fillup("!eof", 128)
+'!eof\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Message text}
+The message text is a 256 byte fixed length string.
+\subsubsection{Examples}
+\begin{verbatim}
+>>> import ceof
+>>> ceof.fillup("Hello, !eof!", 256)
+'Hello, !eof!\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Peer address}
+The address of a peer, which is is a 128 byte fixed length string. 
+Peer addresses are specified as URLs as defined in RFC3986\cite{rfc3986}. 
+\subsubsection{Examples}
+\begin{verbatim}
+>>> import ceof
+>>> ceof.fillup("tcp://127.0.0.1:6667", 128)
+'tcp://127.0.0.1:6667\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+\end{verbatim}
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Peer fingerprint (keyid)}
+A (PGP) fingerprint\footnote{See RFC 2440, 11.2. Key IDs and Fingerprints}
+is a 40 byte fixed length string. As the fingerprint has a fix length of
+40 bytes, there is never padding needed.
+\subsubsection{Examples}
+\begin{verbatim}
+% LC_ALL=C gpg --fingerprint | grep "Key fingerprint =" | sed -e 's/.*=//' -e 's/ //g'
+A35767A98CA9CC3CE368679AB679548202C9B17D
+\end{verbatim}
