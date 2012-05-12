@@ -1,0 +1,38 @@
+\subsection{EOF commands and command fields (mapping table)}
+An EOF command is exactly \emph{EOF\_L\_CMD} bytes long (fixed length string)
+and contains an ASCII number.
+
+EOF commands are the main method of communication between EOFs and EOFi.
+
+The command field 0 indicates the direction.
+The command field 1 indicates the EOF subsystem.
+\begin{longtable}{|c|c|c|}
+\caption{Command fields}\\
+\hline
+\textbf{Value} & \textbf{Subsystem} / \textbf{Description} & \textbf{Ref}\\
+\hline
+1*** & Message is coming from the EOF implementation &\\
+\hline
+10** & \textbf{eofi2tp}: Transport protocols & p\pageref{eofi2tp}\\
+\hline
+11** & \textbf{eofi2ui}: User interface & p\pageref{eofi2ui}\\
+\hline
+12** & \textbf{eofi2crypto}: Crypto engine & p\pageref{eofi2crypto}\\
+\hline
+13** & \textbf{eofi2noise}: Noise generator & p\pageref{eofi2noise}\\
+\hline
+2*** & Message is coming from EOF subsystem (internally) &\\
+\hline
+20** & \textbf{eofi2tp}: Transport protocols & p\pageref{eofi2tp}\\
+\hline
+21** & \textbf{eofi2ui}: User interface & p\pageref{eofi2ui}\\
+\hline
+22** & \textbf{eofi2crypto}: Crypto engine & p\pageref{eofi2crypto}\\
+\hline
+23** & \textbf{eofi2noise}: Noise generator & p\pageref{eofi2noise}\\
+\hline
+3*** & Message is coming from outside ("`onion packet"')) &\\
+\hline
+\end{longtable}
+The command fields 2 and 3 are defined by the respective subsystem.
+
