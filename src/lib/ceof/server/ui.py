@@ -36,7 +36,8 @@ class UI(object):
         self.tcpserver = ceof.server.tcp.TCPServer(address, port, self.handler)
 
         # Supported commands
-        self.commands = [ ceof.EOF_CMD_UI_REGISTER
+        self.commands = [ ceof.EOF_CMD_UI_REGISTER, 
+            ceof.EOF_CMD_UI_ALLQUIT
         ]
 
         self.commands_re = "^(" + "|".join(self.commands) + ")$"
@@ -44,6 +45,8 @@ class UI(object):
         self.ui_eofid = None
 
         self.peers = {}
+
+        self.do_exit = False
 
     def run(self):
         self.tcpserver.run()
@@ -56,7 +59,7 @@ class UI(object):
         self.conn = conn
 
         try:
-            while 1:
+            while not self.do_exit:
                 data = conn.recv(ceof.EOF_L_CMD)
                 
                 # Connection lost
@@ -118,4 +121,11 @@ class UI(object):
     # >>> addr2=ceof.fillup("email://nico-eof42@schottelius.org", 128)
 
 
+    def cmd_2199(self):
+        """/allquit"""
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_EXITREQUEST, self.ui_eofid))
+        self.do_exit = True
+        self.conn.sendall(answer)
 
