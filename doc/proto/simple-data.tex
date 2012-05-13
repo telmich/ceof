@@ -26,10 +26,11 @@ This ID is an integer that is encoded based on the following characters:
 \item - (minus)
 \end{itemize}
 The order of the characters is as following:
-"`\textit{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!}"'.
+
+"`\small{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!}"'.\\
 The length of an EOFID is 6 bytes, which results in
-\emph{68719476736} possible ids.\footnote{$(26+26+10+2)^6$}.
-The characters where selected allow easy debugging.
+\emph{68719476736} possible ids.\footnote{$(10+26+26+2)^6$}.
+The given characters where selected to allow easy debugging.
 % -----------------------------------------------------------------------------
 \subsubsection{Examples}
 The following examples en- and decode integers into the specified format.
@@ -136,7 +137,7 @@ Peer addresses are specified as URLs as defined in RFC3986\cite{rfc3986}.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Peer fingerprint (keyid)}
-A (PGP) fingerprint\footnote{See RFC 2440, 11.2. Key IDs and Fingerprints}
+A (PGP) fingerprint\footnote{See RFC 2440\cite{rfc2440}, 11.2. Key IDs and Fingerprints}
 is a 40 byte fixed length string. As the fingerprint has a fix length of
 40 bytes, there is never padding needed.
 \subsubsection{Examples}

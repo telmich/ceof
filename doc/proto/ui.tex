@@ -5,15 +5,15 @@ the chat server (CS).
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Connection}
-The chat server provides a TCP listener on port 6667, to which the UI connects 
+The chat server provides a TCP listener on port 4242, to which the UI connects 
 to. Alternate ports may be used, but need to be specified explicitly.
 % -----------------------------------------------------------------------------
 \subsection{Messages}
 All messages exchanged between CS and the UI are represented as a series
-of fixed length strings. Every messages begins with a 
-\textbf{command}. Messages send by the chat server use commands
+of fixed length strings. Every messages begins with an
+\textbf{eof command}. Messages send by the chat server use eof commands
 beginning with \textbf{11}, messages send by the
-UI use commands that begin with \textbf{21}.
+UI use eof commands that begin with \textbf{21}.
 % Nico: ok
 % -----------------------------------------------------------------------------
 \subsection{Message 1100: Acknowledge}
@@ -21,7 +21,7 @@ The is a general acknowledge answer.
 The request with the same \emph{ID} as the packet was successful.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1100 parameters}\\
+\caption{Message 1100 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -40,7 +40,7 @@ same \emph{ID} as the packet failed.
 Details are specified in the reason message.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1101 parameters}\\
+\caption{Message 1101 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -75,7 +75,7 @@ Reason\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
 This is a shutdown request to the UI. After this message, the CS will exit.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1102 parameters}\\
+\caption{Message 1102 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -91,9 +91,9 @@ ID & EOFsdt: id & packet id & afdb12\\
 \subsection{Message 1103: Received message}
 This message is issued by the CS, if a message is received.
 \subsubsection{Parameters}
-\index{Command!1103}
+\index{Message!1103}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1103 parameters}\\
+\caption{Message 1103 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -142,7 +142,7 @@ This is the answer to command \emph{2106}. It contains the same ID, as
 the \emph{2106} request command.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1104 parameters}\\
+\caption{Message 1104 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -186,7 +186,7 @@ This is the answer to command \emph{2105}.
 It contains the same ID, as the \emph{2105} request command.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1105 parameters}\\
+\caption{Message 1105 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -196,7 +196,7 @@ Keyid & EOFsdt: keyid & This peers pgp-keyid & 389E5481065EAA253...\\
 \hline
 Number of addresses (noa) & EOFsdt: size & & 2\\
 \hline
-$noa * address$ & EOFsdt: address & Adress of peer & tcp:127.0.0.1:4243\\
+$noa * address$ & EOFsdt: address & Adress of peer & tcp://127.0.0.1:4243\\
 \hline
 \end{longtable}
 The last field is repeated as often, as specified in the number of addresses
@@ -234,7 +234,7 @@ same ID, as the \emph{2104} request command.
 It is sent out to \textbf{all} connected user interfaces.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 1106 parameters}\\
+\caption{Message 1106 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -279,7 +279,7 @@ This must be the \emph{first} message sent by the UI.
 If the answer is not \emph{1100}, the UI should close the connection afterwards.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 2100 parameters}\\
+\caption{Message 2100 parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -320,7 +320,6 @@ Name & EOFsdt: name & Name of the UI & ceofui\\
 \begin{itemize}
 \item none
 \end{itemize}
-
 The CS will close the connection to the UI after receiving this message.
 \subsubsection{Example}
 \begin{verbatim}
@@ -335,9 +334,9 @@ The CS will close the connection to the UI after receiving this message.
 The UI adds a peer to the list of known peers.
 
 \subsubsection{Parameters}
-\index{Command!2102: /peer add}%
+\index{Message!2102: /peer add}%
 \begin{longtable}{|c|c|c|c|}
-\caption{2102: /peer add parameters}\\
+\caption{Message 2102: /peer add parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -345,7 +344,7 @@ ID & EOFsdt: id & packet id & afdb12\\
 \hline
 Peer name & EOFsdt: name & Name you identify the peer with & telmich\\
 \hline
-Address & EOFsdt: addr & Where we can make the first contact & tcp://10.0.42.42:4242\\
+Address & EOFsdt: address & Where we can make the first contact & tcp://10.0.42.42:4242\\
 \hline
 Keyid & EOFsdt: keyid & PGP fingerprint of the peers key & F27987E34E66...\\
 \hline
@@ -385,9 +384,9 @@ A35767A98CA9CC3CE368679AB679548202C9B17D'
 The UI wants to delete a peer.
 
 \subsubsection{Parameters}
-\index{Command!/peer del}%
+\index{Message!/peer del}%
 \begin{longtable}{|c|c|c|c|}
-\caption{2103: /peer del parameters}\\
+\caption{Message 2103: /peer del parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -423,9 +422,9 @@ Name & EOFsdt: name & Name you identify the peer with & telmich\\
 \subsection{Message 2104: /peer rename}
 This messages is issued by the UI, when it wants to rename a peer.
 \subsubsection{Parameters}
-\index{Command!/peer rename}%
+\index{Message!/peer rename}%
 \begin{longtable}{|c|c|c|c|}
-\caption{/peer rename parameters}\\
+\caption{Message 2104: /peer rename parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -473,7 +472,7 @@ The UI requests details about a peer.
 
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{2105: /peer show parameters}\\
+\caption{Message 2105: /peer show parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -511,7 +510,7 @@ The UI requests the list of known peers.
 
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{2106: /peer list parameters}\\
+\caption{Message 2106: /peer list parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -539,9 +538,9 @@ ID & EOFsdt: id & packet id & afdb12\\
 The UI wants to submit a message to a peer.
 
 \subsubsection{Parameters}
-\index{Command!/peer send}%
+\index{Message!/peer send}%
 \begin{longtable}{|c|c|c|c|}
-\caption{2103: /peer send parameters}\\
+\caption{Message 2103: /peer send parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -589,12 +588,12 @@ Message & EOFsdt: msgtxt & The message itself & Hallo, wie geht es Dir?\\
 \end{verbatim}
 % Nico: 2.0
 % -----------------------------------------------------------------------------
-\subsection{Message 2199: /quit}
+\subsection{Message 2199: /allquit}
 The user interface requests that the CS and all other UIs exit.
 
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
-\caption{2199: /quit parameters}\\
+\caption{Message 2199: /quit parameters}\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
