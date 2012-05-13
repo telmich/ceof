@@ -90,32 +90,70 @@ class UI(object):
         self.conn.sendall(answer)
 
     def cmd_2102(self):
-        """Register Peer"""
+        """/peer add"""
         
         self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
-        self.ui_name = self.conn.recv(ceof.EOF_L_UI_NAME)
-
-        log.debug("recv id " + self.ui_eofid)
-        log.info("Registered UI: %s" % self.ui_name)
+        name = ceof.decode(self.conn.recv(ceof.EOF_L_PEERNAME))
+        address = ceof.decode(self.conn.recv(ceof.EOF_L_ADDRESS))
+        keyid = ceof.decode(self.conn.recv(ceof.EOF_L_KEYID))
 
         answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
         self.conn.sendall(answer)
 
+    def cmd_2103(self):
+        """/peer del"""
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        name = ceof.decode(self.conn.recv(ceof.EOF_L_PEERNAME))
+
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
+        self.conn.sendall(answer)
+
+
+    def cmd_2104(self):
+        """/peer rename"""
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        oldname = ceof.decode(self.conn.recv(ceof.EOF_L_PEERNAME))
+        newname = ceof.decode(self.conn.recv(ceof.EOF_L_PEERNAME))
+
+        answer = ceof.encode("%s%s%s%s" % (ceof.EOF_CMD_UI_PEER_RENAMED, self.ui_eofid, 
+            ceof.fillup(oldname, ceof.EOF_L_PEERNAME),
+            ceof.fillup(newname, ceof.EOF_L_PEERNAME)))
+        self.conn.sendall(answer)
+
     def cmd_2105(self):
         """/peer show"""
-        pass
-    # 2105:
-    # keyid="A35767A98CA9CC3CE368679AB679548202C9B17D"
-    # addr1=ceof.fillup("tcp://10.2.2.3:4242", 128)
-    # >>> addr2=ceof.fillup("email://nico-eof42@schottelius.org", 128)
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        size = ceof.fillup("2", ceof.EOF_L_SIZE)
+        keyid="A35767A98CA9CC3CE368679AB679548202C9B17D"
+        addr1=ceof.fillup("tcp://10.2.2.3:4242", 128)
+        addr2=ceof.fillup("email://nico-eof42@schottelius.org", 128)
+
+        answer = ceof.encode("%s%s%s%s%s%s" % (ceof.EOF_CMD_UI_PEER_INFO, self.ui_eofid, keyid, size, addr1, addr2))
+        self.conn.sendall(answer)
+
+    def cmd_2106(self):
+        """/peer list"""
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        size = ceof.fillup("2", ceof.EOF_L_SIZE)
+        name1=ceof.fillup("telmich", ceof.EOF_L_PEERNAME)
+        name2=ceof.fillup("Hans-Jürgen", ceof.EOF_L_PEERNAME)
+
+        answer = ceof.encode("%s%s%s%s%s" % (ceof.EOF_CMD_UI_PEER_LISTING, self.ui_eofid, size, name1, name2))
+        self.conn.sendall(answer)
 
 
     def cmd_2107(self):
         """/peer send"""
 
         self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
-        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_EXITREQUEST, self.ui_eofid))
-        self.do_exit = True
+        name = ceof.decode(self.conn.recv(ceof.EOF_L_PEERNAME))
+        message = ceof.decode(self.conn.recv(ceof.EOF_L_MESSAGE))
+
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
         self.conn.sendall(answer)
 
 

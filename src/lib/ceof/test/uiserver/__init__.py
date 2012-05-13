@@ -113,7 +113,6 @@ class UIServer(unittest.TestCase):
         self.uiserver.handler(conn, "Fake Connection")
 
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
-        self.assertFalse(self.uiserver.conn.closed)
 
     def test_cmd_2103(self):
         """/peer del"""
@@ -127,9 +126,7 @@ class UIServer(unittest.TestCase):
         conn = SocketMock(answers)
 
         self.uiserver.handler(conn, "Fake Connection")
-
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
-        self.assertFalse(self.uiserver.conn.closed)
 
     def test_cmd_2104(self):
         """/peer rename"""
@@ -138,15 +135,13 @@ class UIServer(unittest.TestCase):
         oldname = ceof.fillup("Oldname", ceof.EOF_L_PEERNAME)
         newname = ceof.fillup("My New Name", ceof.EOF_L_PEERNAME)
 
-        expected_result = ceof.encode(ceof.EOF_CMD_UI_PEER_RENAMED + eofid)
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_PEER_RENAMED + eofid + oldname + newname)
         answers = ceof.encode(ceof.EOF_CMD_UI_PEER_RENAME + eofid + oldname + newname)
 
         conn = SocketMock(answers)
 
         self.uiserver.handler(conn, "Fake Connection")
-
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
-        self.assertFalse(self.uiserver.conn.closed)
 
     def test_cmd_2105(self):
         """/peer show"""
@@ -163,15 +158,13 @@ class UIServer(unittest.TestCase):
 
         expected_result = ceof.encode(ceof.EOF_CMD_UI_PEER_INFO + eofid + 
             expected_keyid + expected_size + expected_addr1 + expected_addr2)
-        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_SHOW + eofid + oldname + newname)
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_SHOW + eofid + name)
 
         conn = SocketMock(answers)
 
         self.uiserver.handler(conn, "Fake Connection")
 
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
-        self.assertFalse(self.uiserver.conn.closed)
-
 
     def test_cmd_2106(self):
         """/peer list"""
@@ -195,7 +188,6 @@ class UIServer(unittest.TestCase):
         self.uiserver.handler(conn, "Fake Connection")
 
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
-        self.assertFalse(self.uiserver.conn.closed)
 
     def test_cmd_2107(self):
         """/peer send"""
@@ -212,8 +204,6 @@ class UIServer(unittest.TestCase):
         self.uiserver.handler(conn, "Fake Connection")
 
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
-        self.assertFalse(self.uiserver.conn.closed)
-
 
     def test_cmd_2199(self):
         """/allquit"""
