@@ -76,7 +76,7 @@ class Peers(unittest.TestCase):
         subdir_content = os.listdir(subdir)
         subdir_content.sort()
 
-        self.assertEqual(subdir_name, peer.fingerprint)
+        self.assertEqual(subdir_name, peer.name)
         self.assertEqual(subdir_content, files)
 
     def test_read_nonexistent_peer(self):
