@@ -24,7 +24,6 @@
 import ceof
 import ceof.server.tcp
 import logging
-import re
 import socket
 
 log = logging.getLogger(__name__)
@@ -35,12 +34,6 @@ class UI(object):
     def __init__(self, address, port):
         self.tcpserver = ceof.server.tcp.TCPServer(address, port, self.handler)
 
-        # Supported commands
-        self.commands = [ ceof.EOF_CMD_UI_REGISTER, 
-            ceof.EOF_CMD_UI_ALLQUIT
-        ]
-
-        self.commands_re = "^(" + "|".join(self.commands) + ")$"
         self.eofid = ceof.EOFID()
         self.ui_eofid = None
 
@@ -67,18 +60,14 @@ class UI(object):
                     break
 
                 cmd = data.decode("utf-8")
-                
-                # Possible / supported commands
-                match = re.search(self.commands_re, cmd)
-                
-                if match:
+
+                try:
                     log.debug("CMD: " + cmd)
                     fnname = "cmd_" + cmd
                     f = getattr(self, fnname)
-                    f()
-
                     log.debug("Supported: %s" % (cmd))
-                else:
+                    f()
+                except AttributeError:
                     log.error("Unsupported command: %s" % (cmd))
                     break
 
@@ -119,6 +108,15 @@ class UI(object):
     # keyid="A35767A98CA9CC3CE368679AB679548202C9B17D"
     # addr1=ceof.fillup("tcp://10.2.2.3:4242", 128)
     # >>> addr2=ceof.fillup("email://nico-eof42@schottelius.org", 128)
+
+
+    def cmd_2107(self):
+        """/peer send"""
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_EXITREQUEST, self.ui_eofid))
+        self.do_exit = True
+        self.conn.sendall(answer)
 
 
     def cmd_2199(self):
