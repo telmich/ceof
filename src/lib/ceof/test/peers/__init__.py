@@ -83,7 +83,7 @@ class Peers(unittest.TestCase):
         """Check that loading of non-existing directories fails"""
 
         self.assertRaises(ceof.config.peer.PeerError, 
-            ceof.config.peer.Peer.from_disk, "/nonexistentdirectory")
+            ceof.config.peer.Peer.from_disk, "/", "nonexistentpeer")
 
     def test_read_peers_from_disk(self):
         """Check that all peers from disk are loaded"""
