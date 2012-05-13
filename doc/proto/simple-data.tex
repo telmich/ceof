@@ -3,6 +3,16 @@ The following sections define the simple datatypes.
 They are further referenced as "`EOFsdt"'.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
+\subsection{Command}
+A command is is represented as an ASCII number in a fixed length string of
+4 bytes. It is used to identify the intent of a message.
+\subsubsection{Examples}
+\begin{itemize}
+\item 1100
+\item 3000
+\item 2200
+\end{itemize}
+% -----------------------------------------------------------------------------
 \subsection{Identification string (id)}
 \label{eofid}
 To identify a message, a message may contain an identification string,
@@ -43,8 +53,8 @@ Use is made of the Python reference implementation:
 \end{verbatim}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\subsection{Size}
-A size is is always represented as an ASCII number in a fixed length
+\subsection{Size (size)}
+A size is is represented as an ASCII number in a fixed length
 string of 6 bytes.
 \subsubsection{Examples}
 \begin{verbatim}
@@ -58,7 +68,7 @@ string of 6 bytes.
 \end{verbatim}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\subsection{Peer name}
+\subsection{Peer name (name)}
 The peer name is a 128 byte fixed length string.
 \subsubsection{Examples}
 \begin{verbatim}
@@ -73,7 +83,7 @@ The peer name is a 128 byte fixed length string.
 \end{verbatim}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\subsection{Group name}
+\subsection{Group name (group)}
 The group name is a 128 byte fixed length string.
 \subsubsection{Examples}
 \begin{verbatim}
@@ -88,7 +98,7 @@ The group name is a 128 byte fixed length string.
 \end{verbatim}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\subsection{Message text}
+\subsection{Message text (msgtxt)}
 The message text is a 256 byte fixed length string.
 \subsubsection{Examples}
 \begin{verbatim}
@@ -109,7 +119,7 @@ The message text is a 256 byte fixed length string.
 \end{verbatim}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
-\subsection{Peer address}
+\subsection{Peer address (address)}
 The address of a peer, which is is a 128 byte fixed length string. 
 Peer addresses are specified as URLs as defined in RFC3986\cite{rfc3986}. 
 \subsubsection{Examples}
@@ -131,6 +141,6 @@ is a 40 byte fixed length string. As the fingerprint has a fix length of
 40 bytes, there is never padding needed.
 \subsubsection{Examples}
 \begin{verbatim}
-% LC_ALL=C gpg --fingerprint | grep "Key fingerprint =" | sed -e 's/.*=//' -e 's/ //g'
+% gpg --fingerprint | grep "Key fingerprint =" | sed -e 's/.*=//' -e 's/ //g'
 A35767A98CA9CC3CE368679AB679548202C9B17D
 \end{verbatim}
