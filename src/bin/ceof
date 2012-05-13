@@ -143,17 +143,6 @@ def commandline():
          default='4242')
     parser['server'].set_defaults(func=ceof.Server.commandline)
 
-   # Server to accept ui connections
-    parser['uiserver'] = parser['sub'].add_parser('uiserver',
-        parents=[parser['all']])
-    parser['uiserver'].add_argument('-a', '--address',
-         help='Listen on this address for UI connections', action='store',
-         default='127.0.0.1')
-    parser['uiserver'].add_argument('-p', '--port',
-         help='Listen on this port for UI connections', action='store',
-         default='4242')
-    parser['uiserver'].set_defaults(func=ceof_uiserver)
-
     # Transport protocols
     parser['tp'] = parser['sub'].add_parser('tp',
         parents=[parser['all']])
@@ -167,7 +156,7 @@ def commandline():
          help='Generate route to given peer', action='store_true')
     parser['tp'].set_defaults(func=ceof.TransportProtocol.commandline)
 
-     # User interface
+    # User interface
     parser['ui'] = parser['sub'].add_parser('ui',
         parents=[parser['all']])
     parser['ui'].add_argument('-a', '--address',
@@ -177,6 +166,18 @@ def commandline():
          help='Port to connect to', action='store',
          default='4242')
     parser['ui'].set_defaults(func=ceof_ui)
+
+
+    # Server to accept ui connections
+    parser['uiserver'] = parser['sub'].add_parser('uiserver',
+        parents=[parser['all']])
+    parser['uiserver'].add_argument('-a', '--address',
+         help='Listen on this address for UI connections', action='store',
+         default='127.0.0.1')
+    parser['uiserver'].add_argument('-p', '--port',
+         help='Listen on this port for UI connections', action='store',
+         default='4242')
+    parser['uiserver'].set_defaults(func=ceof_uiserver)
 
     for p in parser:
         parser[p].epilog = "Get ceof at http://www.nico.schottelius.org/software/ceof/"
