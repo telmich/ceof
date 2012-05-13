@@ -46,7 +46,7 @@ class Peers(unittest.TestCase):
             name = "Testpeer%d" % (p)
             fingerprint = self.base_fingerprint[:-1] + str(p)
 
-            for a in range(0, self.num_addresses):
+            for a in range(self.num_addresses):
                 addresses = self.base_address + str(address_index)
                 address_index = address_index + 1
 
@@ -70,7 +70,7 @@ class Peers(unittest.TestCase):
         files = ['name', 'fingerprint', 'addresses']
         files.sort()
 
-        subdir = os.path.join(peerdir, peer.fingerprint)
+        subdir = os.path.join(peerdir, peer.name)
 
         subdir_name = os.listdir(peerdir)[0]
         subdir_content = os.listdir(subdir)
