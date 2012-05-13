@@ -109,3 +109,13 @@ class UI(object):
         answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
         self.conn.sendall(answer)
 
+    def cmd_2105(self):
+        """/peer show"""
+        pass
+    # 2105:
+    # keyid="A35767A98CA9CC3CE368679AB679548202C9B17D"
+    # addr1=ceof.fillup("tcp://10.2.2.3:4242", 128)
+    # >>> addr2=ceof.fillup("email://nico-eof42@schottelius.org", 128)
+
+
+

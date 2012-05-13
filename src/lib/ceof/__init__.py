@@ -31,8 +31,8 @@ EOF_L_CMD               = 4
 EOF_L_SIZE              = 6
 EOF_L_ID                = 6
 EOF_L_KEYID             = 40
-EOF_L_NICKNAME          = 128
-EOF_L_MESSAGE           = 128
+EOF_L_PEERNAME          = 128
+EOF_L_MESSAGE           = 256
 EOF_L_ADDRESS           = 128
 EOF_L_GROUP             = 128
 EOF_L_UI_NAME           = 128
@@ -74,11 +74,12 @@ EOF_CMD_UI_DEFAULT          = "21xx"
 EOF_CMD_UI_REGISTER         = "2100"
 EOF_CMD_UI_DEREGISTER       = "2101"
 EOF_CMD_UI_PEER_ADD         = "2102"
-EOF_CMD_UI_PEER_SEND        = "2103"
+EOF_CMD_UI_PEER_DEL         = "2103"
 EOF_CMD_UI_PEER_RENAME      = "2104"
 EOF_CMD_UI_PEER_SHOW        = "2105"
 EOF_CMD_UI_PEER_LIST        = "2106"
-EOF_CMD_UI_QUIT             = "2199"
+EOF_CMD_UI_PEER_SEND        = "2107"
+EOF_CMD_UI_ALLQUIT          = "2199"
 
 # /* crypto engine */
 EOF_CMD_CRYPTO_ENCRYPT      = "1200"

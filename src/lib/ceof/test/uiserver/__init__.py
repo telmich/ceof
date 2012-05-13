@@ -98,11 +98,11 @@ class UIServer(unittest.TestCase):
         self.assertTrue(self.uiserver.conn.closed)
 
     def test_cmd_2102(self):
-        """Test /peer add"""
+        """/peer add"""
 
         eofid = ceof.EOFID().get_next()
-        nick = ceof.fillup("Testnick", ceof.EOF_L_NICKNAME)
-        address = ceof.fillup("tcp:192.168.42.2:22", ceof.EOF_L_ADDRESS)
+        nick = ceof.fillup("Testnick", ceof.EOF_L_PEERNAME)
+        address = ceof.fillup("tcp://192.168.42.2:22", ceof.EOF_L_ADDRESS)
         keyid = ceof.fillup("A0314E7124560CD3F8885B354918CADD1A6B3063", ceof.EOF_L_KEYID)
 
         expected_result = ceof.encode(ceof.EOF_CMD_UI_ACK + eofid)
@@ -114,6 +114,122 @@ class UIServer(unittest.TestCase):
 
         self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
         self.assertFalse(self.uiserver.conn.closed)
+
+    def test_cmd_2103(self):
+        """/peer del"""
+
+        eofid = ceof.EOFID().get_next()
+        name = ceof.fillup("Testnick", ceof.EOF_L_PEERNAME)
+
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_ACK + eofid)
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_DEL + eofid + name)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertFalse(self.uiserver.conn.closed)
+
+    def test_cmd_2104(self):
+        """/peer rename"""
+
+        eofid = ceof.EOFID().get_next()
+        oldname = ceof.fillup("Oldname", ceof.EOF_L_PEERNAME)
+        newname = ceof.fillup("My New Name", ceof.EOF_L_PEERNAME)
+
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_PEER_RENAMED + eofid)
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_RENAME + eofid + oldname + newname)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertFalse(self.uiserver.conn.closed)
+
+    def test_cmd_2105(self):
+        """/peer show"""
+
+        eofid = ceof.EOFID().get_next()
+        name = ceof.fillup("My Name", ceof.EOF_L_PEERNAME)
+
+        # ID keyid, number of addresses addresses => test with 2
+
+        expected_keyid="A35767A98CA9CC3CE368679AB679548202C9B17D"
+        expected_size=ceof.fillup("2", ceof.EOF_L_SIZE)
+        expected_addr1=ceof.fillup("tcp://10.2.2.3:4242", ceof.EOF_L_ADDRESS)
+        expected_addr2=ceof.fillup("email://nico-eof42@schottelius.org", ceof.EOF_L_ADDRESS)
+
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_PEER_INFO + eofid + 
+            expected_keyid + expected_size + expected_addr1 + expected_addr2)
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_SHOW + eofid + oldname + newname)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertFalse(self.uiserver.conn.closed)
+
+
+    def test_cmd_2106(self):
+        """/peer list"""
+
+        eofid = ceof.EOFID().get_next()
+        name = ceof.fillup("My Name", ceof.EOF_L_PEERNAME)
+
+        # ID keyid, number of addresses addresses => test with 2
+
+        expected_size=ceof.fillup("2", ceof.EOF_L_SIZE)
+        expected_name1=ceof.fillup("telmich", ceof.EOF_L_PEERNAME)
+        expected_name2=ceof.fillup("Hans-Jürgen", ceof.EOF_L_PEERNAME)
+
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_PEER_LISTING + eofid + 
+            expected_size + expected_name1 + expected_name2)
+
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_LIST + eofid)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertFalse(self.uiserver.conn.closed)
+
+    def test_cmd_2107(self):
+        """/peer send"""
+
+        eofid = ceof.EOFID().get_next()
+        name = ceof.fillup("My Name", ceof.EOF_L_PEERNAME)
+        message = ceof.fillup("My Message", ceof.EOF_L_MESSAGE)
+
+        answers = ceof.encode(ceof.EOF_CMD_UI_PEER_SEND + eofid + name + message)
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_ACK + eofid)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertFalse(self.uiserver.conn.closed)
+
+
+    def test_cmd_2199(self):
+        """/allquit"""
+
+        eofid = ceof.EOFID().get_next()
+
+        answers = ceof.encode(ceof.EOF_CMD_UI_ALLQUIT + eofid)
+        expected_result = ceof.encode(ceof.EOF_CMD_UI_EXITREQUEST + eofid)
+
+        conn = SocketMock(answers)
+
+        self.uiserver.handler(conn, "Fake Connection")
+
+        self.assertEqual(self.uiserver.conn.sendall_buf, expected_result)
+        self.assertTrue(self.uiserver.conn.closed)
+
 
     def test_cmd_unknown(self):
         """Send unknown command"""

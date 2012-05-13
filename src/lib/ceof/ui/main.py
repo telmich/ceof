@@ -214,7 +214,26 @@ class Main(object):
 
     def cmd_quit(self, args):
         """/quit"""
+
+        cmd = "2101"
+        self.net.send(ceof.encode(cmd))
         self.doquit = True
+
+    def cmd_allquit(self, args):
+        """/allquit"""
+
+        cmd = "2199"
+        eofid = self.eofid.get_next()
+        data = "%s%s" % (cmd, eofid)
+
+        self.net.send(ceof.encode(data))
+        # Wait for response before quitting
+
+    def cmd_help(self, args):
+        """/help"""
+        self.write_line("/help: Usage")
+        self.write_line("")
+        self.write_line("/connect [host] [port]")
 
     def draw_title(self):
         """(Re-)draw title"""
@@ -238,11 +257,11 @@ class Main(object):
         self.doquit = False
         while not self.doquit:
             line = self.read_line()
-            match = re.search(r"^/(connect|quit)(.*)", line)
+            match = re.search(r"^/(connect|help|quit)(.*)", line)
 
             # Commands matching
             if match:
-                self.write_line(match.group(1))
+                self.write_line("Found command: %s" % match.group(1))
                 fnname = "cmd_" + match.group(1)
                 fnargs = match.group(2).split()
                 f = getattr(self, fnname)
