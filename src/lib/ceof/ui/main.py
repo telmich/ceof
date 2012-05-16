@@ -247,6 +247,10 @@ class Main(object):
             self.cmd_peer_add(args[1:])
         elif args[0] == "del":
             self.cmd_peer_del(args[1:])
+        elif args[0] == "rename":
+            self.cmd_peer_rename(args[1:])
+        else:
+            self.write_line("Unsupported peer command: %s" % args[0])
 
     def cmd_peer_add(self, args):
 
@@ -304,14 +308,41 @@ class Main(object):
             cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
             reason = ceof.decode(self.net.recv(ceof.EOF_L_MESSAGE))
             
-            self.write_line("Failed to add peer %s: %s" % (name_plain, reason))
+            self.write_line("Failed to delete peer %s: %s" % (name_plain, reason))
+        else:
+            self.write_line("Unknown response command %s" % cmd_answer)
+
+    def cmd_peer_rename(self, args):
+        if not len(args) == 2:
+            self.write_line("/peer rename <oldname> <newname>")
+            return
+            
+        cmd = ceof.EOF_CMD_UI_PEER_RENAME
+        eofid = self.eofid.get_next()
+
+        oldname_plain = args[0]
+        oldname = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+        newname_plain = args[1]
+        newname = ceof.fillup(args[1], ceof.EOF_L_PEERNAME)
+
+        data = "%s%s%s%s" % (cmd, eofid, oldname, newname)
+
+        self.net.send(ceof.encode(data))
+
+        cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+
+        if cmd_answer == ceof.EOF_CMD_UI_PEER_RENAMED:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            self.write_line("Renamed peer %s => %s" % (oldname_plain, newname_plain))
+        elif cmd_answer == ceof.EOF_CMD_UI_FAIL:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            reason = ceof.decode(self.net.recv(ceof.EOF_L_MESSAGE))
+            
+            self.write_line("Failed to rename peer %s: %s" % (oldname_plain, reason))
         else:
             self.write_line("Unknown response command %s" % cmd_answer)
 
     def cmd_peer_send(self, args):
-        pass
-
-    def cmd_peer_rename(self, args):
         pass
 
     def cmd_peer_show(self, args):
