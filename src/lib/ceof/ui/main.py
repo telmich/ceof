@@ -249,6 +249,8 @@ class Main(object):
             self.cmd_peer_del(args[1:])
         elif args[0] == "rename":
             self.cmd_peer_rename(args[1:])
+        elif args[0] == "show":
+            self.cmd_peer_show(args[1:])
         else:
             self.write_line("Unsupported peer command: %s" % args[0])
 
@@ -342,10 +344,42 @@ class Main(object):
         else:
             self.write_line("Unknown response command %s" % cmd_answer)
 
-    def cmd_peer_send(self, args):
-        pass
-
     def cmd_peer_show(self, args):
+        if not len(args) == 1:
+            self.write_line("/peer show <name>")
+            return
+            
+        cmd = ceof.EOF_CMD_UI_PEER_SHOW
+        eofid = self.eofid.get_next()
+
+        name_plain = args[0]
+        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+
+        data = "%s%s%s" % (cmd, eofid, name)
+
+        self.net.send(ceof.encode(data))
+
+        cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+
+        if cmd_answer == ceof.EOF_CMD_UI_PEER_INFO:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            keyid = ceof.decode(self.net.recv(ceof.EOF_L_KEYID))
+            num_addresses = ceof.decode(self.net.recv(ceof.EOF_L_SIZE))
+            addresses = []
+
+            for num in range(int(num_addresses)):
+                addresses.append(ceof.decode(self.net.recv(ceof.EOF_L_ADDRESS)))
+
+            self.write_line("Peer info for %s (%s): %s" % (name_plain, keyid, addresses))
+        elif cmd_answer == ceof.EOF_CMD_UI_FAIL:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            reason = ceof.decode(self.net.recv(ceof.EOF_L_MESSAGE))
+            
+            self.write_line("Failed to show peer %s: %s" % (name_plain, reason))
+        else:
+            self.write_line("Unknown response command %s" % cmd_answer)
+
+    def cmd_peer_send(self, args):
         pass
 
     def cmd_peer_list(self, args):
