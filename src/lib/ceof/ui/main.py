@@ -27,6 +27,7 @@ import curses
 import curses.textpad
 import re
 import signal
+import time
 
 class Main(object):
     """UI class for end user usage"""
@@ -71,7 +72,7 @@ class Main(object):
         self.window.scroll()
 
     def refresh_windows(self):
-        """Called on SIGWINCH?"""
+        """Called on SIGWINCH"""
         self.height, self.width = self.window.getmaxyx()
         curses.resizeterm(self.height, self.width)
 
@@ -172,8 +173,6 @@ class Main(object):
 
     def cmd_connect(self, args):
         """/connect"""
-        self.write_line(str(args))
-
         # Arguments given? Assume different connection, close current!
         if len(args) >= 1:
             self.net.disconnect()
@@ -226,14 +225,87 @@ class Main(object):
         eofid = self.eofid.get_next()
         data = "%s%s" % (cmd, eofid)
 
+        self.write_line("Terminating chatserver and all UIs")
         self.net.send(ceof.encode(data))
-        # Wait for response before quitting
+
+        #cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+        #cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+        self.write_line("Terminating ourself")
+        # Give the user some time to see the message
+        time.sleep(1)
+
+        self.doquit = True
+
+    def cmd_peer(self, args):
+
+        # Ignore bad command
+        if len(args) == 0:
+            self.write_line("Incomplete peer command")
+            return
+
+        if args[0] == "add":
+            self.cmd_peer_add(args[1:])
+
+    def cmd_peer_add(self, args):
+
+        if not len(args) == 3:
+            self.write_line("/peer add <name> <address> <keyid>")
+            return
+            
+        cmd = ceof.EOF_CMD_UI_PEER_ADD
+        eofid = self.eofid.get_next()
+
+        name_plain = args[0]
+        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+        address = ceof.fillup(args[1], ceof.EOF_L_ADDRESS)
+        keyid = ceof.fillup(args[2], ceof.EOF_L_KEYID)
+
+        data = "%s%s%s%s%s" % (cmd, eofid, name, address, keyid)
+
+        self.net.send(ceof.encode(data))
+
+        cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+
+        if cmd_answer == ceof.EOF_CMD_UI_ACK:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            self.write_line("Added peer %s" % name_plain)
+        elif cmd_answer == ceof.EOF_CMD_UI_FAIL:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            reason = ceof.decode(self.net.recv(ceof.EOF_L_MESSAGE))
+            
+            self.write_line("Failed to add peer %s: %s" % (name_plain, reason))
+        else:
+            self.write_line("Unknown response command %s" % cmd_answer)
+
+
+    def cmd_peer_del(self, args):
+        pass
+
+    def cmd_peer_send(self, args):
+        pass
+
+    def cmd_peer_rename(self, args):
+        pass
+
+    def cmd_peer_show(self, args):
+        pass
+
+    def cmd_peer_list(self, args):
+        pass
 
     def cmd_help(self, args):
         """/help"""
-        self.write_line("/help: Usage")
+        self.write_line("/help:")
         self.write_line("")
-        self.write_line("/connect [host] [port]")
+        self.write_line("/connect [host] [port] - Connect to chat server")
+        self.write_line("/quit - Quit this UI")
+        self.write_line("/allquit - Quit this UI, Chatserver and all other UIs")
+        self.write_line("/peer add <name> <address> <keyid> - Add peer")
+        self.write_line("/peer del <name> - Delete peer")
+        self.write_line("/peer send <name> <message> - Send message to peer")
+        self.write_line("/peer rename <oldname> <newname> - Rename peer")
+        self.write_line("/peer show <name> - Show peer")
+        self.write_line("/peer list - List all peers")
 
     def draw_title(self):
         """(Re-)draw title"""
@@ -257,7 +329,7 @@ class Main(object):
         self.doquit = False
         while not self.doquit:
             line = self.read_line()
-            match = re.search(r"^/(connect|help|quit)(.*)", line)
+            match = re.search(r"^/(allquit|connect|help|peer|quit)(.*)", line)
 
             # Commands matching
             if match:
@@ -271,6 +343,6 @@ class Main(object):
                 continue
             # Send text
             else:
-                self.write_line(line)
+                self.write_line("Unsupported command %s" % line)
 
         self.curses_stop()

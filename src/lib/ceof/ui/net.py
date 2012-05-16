@@ -57,7 +57,8 @@ class Net(object):
     def send(self, data):
         """Send data"""
 
-        self.socket.sendall(data)
+        if self.connected:
+            self.socket.sendall(data)
 
     def recv(self, length):
         """Receive data"""
