@@ -1,0 +1,2 @@
+export PYTHONPATH=$PYTHONPATH:$(pwd -P)/lib 
+. ../python-env/bin/activate

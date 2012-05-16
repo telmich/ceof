@@ -245,6 +245,8 @@ class Main(object):
 
         if args[0] == "add":
             self.cmd_peer_add(args[1:])
+        elif args[0] == "del":
+            self.cmd_peer_del(args[1:])
 
     def cmd_peer_add(self, args):
 
@@ -279,7 +281,32 @@ class Main(object):
 
 
     def cmd_peer_del(self, args):
-        pass
+        if not len(args) == 1:
+            self.write_line("/peer del <name>")
+            return
+            
+        cmd = ceof.EOF_CMD_UI_PEER_DEL
+        eofid = self.eofid.get_next()
+
+        name_plain = args[0]
+        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+
+        data = "%s%s%s" % (cmd, eofid, name)
+
+        self.net.send(ceof.encode(data))
+
+        cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+
+        if cmd_answer == ceof.EOF_CMD_UI_ACK:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            self.write_line("Deleted peer %s" % name_plain)
+        elif cmd_answer == ceof.EOF_CMD_UI_FAIL:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            reason = ceof.decode(self.net.recv(ceof.EOF_L_MESSAGE))
+            
+            self.write_line("Failed to add peer %s: %s" % (name_plain, reason))
+        else:
+            self.write_line("Unknown response command %s" % cmd_answer)
 
     def cmd_peer_send(self, args):
         pass
