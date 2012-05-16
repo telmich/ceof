@@ -4,7 +4,7 @@ They are further referenced as "`EOFsdt"'.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Command}
-A command is is represented as an ASCII number in a fixed length string of
+A command is represented as an ASCII number in a fixed length string of
 4 bytes. It is used to identify the intent of a message.
 \subsubsection{Examples}
 \begin{itemize}
@@ -25,9 +25,9 @@ This ID is an integer that is encoded based on the following characters:
 \item ! (exclamation mark)
 \item - (minus)
 \end{itemize}
-The order of the characters is as following:
+The order of the characters is as follows:
 
-"`\small{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!}"'.\\
+\small{\{0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!\}}.\\
 The length of an EOFID is 6 bytes, which results in
 \emph{68719476736} possible ids.\footnote{$(10+26+26+2)^6$}.
 The given characters where selected to allow easy debugging.
@@ -55,7 +55,7 @@ Use is made of the Python reference implementation:
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Size (size)}
-A size is is represented as an ASCII number in a fixed length
+A size is represented as an ASCII number in a fixed length
 string of 6 bytes.
 \subsubsection{Examples}
 \begin{verbatim}
@@ -121,7 +121,7 @@ The message text is a 256 byte fixed length string.
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Peer address (address)}
-The address of a peer, which is is a 128 byte fixed length string. 
+The address of a peer, which is a 128 byte fixed length string. 
 Peer addresses are specified as URLs as defined in RFC3986\cite{rfc3986}. 
 \subsubsection{Examples}
 \begin{verbatim}
