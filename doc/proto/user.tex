@@ -7,7 +7,7 @@ This section specifies the appereance of the user interface to the user.
 The UI is running as a ncurses application and prompts for input
 on a specific line.\footnote{Example output can be found in figure \ref{startup}.}
 All commands start with "/".
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI Startup Screen}
     \label{startup}
     \centering
@@ -23,16 +23,7 @@ description.\footnote{Example output can be found in figure \ref{help}.}
 \begin{verbatim}
 /help
 \end{verbatim}
-% /connect [host] [port] - Connect to chat server
-% /quit - Quit this UI
-% /allquit - Quit this UI, Chatserver and all other UIs
-% /peer add <name> <address> <keyid> - Add peer
-% /peer del <name> - Delete peer
-% /peer send <name> <message> - Send message to peer
-% /peer rename <oldname> <newname> - Rename peer
-% /peer show <name> - Show peer
-% /peer list - List all peers
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI Help Output}
     \label{help}
     \centering
@@ -45,7 +36,7 @@ The connect command can be used to connect to the chat
 server.\footnote{Example output can be found in figure \ref{connect}.}
 Host and port are optional. If omitted, the saved host and/or
 port will be used. This command uses message 2100.
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /connect}
     \label{connect}
     \centering
@@ -70,7 +61,7 @@ This command uses message 2101.
 \subsection{UI Command: /allquit}
 The UI tells the CS and all connected UIs (including itself) to quit.
 This command uses message 2199.\footnote{Example output can be found in figure \ref{allquit}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /allquit}
     \label{allquit}
     \centering
@@ -86,7 +77,7 @@ This command uses message 2199.\footnote{Example output can be found in figure \
 \subsection{UI Command: /peer add $<$name$>$ $<$address$>$ $<$keyid$>$}
 Add the peer with the given name \textit{name} to the list
 of known peers.\footnote{Example output can be found in figure \ref{peeradd}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /peer add}
     \label{peeradd}
     \centering
@@ -114,10 +105,11 @@ Keyid & EOFsdt: keyid & The PGP fingerprint of the peers public key & F27987E34E
 \end{verbatim}
 % Nico: 1.0
 %---------------------------------------------------------------------
+%\clearpage
 \subsection{UI Command: /peer del $<$name$>$}
 Delete the peer with the given name \textit{name} from the list of
 known peers.\footnote{Example output can be found in figure \ref{peerdel}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /peer del}
     \label{peerdel}
     \centering
@@ -141,10 +133,11 @@ Peer name & EOFsdt: name & Name you identify the peer with & telmich\\
 \end{verbatim}
 % Nico: 1.0
 %---------------------------------------------------------------------
+%\clearpage
 \subsection{UI Command: /peer send $<$name$>$ $<$msgtext$>$}
 Send message \textit{msgtext} to peer
 \textit{name}.\footnote{Example output can be found in figure \ref{peersend}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /peer send}
     \label{peersend}
     \centering
@@ -170,9 +163,10 @@ Msgtext & EOFsdt: msgtxt & The message itself & Hallo, wie geht es Dir?\\
 \end{verbatim}
 % Nico: 1.0
 %---------------------------------------------------------------------
+%\clearpage
 \subsection{UI Command: /peer rename $<$oldname$>$ $<$newname$>$}
 Renames the peer.\footnote{Example output can be found in figure \ref{peerrename}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /peer rename}
     \label{peerrename}
     \centering
@@ -198,9 +192,10 @@ Newname & EOFsdt: name & New name & heinz\\
 \end{verbatim}
 % Nico: 1.0
 %---------------------------------------------------------------------
+%\clearpage
 \subsection{UI Command: /peer show $<$name$>$}
 Display detailled information about peer.\footnote{Example output can be found in figure \ref{peershow}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /peer show}
     \label{peershow}
     \centering
@@ -223,10 +218,11 @@ Peer name & EOFsdt: name & Name as known by CS & karl-otto\\
 \end{verbatim}
 % Nico: 1.0
 %---------------------------------------------------------------------
+%\clearpage
 \subsection{UI Command: /peer list}
 List of currently known peers. This command does not accept any
 parameters.\footnote{Example output can be found in figure \ref{peerlist}.}
-\begin{figure}[h]
+\begin{figure}[htb]
     \caption{UI /peer list}
     \label{peerlist}
     \centering
