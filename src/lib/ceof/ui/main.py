@@ -192,7 +192,7 @@ class Main(object):
 
         cmd = "2100"
         eofid = self.eofid.get_next()
-        name = ceof.fillup("ceof ui", ceof.EOF_L_UI_NAME)
+        name = ceof.fill_and_trim("ceof ui", ceof.EOF_L_UI_NAME)
 
         data = "%s%s%s" % (cmd, eofid, name)
         self.net.send(ceof.encode(data))
@@ -275,9 +275,9 @@ class Main(object):
         eofid = self.eofid.get_next()
 
         name_plain = args[0]
-        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
-        address = ceof.fillup(args[1], ceof.EOF_L_ADDRESS)
-        keyid = ceof.fillup(args[2], ceof.EOF_L_KEYID)
+        name = ceof.fill_and_trim(args[0], ceof.EOF_L_PEERNAME)
+        address = ceof.fill_and_trim(args[1], ceof.EOF_L_ADDRESS)
+        keyid = ceof.fill_and_trim(args[2], ceof.EOF_L_KEYID)
 
         data = "%s%s%s%s%s" % (cmd, eofid, name, address, keyid)
 
@@ -306,7 +306,7 @@ class Main(object):
         eofid = self.eofid.get_next()
 
         name_plain = args[0]
-        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+        name = ceof.fill_and_trim(args[0], ceof.EOF_L_PEERNAME)
 
         data = "%s%s%s" % (cmd, eofid, name)
 
@@ -334,9 +334,9 @@ class Main(object):
         eofid = self.eofid.get_next()
 
         oldname_plain = args[0]
-        oldname = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+        oldname = ceof.fill_and_trim(args[0], ceof.EOF_L_PEERNAME)
         newname_plain = args[1]
-        newname = ceof.fillup(args[1], ceof.EOF_L_PEERNAME)
+        newname = ceof.fill_and_trim(args[1], ceof.EOF_L_PEERNAME)
 
         data = "%s%s%s%s" % (cmd, eofid, oldname, newname)
 
@@ -364,7 +364,7 @@ class Main(object):
         eofid = self.eofid.get_next()
 
         name_plain = args[0]
-        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+        name = ceof.fill_and_trim(args[0], ceof.EOF_L_PEERNAME)
 
         data = "%s%s%s" % (cmd, eofid, name)
 
@@ -424,17 +424,17 @@ class Main(object):
             self.write_line("Unknown response command %s" % cmd_answer)
 
     def cmd_peer_send(self, args):
-        if not len(args) == 2:
-            self.write_line("/peer send <name> <message>")
+        if len(args) < 2:
+            self.write_line("/peer send <name> <message...>")
             return
             
         cmd = ceof.EOF_CMD_UI_PEER_SEND
         eofid = self.eofid.get_next()
 
         name_plain = args[0]
-        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
-        message_plain = args[1]
-        message = ceof.fillup(args[0], ceof.EOF_L_MESSAGE)
+        name = ceof.fill_and_trim(name_plain, ceof.EOF_L_PEERNAME)
+        message_plain = " ".join(args[1:])
+        message = ceof.fill_and_trim(message_plain, ceof.EOF_L_MESSAGE)
 
         data = "%s%s%s%s" % (cmd, eofid, name, message)
 
