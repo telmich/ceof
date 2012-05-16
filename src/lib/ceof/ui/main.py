@@ -424,7 +424,34 @@ class Main(object):
             self.write_line("Unknown response command %s" % cmd_answer)
 
     def cmd_peer_send(self, args):
-        pass
+        if not len(args) == 2:
+            self.write_line("/peer send <name> <message>")
+            return
+            
+        cmd = ceof.EOF_CMD_UI_PEER_SEND
+        eofid = self.eofid.get_next()
+
+        name_plain = args[0]
+        name = ceof.fillup(args[0], ceof.EOF_L_PEERNAME)
+        message_plain = args[1]
+        message = ceof.fillup(args[0], ceof.EOF_L_MESSAGE)
+
+        data = "%s%s%s%s" % (cmd, eofid, name, message)
+
+        self.net.send(ceof.encode(data))
+
+        cmd_answer = ceof.decode(self.net.recv(ceof.EOF_L_CMD))
+
+        if cmd_answer == ceof.EOF_CMD_UI_ACK:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            self.write_line("%s: => %s" % (name_plain, message_plain))
+        elif cmd_answer == ceof.EOF_CMD_UI_FAIL:
+            cmd_id = ceof.decode(self.net.recv(ceof.EOF_L_ID))
+            reason = ceof.decode(self.net.recv(ceof.EOF_L_MESSAGE))
+            
+            self.write_line("Failed to send message to peer %s: %s" % (name_plain, reason))
+        else:
+            self.write_line("Unknown response command %s" % cmd_answer)
 
     def cmd_help(self, args):
         """/help"""
