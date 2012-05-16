@@ -7,7 +7,7 @@ This section specifies the appereance of the user interface to the user.
 The UI is running as a ncurses application and prompts for input
 on a specific line.\footnote{Example output can be found in figure \ref{startup}.}
 All commands start with "/".
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI Startup Screen}
     \label{startup}
     \centering
@@ -23,7 +23,7 @@ description.\footnote{Example output can be found in figure \ref{help}.}
 \begin{verbatim}
 /help
 \end{verbatim}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI Help Output}
     \label{help}
     \centering
@@ -36,7 +36,7 @@ The connect command can be used to connect to the chat
 server.\footnote{Example output can be found in figure \ref{connect}.}
 Host and port are optional. If omitted, the saved host and/or
 port will be used. This command uses message 2100.
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /connect}
     \label{connect}
     \centering
@@ -61,7 +61,7 @@ This command uses message 2101.
 \subsection{UI Command: /allquit}
 The UI tells the CS and all connected UIs (including itself) to quit.
 This command uses message 2199.\footnote{Example output can be found in figure \ref{allquit}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /allquit}
     \label{allquit}
     \centering
@@ -77,7 +77,7 @@ This command uses message 2199.\footnote{Example output can be found in figure \
 \subsection{UI Command: /peer add $<$name$>$ $<$address$>$ $<$keyid$>$}
 Add the peer with the given name \textit{name} to the list
 of known peers.\footnote{Example output can be found in figure \ref{peeradd}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /peer add}
     \label{peeradd}
     \centering
@@ -109,7 +109,7 @@ Keyid & EOFsdt: keyid & The PGP fingerprint of the peers public key & F27987E34E
 \subsection{UI Command: /peer del $<$name$>$}
 Delete the peer with the given name \textit{name} from the list of
 known peers.\footnote{Example output can be found in figure \ref{peerdel}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /peer del}
     \label{peerdel}
     \centering
@@ -137,14 +137,13 @@ Peer name & EOFsdt: name & Name you identify the peer with & telmich\\
 \subsection{UI Command: /peer send $<$name$>$ $<$msgtext$>$}
 Send message \textit{msgtext} to peer
 \textit{name}.\footnote{Example output can be found in figure \ref{peersend}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /peer send}
     \label{peersend}
     \centering
     \includegraphics[width=10cm]{peer-send.png}
 \end{figure}
-
-
+\clearpage
 \index{UI Command!/peer send}%
 \begin{longtable}{|c|c|c|c|}
 \caption{UI Command: /peer send parameters}\\
@@ -156,7 +155,6 @@ Name & EOFsdt: name & Name you identify the peer with & telmich\\
 Msgtext & EOFsdt: msgtxt & The message itself & Hallo, wie geht es Dir?\\
 \hline
 \end{longtable}
-
 \subsubsection{Example}
 \begin{verbatim}
 /peer send telmich Hallo, wie geht es Dir?
@@ -166,7 +164,7 @@ Msgtext & EOFsdt: msgtxt & The message itself & Hallo, wie geht es Dir?\\
 %\clearpage
 \subsection{UI Command: /peer rename $<$oldname$>$ $<$newname$>$}
 Renames the peer.\footnote{Example output can be found in figure \ref{peerrename}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /peer rename}
     \label{peerrename}
     \centering
@@ -195,7 +193,7 @@ Newname & EOFsdt: name & New name & heinz\\
 %\clearpage
 \subsection{UI Command: /peer show $<$name$>$}
 Display detailled information about peer.\footnote{Example output can be found in figure \ref{peershow}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /peer show}
     \label{peershow}
     \centering
@@ -222,7 +220,7 @@ Peer name & EOFsdt: name & Name as known by CS & karl-otto\\
 \subsection{UI Command: /peer list}
 List of currently known peers. This command does not accept any
 parameters.\footnote{Example output can be found in figure \ref{peerlist}.}
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \caption{UI /peer list}
     \label{peerlist}
     \centering
