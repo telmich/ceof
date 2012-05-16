@@ -10,15 +10,16 @@ to. Alternate ports may be used, but need to be specified explicitly.
 % -----------------------------------------------------------------------------
 \subsection{Messages}
 All messages exchanged between CS and the UI are represented as a series
-of fixed length strings. Every messages begins with an
+of fixed length strings. Every message begins with an
 \textbf{eof command}. Messages send by the chat server use eof commands
 beginning with \textbf{11}, messages send by the
 UI use eof commands that begin with \textbf{21}.
 % Nico: ok
 % -----------------------------------------------------------------------------
 \subsection{Message 1100: Acknowledge}
-The is a general acknowledge answer. 
-The request with the same \emph{ID} as the packet was successful.
+This is a general acknowledge answer. 
+The previous request from the UI with the same 
+\emph{ID} was successful.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
 \caption{Message 1100 parameters}\\
@@ -35,8 +36,8 @@ ID & EOFsdt: id & packet id & afdb12\\
 % Nico: 2.0
 % -----------------------------------------------------------------------------
 \subsection{Message 1101: Failure}
-The is a general failure answer. The request with the
-same \emph{ID} as the packet failed.
+This is a general failure answer. 
+The previous request from the UI with the same \emph{ID} failed.
 Details are specified in the reason message.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
@@ -89,7 +90,7 @@ ID & EOFsdt: id & packet id & afdb12\\
 % Nico: 2.0
 % -----------------------------------------------------------------------------
 \subsection{Message 1103: Received message}
-This message is issued by the CS, if a message is received.
+This message is issued by the CS if a message is received.
 \subsubsection{Parameters}
 \index{Message!1103}
 \begin{longtable}{|c|c|c|c|}
@@ -183,7 +184,7 @@ field.
 % -----------------------------------------------------------------------------
 \subsection{Message 1105: Peer information}
 This is the answer to command \emph{2105}.
-It contains the same ID, as the \emph{2105} request command.
+It contains the same ID as the \emph{2105} request command.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
 \caption{Message 1105 parameters}\\
@@ -199,7 +200,7 @@ Number of addresses (noa) & EOFsdt: size & & 2\\
 $noa * address$ & EOFsdt: address & Adress of peer & tcp://127.0.0.1:4243\\
 \hline
 \end{longtable}
-The last field is repeated as often, as specified in the number of addresses
+The last field is repeated as often as specified in the number of addresses
 field.
 \subsubsection{Example}
 \begin{verbatim}
@@ -230,7 +231,7 @@ email://nico-eof42@schottelius.org\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
 % -----------------------------------------------------------------------------
 \subsection{Message 1106: Peer renamed}
 This is the answer to command \emph{2104}. It contains the
-same ID, as the \emph{2104} request command.
+same ID as the \emph{2104} request command.
 It is sent out to \textbf{all} connected user interfaces.
 \subsubsection{Parameters}
 \begin{longtable}{|c|c|c|c|}
@@ -420,7 +421,7 @@ Name & EOFsdt: name & Name you identify the peer with & telmich\\
 \end{verbatim}
 % -----------------------------------------------------------------------------
 \subsection{Message 2104: /peer rename}
-This messages is issued by the UI, when it wants to rename a peer.
+This messages is issued by the UI when it wants to rename a peer.
 \subsubsection{Parameters}
 \index{Message!/peer rename}%
 \begin{longtable}{|c|c|c|c|}
@@ -430,9 +431,9 @@ This messages is issued by the UI, when it wants to rename a peer.
 \hline
 ID & EOFsdt: id & packet id & afdb12\\
 \hline
-Oldnick & EOFsdt: name & Old nick name & susi\\
+Old name & EOFsdt: name & Old peer name & susi\\
 \hline
-Newnick & EOFsdt: name & New nick name & heinz\\
+New name & EOFsdt: name & New peer name & heinz\\
 \hline
 \end{longtable}
 

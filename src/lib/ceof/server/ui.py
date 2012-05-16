@@ -89,6 +89,18 @@ class UI(object):
         answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
         self.conn.sendall(answer)
 
+    def cmd_2101(self):
+        """De-Register UI"""
+
+        self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
+
+        log.debug("recv id " + self.ui_eofid)
+        log.info("De-Registered UI: %s" % self.ui_name)
+
+        # Remove UI
+        self.ui_name = ""
+        self.conn.close()
+
     def cmd_2102(self):
         """/peer add"""
         
