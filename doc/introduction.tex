@@ -1,65 +1,99 @@
 % ----------------------------------------------------------------------------
 \chapter{Introduction}
+% -----------------------------------------------------------------------------
+\section{Preamble}
+This project originally started in 2007 as an idea of a the hacker
+community \textit{!eof}, which has its roots in the the IRC
+network.\footnote{Hacking here is referring to free and open source
+software development as well as creative use of technology.}
+Although various members of this community had written custom chat software
+to chat "securely", most members, even of today, are using IRC as their
+primary communication method.
+
+Some virtual and physical meetings took place to overcome this weakness
+and to develop a stronger, more appropriate protocol and software.
+Due to the distributed nature of the community and low priorisation, not
+much progress was made. As I am one of the members of this community,
+this bachelor thesis and the support and interest
+of the company I am working for, \textit{local.ch}, allows me to finish
+this project.
+
+The origan name for the project chosen was \textit{Eris Onion Forwarding}, or
+short \textit{EOF}. I keep this name and thus several references and names
+in this document are influenced by the original project name.
+% -----------------------------------------------------------------------------
+\section{Current status}
+A lot of chat systems are currently available, 
+but none of these systems implements an anonymous, decentralised and secure architecture.
+
+Anonymity is important, when people need to hide to whom they are talking to.  
+This is for instance true in extreme situations, when reporters located in 
+dangerous areas, submit their messages in danger of life threats, but also 
+applies to a lot of daily situations like sending confidential messages 
+in untrusted networks: The basic knowledge of who is talking to whom may 
+cause unwanted actions, for instance in politics or when being contacted by a head hunter.
+
+A decentralised architecture helps to improve reliability as communication is
+permitted to flow via different channels. This supports the ability to 
+continue communications even under attack from an enemy. This is a general
+requirement for reliable communications, but can be crucial for military in
+case of war, as well as for reporters.
+
+Secure chat provides the ability to hide message content from eavesdroppers,
+as well as to ensure message and sender authenticity.  Without this technique
+an attacker could use the information for harmful operations or change the
+content of the messages. This threat is very dangerous i.e. in stock market 
+situations, as well in the previously described situations.
+
+The client, Thomas Gresch from local.ch, is running Skype for internal core 
+communications. Skype is a closed source, encrypted, proprietary chat system 
+owned by Microsoft. Because of the intensive efforts from Skype to hide how 
+its internals are working, the software is considered untrustworthy.
+The internal communication is a crucial part of daily business and an 
+outage, whether caused by accident or intend, causes direct monetary 
+loss for the company.
+
+For this reason the research for an open alternative that may succeed 
+the use of Skype is supported by local.ch.
+% ----------------------------------------------------------------------------
+\section{Objectives}
+The objective of this thesis is the analysis, design and development of a secure, decentralised chat system. The main focus is on defining and documenting the mode of operation and the protocol definition. Additionally a prototype should be implemented. The thesis should be based on a detailled analysis of current chat systems. The analysis will not only consider chat systems, but also related secure and anonymous communication systems.
+% ----------------------------------------------------------------------------
+\section{Tasks}
+\begin{enumerate}
+\item Detailed analysis and comparison of open and legacy chat systems to summarise current chat system features and their security characteristics
+\item Analysis of features and security requirements
+\item Analysis of related communication protocols
+\item Development of a new chat protocol
+\item Development of chat prototype using the new chat protocol
+\item Test of the prototype
+\item Preparation of a live demonstration of the prototype
+\end{enumerate}
+% ----------------------------------------------------------------------------
+\section{Expected Results}
+\begin{enumerate}
+\item Report and comparison of current chat systems including strength and weaknesses
+\item Requirement analysis
+\item Report of related communication protocols including strength and weaknesses
+\item Protocol definition paper (containing chat features, data types, transport methods, security measures)
+\item Technical documentation and prototype for the new chat system
+\item Description of test results
+\item Presentation of a successful anonymous, decentralised chat session, which includes proof of the required security by using example attacks.
+\end{enumerate}
+
+
+
+% ----------------------------------------------------------------------------
+\section{Stuff}
 
 Anonymous communication networks were first intro-
 duced by David Chaum in his seminal paper [10] describing
 the mix as a fundamental building block for anonymity.
 (aus tor2)
 
-\section{Abstract}
-hier oder weiter oben? - siehe lisa vortrag!
-
-\section{Abbreviations}
-\section{Starting Position}
-local, skype, untrustworthy
-
-\section{Motivation}
+\subsection{Motivation}
 From EBS + EOF
 
-\section{Objectives}
-From EOF + Latency "`low"', eventual consistency
-
-\subsection{Steganographic}
-Not for hiding, but to support longer überleben?
-http is pretty well suited for this.
-mixing with smtp, imap, pop3, tcp. etc.
-
-% -----------------------------------------------------------------------------
-\section{History of the project}
-The project started in 2007 as an idea of !eof\cite{!eof}
-(a friendly hacker community). After several meetings it was clear that
-we need to do some experiements and create phases to structure the
-development.
-
-!eof...
-\subsection{The three phases}
-So we divided the project into the three phases
-\begin{enumerate}
-\item \emph{EOF-1},
-\item \emph{EOF-2},
-\item \emph{EOF-3}.
-\end{enumerate}
-% -----------------------------------------------------------------------------
-\subsubsection{EOF-1: Finding ideas}
-The first phase was the so called "`finding ideas"' phase. We did some tests,
-measured packet sizes and did some theorethic calculations on intervals.
-There was also some discussion about implementing EOF in a ring structure,
-like token ring\cite{token-ring}.
-The first try to do the first implementation as a complet modularised
-version began and stalled after some months of decentral developemnt.
-% FIXME: cite
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsubsection{EOF-2: Proof of concept}
-We are currently working on a prototype in EOF-2. The idea is to get the
-basic features working and to attract testers and developers.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsubsection{EOF-3: The final destination}
-The idea of EOf-3 is to cleanup all parts of EOF-2 and create a
-"`ready to be used"' software package, that may be used by end users.
-This includes "`good documentation"' (this document).
-% Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Further directions}
 After the deployment of EOF-3, there may be more work necessary, like
@@ -72,7 +106,7 @@ After the deployment of EOF-3, there may be more work necessary, like
 \end{itemize}
 
 % ----------------------------------------------------------------------------
-\section{Codename}
+\subsection{Codename}
 This project is codename \textit{Eris Onion Forwarding ("`EOF"')}.
 Onions because of architecture, Eris as the Goddess of Discordia to
 prevent someone from controlling the chat.
