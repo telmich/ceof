@@ -1,29 +1,22 @@
 % ----------------------------------------------------------------------------
 \chapter{Analysis and Comparision of Chat Systems}
-
-    1. Detailed analysis and comparison of open and legacy chat systems
-        to summarise current chat system features and their
-        security characteristics.
-
-
+%%    1. Detailed analysis and comparison of open and legacy chat systems
+%%        to summarise current chat system features and their
+%%        security characteristics.
 % ----------------------------------------------------------------------------
-\section{IRC}
+\section{Internet Relay Chat (IRC)}
 \subsection{History}
-
-Since 1989 deleoped\ref{rfc2810},
-first formally documented in May 1993 by RFC 1459\ref{rfc1459}.
-
-\begin{quote}
-All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.\ref{irc-wp}
-\end{quote}
-
+IRC has been developed since 1989, but was first formally documented in May 1993 in 
+RFC 1459. It is still widely being used as of today.\cite{rfc1459,ircusage}
+The current protocol is specified in the RFCs 2810-2813.\cite{rfc2810,rfc2811,rfc2812,rfc2813}
+%%\begin{quote}
+%%All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.\ref{irc-wp}
+%%\end{quote}
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
-central server, server network
-IRC, the \textit{Internet Relay Chat}, has been developed since 1989
-and is defined in severals Internet RFCs.\footnote{See \cite{rfc1459}, 
-\cite{rfc2810}, \cite{rfc2812} and \cite{rfc2813}.}
-IRC networks consist of IRC servers and IRC clients:
+IRC is a centralised server architecture, in which the clients connect to one
+of the available servers and the servers form a background network.
+\center{\includegraphics{irc.eps}}
 
 \begin{verbatim}
                        1--\
