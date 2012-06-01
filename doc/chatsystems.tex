@@ -154,7 +154,8 @@ Since then, the \textit{XMPP Standards Foundation (XSF)} is responsible
 for standardising XMPP related protocols, the so called 
 \textit{XMPP Extension Protocols (XEP)}.
 It is estimated that by 2003 XMPP has been used by 10 million people.\cite{xmppuser}
-AOL added experimental support for XMPP in the AOL instant Messenger in 2008.
+AOL added experimental support for XMPP in the 
+\textit{AOL instant Messenger (AIM)} in 2008.
 In 2010 the social-networking site Facebook added support for
 third-party applications via XMPP.
 As of 2012, there are over 30 different client and about 20
@@ -182,29 +183,13 @@ to \textit{nico@example.net}.
     \includegraphics[scale=0.8]{jabberarch.eps}
 \end{figure}
 XMPP formats messages based on the 
-\textit{Extensible Markup Language (XML)}.
-
-Authenticate using a Simple Authentication and Security Layer
-       [SASL] mechanism (Section 6)
-
-
-   Within XMPP, one server can optionally connect to another server to
-   enable inter-domain or inter-server communication.  For this to
-   happen, the two servers need to negotiate a connection between
-   themselves and then exchange XML stanzas; the process for doing so
-   is:ocol was original
-
-As with email, XMPP uses globally unique addresses (based on the
-   Domain Name System) in order to route and deliver messages over the
-   network.
-
-
-Decentralization
-The architecture of the XMPP network is similar to email; anyone can run their own XMPP server and there is no central master server.
-
-The XMPP network uses a client–server architecture (clients do not talk directly to one another). 
-
-username@example.com.
+\textit{Extensible Markup Language (XML)} and
+supports authentication using a 
+Simple Authentication and Security Layer (SASL)\cite{rfc4422}.
+Clients never talk directly to each other in a XMPP network, but
+always use one or more servers in between. Compared to IRC and SILC,
+XMPP is the only protocol that supports connecting other protocols
+like AIM or IRC.
 % ----------------------------------------------------------------------------
 \subsection{Security}
 TLS for channel encryption and SASL for authentication
