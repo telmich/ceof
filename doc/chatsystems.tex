@@ -60,15 +60,14 @@ has been made in 2000. The last releases of SILC software (server and client)
 are dated at 2009. Silc can be considered a more secure successor of IRC,
 as can be seen in the following quote:
 \begin{quote}
-[...]
+\ldots{}
 Many of the SILC features are found in traditional chat protocols such 
 as IRC but many of the SILC features can also be found in 
 Instant Message (IM) style protocols.
 
 SILC combines features from both of these chat protocol styles, 
 and can be implemented as either IRC-like system 
-or IM-like system.\cite{silcwp}
-[...]
+or IM-like system. \ldots{}\cite{silcwp}
 \end{quote}
 As far as the official website reports,
 there is no version controlled source code repository available,
@@ -76,6 +75,8 @@ only tarballs from 2009 are downloadable. This may indicate that the
 development of the SILC software has stagnated.
 % The SILC Project's goal is to fully standardize the SILC protocol in the IETF. 
 %Bug form does not return any bugs.
+Besides the official SILC Network, which is run by 7 SILC servers,
+there are about 12 other SILC networks being run.\cite{wiki:silc}
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
 Figure \ref{silcoverview} shows 
@@ -92,6 +93,8 @@ In case of SILC, there are two different variants of message passing:
 \item Private Message Delivery With Session Keys
 \item Private Message Delivery With Private Message Key
 \end{itemize}
+In any case, all messages are travelling through supporting servers and are never
+transmitted directly from one to another client.
 % ----------------------------------------------------------------------------
 \subsubsection{Private Message Delivery With Session Keys}
 When the silc client uses session keys, every message is send encrypted
@@ -118,19 +121,14 @@ decrypt the message. Figure \ref{silcprivkey} illustrates this behaviour.
 \end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Security}
-This means that chats might be compromised, if the server itself is compromised. 
-
-The official SILC Network is run currently being run by 7 SILC servers,
-which may be the attack vector for a Denial-of-Service attack.
-
-SILC Project develops the Secure Internet Live Conferencing protocol (SILC),
-\url{http://silcnet.org/general/}
-
-central
-\url{http://silcnet.org/support/documentation/wp/silc_protocol.php}
-
-(Ende-zu-Ende-Verschlüsselung).
-
+As all messages in the SILC network are encrypted, an external attacker
+cannot read the message content. In case Private message delivery with session keys
+is utilised, a comproised SILC server may be used to intercept and read all
+messages. This is not possible, if messages are sent using
+private message delivery with private message key.
+Due to the small number of servers (7 in the official network),
+an attacker could run a \textit{Denial-of-Service (DoS)} attack to prevent
+users from chatting.
 
 % ----------------------------------------------------------------------------
 \section{XMPP/Jabber}
