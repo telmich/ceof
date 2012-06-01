@@ -141,28 +141,63 @@ users from chatting.
 The SILC network does not provide any kind of anonymity services and allows
 to query detailled information about a peer including the IP address.
 % ----------------------------------------------------------------------------
-\section{XMPP/Jabber}
-XMPP, previously named \textit{Jabber}, is the abreviation for
-\textit{Extensible Messaging and Presence Protocol}.
-It is defined in \cite{rfc3920,rfc3921,rfc3922,rfc3923,rfc4622,rfc4854,rfc4979}
-and updated in \cite{rfc6120,rfc6121}.
-
-(XMPP) is an open-standard communications protocol for message-oriented middleware based on XML (Extensible Markup Language).[1] The protocol was originally named Jabber,
-
-
-
+\section{Extensible Messaging and Presence Protocol (XMPP)}
 % ----------------------------------------------------------------------------
 \subsection{History}
-Jeremie Miller began working on the Jabber technology in 1998 and released the first version of the jabberd server on January 4, 1999.[5] The early Jabber community focused on open-source software, mainly the jabberd server (e.g., version 1.0 in May 2000, version 1.2 in October 2000, and version 1.4 in February 2001), but its major outcome proved the development of the XMPP protocol.
-
-The XMPP WG produced four specifications (RFC 3920, RFC 3921, RFC 3922, RFC 3923), which were approved by the Internet Engineering Steering Group as Proposed Standards in 2004. The XMPP Standards Foundation (formerly the Jabber Software Foundation) is active in developing open XMPP extensions. In 2011, RFC 3920 and RFC 3921 have been superseded by RFC 6120 and RFC 6121 respectively, and RFC 6122 comes to specify the XMPP address format.
-
-by 2003, was used by over ten million people worldwide, according to the XMPP Standards Foundation.[3]
-
-In February 2010, the social-networking site Facebook opened up its chat feature to third-party applications via XMPP.
-
+The \textit{Extensible Messaging and Presence Protocol (XMPP}
+was originally developed by Jeremie Miller in 1998 and released
+to the public as \textit{Jabber} in 1999. In 2004 Jabber
+was transfered to the IETF, renamed to XMPP
+and is now defined in several
+RFCs.\cite{rfc3920,rfc3921,rfc3922,rfc3923,rfc4622,rfc4854,rfc4979,rfc6120,rfc6121}
+Since then, the \textit{XMPP Standards Foundation (XSF)} is responsible
+for standardising XMPP related protocols, the so called 
+\textit{XMPP Extension Protocols (XEP)}.
+It is estimated that by 2003 XMPP has been used by 10 million people.\cite{xmppuser}
+AOL added experimental support for XMPP in the AOL instant Messenger in 2008.
+In 2010 the social-networking site Facebook added support for
+third-party applications via XMPP.
+As of 2012, there are over 30 different client and about 20
+server implementations available.
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
+The XMPP network is built upon the ideas of e-mail: Users are identified
+by e-mail alike usernames like \textit{nico@example.org}. The clients and
+servers of the network find the correct server to talk to by making an
+DNS SRV\cite{rfc2782} lookup. 
+Clients are asking for the \textit{xmpp-client} service
+servers are asking for the \textit{xmpp-server} service.
+Thus a client thus may ask for a SRV record
+\url{_xmpp-client._tcp.example.net.} or a server for
+\url{_xmpp-server._tcp.im.example.com.}
+If there is no SRV record, the client or server can fall back
+to request for the A or AAAA record, similar to how 
+SMTP\cite{rfc2821} behaves. Figure \ref{jabberarch} shows
+how the client \textit{nico@example.org} sends a message
+to \textit{nico@example.net}.
+\begin{figure}
+    \centering
+    \caption{XMPP Network Architecture}
+    \label{jabberarch}
+    \includegraphics[scale=0.8]{jabberarch.eps}
+\end{figure}
+XMPP formats messages based on the 
+\textit{Extensible Markup Language (XML)}.
+
+Authenticate using a Simple Authentication and Security Layer
+       [SASL] mechanism (Section 6)
+
+
+   Within XMPP, one server can optionally connect to another server to
+   enable inter-domain or inter-server communication.  For this to
+   happen, the two servers need to negotiate a connection between
+   themselves and then exchange XML stanzas; the process for doing so
+   is:ocol was original
+
+As with email, XMPP uses globally unique addresses (based on the
+   Domain Name System) in order to route and deliver messages over the
+   network.
+
 
 Decentralization
 The architecture of the XMPP network is similar to email; anyone can run their own XMPP server and there is no central master server.
