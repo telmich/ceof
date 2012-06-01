@@ -50,6 +50,14 @@ Due to its architecture, every operator of a server can listen to all
 messages, even if encryption is being used. As the network usually consists
 of many clients, but only a small number of servers, an attacker needs
 to concentrate on a small number of victim hosts only.
+
+Usually IRC networks do not provide any kind of anonymisation features:
+every user can request detailled information about other users, including
+their IP address.  The freenode network\cite{freenode} however,
+supports so called \textit{cloaks}, which transfer the IP address information
+into a generic string like \textit{gpm/telmich}, in which gpm describe the
+project and telmich the name. There are various other cloacking expressions
+available
 % ----------------------------------------------------------------------------
 \section{Secure Internet Live Conferencing (SILC)}
 % ----------------------------------------------------------------------------
