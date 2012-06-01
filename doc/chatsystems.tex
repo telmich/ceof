@@ -192,8 +192,29 @@ XMPP is the only protocol that supports connecting other protocols
 like AIM or IRC.
 % ----------------------------------------------------------------------------
 \subsection{Security}
-TLS for channel encryption and SASL for authentication
-
+Within XMPP TLS is being used for encryption 
+and SASL for authentication.
+XMPP does not have mechanism to support anonymity.
+To create a DoS attack, an attacker can choose to take either the sending
+or the receiving server down. Due to its openess, an attacker can find out
+which server she needs to attack by doing DNS queries. Though when attacking
+the sending server, the sending client can just switch to another server,
+as figure \ref{jabbersendingserverattack} shows.
+\begin{figure}
+    \centering
+    \caption{XMPP Sending Server Attack}
+    \label{jabbersendingserverattack}
+    \includegraphics[scale=0.7]{jabbersendingserverattack.eps}
+\end{figure}
+If the attacker aims to bring down the receiving server, the message
+will not arrive while the server is down, as shown in figure 
+\ref{jabberreceivingserverattack}.
+\begin{figure}
+    \centering
+    \caption{XMPP Receiving Server Attack}
+    \label{jabberreceivingserverattack}
+    \includegraphics[scale=0.7]{jabberreceivingserverattack.eps}
+\end{figure}
 % ----------------------------------------------------------------------------
 \section{Skype}
 % ----------------------------------------------------------------------------
@@ -205,20 +226,13 @@ TLS for channel encryption and SASL for authentication
 
 % ----------------------------------------------------------------------------
 \section{Other}
-% ----------------------------------------------------------------------------
-\subsection{ICQ}
-November 1996 veröffentlicht.
- the first Internet-wide instant messaging service, 
+There are further chat protocols, which have not been included into this
+analysis, either because of known weaknesses, irrelevance or small user base.
+ICQ, which has been published in 1996, is not being widely used anymore
+and its protocol, OSCAR\cite{oscar}, is based on plain text messages.
+ICQ used to be popular, but has been sold to the russian Mail.ru group.
 
-America Online acquired Mirabilis on June 8, 1998, for 407dollar million (dollar287 million in cash and dollar120 million over a three-year period based on growth performance levels).
-
-In 2001, ICQ had over 100 million accounts registered.[2] In April 2010, AOL sold ICQ to Digital Sky Technologies for dollar187.5 million.[3]
-
-Uses the oscar \cite{oscar}
-Plain text, centralised, auth plaintext or md5 hashed password
-
-% ----------------------------------------------------------------------------
-\subsection{MSN}
+MSN
 
 % ----------------------------------------------------------------------------
 \section{Security features and Comparision}
