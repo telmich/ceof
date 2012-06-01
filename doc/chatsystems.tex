@@ -78,23 +78,50 @@ development of the SILC software has stagnated.
 %Bug form does not return any bugs.
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
-Figure \ref{silcoverview} shows tha
-a SILC Network looks similar to an IRC network, which is 
-due to its centralised design.
+Figure \ref{silcoverview} shows 
+that SILC Network architecture looks similar to IRC network architecture: 
 \begin{figure}
     \centering
     \caption[Schematic Overview of SILC]{Schematic Overview of SILC\\Image source: \protect\url{http://www.silcnet.org/img/silc_network.png}}
     \label{silcoverview}
-    
     \includegraphics[scale=0.8]{silc_network.png}
-   % \footnote{Image source: \url{http://www.silcnet.org/img/silc_network.png}}
 \end{figure}
-The official SILC Network is run currently being run by 7 SILC servers,
-which may be the attack vector for a Denial-of-Service attack.
-
+Both rely on a central design orientated on a network of servers.
+In case of SILC, there are two different variants of message passing:
+\begin{itemize}
+\item Private Message Delivery With Session Keys
+\item Private Message Delivery With Private Message Key
+\end{itemize}
+% ----------------------------------------------------------------------------
+\subsubsection{Private Message Delivery With Session Keys}
+When the silc client uses session keys, every message is send encrypted
+with the session key of the next peer, decrypted at the peer and re-encrypted
+for the next peer in the chain, as can be seen in figure \ref{silcsessionkey}.
+\begin{figure}
+    \centering
+    \caption[Silc: Private Message Delivery With Session Keys]{Private Message Delivery With Session Keys\\Image source: \protect\url{http://www.silcnet.org/img/silc_priv1.png}}
+    \label{silcsessionkey}
+    \includegraphics[scale=0.8]{silc_priv1.png}
+\end{figure}
+In this scenario, every peer in the communication chain
+can read the content of the message.
+% ----------------------------------------------------------------------------
+\subsubsection{Private Message Delivery With Private Message Key}
+When using a a private message key, the servers in the communication chain
+only forward the message and the receiving peer is the only one who can
+decrypt the message. Figure \ref{silcprivkey} illustrates this behaviour.
+\begin{figure}
+    \centering
+    \caption[Silc: Private Message Delivery With Private Message Key]{Private Message Delivery With Private Message Key\\Image source: \protect\url{http://www.silcnet.org/img/silc_priv2.png}}
+    \label{silcprivkey}
+    \includegraphics[scale=0.8]{silc_priv2.png}
+\end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Security}
 This means that chats might be compromised, if the server itself is compromised. 
+
+The official SILC Network is run currently being run by 7 SILC servers,
+which may be the attack vector for a Denial-of-Service attack.
 
 SILC Project develops the Secure Internet Live Conferencing protocol (SILC),
 \url{http://silcnet.org/general/}
