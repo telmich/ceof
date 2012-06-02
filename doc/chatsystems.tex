@@ -219,11 +219,114 @@ will not arrive while the server is down, as shown in figure
 \section{Skype}
 % ----------------------------------------------------------------------------
 \subsection{History}
-% ----------------------------------------------------------------------------
+The following excerpt\cite{wiki:skype} gives a rough overview of Skype's history:
+\begin{quote}
+Skype was founded in 2003 by Janus Friis from Denmark and Niklas Zennström from Sweden.
+The Skype software was developed by Estonians Ahti Heinla, Priit Kasesalu, and Jaan Tallinn, 
+who together with Janus and Niklas were also behind the peer-to-peer file sharing software 
+Kazaa. In August 2003, the first public beta version was released.
+\end{quote}
+In April 2006, the number of registered users reached 100 million.
+In July 2010 several online newspapers announced that a hacker from the USA
+has successfully managed to reverse engineer the
+protocol. The suspected results can be found on \cite{skype:source}.
+In May 2011 Microsoft acquired Skype. There are various efforts made to 
+keep up the reverse engineering of the program and the 
+protocol, some driven by russian scientist.
+Skype as of today is being used on many computers and mobile phones.
+
+There is also a variant of Skype available called TOM, which has been produced
+for the chinese market after Skype's inital banning from the China.
+
+%% http://www1.cs.columbia.edu/~library/TR-repository/reports/reports-2004/cucs-039-04.pdf
+%% 
+%% 
+%% http://www.heise.de/newsticker/meldung/Skype-unter-die-Lupe-genommen-111559.html
+%% 
+%% 
+%% http://www.secdev.org/conf/skype_BHEU06.handout.pdf
+%% 
+%% 
+%% 
+%% In January 2011, after the release of video calling on the Skype client for iPhone, Skype reached a record 27 million simultaneous online users.[45] This record was broken with 29 million simultaneous online users on 21 February 2011,[46] and again on 28 March 2011 with 30 million online users.[47] On 25 February 2012, Skype announced that it has over 32 million users for the first time ever.[48]. As of 05 March 2012, it has broken to 35 million simultaneous online users.[49]
+%% 
+%% 
+%% % ----------------------------------------------------------------------------
 \subsection{Architecture}
+Skype's network is a mixture of a centralised and peer-to-peer network.
+As figure \ref{skypearch} shows, it consists of three entities:
+\begin{itemize}
+\item Supernodes
+\item Ordinary Nodes
+\item Login Servers
+\end{itemize}
+The function os these three nodes is explained in \cite{skype-analysis}:
+\begin{quote}
+An ordinary host is
+a Skype application that can be used to place voice calls and send
+text messages. A super node is an ordinary host’s end-point on the
+Skype network. Any node with a public IP address having
+sufficient CPU, memory, and network bandwidth is a candidate to
+become a super node. An ordinary host must connect to a super
+node and must register itself with the Skype login server for a
+successful login. Although not a Skype node itself, the Skype
+login server is an important entity in the Skype network.
+\end{quote}
+In case a client is behind a firewall that does
+\textit{network address translation (NAT)}, 
+Skype uses a variant of STUN\cite{rfc5389}.
+\begin{figure}
+    \centering
+    \caption[Skype Network Architecture]{Skype Network Architecture a (Image source: \cite{skype-analysis})}
+    \label{skypearch}
+    \includegraphics[scale=0.8]{skype-network.png}
+\end{figure}
+In contrast to the previous three protocols, Skype use is more focused on voice chat.
+The connection is encrypted using AES-256, the keys are encrypted using
+1536 up to 2048 Bit RSA.
+Furthermore variants of RC4 are being used, which may be attackable.
+The website claiming this attack is not reachable, but still quoted
+on Wikipedia.\footnote{\url{http://www.enrupt.com/index.php/2010/07/07/skype-biggest-secret-revealed}}
+
 % ----------------------------------------------------------------------------
 \subsection{Security}
+Although Skype makes use of secure encryption methods (AES, RSA), it has
+various other security threads: The software itself is programmed to detect
+debugging scenarios and contains encrypted code. This may led to the
+assumption that the Skype developers are trying to hide information from the
+user. Although Skype is reported to support encryption between the two
+communicating peers\cite{skype:encrypted}, at least the chinese variant TOM
+supports surveillance operations:\cite{skype-tom}
+\begin{quote}
+The full text chat messages of TOM-Skype users, along with Skype users who have
+communicated with TOM-Skype users, are regularly scanned for sensitive keywords, and
+if present, the resulting data are uploaded and stored on servers in China.
 
+These text messages, along with millions of records containing personal information, are
+stored on insecure publicly-accessible web servers together with the encryption key required to
+decrypt the data.
+
+The captured messages contain specific keywords relating to sensitive political topics such
+as Taiwan independence, the Falun Gong, and political opposition to the Communist Party
+of China.
+
+Our analysis suggests that the surveillance is not solely keyword-driven. Many of the
+captured messages contain words that are too common for extensive logging, suggesting
+that there may be criteria, such as specific usernames, that determine whether messages are
+captured by the system.
+\end{quote}
+As the non-TOM Skype binary itself is encrypted, it is possible it contains similar
+functions.
+Another uncertainty is caused by statements of government agencys, which
+claim to be able to intercept all Skype traffic. As Skype is to be treated
+similar to traditional phone companies, this indicates truth of the given
+statements  Furthermore recent reports
+indicate that Microsoft changes the supernode structure so that instead of having
+supernodes at the user, the supernodes reside centrally at Microsofts
+datacenters to allow easy wiretapping.\cite{skype:supernodechange}
+%% Skype konnte schon zuvor durch Ermittlungsbehörden abgehört werden.[8]
+%% Austrian public broadcasting service ORF, citing minutes from the meeting, reported that "the Austrian police are able to listen in on Skype connections". Skype declined to comment on the reports.
+%% 
 % ----------------------------------------------------------------------------
 \section{Other}
 There are further chat protocols, which have not been included into this
@@ -231,21 +334,35 @@ analysis, either because of known weaknesses, irrelevance or small user base.
 ICQ, which has been published in 1996, is not being widely used anymore
 and its protocol, OSCAR\cite{oscar}, is based on plain text messages.
 ICQ used to be popular, but has been sold to the russian Mail.ru group.
-
-MSN
-
+Furthermore the old \textit{Microsoft Messenger protocol (MSN)} has not
+been taken into account.
 % ----------------------------------------------------------------------------
 \section{Security features and Comparision}
-
-\begin{longtable}{|c|c|c|}
+The different chat systems and their architectures have shown a variety
+of strength and weaknesses, which are summarised in the table below.
+\begin{longtable}{|c|c|c|c|c|}
 \caption{Chat system comparision with security features}\\
 \hline
-\textbf{Name} & \textbf{IRC} & \textbf{SILC}\\
+\textbf{Name} & \textbf{IRC} & \textbf{SILC} & \textbf{XMPP} & \textbf{Skype}\\
 \hline
-\textbf{Single point of attack} & yes & yes\\
+\textbf{Central server architecture} & yes & yes & no & yes/no\footnote{Supernodes take a special role and are
+being centralised by Microsoft's work.}\\
 \hline
-\textbf{Encrypted traffic} & optional & yes\\
+\textbf{Encrypted messages} & optional & yes & yes & yes\\
+\hline
+\textbf{Anonymity Support} & yes/no\footnote{IP address cloacking}  & yes/no\footnote{IP address cloacking} & no & no\\
+\hline
+\textbf{Proprietary Protocol} & no  & no & no & yes\\
+\hline
+\textbf{Software owned by one (commercial) company} & no  & no & no & yes\\
+\hline
+\textbf{Network being run by one (commercial) company} & no  & no & no & yes\\
+\hline
+\textbf{Source Code accessable} & yes  & yes & yes & no\\
+\hline
+\textbf{Encrypted binary software} & no  & no & no & yes\\
 \hline
 \end{longtable}
-
-All the solutions with objectives.
+%% To summarise:
+%% \begin{itemize}
+%% \item Anonymity support is only 
