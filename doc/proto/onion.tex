@@ -17,6 +17,17 @@ already encrypted packets. It may look like as follows:
 
 All data that is transferred over the network must be encrypted.
 
+
+All packets must be signed by the sender and encrypted for the receiver.
+The different datatypes are just concatenated in the order described.
+The following description of the content describes the pakckets
+in their unencrypted form.
+% Nico: 1.0
+
+
+The EOF messages described in the previous section are multiple times
+encrypted and assembled according to the calculated source route.
+
 % ----------------------------------------------------------------------------
 \subsection{Variable Peers}
 Different routes for every packet
