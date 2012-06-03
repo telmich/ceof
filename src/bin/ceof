@@ -103,6 +103,9 @@ def commandline():
          help='Name of the peer', action='store')
     parser['onion'].add_argument('-m', '--message',
          help='Create onion with this message for peer', action='store')
+    parser['onion'].add_argument('-r', '--repeat-count', type=int,
+         help='Repeat action n times (used for timing/profiling)', 
+         action='store', default=1)
     parser['onion'].add_argument('-s', '--send',
          help='Send message created to peer', action='store_true')
     parser['onion'].set_defaults(func=ceof.Onion.commandline)

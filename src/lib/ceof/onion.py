@@ -45,25 +45,26 @@ class Onion(object):
         if args.send and not args.message:
             raise OnionError("Requiring message for message sending...")
 
-        if args.message:
-            peer = ceof.Peer.from_disk(config.peer_dir, args.name)
-            route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
-            chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
-            # Copy for debug
-            orig_chain = list(chain)
+        for repeat in range(args.repeat_count):
+            if args.message:
+                peer = ceof.Peer.from_disk(config.peer_dir, args.name)
+                route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
+                chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
+                # Copy for debug
+                orig_chain = list(chain)
 
-            onion = cls(config.gpg_config_dir)
-            onion_chain = onion.chain(chain)
-            print("Onion chain: %s" % onion_chain)
+                onion = cls(config.gpg_config_dir)
+                onion_chain = onion.chain(chain)
+                print("Onion chain: %s" % onion_chain)
 
-        if args.send:
-            first_link = orig_chain[-1]
-            peer = first_link['peer']
-            address = peer.random_address()
-            log.debug("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
+            if args.send:
+                first_link = orig_chain[-1]
+                peer = first_link['peer']
+                address = peer.random_address()
+                log.debug("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
 
-            # FIXME: use SenderServer Function!
-            ceof.SenderServer.send(address, onion_chain)
+                # FIXME: use SenderServer Function!
+                ceof.SenderServer.send(address, onion_chain)
 
     #def chain(self, chained_pkg):
     #def chain(self, chain, onion):

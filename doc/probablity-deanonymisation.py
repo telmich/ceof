@@ -98,3 +98,15 @@ for proxy_peers in range(1, 10+1):
     print("\\hline\n\\textbf{%s} & %g & %s\\\\" % (proxy_peers, max_delay, " & ".join(times)))
 
 
+print("Bandwidth usage\n")
+
+pkg_sizes = [1.2, 1.9, 2.6, 3.3, 4.0, 4.8, 5.6, 6.3, 7.1, 8.0]
+for proxy_peers in range(1, 10+1):
+
+    bandwidth = []
+    for interval in (1/8, 1/4, 1/2, 1, 2):
+        bandwidth.append("%g" % (pkg_sizes[proxy_peers-1] * (1/interval)))
+
+    print("\\hline\n\\textbf{%s} & %s\\\\" % (proxy_peers, " & ".join(bandwidth)))
+
+

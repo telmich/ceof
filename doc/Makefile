@@ -3,9 +3,9 @@ PARTS=chatsystems.tex comm-protocols.tex conclusions.tex
 PARTS+=implementation-prototype.tex references.tex requirements.tex
 PARTS+= introduction.tex othersystems.tex protocol.tex
 PARTS+= test-prototype.tex thesis.tex
-PARTS+= proto/ui.tex proto/user.tex proto/transport.tex
+PARTS+= proto/ui.tex proto/user.tex 
 PARTS+= proto/basic-data.tex proto/simple-data.tex proto/packet-types.tex
-PARTS+= nico.bib
+PARTS+= nico.bib implementation/transport.tex
 
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<

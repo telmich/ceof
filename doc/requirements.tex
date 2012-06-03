@@ -20,12 +20,40 @@ The following security features are derived from the weaknesses of the previousl
 analysed systems as well from the thesis objectives.
 % -----------------------------------------------------------------------------
 \section{Anonymity}
-One of the main objectives of this thesis is to provide a chat system that
-hides who is talking to whom. If an attacker controls all hosts that are
-part of the chat network, it is impossible to guarantee anonymity.
-
-Thus the implementation should support be resistent against a high percentage
-of attacker nodes in the network.
+There are four different types of anonymity:
+\begin{itemize}
+\item Pseudonymity
+\item Sender anonymity
+\item Receiver anonymity
+\item Sender-receiver anonymity
+\end{itemize}
+Pseudonymity describes anonymity by using a different identity, for instance
+\textit{telmich} instead of Nico Schottelius.
+Sender anonymity is present, if nobody can observe who the sender is.
+\begin{figure}
+    \centering
+    \caption[Sender Anonymity]{Sender Anonymity\\Image source: \protect\url{http://www.cs.virginia.edu/crab/anonymity.ppt}}
+    \label{senderanon}
+    \includegraphics[scale=0.8]{sender-anon.png}
+\end{figure}
+Receiver anonymity is given, if an observer cannot identify  the receiver of
+a message. 
+\begin{figure}
+    \centering
+    \caption[Receiver Anonymity]{Receiver Anonymity\\Image source: \protect\url{http://www.cs.virginia.edu/crab/anonymity.ppt}}
+    \label{receiveranon}
+    \includegraphics[scale=0.8]{receiver-anon.png}
+\end{figure}
+If the observer cannot find out whether a given pair of peers
+is communicating, Sender-Receiver anonymity is given.
+\begin{figure}
+    \centering
+    \caption[Sender-Receiver Anonymity]{Sender-Receiver Anonymity\\Image source: \protect\url{http://www.cs.virginia.edu/crab/anonymity.ppt}}
+    \label{senderreceiveranon}
+    \includegraphics[scale=0.8]{sender-receiver-anon.png}
+\end{figure}
+The three figures \ref{senderanon}, \ref{receiveranon} and
+\ref{senderreceiveranon} visualise the differences.
 % -----------------------------------------------------------------------------
 \subsection{Sender to receiver anonymity}
 Providing anonymity of two people talking to each other is \textbf{not} 
@@ -48,7 +76,9 @@ of the chat partners and thus the anonymity would vanish.
 % so that only the receiver can decrypt and view the message content.
 % 
 % -----------------------------------------------------------------------------
-\section{Integrity}
+\section{Authenticity}
+
+Know who he/she is and that the message is correct.
 As messages may contain important content, it is necessary that the integrity
 is guaranteed.
 % Nico: 1 => reformulate
