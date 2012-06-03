@@ -1,63 +1,23 @@
-\section{Packets Types ("`EOFpkg"')}
+\section{Packets Type Overview ("`EOFpkg"')}
 \label{eofpkg}
-% -----------------------------------------------------------------------------
-\subsection{Introduction}
-
-EOF knows about
+Based on the previous definition of data types and messages, one
+can distinguish between the following packet types:
 \begin{itemize}
-\item commands: internal plaintext packets.
-\item onions: multiple times encrypted packets including routing information
-\item postcards: packets containing transport protocol dependent header
+\item Messages: (internal) plaintext packets (\ref{eofmsg}, p. \pageref{eofmsg})
+\item Onions: multiple times encrypted packets (\ref{eofonion}, p. \pageref{eofonion})
+\item Postcards: packets containing transport protocol dependent header (\ref{eofpostcard}, p. \pageref{eofpostcard})
 \end{itemize}
-Commands are the innermost packet type and only seen within EOFi and EOFs.
-Commands are then bundled into a multi layer onion. Each layer contains
-commands after decryption.
-Onions are put onto a postcard afterwards and are sent out on the network.
-\textbf{Only encrypted packets are sent out on the network.}
-% -----------------------------------------------------------------------------
-\subsection{Commands}
-Command packets are used for the communication inside of EOFi and EOFs and
-are described in detail in the following sections:
-\begin{itemize}
-\item eofi2tp, \ref{eofi2tp}, page \pageref{eofi2tp}
-\item eofi2ui, \ref{eofi2ui}, page \pageref{eofi2ui}
-\item eofi2crypto, \ref{eofi2crypto}, page \pageref{eofi2crypto}
-\end{itemize}
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Onions}
-Onions are sent out on the network and are multiple times encrypted.
-They are building the base for the EOF protocol.
-Onions are described in detail in chapter \ref{onions}, page \pageref{onions}.
-
-An onion packet is a (multiple times) encrypted packet.
-An onion packet contains at least one plaintext packet, but can also contain
-already encrypted packets. It may look like as follows:
-
-All data that is transferred over the network must be encrypted.
-% -----------------------------------------------------------------------------
-\subsection{Network packets ("`postcards"')}
-\label{postcards}
-Onions are afterwards encapsulated into the transport protocol specific
-packet type and sent out onto the network.
-Postcards are described in detail in chapter \ref{postcards}, page \pageref{postcards}.
-
-A postcard "`packet"' contains one onion packet plus the transport protocol
-shell.  Postcard packets are the only packet type that is seen by a possible
-attacker.  The name postcard was choosen to reflect the fact, that anyone
-passing the postcard can read what is written on it.
-
-All packets must be signed by the sender and encrypted for the receiver.
-The different datatypes are just concatenated in the order described.
-The following description of the content describes the pakckets
-in their unencrypted form.
-% Nico: 1.0
-
-on-the-wire
-
-
-The EOF messages described in the previous section are multiple times
-encrypted and assembled according to the calculated source route.
-
-These packets are codenamed "`postcards"', as it is assumed they can be read
-by an attacker.
+Messages are the innermost packet type and can only be seen within
+the implementation.
+Messages are then bundled into a multi layer onion. 
+Each layer contains messages after decryption.
+Onions are put onto a \textit{postcard packet} 
+afterwards and are sent out on the network.
+Figure \ref{packettypes} visualises the differences between the 
+different packet types.
+\begin{figure}
+    \centering
+    \caption{Packet Types}
+    \label{packettypes}
+    \includegraphics[scale=0.8]{packet-types.png}
+\end{figure}
