@@ -1,11 +1,7 @@
 % -----------------------------------------------------------------------------
 \section{Messages Types ("`EOFmsg"')}
 \label{eofmsg}
-Onions are the result of decrypting an incoming packet (respective vice versa
-when sending out).
-% -----------------------------------------------------------------------------
-\subsection{Introduction}
-The following types are defined:
+The following message types are defined:
 
 \begin{itemize}
 \item 3000: Drop packet
@@ -17,9 +13,13 @@ The following types are defined:
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Parameters}
-All \textbf{3***} packets have the same length and contain the same fields:
+All messages have the same length and contain the same fields.
+Though not all fields are being used in every type, as seen in table
+\ref{eofmessageparameteroverview}.
 \begin{longtable}{|c|c|c|c|c|}
-\caption{Command 3*** parameters}\\
+\caption{EOF Message Parameter Usage}
+\label{eofmessageparameteroverview}
+\\
 \hline
 \textbf{Command} & \textbf{id} & \textbf{addr} & \textbf{group} & \textbf{msgtext}\\
 \hline
@@ -34,14 +34,17 @@ All \textbf{3***} packets have the same length and contain the same fields:
 3004 & x & - & - & -\\
 \hline
 \end{longtable}
-
+Where 
 \begin{itemize}
-\item -: Not used
-\item x: Used
+\item \textbf{-} means \textbf{not used}
+\item and \textbf{x} means \textbf{used}.
 \end{itemize}
-
+In table \ref{eofmessagedescription} the messages
+parameters are described.
 \begin{longtable}{|c|c|c|c|}
-\caption{Command 3*** parameters}\\
+\caption{EOF Message Parameter Description}
+\label{eofmessagedescription}
+\\
 \hline
 \textbf{Parameter} & \textbf{Type} & \textbf{Description} & \textbf{Example}\\
 \hline
@@ -77,26 +80,22 @@ be dropped.
 \subsection{3002: Message / drop packet}
 This packet contains a messages to be read and does not need to be forwarded
 anymore: You are the last peer in the chain.
-\begin{itemize}
-\item If the first byte of the group is the zero byte, the message
-is a private message (i.e. only sent to you).
-\item If the first byte of the group field is \textbf{non-zero} the message
-is addressed to the specified group.
-\end{itemize}
+%% Add group support back later
+%% \begin{itemize}
+%% \item If the first byte of the group is the zero byte, the message
+%% is a private message (i.e. only sent to you).
+%% \item If the first byte of the group field is \textbf{non-zero} the message
+%% is addressed to the specified group.
+%% \end{itemize}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{3003: Message / forward packet}
-The command 3002 is a combination of command 3001 and 3002.
+The command 3002 is a combination of command 3001 and 3002
+and instructs the peer to read the message text and to forward the rest of
+the packet.
 % -----------------------------------------------------------------------------
 \subsection{3004: Acknowledge}
 Acknowledge the receipt of a received message. The ID must be the same as
 the one specified in the original messages packet.
 Every message packet must be acknowledged.
 % -----------------------------------------------------------------------------
-\subsection{Routing}
-This version of EOF does not know how to create a route.
-All packages are transferred directly to the final peer (which is an
-incredible big huge bug) in this version of EOF. Source routing will be
-described and defined in future versions.
-% Nico: 1.0
-

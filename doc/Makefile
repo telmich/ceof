@@ -4,7 +4,7 @@ PARTS+=implementation-prototype.tex references.tex requirements.tex
 PARTS+= introduction.tex othersystems.tex protocol.tex
 PARTS+= test-prototype.tex thesis.tex
 PARTS+= proto/ui.tex proto/user.tex proto/features.tex proto/noise.tex
-PARTS+= proto/onion.tex
+PARTS+= proto/onion.tex proto/tp.tex proto/messages.tex
 PARTS+= proto/basic-data.tex proto/simple-data.tex proto/packet-types.tex
 PARTS+= nico.bib implementation/transport.tex
 
