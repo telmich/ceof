@@ -1,0 +1,11 @@
+Bootstrap ceof:
+
+1) create python env
+virtualenv -p /usr/bin/python3 python-env
+
+2) active python env and install gnupg
+ . ./python-env/bin/activate
+pip install python-gnupg
+
+3) Generate public/private key pair (may take some time)
+./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
