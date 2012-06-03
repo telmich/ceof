@@ -36,3 +36,38 @@ Onions are afterwards encapsulated into the transport protocol specific
 packet type and sent out onto the network.
 Postcards are described in detail in chapter \ref{postcards}, page \pageref{postcards}.
 
+
+
+% -----------------------------------------------------------------------------
+\section{Network packets ("`postcards"')}
+\label{postcards}
+All data that is transferred over the network must be encrypted.
+The EOF messages described in the previous section are multiple times
+encrypted and assembled according to the calculated source route.
+These packets are codenamed "`postcards"', as it is assumed they can be read
+by an attacker.
+% Nico: 1.0
+% -----------------------------------------------------------------------------
+\subsection{Onion packets}
+An onion packet is a (multiple times) encrypted packet.
+An onion packet contains at least one plaintext packet, but can also contain
+already encrypted packets. It may look like as follows:
+% -----------------------------------------------------------------------------
+\subsubsection{Example onion packet}
+\begin{itemize}
+\item 
+\end{itemize}
+% Nico: FIXME for 1.0
+% -----------------------------------------------------------------------------
+\subsection{Postcard packets}
+A postcard "`packet"' contains one onion packet plus the transport protocol
+shell.  Postcard packets are the only packet type that is seen by a possible
+attacker.  The name postcard was choosen to reflect the fact, that anyone
+passing the postcard can read what is written on it.
+
+All packets must be signed by the sender and encrypted for the receiver.
+The different datatypes are just concatenated in the order described.
+The following description of the content describes the pakckets
+in their unencrypted form.
+% Nico: 1.0
+
