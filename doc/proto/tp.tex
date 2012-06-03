@@ -1,40 +1,20 @@
 % ----------------------------------------------------------------------------
 \section{Transport Protocols}
 This chat protocol does not rely on a specific underlying transport protocol,
-but is \textit{transport protocol independent}. Transport protocols are used
-to submit 
-
-
-On the "`wire"'. Different transports. Constant transport.
-Define name (postcard?!) here. Includes transport specific
-header / meta information.
+but is \textit{transport protocol independent}. 
+Transport protocols are used to submit an onion to the next peer.
 
 % -----------------------------------------------------------------------------
 \subsection{Network packets ("`postcards"')}
 \label{eofpostcard}
-Onions are afterwards encapsulated into the transport protocol specific
-packet type and sent out onto the network.
-Postcards are described in detail in chapter \ref{postcards}, page \pageref{postcards}.
-
+%Onions are encapsulated into the transport protocol specific
+%packet type and sent out onto the network.
+%The term Postcards are described in detail in chapter \ref{postcards}, page \pageref{postcards}.
 A postcard "`packet"' contains one onion packet plus the transport protocol
-shell.  Postcard packets are the only packet type that is seen by a possible
-attacker.  The name postcard was choosen to reflect the fact, that anyone
+shell. Postcard packets are the only packet type that is seen by a possible
+attacker ("`on the wire"'). 
+The name postcard was choosen to reflect the fact, that anyone
 passing the postcard can read what is written on it.
-
-All packets must be signed by the sender and encrypted for the receiver.
-The different datatypes are just concatenated in the order described.
-The following description of the content describes the pakckets
-in their unencrypted form.
-% Nico: 1.0
-
-on-the-wire
-
-
-The EOF messages described in the previous section are multiple times
-encrypted and assembled according to the calculated source route.
-
-These packets are codenamed "`postcards"', as it is assumed they can be read
-by an attacker.
 % ----------------------------------------------------------------------------
 \subsection{Tunneling}
 \label{tunneling}
