@@ -1,38 +1,142 @@
 \chapter{Analysis of related communication protocols}
+
 % ----------------------------------------------------------------------------
 \section{Mix networks}
-Chaum
-
-
-Digital mixes (also known as mix networks) were invented by David Chaum in 1981
-\cite{Chaum:1981:UEM:358549.358563}
-
-Bilder auch auf \url{http://en.wikipedia.org/wiki/Mix_network}
-
-
-% ----------------------------------------------------------------------------
-\section{Onion Routing}
-Patent \url{http://patft1.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=1&f=G&l=50&co1=AND&d=PTXT&s1=6266704.PN.&OS=PN/6266704&RS=PN/6266704}
+Mix networks are also known as onion routing or digital mixes and
+were invented by David Chaum in 1981.\cite{Chaum:1981:UEM:358549.358563}
+\begin{figure}
+    \centering
+    \caption[Mixes: Packet Flow]{Mixes: Packet Flow\\Image source \url{http://upload.wikimedia.org/wikipedia/en/2/23/Decryption_mix_net.png}}
+    \label{mixesflow}
+    \includegraphics[scale=0.3]{Decryption_mix_net.png}
+\end{figure}
+The base of Mixes is the multiple encrypted packet that is send through a
+number of peers (the mixes) as shown in figure \ref{mixesflow}.
+Every peer decrypts the message, which reveals which is the next peer
+to send the packet to. Using this method, every peer only knows about
+its predecessor and successor. For encryption Public-Key-Cryptography (RSA) is used.
+The original approach was focussing on Mixes for e-mail delivery.
+% Patent \url{http://patft1.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=1&f=G&l=50&co1=AND&d=PTXT&s1=6266704.PN.&OS=PN/6266704&RS=PN/6266704}
 % ----------------------------------------------------------------------------
 \section{Tor}
-On August 13, 2004 at the 13th USENIX Security Symposium,[4] Roger Dingledine, Nick Mathewson, and Paul Syverson presented Tor, The Second-Generation Onion Router.[5]
+The Tor network has been published in 2004
+at the 13th USENIX Security Symposium by Roger Dingledine, 
+Nick Mathewson and Paul Syverson.\cite{tor}
+The idea behind Tor is to provide a general purpose, 
+low latency anonymising network stack.
+They explicitly do not include application level anonymity
+(like stripping user agent information from a http request) and
+reason this to leave it up specialised projects.
+Tor does (by design) offer no protection against end-to-end attacks
+(for instance using traffic analysis) to support low latency applications.
+The Tor software provides access to its network via
+a SOCKS proxy interface.
+Tor does not use the traditional mix approach:
+\begin{quote}
+Rather than using a single multiply encrypted
+data structure (an onion) to lay each circuit, Tor now uses an
+incremental or telescoping path-building design, where the
+initiator negotiates session keys with each successive hop in
+the circuit.\footnote{Quote from \cite{tor}.}
+\end{quote}
+%\url{http://en.wikipedia.org/wiki/Onion_routing}
+% Reply onions have been replaced by a rendezvous system, 
+%Generic transport protocol.
+%    Separation of “protocol cleaning” from anonymity:
 
-\url{http://en.wikipedia.org/wiki/Onion_routing}
+%Onion Routing originally required a separate “application
+%proxy” for each supported application protocol—most of
+%which were never written, so many applications were never
+%supported.
+%Tor uses the standard and near-ubiquitous
+%SOCKS proxy interface, allowing us to support most
+%TCP-based programs without modification. Tor now relies on
+%the filtering features of privacy-enhancing application-level
+%proxies such as Privoxy [39], without trying to duplicate those
+%features itself.
+%% No mixing, padding, or traffic shaping (yet): Onion
+%% Routing originally called for batching and reordering cells
+%% as they arrived, assumed padding between ORs, and in later
+%% designs added padding between onion proxie
+%% 
+%% 
+%% Perfect forward secrecy: In the original Onion Routing
+%% design, a single hostile node could record traffic and later
+%% 
+%% ...
+%% 
+%% 
+%% Not secure against end-to-end attacks: Tor does not
+%% claim to completely solve end-to-end timing or intersection
+%% attacks. Some approaches, such as having users run their own
+%% onion routers, may help; see Section 9 for more discussion.
+%% 
+%% \cite{tor}
+% ----------------------------------------------------------------------------
 
-Reply onions have been replaced by a rendezvous system, 
+
 
 
 % ----------------------------------------------------------------------------
 \section{I2P}
+
+I2P (initially short for Invisible Internet Project)
+
+I2P is an anonymizing network, offering a simple layer that identity-sensitive applications can use to securely communicate. All data is wrapped with several layers of encryption, and the network is both distributed and dynamic, with no trusted parties.
+
+Many applications are available that interface with I2P, including mail, peer-peer, IRC chat, and others.
+
+
+ a low latency, fully distributed, autonomous, scalable, anonymous, resilient, and secure network
+
+  I2P is a low latency mix network, 
+
+
 \url{http://en.wikipedia.org/wiki/I2P}
+
+\url{http://www.i2p2.de/_static/images/endToEndEncryption.png}
+
+The first time a client wants to contact another client, they make a query against the fully distributed "network database" - a custom structured distributed hash table (DHT) based off the Kademlia algorithm. This is done to find the other client's inbound tunnels efficiently, but subsequent messages between them usually includes that data so no further network database lookups are required.
+
+This "garlic encryption" lets Alice's router wrap up multiple messages into a single "garlic message",
+
 
 
 
 % ----------------------------------------------------------------------------
 \section{OTR}
+
+The OTR protocol was designed by cryptographers Ian Goldberg and Nikita Borisov.
+
+Off-the-Record Messaging (zu deutsch: inoffizielle; vertrauliche, nicht für die Öffentlichkeit bestimmte Nachrichtenvermittlung) ist ein Protokoll zur Nachrichten-Verschlüsselung von Instant Messaging. Im Gegensatz zur Übertragung der verschlüsselten Nachrichten mittels GPG, PGP (oder in seltenen Fällen auch mittels X.509-Zertifikat) kann man beim Off-the-Record Messaging später nicht mehr feststellen, ob ein bestimmter Schlüssel von einer bestimmten Person genutzt wurde (deniability; Prinzip der Abstreitbarkeit). Dadurch lässt sich nach Beenden der Unterhaltung von niemandem (auch keinem der beiden Kommunikationspartner) beweisen, dass einer der Kommunikationspartner eine bestimmte Aussage gemacht hat.
+
+
+Off-the-Record Messaging, commonly referred to as OTR, is a cryptographic protocol that provides strong encryption for instant messaging conversations. OTR uses a combination of the AES symmetric-key algorithm, the Diffie–Hellman key exchange, and the SHA-1 hash function. In addition to authentication and encryption, OTR provides perfect forward secrecy and malleable encryption.
+
+authentication
+
+As of OTR 3.1 the protocol supports mutual authentication of users using a shared secret through the socialist millionaire protocol. This feature makes it possible for users to verify the identity of the remote party and avoid a man in the middle attack without the inconvenience of manually comparing public key fingerprints through an outside channel. 
+
+
+
+ Nikita Borisov, Ian Goldberg, Eric Brewer (2004-10-28). "Off-the-Record Communication, or, Why Not To Use PGP" (PDF). Workshop on Privacy in the Electronic Society. Retrieved 2006-08-29.
+ http://www.cypherpunks.ca/otr/otr-wpes.pdf
+ 
+\cite{otr}
+
+
 \url{http://de.wikipedia.org/wiki/Off-the-Record_Messaging}
 % ----------------------------------------------------------------------------
-\section{IP}
+\section{Freenet}
+
+Freenet is free software which lets you anonymously share files, browse and publish "freesites" (web sites accessible only through Freenet) and chat on forums, without fear of censorship. Freenet is decentralised to make it less vulnerable to attack, and if used in "darknet" mode, where users only connect to their friends, is very difficult to detect
+
+https://freenetproject.org/whatis.html
+
+\cite{freenet}
+
+% ----------------------------------------------------------------------------
+\section{RUDP}
 
 packet loss: ja
 Packet duplicates:
@@ -50,19 +154,23 @@ Out of order packets: don't care - no fragmentation
                 http://www.javvin.com/protocolRUDP.html
                         rfc908, rfc1151
 
-\subsection{TCP}
-Reliable transport
-\subsection{UDP}
+TCP Reliable transport
+UDP
 Connectionless
 Reliable connectionless\cite{rfc768}
-% ----------------------------------------------------------------------------
-\subsection{RUDP}
+
 Reliable connectionless\cite{rfc908,rfc1151}
 
 reliable: (up to a maximum number of retransmissions)
+
+In order to gain ensure quality, it extends UDP by adding the following additional features:
+Acknowledgment of received packets
+Windowing and flow control
+Retransmission of lost packets
+Overbuffering (Faster than real-time streaming)
+
 % ----------------------------------------------------------------------------
 \section{Enet}
-
 For unreliable packets, ENet will simply discard the lower sequence number packet if a packet with a higher sequence number has already been delivered. This allows the packets to be dispatched immediately as they arrive, and reduce latency of unreliable packets to an absolute minimum. For reliable packets, if a higher sequence number packet arrives, but the preceding packets in the sequence have not yet arrived, ENet will stall delivery of the higher sequence number packets until its predecessors have arrived.
 
 
@@ -91,3 +199,39 @@ Freedom
 ENet demands no royalties and doesn't carry a viral license that would restrict you in how you might use it in your programs. ENet is licensed under a short-and-sweet MIT-style license, which gives you the freedom to do anything you want with it (well, almost anything).
 
 http://enet.bespin.org/
+
+% ----------------------------------------------------------------------------
+High latency:
+\section{Mixmaster}
+Ein Mixmaster-Remailer (auch Typ-II-Remailer) ist ein anonymisierender Internetdienst, der E-Mails annimmt und weiterleitet (Remailer). Hierbei werden vor der Weiterleitung der Nachricht alle Informationen, die auf die Herkunft und den Absender schließen lassen, entfernt.
+
+
+\section{Mixminion}
+
+Low Latency:
+\section{Anonymizer}
+The simplest low-latency designs are single-hop proxies
+such as the Anonymizer [3]: a single trusted server strips
+the data’s origin before relaying it. These designs are easy to
+analyze, but users must trust the anonymizing proxy. Concen-
+trating the traffic to this single point increases the anonymity
+set (the people a given user is hiding among), but it is vul-
+nerable if the adversary can observe all traffic entering and
+leaving the proxy.
+
+\section{Pipenet}
+PipeNet [5, 12], another low-latency design proposed
+around the same time as Onion Routing, gave stronger
+anonymity but allowed a single user to shut down the net-
+work by not sending. 
+
+
+% ----------------------------------------------------------------------------
+
+\section{Further systems}
+
+Herbivore [25] and P5 [46]
+go even further, requiring broadcast. 
+\section{Babel}
+\section{Summary}
+Report of related communication protocols including strength and weaknesses
