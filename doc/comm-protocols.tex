@@ -73,68 +73,65 @@ the circuit.\footnote{Quote from \cite{tor}.}
 %% 
 %% \cite{tor}
 % ----------------------------------------------------------------------------
+\section{Off-the-Record Messaging (OTR)}
+Off-the-Record Messaging (OTR) has been introduced by
+Nikita Borisov, Ian Goldberg and Eric Brewer in 2004.\cite{otr}
+In contrast to other approaches OTR does not rely on long term
+keys as usually used in Public-Key-Cryptography. OTR instead
+uses short time keys, to prevent decryption of sniffed messages,
+if access to the private key is gained after some time.
 
-
-
-
-% ----------------------------------------------------------------------------
-\section{I2P}
-
-I2P (initially short for Invisible Internet Project)
-
-I2P is an anonymizing network, offering a simple layer that identity-sensitive applications can use to securely communicate. All data is wrapped with several layers of encryption, and the network is both distributed and dynamic, with no trusted parties.
-
-Many applications are available that interface with I2P, including mail, peer-peer, IRC chat, and others.
-
-
- a low latency, fully distributed, autonomous, scalable, anonymous, resilient, and secure network
-
-  I2P is a low latency mix network, 
-
-
-\url{http://en.wikipedia.org/wiki/I2P}
-
-\url{http://www.i2p2.de/_static/images/endToEndEncryption.png}
-
-The first time a client wants to contact another client, they make a query against the fully distributed "network database" - a custom structured distributed hash table (DHT) based off the Kademlia algorithm. This is done to find the other client's inbound tunnels efficiently, but subsequent messages between them usually includes that data so no further network database lookups are required.
-
-This "garlic encryption" lets Alice's router wrap up multiple messages into a single "garlic message",
-
-
-
-
-% ----------------------------------------------------------------------------
-\section{OTR}
-
-The OTR protocol was designed by cryptographers Ian Goldberg and Nikita Borisov.
-
-Off-the-Record Messaging (zu deutsch: inoffizielle; vertrauliche, nicht für die Öffentlichkeit bestimmte Nachrichtenvermittlung) ist ein Protokoll zur Nachrichten-Verschlüsselung von Instant Messaging. Im Gegensatz zur Übertragung der verschlüsselten Nachrichten mittels GPG, PGP (oder in seltenen Fällen auch mittels X.509-Zertifikat) kann man beim Off-the-Record Messaging später nicht mehr feststellen, ob ein bestimmter Schlüssel von einer bestimmten Person genutzt wurde (deniability; Prinzip der Abstreitbarkeit). Dadurch lässt sich nach Beenden der Unterhaltung von niemandem (auch keinem der beiden Kommunikationspartner) beweisen, dass einer der Kommunikationspartner eine bestimmte Aussage gemacht hat.
-
-
-Off-the-Record Messaging, commonly referred to as OTR, is a cryptographic protocol that provides strong encryption for instant messaging conversations. OTR uses a combination of the AES symmetric-key algorithm, the Diffie–Hellman key exchange, and the SHA-1 hash function. In addition to authentication and encryption, OTR provides perfect forward secrecy and malleable encryption.
-
-authentication
-
-As of OTR 3.1 the protocol supports mutual authentication of users using a shared secret through the socialist millionaire protocol. This feature makes it possible for users to verify the identity of the remote party and avoid a man in the middle attack without the inconvenience of manually comparing public key fingerprints through an outside channel. 
-
-
-
- Nikita Borisov, Ian Goldberg, Eric Brewer (2004-10-28). "Off-the-Record Communication, or, Why Not To Use PGP" (PDF). Workshop on Privacy in the Electronic Society. Retrieved 2006-08-29.
- http://www.cypherpunks.ca/otr/otr-wpes.pdf
- 
-\cite{otr}
-
-
-\url{http://de.wikipedia.org/wiki/Off-the-Record_Messaging}
+Furthermore OTR includes measures to include repudiability, though
+provide authentication during a session using
+message authentication codes (MAC).
+OTR works as a drop in for existing chat programs and offers auto-detection
+if the other side is capable of using OTR as well.
+%As of OTR 3.1 the protocol supports mutual authentication of users using a shared secret through the socialist millionaire protocol. This feature makes it possible for users to verify the identity of the remote party and avoid a man in the middle attack without the inconvenience of manually comparing public key fingerprints through an outside channel. 
+% \url{http://de.wikipedia.org/wiki/Off-the-Record_Messaging}
 % ----------------------------------------------------------------------------
 \section{Freenet}
-
-Freenet is free software which lets you anonymously share files, browse and publish "freesites" (web sites accessible only through Freenet) and chat on forums, without fear of censorship. Freenet is decentralised to make it less vulnerable to attack, and if used in "darknet" mode, where users only connect to their friends, is very difficult to detect
-
-https://freenetproject.org/whatis.html
-
-\cite{freenet}
-
+Freenet has been published in 2001 by
+Ian Clarke , Oskar Sandberg , Brandon Wiley and Theodore W. Hong.\cite{freenet}
+Its primary use the anonymous storage (and retrieval) of files.
+Freenet is described as follwing:
+\begin{quote}
+Freenet is free software which lets you anonymously share files, browse and publish "freesites" (web sites accessible only through Freenet) and chat on forums, without fear of censorship. Freenet is decentralised to make it less vulnerable to attack, and if used in "darknet" mode, where users only connect to their friends, is very difficult to detect.\footnote{Quote from \url{https://freenetproject.org/whatis.html}}
+\end{quote}
+% ----------------------------------------------------------------------------
+\section{I2P}
+The I2P project, originally Invisible Internet Project, is supposed to be
+"`a scalable framework for anonymous communication"'.\cite{i2p} 
+It is described on the website as following:
+\begin{quote}
+I2P initially began in Feb 2003 as a proposed modification to Freenet to allow it to use alternate transports, such as JMS, then grew into its own as an 'anonCommFramework' in April 2003, turning into I2P in July, with code being written in earnest starting in August '03. I2P is currently under development, 
+following the roadmap.\footnote{Quote from \url{http://www.i2p2.de/how_intro}.}
+\\
+...
+\\
+I2P is a scalable, self organizing, resilient packet switched anonymous network layer, upon which any number of different anonymity or security conscious applications can operate. Each of these applications may make their own anonymity, latency, and throughput tradeoffs without worrying about the proper implementation of a free route mixnet, allowing them to blend their activity with the larger anonymity set of users already running on top of I2P.\footnote{Quote from \url{http://www.i2p2.de/techintro.html}.}
+\end{quote}
+Although the overall of the impression of the website indicates that it may provide a
+reasonable base for anonymous communications, the lack of a central architecture or
+design paper makes it hard to judge about it.
+%% I2P (initially short for Invisible Internet Project)
+%% 
+%% I2P is an anonymizing network, offering a simple layer that identity-sensitive applications can use to securely communicate. All data is wrapped with several layers of encryption, and the network is both distributed and dynamic, with no trusted parties.
+%% 
+%% Many applications are available that interface with I2P, including mail, peer-peer, IRC chat, and others.
+%% 
+%% 
+%%  a low latency, fully distributed, autonomous, scalable, anonymous, resilient, and secure network
+%% 
+%%   I2P is a low latency mix network, 
+%% 
+%% 
+%% \url{http://en.wikipedia.org/wiki/I2P}
+%% 
+%% \url{http://www.i2p2.de/_static/images/endToEndEncryption.png}
+%% 
+%% The first time a client wants to contact another client, they make a query against the fully distributed "network database" - a custom structured distributed hash table (DHT) based off the Kademlia algorithm. This is done to find the other client's inbound tunnels efficiently, but subsequent messages between them usually includes that data so no further network database lookups are required.
+%% 
+%% This "garlic encryption" lets Alice's router wrap up multiple messages into a single "garlic message",
 % ----------------------------------------------------------------------------
 \section{RUDP}
 
@@ -201,37 +198,34 @@ ENet demands no royalties and doesn't carry a viral license that would restrict 
 http://enet.bespin.org/
 
 % ----------------------------------------------------------------------------
-High latency:
-\section{Mixmaster}
-Ein Mixmaster-Remailer (auch Typ-II-Remailer) ist ein anonymisierender Internetdienst, der E-Mails annimmt und weiterleitet (Remailer). Hierbei werden vor der Weiterleitung der Nachricht alle Informationen, die auf die Herkunft und den Absender schließen lassen, entfernt.
-
-
-\section{Mixminion}
-
-Low Latency:
-\section{Anonymizer}
-The simplest low-latency designs are single-hop proxies
-such as the Anonymizer [3]: a single trusted server strips
-the data’s origin before relaying it. These designs are easy to
-analyze, but users must trust the anonymizing proxy. Concen-
-trating the traffic to this single point increases the anonymity
-set (the people a given user is hiding among), but it is vul-
-nerable if the adversary can observe all traffic entering and
-leaving the proxy.
-
-\section{Pipenet}
-PipeNet [5, 12], another low-latency design proposed
-around the same time as Onion Routing, gave stronger
-anonymity but allowed a single user to shut down the net-
-work by not sending. 
-
-
+%%% High latency:
+\section{Remailer}
+Besides anonymous networks for generic packet sending, the remailer approach
+to send emails anonymiously, have been quite popular.
+Projects like Mixmaster\cite{mixmaster}, 
+Babel\cite{babel} or Mixminion\cite{mixminion} implement
+the Mixes principle\cite{Chaum:1981:UEM:358549.358563}.
+%% Low Latency:
+%% \section{Anonymizer}
+%% The simplest low-latency designs are single-hop proxies
+%% such as the Anonymizer [3]: a single trusted server strips
+%% the data’s origin before relaying it. These designs are easy to
+%% analyze, but users must trust the anonymizing proxy. Concen-
+%% trating the traffic to this single point increases the anonymity
+%% set (the people a given user is hiding among), but it is vul-
+%% nerable if the adversary can observe all traffic entering and
+%% leaving the proxy.
+%% 
+%% \section{Pipenet}
+%% PipeNet [5, 12], another low-latency design proposed
+%% around the same time as Onion Routing, gave stronger
+%% anonymity but allowed a single user to shut down the net-
+%% work by not sending. 
 % ----------------------------------------------------------------------------
-
 \section{Further systems}
-
+Pipenet
 Herbivore [25] and P5 [46]
 go even further, requiring broadcast. 
-\section{Babel}
+% ----------------------------------------------------------------------------
 \section{Summary}
 Report of related communication protocols including strength and weaknesses
