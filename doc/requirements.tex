@@ -1,25 +1,64 @@
 \chapter{Analysis of features and security requirements}
 \label{requirements}
-
-\subsection{TO ADD}
-From EOF + Latency "`low"', eventual consistency
-
-\subsubsection{Steganographic}
-Not for hiding, but to support longer überleben?
-http is pretty well suited for this.
-mixing with smtp, imap, pop3, tcp. etc.
-
-
+While in chapters \ref{chatsystems} and \ref{commprotocols}
+the chat systems and the related communication protocols
+are described, this chapter summarises the relevant features
+and security requirements and describes if the
+given topic is taken care of in the proposed chat protocol.
+The implementation details of the features are covered in
+subsection \ref{protofeatures}.
+%% Anonymity
+%% 
+%% 4.1.1 Warum? Wird das an anderer Stelle erklaert?
+%% 
+%% Mir erscheint es (auf den ersten Blick) etwas unklar, was mit Anonymität
+%% gemeint ist. Ich glaube, was du hauptsaechlich mit Anonymitaet meinst,
+%% ist "Confidentiality of the communication" aka the attacker is not able
+%% to perform traffic analysis and e.g. figure out, that A is talking to B.
+%% Du hast das ja schon angetoent mit Sender anon. und Receiver anon. Ich
+%% glaube auch, du solltest etwas genauer beschreiben, was du mit "attacker
+%% controls all hosts" meinst.
+%% 
+%% Integrity
+%% 
+%% Mir ist schon klar, was Du mit Integrity meinst, aber vielleicht
+%% solltest Du das ein bisschen genauer umschreiben.
+%% 
+%% Availability
+%% 
+%% Was heisst single attacker? Und vor allem, was genau heisst, dass das
+%% Netzwerk so einen Angriff ueberleben kann? Und spielt das eine Rolle,
+%% sagen wir wenn ein bestimmter Benutzer denial of service hat?
 % -----------------------------------------------------------------------------
-From the previous analysis of chat systems and related communication protocols,
-several drawbacks can be seen. Most systems suffer a single point of failure,
-which is due to the central architecture. Further the message content is often
-neither protected nor verified.
-
-The following security features are derived from the weaknesses of the previously
-analysed systems as well from the thesis objectives.
+%% From the previous analysis of chat systems and related communication protocols,
+%% several drawbacks can be seen. Most systems suffer a single point of failure,
+%% which is due to the central architecture. Further the message content is often
+%% neither protected nor verified.
+%% 
+%% The following security features are derived from the weaknesses of the previously
+%% analysed systems as well from the thesis objectives.
 % -----------------------------------------------------------------------------
-\section{Anonymity}
+\section{Chat features}
+\subsection{Multi User Chat (MUC)}
+Several chat systems support the multi user chat, in which one user sends a message
+which is received by a group of recipients.
+
+This thesis focuses on direct chat (1:1) and does not support multi user chat.
+% -----------------------------------------------------------------------------
+\subsection{File Transfer}
+Some chat systems support sending and receiving of files in the protocol.
+As file transfer is just a special method of message sending and can be
+added by another protocol layer, this chat protocol does not explicitly
+support file transfer.\footnote{File transfer could easily be implemented
+on top of the chat protocol by encoding and splitting
+files into chat messages and marking them with a special keyword.}
+% -----------------------------------------------------------------------------
+\subsection{Voice Communication}
+Voice communication as seen in Skype is not the focus of the thesis and for
+this reason not supported.
+% -----------------------------------------------------------------------------
+\section{Security Requirements}
+\subsection{Anonymity}
 There are four different types of anonymity:
 \begin{itemize}
 \item Pseudonymity
@@ -54,73 +93,52 @@ is communicating, Sender-Receiver anonymity is given.
 \end{figure}
 The three figures \ref{senderanon}, \ref{receiveranon} and
 \ref{senderreceiveranon} visualise the differences.
-% -----------------------------------------------------------------------------
-\subsection{Sender to receiver anonymity}
-Providing anonymity of two people talking to each other is \textbf{not} 
-required due to the objectives of this thesis.
-% Nico: 1 => reformulate
-% -----------------------------------------------------------------------------
-\subsection{Receiver identification}
-The receiver should be able to verify the identity of the sender, so she
-can be sure that the message originated from the correct person.
-% Nico: 1 => reformulate
-% -----------------------------------------------------------------------------
-\section{Confidentiality}
-The content of the conversations should be hidden from eavesdropper.
-Being able to read the content of messages may also reveal the identity
-of the chat partners and thus the anonymity would vanish.
-% Nico: 1 => reformulate
 
+Although a lot of communication protocols address the challenge
+to provide a level of anonymity, this topic has not been covered
+by the chat systems. On the other hand, there are various attempts
+to allow chat systems to be run in an anonymity network (like I2P), 
+though this requires the user, and the peer she wants to talk to,
+to install and use the full fledged anonymity network.
+
+The aim of this thesis is to close this gap, to provide a chat system
+that provides anonymity, without requiring an additional network stack
+to be present.
+% -----------------------------------------------------------------------------
+\subsection{Confidentiality}
+Confidentiality is defined to allow only authorized parties to access
+a given set of information. Besides hiding the real content of a conversation,
+confidentiality indirectly assists anonymity, because it is not possible to
+derive who is talking from the content.
+
+For this reason all messages that are send using the defined chat protocol
+have to be treated confidential.
 % FIXME: solution:
 % We encrypt every message via public-key cryptography\cite{pgp-1},
 % so that only the receiver can decrypt and view the message content.
 % 
 % -----------------------------------------------------------------------------
-\section{Authenticity}
-
-Know who he/she is and that the message is correct.
-As messages may contain important content, it is necessary that the integrity
-is guaranteed.
-% Nico: 1 => reformulate
-% -----------------------------------------------------------------------------
-\section{Availability}
-Most traditional systems rely on central infrastructure to operate, in which a
-single party (like the operator) can disable the service. 
-No service can be run reliable, if an attacker with infinite resources is assumed.
-Thus the requirement for this chat system is to survive the attack of a single
-party and to continue delivering the chat service.
-% Nico: 1
-% -----------------------------------------------------------------------------
-%\section{Non security related features}
-%To be able to be compete with other chat protocols, \emph{direct} 
-%and \emph{group chat} should be supported.
-%\subsection{Direct chat
-%implemented by two different chat destinations:
-%\begin{enumerate}
-%\item \emph{Peers}
-%\item \emph{Groups of peers}
-%\end{enumerate}
-%A peer is just another person (direct chat), a group of peers is the EOF
-%equivalent of the IRC channel\cite{irc-1}. As there is no central server,
-%groups of peers are managed by each client, and thus the compositions of
-%group members may be different on different peers.
-%-- 
-%Additionally, for practical reasons, EOF must support the following
-%chat features:
-%\begin{enumerate}
-%\item Direct chat ("`message is only seen by one person"')
-%\item Group chat ("`message is sent to specific group, which may consist of
-%more than one person"')
-%\end{enumerate}
-% -----------------------------------------------------------------------------
-\section{Summary}
+\subsection{Authenticity}
+Authenticity ensures that
 \begin{enumerate}
-%\item Nobody, but the intended receiver(s) know(s) \emph{that} you wrote a message.
-\item Nobody, but the intended receiver(s) can view the \emph{message content}.
-\item Nobody, but the intended receiver(s) can \emph{verify} the source of the message being you.
-\item Nobody, but the intended receiver(s) know(s) \emph{who} the message was sent to.
-\item The network must survive attacks of a single attacker.
-%\item Hard (if not practilcally impossible) to block chatting.
+\item the message content has not been modified (integrity is consistent) and that
+\item the receiver can verify that the message has been sent by the right person
 \end{enumerate}
+Both requirements should be supported by the provided chat protocol.
+% -----------------------------------------------------------------------------
+\subsection{Availability}
+Availability in a chat system is important in two directions:
+\begin{enumerate}
+\item Ensure that receiving messages is possible
+\item Ensure that sending messages is possible
+\end{enumerate}
+Most traditional systems rely on central infrastructure to operate, in which a
+single party (like the operator) can disable the service, either for an individual
+participant or for the whole network.
+Even if a decentralised architecture is given,
+no service can be run reliable, if an attacker with infinite resources is assumed.
 
+Thus the requirement for this chat system is to survive the attack of 
+a single denial of service attack, which continuing to
+be able to send and receive messages.
 

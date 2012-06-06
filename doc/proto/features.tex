@@ -1,5 +1,6 @@
 % ----------------------------------------------------------------------------
 \section{Features}
+\label{protofeatures}
 This section describes which features are supported by the chat protocol.
 Figure \ref{features-technologies} gives a quick overview of how the
 features relate to the used technologies.
@@ -102,7 +103,27 @@ the following techniques are used to support the availbility:
 \item Transport protocol multiplexing (\ref{multiplexing}, p. \pageref{multiplexing})
 \item Transport protocol tunneling (\ref{tunneling}, p. \pageref{tunneling})
 \end{itemize}
+
+\subsubsection{Steganographic}
+Not for hiding, but to support longer überleben?
+http is pretty well suited for this.
+mixing with smtp, imap, pop3, tcp. etc.
+
+FIXME 
+
 % ----------------------------------------------------------------------------
 \subsection{Direct chat}
 This chat protocol supports only direct chat (1:1) as opposed 
 to multi user / group chat.
+% ----------------------------------------------------------------------------
+\section{Summary}
+\begin{enumerate}
+% FIXME: enable this one?
+%\item Nobody, but the intended receiver(s) know(s) \emph{that} you wrote a message.
+\item Nobody, but the intended receiver(s) can view the \emph{message content}.
+\item Nobody, but the intended receiver(s) can \emph{verify} the source of the message being you.
+\item Nobody, but the intended receiver(s) know(s) \emph{who} the message was sent to.
+\item The network must survive attacks of a single attacker.
+%\item Hard (if not practilcally impossible) to block chatting.
+\end{enumerate}
+FIXME 
