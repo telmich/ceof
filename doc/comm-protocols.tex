@@ -134,77 +134,90 @@ design paper makes it hard to judge about it.
 %% 
 %% This "garlic encryption" lets Alice's router wrap up multiple messages into a single "garlic message",
 % ----------------------------------------------------------------------------
-\section{RUDP}
-Due to the nature of chat messages the use of a stream orientated protocol like
-TCP
-
-packet loss: ja
-Packet duplicates:
-Out of order packets: don't care - no fragmentation
-    - probably missing conversation!
-    Bit errors: not applicable
-    Delay of packets: upper limit (?) 
-
-
-    - verschieden kaäle:
-        - email = sticky, cached, slow
-            - tcp = fast, temporarily
-
-            - rudp:
-                http://www.javvin.com/protocolRUDP.html
-                        rfc908, rfc1151
-
-TCP Reliable transport
-UDP
-Connectionless
-Reliable connectionless\cite{rfc768}
-
-Reliable connectionless\cite{rfc908,rfc1151}
-
-reliable: (up to a maximum number of retransmissions)
-
-In order to gain ensure quality, it extends UDP by adding the following additional features:
-Acknowledgment of received packets
-Windowing and flow control
-Retransmission of lost packets
-Overbuffering (Faster than real-time streaming)
-
+\section{Reliable UDP (RUDP)}
+Reliable UDP was specified in an internet draft at IETF written in 1999 by
+T. Bova and T. Krivoruchka.\cite{rudp}
+The relevant features RUDP enhanced UDP\cite{rfc768} with
+are:
+\begin{itemize}
+\item Acknowledgment of received packets
+\item Retransmission of lost packets
+\end{itemize}
+RUDP relates to this thesis, because it provides a simple method
+to create reliability over an unreliable link. RUDP is
+featured by sequence numbers and a synchronisation at communication
+begin similar to TCP.\cite{rfc793}
+RUDP ensures reliability by providing a resend mechanismus, which may
+be adjusted to resend messages infinitely until the the message has
+been acknowledged from the peer.
+Due to the use of sequence numbers packet duplication can be detected
+with RUDP as well.
+%% Packet duplicates:
+%% Out of order packets: don't care - no fragmentation
+%%     - probably missing conversation!
+%%     Bit errors: not applicable
+%%     Delay of packets: upper limit (?) 
+%% 
+%% 
+%%     - verschieden kaäle:
+%%         - email = sticky, cached, slow
+%%             - tcp = fast, temporarily
+%% 
+%%             - rudp:
+%%                 http://www.javvin.com/protocolRUDP.html
+%%                         rfc908, rfc1151
+%% 
+%% TCP Reliable transport
+%% UDP
+%% Connectionless
+%% Reliable connectionless\cite{rfc768}
+%% 
+%% Reliable connectionless\cite{rfc908,rfc1151}
+%% 
+%% reliable: (up to a maximum number of retransmissions)
+%% 
+%% In order to gain ensure quality, it extends UDP by adding the following additional features:
+%% Acknowledgment of received packets
+%% Windowing and flow control
+%% Retransmission of lost packets
+%% Overbuffering (Faster than real-time streaming)
+%% 
 % ----------------------------------------------------------------------------
-\section{Enet}
-
-\begin{quote}
-ENet's purpose is to provide a relatively thin, simple and robust network communication layer on top of UDP (User Datagram Protocol). The primary feature it provides is optional reliable, in-order delivery of packets.
-
-\end{quote}
-For unreliable packets, ENet will simply discard the lower sequence number packet if a packet with a higher sequence number has already been delivered. This allows the packets to be dispatched immediately as they arrive, and reduce latency of unreliable packets to an absolute minimum. For reliable packets, if a higher sequence number packet arrives, but the preceding packets in the sequence have not yet arrived, ENet will stall delivery of the higher sequence number packets until its predecessors have arrived.
-
-
-Reliability
-
-ENet provides optional reliability of packet delivery by ensuring the foreign host acknowledges receipt of all reliable packets. ENet will attempt to resend the packet up to a reasonable amount of times, if no acknowledgement of the packet's receipt happens within a specified timeout. Retry timeouts are progressive and become more lenient with every failed attempt to allow for temporary turbulence in network conditions.
-
-Fragmentation and Reassembly
-
-ENet will send and deliver packets regardless of size. Large packets are fragmented into many smaller packets of suitable size, and reassembled on the foreign host to recover the original packet for delivery. The process is entirely transparent to the developer.
-
-Aggregation
-
-ENet aggregates all protocol commands, including acknowledgements and packet transfer, into larger protocol packets to ensure the proper utilization of the connection and to limit the opportunities for packet loss that might otherwise result in further delivery latency.
-
-Adaptability
-
-ENet provides an in-flight data window for reliable packets to ensure connections are not overwhelmed by volumes of packets. It also provides a static bandwidth allocation mechanism to ensure the total volume of packets sent and received to a host don't exceed the host's capabilities. Further, ENet also provides a dynamic throttle that responds to deviations from normal network connections to rectify various types of network congestion by further limiting the volume of packets sent.
-
-Portability
-
-ENet works on Windows and any other Unix or Unix-like platform providing a BSD sockets interface. The library has a small and stable code base that can easily be extended to support other platforms and integrates easily. ENet makes no assumptions about the underlying platform's endianess or word size.
-
-Freedom
-
-ENet demands no royalties and doesn't carry a viral license that would restrict you in how you might use it in your programs. ENet is licensed under a short-and-sweet MIT-style license, which gives you the freedom to do anything you want with it (well, almost anything).
-
-http://enet.bespin.org/
-
+%% \section{Enet}
+%% 
+%% \begin{quote}
+%% ENet's purpose is to provide a relatively thin, simple and robust network communication layer on top of UDP (User Datagram Protocol). The primary feature it provides is optional reliable, in-order delivery of packets.
+%% 
+%% \end{quote}
+%% For unreliable packets, ENet will simply discard the lower sequence number packet if a packet with a higher sequence number has already been delivered. This allows the packets to be dispatched immediately as they arrive, and reduce latency of unreliable packets to an absolute minimum. For reliable packets, if a higher sequence number packet arrives, but the preceding packets in the sequence have not yet arrived, ENet will stall delivery of the higher sequence number packets until its predecessors have arrived.
+%% 
+%% 
+%% Reliability
+%% 
+%% ENet provides optional reliability of packet delivery by ensuring the foreign host acknowledges receipt of all reliable packets. ENet will attempt to resend the packet up to a reasonable amount of times, if no acknowledgement of the packet's receipt happens within a specified timeout. Retry timeouts are progressive and become more lenient with every failed attempt to allow for temporary turbulence in network conditions.
+%% 
+%% Fragmentation and Reassembly
+%% 
+%% ENet will send and deliver packets regardless of size. Large packets are fragmented into many smaller packets of suitable size, and reassembled on the foreign host to recover the original packet for delivery. The process is entirely transparent to the developer.
+%% 
+%% Aggregation
+%% 
+%% ENet aggregates all protocol commands, including acknowledgements and packet transfer, into larger protocol packets to ensure the proper utilization of the connection and to limit the opportunities for packet loss that might otherwise result in further delivery latency.
+%% 
+%% Adaptability
+%% 
+%% ENet provides an in-flight data window for reliable packets to ensure connections are not overwhelmed by volumes of packets. It also provides a static bandwidth allocation mechanism to ensure the total volume of packets sent and received to a host don't exceed the host's capabilities. Further, ENet also provides a dynamic throttle that responds to deviations from normal network connections to rectify various types of network congestion by further limiting the volume of packets sent.
+%% 
+%% Portability
+%% 
+%% ENet works on Windows and any other Unix or Unix-like platform providing a BSD sockets interface. The library has a small and stable code base that can easily be extended to support other platforms and integrates easily. ENet makes no assumptions about the underlying platform's endianess or word size.
+%% 
+%% Freedom
+%% 
+%% ENet demands no royalties and doesn't carry a viral license that would restrict you in how you might use it in your programs. ENet is licensed under a short-and-sweet MIT-style license, which gives you the freedom to do anything you want with it (well, almost anything).
+%% 
+%% http://enet.bespin.org/
+%% 
 % ----------------------------------------------------------------------------
 %%% High latency:
 \section{Remailer}
