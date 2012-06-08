@@ -87,7 +87,10 @@ Networt traffic
 \section{Command Line Options}
 
 % ----------------------------------------------------------------------------
-\section{Tests}
+\section{Test of the Prototype}
+%    6. Description of test results
+
+
 % ----------------------------------------------------------------------------
 \subsection{Performance}
 %\subsection{Packet size}
@@ -193,10 +196,6 @@ Before the encrypt the packet, it is signed via public-key
 cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
 
 
-% ----------------------------------------------------------------------------
-\section{Usage}
-
-
 % #############################################################################
 \section{Transport protocols ("`eofi2tp"')}
 \label{eofi2tp}
@@ -205,6 +204,7 @@ cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
 URL, URI, Scheme clearification, use tcp:// and http:// syntax.
 
 
+\begin{longtable}{|c|c|}
 \caption{Required transport protocols}\\
 \hline
 \textbf{Scheme} & \textbf{Name}\\
@@ -259,30 +259,6 @@ tcp & IP/TCP & \verb=tcp:host:port= & Plain tcp\\
 The following transport protocol implementations have been proposed,
 but are not yet implemented and thus not yet part of the standard:
 
-\begin{longtable}{|c|c|c|c|}
-\caption{Upcoming transport protocols}\\
-\hline
-\textbf{Scheme} & \textbf{Name} & \textbf{Format} & \textbf{Description}\\
-\hline
-dns & DNS       & \verb=dns:host:port:type= & Package via DNS\\
-\hline
-http & HTTP       & \verb=http:host:port/path= & Plain http\\
-\hline
-https & HTTPS     & \verb=https:host:port/path= & http with ssl\\
-\hline
-mailto & E-Mail   & \verb=mailo:address= & Send package as e-mail\\
-\hline
-mediawiki & Mediawiki   & \verb=mediawiki:host:port:page= & Transfer via Mediawiki\\
-\hline
-smb  & SMB     & \verb=smb:[user[:password]@]host:path= & Server message block\\
-\hline
-smtp & SMTP     & \verb=smtp:[user[:password]@]host:port= & http with ssl\\
-\hline
-tcps & IP/TCP/SSL & \verb=tcps:host:port= & tcp with ssl around\\
-\hline
-udp & IP/UPD      & \verb=udp:host:port= & Plain UDP\\
-\hline
-\end{longtable}
 % -----------------------------------------------------------------------------
 \subsection{Developing and integrating implementations}
 If you want to create a new transport protocol, create the two

@@ -7,7 +7,7 @@ PARTS+= proto/ui.tex proto/user.tex proto/features.tex proto/noise.tex
 PARTS+= proto/onion.tex proto/tp.tex proto/messages.tex
 PARTS+= proto/pgp.tex
 PARTS+= proto/basic-data.tex proto/simple-data.tex proto/packet-types.tex
-PARTS+= nico.bib implementation/transport.tex
+PARTS+= nico.bib
 
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
