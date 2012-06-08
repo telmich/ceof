@@ -47,11 +47,11 @@ class TransportProtocol(object):
                 print(protocol)
         elif args.route_to:
             peer = ceof.Peer.from_disk(config.peer_dir, args.name)
-            route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
+            route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
             print(route)
         elif args.chain_to:
             peer = ceof.Peer.from_disk(config.peer_dir, args.name)
-            route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ROUTERS)
+            route = cls.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
             chain = cls.chained_pkg(route, peer, "test")
             print(chain)
 

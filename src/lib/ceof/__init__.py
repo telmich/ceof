@@ -41,7 +41,7 @@ EOF_L_MSG_FULL          = EOF_L_VERSION+EOF_L_CMD+EOF_L_ID+EOF_L_ADDRESS+EOF_L_G
 EOF_L_PKG_MAX           = 65536
 
 # Number of peers to add to travel the packet through
-EOF_L_ADDITIONAL_PEERS  = 8
+EOF_L_ADDITIONAL_PEERS  = 5
 
 # Baseformat for IDs
 EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
