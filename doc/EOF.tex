@@ -1,0 +1,55 @@
+\documentclass[12pt,a4paper]{book}
+\usepackage[latin1]{inputenc}    % Ascii-Format dieses Dokuments
+\usepackage{longtable}           % lange Tabellen
+\usepackage{makeidx}             % indexing
+\makeindex
+
+\begin{document}
+\title{EOF\\Eris Onion Forwarding\\
+The secure, peer-to-peer, decentralised
+anonymous chat network\thanks{Version 0.6}}
+%\date{...}
+\author{Nico -telmich- Schottelius}
+
+\maketitle
+\tableofcontents
+%\newpage
+
+% -----------------------------------------------------------------------------
+\chapter{Introduction}
+% ----------------------------------------------------------------------------
+\section{Copying}
+Copy it as you like - send corrections to me.
+% Nico: 1.0
+% FIXME: Free, see creative commons!
+% -----------------------------------------------------------------------------
+% -----------------------------------------------------------------------------
+\section{Motivation}
+% -----------------------------------------------------------------------------
+\subsection{Current implementations are not secure}
+There are already many different chat protocols available like
+\begin{itemize}
+\item talk
+\item IRC
+\item SILC
+\item Jabber
+\item ICQ
+\item Skype
+\end{itemize}
+Only two of those protocols contains mandority encryption (SILC, Skype), which
+still lacks many features for secure chatting.\footnote{Most of them can be
+enhanced to use TLS/SSL, but this is not enforced.} Skype and SILC still
+depend on a central server architecture. The Skype architecture is not
+publicly documentated, the executing binary is encrypted, and the system
+depends on a single company, which excluded it from being a secure chat
+system.
+
+Because SILC depends on a central server architecture, it was also excluded.
+% Nico: 1.0
+% FIXME: add references for protocols!
+% -----------------------------------------------------------------------------
+\subsection{Create more crypto traffic}
+We also want to convey usage of PGP: currently PGP is quite seldom.
+Thus if you use PGP, you may be conspicuous. We try to make PGP encrypted
+packets part of the regular internet traffic, like webtraffic is today.
+% Nico: 1.0

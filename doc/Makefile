@@ -1,6 +1,6 @@
 SDOC=thesis.tex
 PARTS=chatsystems.tex comm-protocols.tex conclusions.tex
-PARTS+=implementation-prototype.tex references.tex requirements.tex
+PARTS+=implementation.tex references.tex requirements.tex
 PARTS+= introduction.tex othersystems.tex protocol.tex
 PARTS+= test-prototype.tex thesis.tex
 PARTS+= proto/ui.tex proto/user.tex proto/features.tex proto/noise.tex

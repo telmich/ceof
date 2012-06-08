@@ -1,44 +1,399 @@
 % ----------------------------------------------------------------------------
 \chapter{Implementation of the Prototype}
+The prototype was developed using spiral software development model.
+It is named \textit{ceof}. The source code can be found in the subdirectory
+\textit{src}.
 % 5. Technical documentation and prototype for the new chat system
 % ----------------------------------------------------------------------------
-\section{Usage}
-How to use.
-% ----------------------------------------------------------------------------
-\section{Development Process}
-spiral
-% ----------------------------------------------------------------------------
 \section{Environment}
-% ----------------------------------------------------------------------------
-\subsection{Preperation}
+The prototype was developed using the Python3 programming language.
+In addition to the standard libraries, the python-gnupg module is required.
+To create a python environment that is suitable for running and developing
+the prototype, a new virtualenv including the required python-gnupg module
+can be created using the following commands:
 \begin{verbatim}
-% virtualenv python-env
+% virtualenv -p /usr/bin/python3 python-env
 % . ./python-env/bin/activate
 % pip install python-gnupg
 % (cd python-env/bin && ln -s python python3)
 \end{verbatim}
-python gnupg, virtualenv
-Cross-OS. Posix and/or ansi-c. ui changable.
-Sockets, Environment, Paths, etc.
-Support for different OS would have made development more
-hard, so support for POSIX alike operating systems was targeted.
-
-\section{Python and GPG}
-Various implementations \cite{python-gpg}
-PyMe: 3 Nachrichten in 2010
-\url{http://sourceforge.net/mailarchive/forum.php?forum_name=pyme-help&style=threaded}
-
-python-gnupg commits in september 2011 \cite{python-gnupg}
-
-Selected python-gnupg
-
-\subsection{Configuration}
-The configuration of EOFi is stored in the cconfig\cite{cconfig} format.
-% Nico: FIXME for 1.0: cite
-
+Because python is an interpreted scripting language with interpreters
+available for all major plattforms, the prototype should be runable
+on all major plattforms.
+All configurations are saved in the \textit{cconfig}\cite{cconfig} format.
+The path to the configuration directory is usually derived by taking
+the content of the environment variable \textit{HOME} and appending
+the subdirectory \textit{.ceof}. On Linux this is referenced as
+\textit{\textasciitilde{}/.ceof/}.
 % ----------------------------------------------------------------------------
-\section{Related Project: Chat UI}
-Own program, indepentend of core, side project
+\section{Usage}
+% ----------------------------------------------------------------------------
+\subsection{Command Line Interface (CLI)}
+The implemented prototype can be used using a command line interface.
+All operations are grouped into commands, which are handled by the
+executable \textit{bin/ceof}. If a subcommand is followed by the parameter
+\textit{-h}, then a usage screen is displayed.
+% ----------------------------------------------------------------------------
+\subsection{Cryptographic Operations}
+All cryptographic operations are accessable by using the \textit{crypto}
+command, as shown in figure \ref{cryptohelp}.
+\begin{figure}
+\caption{Crypto Command Usage}
+\label{cryptohelp}
+\begin{verbatim}
+(python-env)[18:40] brief:src% ./bin/ceof crypto -h
+usage: ceof crypto [-h] [-d] [-v] [-c CONFIG_DIR]
+                   [--encrypt ENCRYPT [ENCRYPT ...]] [--decrypt] [-e] [-f]
+                   [-g] [-i] [-l LENGTH] [--name NAME]
+                   [--email-address EMAIL_ADDRESS] [-s]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Set log level to debug
+  -v, --verbose         Set log level to info, be more verbose
+  -c CONFIG_DIR, --config-dir CONFIG_DIR
+                        Select configuration directory ($HOME/.ceof by
+                        default)
+  --encrypt ENCRYPT [ENCRYPT ...]
+                        Encrypt from stdin (specify recipients)
+  --decrypt             Decrypt from stdin
+  -e, --export          Export public key to stdout
+  -f, --fingerprint     Show key fingerprint
+  -g, --gen-key         Generate new private/public key pair
+  -i, --import          Import public key from stdin
+  -l LENGTH, --length LENGTH
+                        Specify bit length for key generation
+  --name NAME           Name (for key generate)
+  --email-address EMAIL_ADDRESS
+                        E-Mail-Address (for key generate)
+  -s, --show            Show private/public key pair
+
+Get ceof at http://www.nico.schottelius.org/software/ceof/
+\end{verbatim}
+\end{figure}
+At first is it required to create a new public/private key pair using
+the \textit{--gen-key} parameter (figure \ref{genkey}), which can
+be displayed using the \textit{--show} parameter (figure \ref{showkey})
+and exported using the \textit{--export}
+parameter (figure \ref{exportkey}).
+\begin{figure}
+\caption{Generation of Public/Private Key Pair}
+\label{genkey}
+\begin{verbatim}
+(python-env)[18:52] brief:src% ./bin/ceof crypto --gen-key 
+    --name "Nico Schottelius" --email-address "nico@example.org"
+\end{verbatim}
+\end{figure}
+\begin{figure}
+\caption{Show Public/Private Key Pair}
+\label{showkey}
+\begin{verbatim}
+(python-env)[18:54] brief:src% ./bin/ceof crypto --show
+{'dummy': '', 'keyid': 'C5FC26760DD842D6', 'expires': '', 'length': '2048',
+'ownertrust': '', 'algo': '1',
+'fingerprint': '77E54EF64A6395FF2769B2F4C5FC26760DD842D6',
+'date': '1339174371', 'trust': '', 'type': 'sec',
+'uids': ['Nico Schottelius (EOF42KEY) <nico@example.org>']}
+\end{verbatim}
+\end{figure}
+\begin{figure}
+\caption{Export Public Key}
+\label{exportkey}
+\begin{verbatim}
+(python-env)[19:23] brief:src% ./bin/ceof crypto --export
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+mQENBE/SLeMBCACu5sWt3j/ZTqZZ5eZw+cTvkIG6DwWaeVZjv+A+Dd7xZhbMBeyZ
+q70CuOEURGLQUQQKtyT7bvTBjk8lkL2zcgIJ2a/MQQneJc+fEqB+ovlPM+Bl4qLf
+TIuBMPnI+1OMOuTx0Agtys+6/9YaIdKaedtIqrZhVVsbaFAeE6MTHSm0i9bTtvyk
+bH+X0JurCNL8nKEjf6SdSrQGdmohV/VyQTGlMZPaYG58LjCMKxbqWMb3lVKsmyRr
+N4bZFPePzqBJzmqyH/noyoNuzbSUhNvUw27JzTL51u1JfMm2kQmkG1NZgLwXg6/W
+e5FYbVoVI3LMj9NDABZ42y3mCv0QJJP6LkvdABEBAAG0Lk5pY28gU2Nob3R0ZWxp
+dXMgKEVPRjQyS0VZKSA8bmljb0BleGFtcGxlLm9yZz6JATgEEwECACIFAk/SLeMC
+Gy8GCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEMX8JnYN2ELW8rcH/3Hdanzp
+mUNfF7RqlU7sCwrGKFABOvTZtWQBfURLfTW2kMZRZEViRu6t3aB0hK3g1HWaSBzb
+yXJmH6UznpkOG5gD+Y/FfMCiR7VZaiFXEZh9ukRWDwCytouoILdrey08Wr4YQEDf
++Ny38gLYu06Svnm25iQn3LiejTohCny5POkOnxfyVxOEhQ6LUjai6j0bSKk05o62
+b2ZdKpGHsBqo9eHLr4y83JmoO5pSXDByBG0pu2Ukczey8BGuBwngUwEN/XKrl1xZ
+aYHlpVNhCNsXthSAJdlag5Auju/t2S978yelO4Ii411dyDPrYZKjd4TGWbWfeVpS
+jXOLmX++gs2tPyM=
+=LB0W
+-----END PGP PUBLIC KEY BLOCK-----
+\end{verbatim}
+\end{figure}
+Importing keys is possible via standard input (\textit{stdin})
+and show in figure \ref{importkey}.
+\begin{figure}
+\caption{Import Public Key}
+\label{importkey}
+\begin{verbatim}
+# Export key from test peer0  and import into normal
+# configuration directory
+./bin/ceof crypto --config-dir ../test/peers/0 --export | 
+    ./bin/ceof crypto --import
+\end{verbatim}
+\end{figure}
+as well as the import
+of public keys 
+Furthermore de- and encryption are supported.
+% -----------------------------------------------------------------------------
+\subsection{Listener}
+The \textit{listener} command is used
+to configures to which addresses the prototype is listening to (figure
+\ref{listenerusage}).
+\begin{figure}
+\caption{Listener Command Usage}
+\label{listenerusage}
+\begin{verbatim}
+(python-env)[18:41] brief:src% ./bin/ceof listener -h
+usage: ceof listener [-h] [-d] [-v] [-c CONFIG_DIR] [-a ADD] [-l] [-r REMOVE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Set log level to debug
+  -v, --verbose         Set log level to info, be more verbose
+  -c CONFIG_DIR, --config-dir CONFIG_DIR
+                        Select configuration directory ($HOME/.ceof by
+                        default)
+  -a ADD, --add ADD     Add an address to listen on
+  -l, --list            List listener
+  -r REMOVE, --remove REMOVE
+                        Remove an address to listen on
+
+Get ceof at http://www.nico.schottelius.org/software/ceof/
+\end{verbatim}
+\end{figure}
+For the initial setup it is required to configure at least one listener
+using the \textit{--add} parameter, which can be shown afterwards using
+\textit{--list} parameter (figure \ref{addandlistlistener}). 
+Protection against adding unsupported addreses is included.
+\begin{figure}[htb]
+\caption{Add and list listener addresses}
+\label{addandlistlistener}
+\begin{verbatim}
+(python-env)[19:23] brief:src% ./bin/ceof listener --list
+(python-env)[19:42] brief:src% ./bin/ceof listener --add tcp://0.0.0.0:42507
+(python-env)[19:42] brief:src% ./bin/ceof listener --add tcp://0.0.0.0:42508
+(python-env)[19:42] brief:src% ./bin/ceof listener --list                   
+tcp://0.0.0.0:42507
+tcp://0.0.0.0:42508
+(python-env)[19:42] brief:src% ./bin/ceof listener --add foo://0.0.0.0:42508 
+Unknown protocol in address foo://0.0.0.0:42508
+\end{verbatim}
+\end{figure}
+% -----------------------------------------------------------------------------
+\subsection{Noise}
+The noise command does not accept any parameters and will output noise to
+standard output (\textit{stdout}).
+To be able to generate noise, the prototype requires UTF-8 encoded
+files to be present in the noise directory (\textit{\textasciitilde{}/.ceof/noise}).
+Possible sources of noise are the archive of RFCs or
+the Linux Kernel sources, which are copied
+into the noise directory as shown in figure \ref{initnoise}.
+\begin{figure}
+\caption{Init Noise Directory}
+\label{initnoise}
+\begin{verbatim}
+% mkdir -p ~/.ceof/noise
+% cd ~/.ceof/noise 
+% find ~/linux/linus -name '*.c' -type f -exec cp {} . \;
+% find ~/rfc/mirror/rfcs-text-only/ -name '*.txt' -type f -exec cp {} . \;
+% ls | wc -l
+23287
+\end{verbatim}
+\end{figure}
+The noise command is only provided for debugging purposes.
+% -----------------------------------------------------------------------------
+\subsection{Peer}
+The peer command is used to add, remove and list peers, as
+well as adding and removing addresses to peers. Its usage
+is shown in \ref{peerusage}.
+\begin{figure}[htb]
+\caption{Peer Command Usage}
+\label{peerusage}
+\begin{verbatim}
+(python-env)[20:18] brief:src% ./bin/ceof peer -h
+usage: ceof peer [-h] [-d] [-v] [-c CONFIG_DIR] [-a] [-r] [-l]
+                 [-f FINGERPRINT] [--add-address ADD_ADDRESS]
+                 [--remove-address REMOVE_ADDRESS]
+                 [name]
+
+positional arguments:
+  name                  Name of the peer (myself: you)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Set log level to debug
+  -v, --verbose         Set log level to info, be more verbose
+  -c CONFIG_DIR, --config-dir CONFIG_DIR
+                        Select configuration directory ($HOME/.ceof by
+                        default)
+  -a, --add             Add a peer
+  -r, --remove          Remove a peer
+  -l, --list            List peers
+  -f FINGERPRINT, --fingerprint FINGERPRINT
+                        Specify fingerprint for peer
+  --add-address ADD_ADDRESS
+                        Add an address to a peer
+  --remove-address REMOVE_ADDRESS
+                        Remove an address from a peer
+
+Get ceof at http://www.nico.schottelius.org/software/ceof/
+\end{verbatim}
+\end{figure}
+When adding a peer, it is required to import its public key using
+the \textit{crypto} command before (see figure \ref{importkey}).
+After adding a peer, addresses can be added or removed
+(see figure \ref{peeraddcore}).
+\begin{figure}[htb]
+\caption{Peer Add}
+\label{peeraddcore}
+\begin{verbatim}
+(python-env)[21:45] brief:src% ./bin/ceof peer --add peer0 
+    --fingerprint 729BD24186E4E3F7EA3872FCAB29961528ACE126
+(python-env)[21:46] brief:src% ./bin/ceof peer 
+    --add-address tcp://127.0.0.1:42222 peer0                         
+(python-env)[21:46] brief:src% ./bin/ceof peer --list                                    
+peer0/729BD24186E4E3F7EA3872FCAB29961528ACE126/['tcp://127.0.0.1:42222']
+(python-env)[21:47] brief:src% ./bin/ceof peer 
+    --add-address tcp://127.0.0.1:42223 peer0 
+(python-env)[21:47] brief:src% ./bin/ceof peer --list                                    
+peer0/729BD24186E4E3F7EA3872FCAB29961528ACE126/['tcp://127.0.0.1:42222',
+     'tcp://127.0.0.1:42223']
+\end{verbatim}
+\end{figure}
+% -----------------------------------------------------------------------------
+\subsection{Onion}
+The onion command is used to create and send onions to other peers.
+The help page is shown in figure \ref{onionusage}.
+\begin{figure}[htb]
+\caption{Onion Command Usage}
+\label{onionusage}
+\begin{verbatim}
+(python-env)[20:16] brief:src% ./bin/ceof onion -h        
+usage: ceof onion [-h] [-d] [-v] [-c CONFIG_DIR] [-m MESSAGE]
+                  [-r REPEAT_COUNT] [-s]
+                  [name]
+
+positional arguments:
+  name                  Name of the peer
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Set log level to debug
+  -v, --verbose         Set log level to info, be more verbose
+  -c CONFIG_DIR, --config-dir CONFIG_DIR
+                        Select configuration directory ($HOME/.ceof by
+                        default)
+  -m MESSAGE, --message MESSAGE
+                        Create onion with this message for peer
+  -r REPEAT_COUNT, --repeat-count REPEAT_COUNT
+                        Repeat action n times (used for timing/profiling)
+  -s, --send            Send message created to peer
+
+Get ceof at http://www.nico.schottelius.org/software/ceof/
+\end{verbatim}
+\end{figure}
+To create and display the onion, which would usually be send on the network,
+use the \textit{\-\-message} parameter (figure \ref{onioncreate}. 
+To actually send it, use the \textit{-{}-send} parameter.
+\begin{figure}[htb]
+\caption{Create and send an Onion}
+\label{onioncreate}
+\begin{verbatim}
+(python-env)[21:57] brief:src% ./bin/ceof onion -m 'Hello dear peer0!' peer0
+Onion chain: -----BEGIN PGP MESSAGE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+hQEMA0TOaZwAXdx8AQf/Uu8OGiVQRSTSW1ExuzFJpebZBHsHx7MdchDdF9QlfW1V
+[...]
+\end{verbatim}
+\end{figure}
+% -----------------------------------------------------------------------------
+\subsection{Server}
+The \textit{server} command is used to start
+the server and does usually not take any arguments,
+though specific servers parts can be disabled
+(see figure \ref{serverusage}). Disabling the listener
+makes it impossible to receive messages, disabling
+noise prevents the server from sending messages regulary
+and disabling the UI Server disables listening for chat
+UIs (see chapter \ref{chatui}).
+\begin{figure}[htb]
+\caption{Server Command Usage}
+\label{serverusage}
+\begin{verbatim}
+(python-env)[22:09] brief:src% ./bin/ceof server -h
+usage: ceof server [-h] [-d] [-v] [-c CONFIG_DIR] [-l] [-n] [-u]
+                   [-a UI_ADDRESS] [-p UI_PORT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Set log level to debug
+  -v, --verbose         Set log level to info, be more verbose
+  -c CONFIG_DIR, --config-dir CONFIG_DIR
+                        Select configuration directory ($HOME/.ceof by
+                        default)
+  -l, --no-listener     Disable listener server
+  -n, --no-noise        Disable noise sending
+  -u, --no-ui           Disable UI server
+  -a UI_ADDRESS, --ui-address UI_ADDRESS
+                        Listen on this address for UI connections
+  -p UI_PORT, --ui-port UI_PORT
+                        Listen on this port for UI connections
+
+Get ceof at http://www.nico.schottelius.org/software/ceof/
+(python-env)[22:09] brief:src% 
+\end{verbatim}
+\end{figure}
+% -----------------------------------------------------------------------------
+\subsection{Transport Protocols (TP)}
+The \textit{tp} command is used to manage transport protocols,
+its usage is shown in figure \ref{tpusage}.
+The parameter \textit{-{}-list} shows the available protocols,
+the parameter \textit{-{}-route} generates a random route to
+a peer. Both commands are show in figure \ref{tplistroute}.
+\begin{figure}[htb]
+\caption{TP Command Usage}
+\label{tpusage}
+\begin{verbatim}
+(python-env)[22:04] brief:src% ./bin/ceof tp -h      
+usage: ceof tp [-h] [-d] [-v] [-c CONFIG_DIR] [--chain-to] [-l] [-r] [name]
+
+positional arguments:
+  name                  Name of the peer
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Set log level to debug
+  -v, --verbose         Set log level to info, be more verbose
+  -c CONFIG_DIR, --config-dir CONFIG_DIR
+                        Select configuration directory ($HOME/.ceof by
+                        default)
+  --chain-to            Generate onion package for given peer
+  -l, --list            List available transport protocols
+  -r, --route-to        Generate route to given peer
+
+Get ceof at http://www.nico.schottelius.org/software/ceof/
+\end{verbatim}
+\end{figure}
+\begin{figure}[htb]
+\caption{TP List and Route}
+\label{tplistroute}
+\begin{verbatim}
+(python-env)[22:05] brief:src% ./bin/ceof tp -l      
+tcp
+(python-env)[22:07] brief:src% ./bin/ceof tp --route peer0
+[<peer9/9205979C4E7D5F5896520E2941324091BA8B832A>, 
+<peer1/999C49CF1E9BBDAB0DE169324E1521D6E125E86C>, 
+<peer0/729BD24186E4E3F7EA3872FCAB29961528ACE126>, 
+<peer3/2FBD910F1C4C6032B399513B57647432847125F4>, 
+<peer6/4A85FEED9DDAAE37EE68F5DC1E4208D4E5FD84EB>, 
+<peer4/07D0FD80AF46E51DAEE4363144CE699C005DDC7C>]
+(python-env)[22:07] brief:src% 
+\end{verbatim}
+\end{figure}
 % ----------------------------------------------------------------------------
 \section{Code Examples}
 % ----------------------------------------------------------------------------
@@ -61,34 +416,17 @@ Different programs handle different objectives
 \subsection{Encryption}
 Splitting of encryption into a seperate program can make use of
 multiple computing ressources.
-% ----------------------------------------------------------------------------
-\subsection{Noise Engine}
-To generate noise, all files from a specific directory are read.
-Should be UTF-8 encoded files.
-
-\begin{verbatim}
-% cd ~/.ceof 
-% mkdir noise
-% cd noise 
-# Linux Kernel is a good source for noise
-% find ~/p/linux/linus -name '*.c' -type f -exec ln -fs {} \;
-# Add some rfcs to the noise soup
-% find ~/oeffentlich/rechner/netz/rfc/mirror/rfcs-text-only/ -name '*.txt' -type f -exec ln -fs {} \;
-% ls | wc -l
-23287
-\end{verbatim}
-
-Generate input for times when there is no user input.
-Random or db or or or.
-Networt traffic
-
 \subsection{Transport protocols}
-% ----------------------------------------------------------------------------
-\section{Command Line Options}
 
 % ----------------------------------------------------------------------------
 \section{Test of the Prototype}
 %    6. Description of test results
+
+sniffing on the wire
+regular packets (noise)
+encryption
+receiving peer can decrypt message
+
 
 
 % ----------------------------------------------------------------------------
@@ -100,14 +438,9 @@ Re-testing of crypt (using test/recrypt): 5.2 - 5.3 KiB per packet.
 After protocol overhead...
 
 % ----------------------------------------------------------------------------
-
-
-% ----------------------------------------------------------------------------
-\section{Supported Features}
+\section{Features}
 Based on the requirements defined in \ref{requirements}, 
 p. \pageref{requirements}, the following features have been implemented. 
-% MIRROR of that chapter here!
-
 % ----------------------------------------------------------------------------
 \subsection{Anonymity}
 Multi-Hop onion routingg
@@ -192,96 +525,11 @@ encapsulate EOF packets into it.
 \subsection{Confidentiality}
 
 \subsection{Integrity}
-Before the encrypt the packet, it is signed via public-key
-cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
 
 
-% #############################################################################
-\section{Transport protocols ("`eofi2tp"')}
-\label{eofi2tp}
-% -----------------------------------------------------------------------------
-\subsection{Definition/Specification}
-URL, URI, Scheme clearification, use tcp:// and http:// syntax.
-
-
-\begin{longtable}{|c|c|}
-\caption{Required transport protocols}\\
-\hline
-\textbf{Scheme} & \textbf{Name}\\
-\hline
-\verb=available/= & Available transport procols\\
-\hline
-\verb=available/<scheme>/listen= & Listener (executable) for the scheme\\
-\hline
-\verb=available/<scheme>/send= & Sender (executable) for the scheme\\
-\hline
-\verb=listen/= & Enabled listeners\\
-\hline
-\verb=listen/<freeform>/url= & URL \\
-\hline
-\end{longtable}
-% -----------------------------------------------------------------------------
-\subsubsection{Enabling a scheme}
-\label{tpscheme}
-To enable support for the scheme \verb=http=
-create both, the \verb=listen= and the \verb=send= executable below
-\verb=available/http=.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsubsection{Enabling a listener}
-\label{tplisten}
-To enable a listener for the scheme \emph{http} at the URL
-\emph{http://www.example.com/eof}, create
-the directory \verb=listen/http-example= and the file
-\verb=listen/http-example/url= with the content
-\verb=http://www.example.com/eof=.
-If the transport protocol implementation needs or allows additional
-configuration files, they should be placed in the same directory.
-The EOF implementation will parse the URL and check whether the
-scheme is supported.
-% Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Required implementations}
-\label{tprequired}
-This version of the EOF standard requires support for the following
-transport protocols in the implementation:
-\begin{longtable}{|c|c|c|c|}
-\caption{Required transport protocols}\\
-\hline
-\textbf{Scheme} & \textbf{Name} & \textbf{Format} & \textbf{Description}\\
-\hline
-tcp & IP/TCP & \verb=tcp:host:port= & Plain tcp\\
-\hline
-\end{longtable}
-% -----------------------------------------------------------------------------
-\subsection{Upcoming implementations}
-\label{tpupcoming}
-The following transport protocol implementations have been proposed,
-but are not yet implemented and thus not yet part of the standard:
-
-% -----------------------------------------------------------------------------
-\subsection{Developing and integrating implementations}
-If you want to create a new transport protocol, create the two
-executables as described in \ref{tppaths} and put them in their
-scheme directory.
-If the implementation works fine and you would like to add it to EOF,
-create the directory \verb=tp/<scheme>/<implementation_name>= within
-the EOFi source directory and update the following
-sections of this document:
-\begin{itemize}
-\item \ref{tprequired}
-\item \ref{tprequired} / new subsubsection for the new scheme
-\item \ref{tpupcoming}
-\end{itemize}
-
-The name of the subsubsection is the name of the scheme
-plus the registered implementation ("`like tcp-c"').
-Every such subsubsection must at least contain:
-\begin{itemize}
-\item Author contact information
-\item URL of website
-\item Programming language
-\end{itemize}
-Keep the subsubsections sorted by alphabet.
-% Nico: 1.0
-
+% ----------------------------------------------------------------------------
+\section{Related Project: Chat User Interface}
+In addition to the described prototype, in a different
+project a chat user interfaces has been
+developed that can talk to the prototype using a chat server.
+This chat UI is documented in the appendix (\ref{chatui}, p. \pageref{chatui}).
