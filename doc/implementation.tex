@@ -525,16 +525,16 @@ The process to do so may look like this:
 \begin{enumerate}
 \item Create message (from noise or user input)
 \item Create source path
-\item Create packet for last peer ("`pkg-last"')
+\item Create packet for last peer
 \item Create packet for last-1 peer including previous packet
 \item Continue until first peer is reached
 \item Sent packet to first peer 
 \end{enumerate}
 The actual implementation can be found in \textit{src/lib/ceof/onion.py}.
-An excerpt on how the onion is created can be seen in figure \ref{onionexapmle}.
+An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
 \begin{figure}[htb]
 \caption{Onion Example Code}
-\label{queuepoll}
+\label{onionexample}
 \begin{verbatim}
 ...
 # Initialise parameters
@@ -592,26 +592,24 @@ An excerpt on how the onion is created can be seen in figure \ref{onionexapmle}.
 % ----------------------------------------------------------------------------
 \section{Test of the Prototype}
 %    6. Description of test results
-
-sniffing on the wire
-regular packets (noise)
-encryption
-receiving peer can decrypt message
-
-
-
+Sniffing on the wire or using debug output of prototype.
+% ----------------------------------------------------------------------------
+\subsection{Noise Sending}
+% ----------------------------------------------------------------------------
+\subsection{Encryption}
+% ----------------------------------------------------------------------------
+\subsection{Receiving Peer Can Decrypt Message}
+% ----------------------------------------------------------------------------
+\subsection{Effective Bandwidth usage}
+After protocol overhead...
 % ----------------------------------------------------------------------------
 \subsection{Performance}
-%\subsection{Packet size}
-Re-testing of crypt (using test/recrypt): 5.2 - 5.3 KiB per packet.
-
-\subsection{Bandwidth usage}
-After protocol overhead...
+Packets can be generated as fast as needed.
 
 % ----------------------------------------------------------------------------
 \section{Features}
-Based on the requirements defined in \ref{requirements}, 
-p. \pageref{requirements}, the following features have been implemented. 
+Based on the requirements defined in section \ref{protofeatures}, 
+p. \pageref{protofeatures}, the following features have been implemented. 
 % ----------------------------------------------------------------------------
 \subsection{Anonymity}
 The existing prototype implements anonymity including
