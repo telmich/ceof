@@ -519,19 +519,76 @@ entry (figure \ref{queuepoll}).
 \end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Onion Creation}
-To support onion routing, the sender of a packet needs to encrypt the packet
-multiple times, once for each host that receives the packet. This may look
-as follows:
+To support onion routing, the sender of a messages needs to encrypt the packet
+multiple times, once for each host that receives the packet. 
+The process to do so may look like this:
 \begin{enumerate}
 \item Create message (from noise or user input)
 \item Create source path
 \item Create packet for last peer ("`pkg-last"')
-\item Create packet for last-1 peer including \emph{pkg-last}
+\item Create packet for last-1 peer including previous packet
 \item Continue until first peer is reached
 \item Sent packet to first peer 
 \end{enumerate}
-Thus every peer only knows the previous and the next peer.
+The actual implementation can be found in \textit{src/lib/ceof/onion.py}.
+An excerpt on how the onion is created can be seen in figure \ref{onionexapmle}.
+\begin{figure}[htb]
+\caption{Onion Example Code}
+\label{queuepoll}
+\begin{verbatim}
+...
+# Initialise parameters
+                peer = ceof.Peer.from_disk(config.peer_dir, args.name)
+                route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
+                chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
+                # Copy for debug
+                orig_chain = list(chain)
 
+                onion = cls(config.gpg_config_dir)
+                onion_chain = onion.chain(chain)
+...
+# Create onion as a chain of onions
+    def chain(self, chain):
+        """Create an onion chain"""
+
+        # Get our packet to work on
+        pkg = chain.pop()
+        log.debug("Onion: Encrypting for %s, chain = %s" % (str(pkg), str(chain)))
+
+        # If there is more, call us again
+        if chain:
+            inner_part = self.chain(chain)
+        else:
+            inner_part = ""
+
+        cmd = pkg['cmd']
+
+        # create empty core of the onion
+        eofmsg = ceof.EOFMsg(cmd=cmd)
+
+        # Nothing added when dropping the package
+        if cmd == ceof.EOF_CMD_ONION_DROP:
+            pass
+        elif cmd == ceof.EOF_CMD_ONION_FORWARD:
+            # FIXME: add noise?
+            eofmsg.address = pkg['forward_address']
+
+        elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
+            # FIXME: add noise?
+            eofmsg.msgtext = pkg['message']
+            
+        elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
+            eofmsg.msgtext = pkg['message']
+            eofmsg.address = pkg['forward_address']
+
+        # We have the eofmsg and the inner part
+        # Encrypt both and return
+
+        onion = self.crypto.encrypt(str(eofmsg) + str(inner_part), pkg['peer'].fingerprint)
+
+        return str(onion)
+\end{verbatim}
+\end{figure}
 % ----------------------------------------------------------------------------
 \section{Test of the Prototype}
 %    6. Description of test results
