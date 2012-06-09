@@ -72,9 +72,9 @@ Get ceof at http://www.nico.schottelius.org/software/ceof/
 \end{verbatim}
 \end{figure}
 At first is it required to create a new public/private key pair using
-the \textit{--gen-key} parameter (figure \ref{genkey}), which can
-be displayed using the \textit{--show} parameter (figure \ref{showkey})
-and exported using the \textit{--export}
+the \textit{-{}-gen-key} parameter (figure \ref{genkey}), which can
+be displayed using the \textit{-{}-show} parameter (figure \ref{showkey})
+and exported using the \textit{-{}-export}
 parameter (figure \ref{exportkey}).
 \begin{figure}
 \caption{Generation of Public/Private Key Pair}
@@ -123,7 +123,7 @@ jXOLmX++gs2tPyM=
 \end{verbatim}
 \end{figure}
 Importing keys is possible via standard input (\textit{stdin})
-and show in figure \ref{importkey}.
+and shown in figure \ref{importkey}.
 \begin{figure}
 \caption{Import Public Key}
 \label{importkey}
@@ -134,8 +134,6 @@ and show in figure \ref{importkey}.
     ./bin/ceof crypto --import
 \end{verbatim}
 \end{figure}
-as well as the import
-of public keys 
 Furthermore de- and encryption are supported.
 % -----------------------------------------------------------------------------
 \subsection{Listener}
@@ -165,8 +163,8 @@ Get ceof at http://www.nico.schottelius.org/software/ceof/
 \end{verbatim}
 \end{figure}
 For the initial setup it is required to configure at least one listener
-using the \textit{--add} parameter, which can be shown afterwards using
-\textit{--list} parameter (figure \ref{addandlistlistener}). 
+using the \textit{-{}-add} parameter, which can be shown afterwards using
+\textit{-{}-list} parameter (figure \ref{addandlistlistener}). 
 Protection against adding unsupported addreses is included.
 \begin{figure}[htb]
 \caption{Add and list listener addresses}
@@ -296,7 +294,7 @@ Get ceof at http://www.nico.schottelius.org/software/ceof/
 \end{verbatim}
 \end{figure}
 To create and display the onion, which would usually be send on the network,
-use the \textit{\-\-message} parameter (figure \ref{onioncreate}. 
+use the \textit{-{}-message} parameter (figure \ref{onioncreate}. 
 To actually send it, use the \textit{-{}-send} parameter.
 \begin{figure}[htb]
 \caption{Create and send an Onion}
@@ -398,26 +396,127 @@ tcp
 \section{Code Examples}
 % ----------------------------------------------------------------------------
 \subsection{Modular Design}
-UI seperated.
-Portable Core.
-id, base 64, 
-queuing
-forks
-manual poll
+The implementation has been splitted into several python
+modules, which are stored below \textit{src/lib/ceof} 
+(figure \ref{pythonmodules}).
+\begin{figure}[htb]
+\caption{Modular Design}
+\label{pythonmodules}
+\begin{verbatim}
+config  crypto.py  eofid.py  eofmsg.py  __init__.py  noise.py  onion.py  __pycache__  server  test  tp  ui
+[13:42] brief:.bachelorarbeit% find src/lib/ceof -name \*.py
+src/lib/ceof/__init__.py
+src/lib/ceof/config/__init__.py
+src/lib/ceof/config/listener.py
+src/lib/ceof/config/peer.py
+src/lib/ceof/crypto.py
+src/lib/ceof/eofid.py
+src/lib/ceof/eofmsg.py
+src/lib/ceof/noise.py
+src/lib/ceof/onion.py
+src/lib/ceof/server/__init__.py
+src/lib/ceof/server/listener.py
+src/lib/ceof/server/sender.py
+src/lib/ceof/server/tcp.py
+src/lib/ceof/server/ui.py
+src/lib/ceof/test/__init__.py
+src/lib/ceof/test/__main__.py
+src/lib/ceof/test/id/__init__.py
+src/lib/ceof/test/peers/__init__.py
+src/lib/ceof/test/ui/__init__.py
+src/lib/ceof/test/uiserver/__init__.py
+src/lib/ceof/tp/__init__.py
+src/lib/ceof/tp/tcp/__init__.py
+src/lib/ceof/ui/__init__.py
+src/lib/ceof/ui/main.py
+src/lib/ceof/ui/net.py
+\end{verbatim}
+\end{figure}
+When running in server mode, the modular design helps
+to seperate parts into own processes in a way that
+every process could run on a seperate computing
+core. The big picture is shown in figure \ref{bigpicture}.
+\begin{figure}[htb]
+\caption{Implementation: Big Picture}
+\label{bigpicture}
+\includegraphics[scale=0.8]{bigpicture.png}
+\end{figure}
+As can be seen further in this figure, the processes communicate with
+each other using queues. The optional chat user interface is also
+integrated using a seperate UIServer process.
+% ----------------------------------------------------------------------------
+\subsection{Sequence Numbers}
+Sequence numbers for packets are encoded in a custom base 64 encoding to
+define the used characters. Sequence numbers are 6 bytes
+long and range from 0 to 68719476735 ($(64^6)-1$).
 
-noise
+The transformation from an integer to an sequence 
+number (also called \textit{eofid}) is made based on transformation
+of a string and indeces. The \textit{get\_next()} method ensures returnes
+the next sequence number and takes care of range overflows.
+Code parts are show in figure \ref{eofid}.
+\begin{figure}[htb]
+\caption{EOFID Code Example}
+\label{eofid}
+\begin{verbatim}
+...
+EOF_ID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
+...
 
-\subsubsection{Sub Programs}
-Consists of the following sub-programs:
-encryption, dictionary, key/peer exchange daemon (if possible in this work),
-modular design
-Different programs handle different objectives
+    def int_to_id(to_convert):
+        """Convert int to ID"""
+        index = ceof.EOF_L_ID-1
+        eofid = []
 
-\subsection{Encryption}
-Splitting of encryption into a seperate program can make use of
-multiple computing ressources.
-\subsection{Transport protocols}
+        while index >= 0:
+            part = ceof.EOF_ID_BASE**index
 
+            # Fits in? Record and subtract
+            if (to_convert - part) >= 0:
+                times = int(to_convert / part)
+                to_convert = to_convert - (times*part)
+            else:
+                times = 0 
+
+            # Append selected symbol
+            eofid.append(ceof.EOF_ID_CHARS[times])
+            index = index - 1 
+
+        return "".join(eofid)
+\end{verbatim}
+\end{figure}
+% ----------------------------------------------------------------------------
+\subsection{Queueing}
+Several queues have been implemented for use of 
+\textit{inter process communication (IPC)} as shown in figure \ref{bigpicture}.
+The main server process creates and polls dynamically queues on startup.
+As it is not clear, whether using the \textit{select()} method
+for polling is interoperable, manual polling with a sleep has been 
+implemented. The queue and polling process
+has been programmed generic, so the main server can use one loop
+to poll data on all queues and selects the right handler based on
+a dictionary entry, which has the same name as the queue dictionary
+entry (figure \ref{queuepoll}).
+\begin{figure}[htb]
+\caption{Queues / Polling Code Exapmle}
+\label{queuepoll}
+\begin{verbatim}
+        while True:
+            for name, q in self.queue.items():
+                log.debug("Polling on %s queue" % name)
+                data = False
+                try:
+                    data = q.get(block=False)
+                except queue.Empty:
+                    pass
+
+                if data:
+                    log.debug("Got message from: %s:%s" % (name, data))
+                    self.handler[name](data)
+
+            time.sleep(ceof.EOF_TIME_QPOLL)
+\end{verbatim}
+\end{figure}
 % ----------------------------------------------------------------------------
 \section{Test of the Prototype}
 %    6. Description of test results
