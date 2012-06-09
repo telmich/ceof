@@ -12,6 +12,7 @@ features relate to the used technologies.
 \end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Anonymity}
+\label{featanonymity}
 One of the main objectives of this protocol is to provide a chat system that
 hides who is talking to whom (\textit{Sender-Receiver Anonymity}). 
 In practise there are limits on the degree of anonymity that can be reached.
@@ -22,6 +23,17 @@ This protocol specifies the use of
 \item and OpenPGP (\ref{openpgp}, p. \pageref{openpgp})
 \end{itemize}
 to achieve a high degree of anonymity.
+
+FIXME
+
+\subsubsection{Hide message receiver}
+The message packets are always sent indirectly via onion routing\cite{onion-1}.
+The idea is taken from the Tor project\cite{tor-1}, though EOF uses an enhanced
+version: EOF does not know about entry or exit nodes. If you are the intended
+receiver you may or may not continue to forward the message, which is defined
+by the sender of the message. That said, EOF must use source 
+routing\cite{source-routing-1}.
+
 % ----------------------------------------------------------------------------
 \subsubsection{Degree of Anonymity}
 \label{degreeofanonymity}
@@ -85,7 +97,7 @@ The number of peers in the network are
 depending on how many peers are actually using the network. This can be
 increased to a certain degree by adding artificial peers.
 The number of proxy peers cannot be increased infinitely, 
-as shown in \ref{latency}, p. \pageref{latency}.
+as shown in section \ref{latency}, p. \pageref{latency}.
 % ----------------------------------------------------------------------------
 \subsection{Authenticity and Confidentiality}
 Digital signatures provide methods to ensure that a given message
@@ -104,14 +116,13 @@ the following techniques are used to support the availbility:
 \item Transport protocol multiplexing (\ref{multiplexing}, p. \pageref{multiplexing})
 \item Transport protocol tunneling (\ref{tunneling}, p. \pageref{tunneling})
 \end{itemize}
-
-\subsubsection{Steganographic}
-Not for hiding, but to support longer überleben?
-http is pretty well suited for this.
-mixing with smtp, imap, pop3, tcp. etc.
-
-FIXME 
-
+%% \subsubsection{Steganographic}
+%% Not for hiding, but to support longer überleben?
+%% http is pretty well suited for this.
+%% mixing with smtp, imap, pop3, tcp. etc.
+%% 
+%% FIXME 
+%% 
 % ----------------------------------------------------------------------------
 \subsection{Direct chat}
 This chat protocol supports only direct chat (1:1) as opposed 

@@ -518,6 +518,21 @@ entry (figure \ref{queuepoll}).
 \end{verbatim}
 \end{figure}
 % ----------------------------------------------------------------------------
+\subsection{Onion Creation}
+To support onion routing, the sender of a packet needs to encrypt the packet
+multiple times, once for each host that receives the packet. This may look
+as follows:
+\begin{enumerate}
+\item Create message (from noise or user input)
+\item Create source path
+\item Create packet for last peer ("`pkg-last"')
+\item Create packet for last-1 peer including \emph{pkg-last}
+\item Continue until first peer is reached
+\item Sent packet to first peer 
+\end{enumerate}
+Thus every peer only knows the previous and the next peer.
+
+% ----------------------------------------------------------------------------
 \section{Test of the Prototype}
 %    6. Description of test results
 
@@ -542,90 +557,76 @@ Based on the requirements defined in \ref{requirements},
 p. \pageref{requirements}, the following features have been implemented. 
 % ----------------------------------------------------------------------------
 \subsection{Anonymity}
-Multi-Hop onion routingg
-
-Sender verification
-Before the encrypt the packet, it is signed via public-key
-cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
-
-\subsubsection{obfuscation}
-- Hide message sending 
-
-We don't think it's possible to hide that you are part of the chat network,
-because some heuristics will be developed to detect the chat packets.
-So we use a different idea:
-Every participant of an EOF network will constantly send chat packets
-with a pre-defined frequency (for instance every 250 ms). 
-If you don't chat, \emph{noise} is sent.\footnote{Noise is just random
-data, see below for a more detailled description of noise.}
-The noise is also used to defend against timing analysis.
-In case you are sending out a message, the message packet will be added to the
-queue and sent within the next free time slot.
-
-From outside it can easily be seen, that you are part of the network,
-but not, if you sent a message.
-
-\subsubsection{Hide message receiver}
-The message packets are always sent indirectly via onion routing\cite{onion-1}.
-The idea is taken from the Tor project\cite{tor-1}, though EOF uses an enhanced
-version: EOF does not know about entry or exit nodes. If you are the intended
-receiver you may or may not continue to forward the message, which is defined
-by the sender of the message. That said, EOF must use source 
-routing\cite{source-routing-1}.
-
-To support onion routing, the sender of a packet needs to encrypt the packet
-multiple times, once for each host that receives the packet. This may look
-as follows:
-\begin{enumerate}
-\item Create message (from noise or user input)
-\item Create source path
-\item Create packet for last peer ("`pkg-last"')
-\item Create packet for last-1 peer including \emph{pkg-last}
-\item Continue until first peer is reached
-\item Sent packet to first peer 
-\end{enumerate}
-Thus every peer only knows the previous and the next peer.
-% Nico: 1.0
-
-
+The existing prototype implements anonymity including
+all features as described in section \ref{featanonymity}.
+Currently the number of proxy peers is hardcoded to 5. This implementation
+limit can easily be changed and made a command line parameter.
+%Before the encrypt the packet, it is signed via public-key
+%cryptography\cite{pgp-1}. Thus only the receiver can verify the message sender.
+%% We don't think it's possible to hide that you are part of the chat network,
+%% because some heuristics will be developed to detect the chat packets.
+%% So we use a different idea:
+%% Every participant of an EOF network will constantly send chat packets
+%% with a pre-defined frequency (for instance every 250 ms). 
+%% If you don't chat, \emph{noise} is sent.\footnote{Noise is just random
+%% data, see below for a more detailled description of noise.}
+%% The noise is also used to defend against timing analysis.
+%% In case you are sending out a message, the message packet will be added to the
+%% queue and sent within the next free time slot.
+%% 
+%% From outside it can easily be seen, that you are part of the network,
+%% but not, if you sent a message.
+% ----------------------------------------------------------------------------
+\subsection{Authenticity and Confidentiality}
+The prototype does not sign messages and thus the authenticity is not
+verifyable. It does encrypt the messages multiple times, though.
+Adding authenticity requires two modifications to the source code:
+\begin{itemize}
+\item Sign real messages (EOFmsg 3002 / 3003)
+\item Check signature on real messages
+\end{itemize}
+Integrity checking can be done with any signed messages, sender verification
+is only possible for messages which have been signed with a reasonable
+trusted public key. As this includes the implementation of trustlevels, the
+prototype does not support authenticity verification.
+% ----------------------------------------------------------------------------
 \subsection{Availability}
-To prevent
-successful elimination of the service, a decentralised architecture should
-
-
-\subsubsection{Reliable against single user attacks}
-Traditional chat networks depend on one or more central organised servers.
-An attacker can stop all communication, if she runs a successful denial
-of service ("`DoS"') attack against the central systems.
-To protect against this, EOF uses a dynamic peer-to-peer network, which works
-as long as the minimun number of peers and the destination peer is available.
-It has no dependency on a central server.
-
-\subsubsection{Hide packets in network stream}
-As said before, we don't think it's possible to hide the participation in the
-chat network. To be able to send packets, although an attacker \emph{knows}
-about the participation, EOF embeds all chat packets into other (well known)
-protocols (which is knows as steganography\cite{stegano-1}).
-EOF does not implement nor specify \emph{transport protocols} itself.
-The EOF community is urged to implement them in a creative way: Usage
-of well-known protocols like TCP\cite{tcp-1}, HTTP\cite{http-1},
-SMTP\cite{smtp-1} or even transmission of packets on avian
-carriers\cite{avian-1} are encouraged. The tunneling of EOF packets through
-those protocols (also know as obfuscation) makes it harder to detect
-and \emph{block} EOF traffic. 
-If an attacker wants you to stop sending messages, she has to completly
-remove you from the network, because any open protocol may be (ab)used to
-encapsulate EOF packets into it.
-% Nico: 1.0 
-
-
-
-
-\subsection{Confidentiality}
-
-\subsection{Integrity}
-
-
+Availability should be provided by
+\begin{itemize}
+\item Transport protocol multiplexing (\ref{multiplexing}, p. \pageref{multiplexing})
+\item Transport protocol tunneling (\ref{tunneling}, p. \pageref{tunneling})
+\end{itemize}
+The current prototype supports only one transport protocol, but allows to listen on
+a number of tcp ports. Thus the onions are encoded and tunneled only into
+one transport protocol. The source code allows to seamless integrate a new
+transport protocol, by creating a new folder below
+\textit{src/lib/ceof/tp/} with the name of the transport protocol and adding
+a python module into it. The existing implementation of tcp can be used
+as an example.
+%% \subsubsection{Reliable against single user attacks}
+%% Traditional chat networks depend on one or more central organised servers.
+%% An attacker can stop all communication, if she runs a successful denial
+%% of service ("`DoS"') attack against the central systems.
+%% To protect against this, EOF uses a dynamic peer-to-peer network, which works
+%% as long as the minimun number of peers and the destination peer is available.
+%% It has no dependency on a central server.
+%% 
+%% \subsubsection{Hide packets in network stream}
+%% As said before, we don't think it's possible to hide the participation in the
+%% chat network. To be able to send packets, although an attacker \emph{knows}
+%% about the participation, EOF embeds all chat packets into other (well known)
+%% protocols (which is knows as steganography\cite{stegano-1}).
+%% EOF does not implement nor specify \emph{transport protocols} itself.
+%% The EOF community is urged to implement them in a creative way: Usage
+%% of well-known protocols like TCP\cite{tcp-1}, HTTP\cite{http-1},
+%% SMTP\cite{smtp-1} or even transmission of packets on avian
+%% carriers\cite{avian-1} are encouraged. The tunneling of EOF packets through
+%% those protocols (also know as obfuscation) makes it harder to detect
+%% and \emph{block} EOF traffic. 
+%% If an attacker wants you to stop sending messages, she has to completly
+%% remove you from the network, because any open protocol may be (ab)used to
+%% encapsulate EOF packets into it.
+%% % Nico: 1.0 
 % ----------------------------------------------------------------------------
 \section{Related Project: Chat User Interface}
 In addition to the described prototype, in a different
