@@ -90,6 +90,12 @@ in an example for e-mail:
 \item one for private for polling (imap://nico@example.org:password@imapserver.example.org)
 \end{enumerate}
 % ------------------------------------------------------------------------------
+\subsection{Impact of decreasing packet size}
+The current approach does not take care of message size decreasing on its
+path due to removal of onion layers. This may or may not allow an attacker
+to gain knowledge about the communication. Thus the implications of missing
+padding in the given scenario has to be analysed.
+% ------------------------------------------------------------------------------
 \subsection{Adding Peers / Key Exchange}
 \label{keyexchange}
 Currently all peers are added manually by the user. 
