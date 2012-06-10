@@ -37,6 +37,7 @@ executable \textit{bin/ceof}. If a subcommand is followed by the parameter
 \subsection{Cryptographic Operations}
 All cryptographic operations are accessable by using the \textit{crypto}
 command, as shown in figure \ref{cryptohelp}.
+This module uses the python-gnupg module for cryptographic functionality.
 \begin{figure}
 \caption{Crypto Command Usage}
 \label{cryptohelp}
@@ -539,7 +540,8 @@ An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
 ...
 # Initialise parameters
                 peer = ceof.Peer.from_disk(config.peer_dir, args.name)
-                route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
+                route = ceof.TransportProtocol.route_to(config.peer_dir, 
+                    peer, ceof.EOF_L_ADDITIONAL_PEERS)
                 chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
                 # Copy for debug
                 orig_chain = list(chain)
@@ -592,20 +594,83 @@ An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
 % ----------------------------------------------------------------------------
 \section{Test of the Prototype}
 %    6. Description of test results
-Sniffing on the wire or using debug output of prototype.
+Several tests were made to verify the correct behaviour of the prototype.
+For most tests the network sniffer Wireshark was used to verify what can be
+seen on the wire.
 % ----------------------------------------------------------------------------
 \subsection{Noise Sending}
+
+To be onionised.
+
+
+\subsubsection{Test Result}
+\begin{itemize}
+\item Test Failed
+\end{itemize}
 % ----------------------------------------------------------------------------
 \subsection{Encryption}
+This test is used to verify that
+% \begin{enumerate}[(a)]
+% \item real messages
+% \item and noise
+% \end{enumerate}
+\begin{enumerate}
+\item is encrypted
+\item cannot be distinguished from each other
+\end{enumerate}
+
+To be onionised.
+
+\subsubsection{Test Result}
+\begin{itemize}
+\item Test Failed
+\end{itemize}
 % ----------------------------------------------------------------------------
-\subsection{Receiving Peer Can Decrypt Message}
+\subsection{Receiving Peers Can Decrypt Message}
+When sending out a real message to another peer, the real message should
+be readable by the receiving peer. Furthermore noise messages should be
+decryptable as well, because they contain commands to forward or drop a message.
+
+\subsubsection{Test Result}
+\begin{itemize}
+\item Test Failed
+\end{itemize}
 % ----------------------------------------------------------------------------
-\subsection{Effective Bandwidth usage}
+\subsection{Receiving Peer: Authenticity Verification}
+When sending out a real message to another peer, the message should be
+encrypted and signed. The current prototype does \textbf{not} contain
+the logic to sign messages.
+\subsubsection{Test Result}
+\begin{itemize}
+\item Test Failed
+\end{itemize}
+% ----------------------------------------------------------------------------
+\subsection{Effective Bandwidth Usage}
+The calculations in section \ref{bandwidthusage} are based on experimental
+packet sizes as seen in section \ref{pkgsizes}, which do not include
+protocol overhead. To test that the effective bandwidth usage is
+not much higher then the calculated, three steps are taken:
+\begin{itemize}
+\item Measure idle bandwidth (a)
+\item Measure bandwidth while running the prototype (b)
+\item Calculate effective bandwidth as a difference of b and a
+\end{itemize}
+
 After protocol overhead...
+\subsubsection{Test Result}
+\begin{itemize}
+\item Test Failed
+\end{itemize}
 % ----------------------------------------------------------------------------
 \subsection{Performance}
-Packets can be generated as fast as needed.
+It is important that the system generating noise is able to generate 
+and send noise at the given interval of \textbf{0.25s}.
+This test also considers CPU usage (measured using the \textit{top} command).
 
+\subsubsection{Test Result}
+\begin{itemize}
+\item Test Failed
+\end{itemize}
 % ----------------------------------------------------------------------------
 \section{Features}
 Based on the requirements defined in section \ref{protofeatures}, 

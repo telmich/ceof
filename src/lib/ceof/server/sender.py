@@ -61,6 +61,8 @@ class Sender(object):
                     pkg = self._noise.get()
                     log.debug("Noise: %s" % pkg)
                     pkg = ceof.encode(pkg)
+
+                    message = True
                 except queue.Empty:
                     raise NoiseQueueEmptyError
 
