@@ -31,13 +31,13 @@ class EOFMsg(object):
     """Be a message......"""
 
     def __init__(self, cmd="", eofid="", address="", group="", msgtext=""):
-        self.version    = "0"
+        self._version    = "0"
 
-        self.cmd        = cmd
-        self.eofid      = eofid
-        self.address    = address
-        self.group      = group
-        self.msgtext    = msgtext
+        self._cmd        = cmd
+        self._eofid      = eofid
+        self._address    = address
+        self._group      = group
+        self._msgtext    = msgtext
 
     def __str__(self):
         #return (self.cmd, self.eofid, self.address, self.group, self.msgtext)
@@ -67,6 +67,8 @@ class EOFMsg(object):
         return self._version
 
     def set_version(self, version):
+        # Version cannot be overwritten from outside
+        version = "0"
         self._version = ceof.fill_and_trim(version, ceof.EOF_L_VERSION)
 
     def get_cmd(self):
