@@ -33,6 +33,26 @@ log = logging.getLogger(__name__)
 class NoiseError(ceof.Error):
     pass
 
+class OnionNoise(object):
+    """Create an Onion out of noise"""
+
+    def __init__(self, noise_dir):
+        self._noise_dir = noise_dir
+        self._noise = Noise(self._noise_dir)
+
+    def get(self, block=True):
+        """Get next noise message"""
+        noise_base = self._noise.get(block)
+        eofmsg = ceof.EOFMsg()
+        eofmsg.set_message(noise_base)
+
+        # Mimic behaviour of server, which returns address + rest tuple
+        return (eofmsg.address, rest)
+
+    def start(self):
+        """Start noise generator"""
+        self._noise.start()
+
 class Noise(object):
     """Abstract away noise handling in a subprocess"""
 
