@@ -124,6 +124,16 @@ class Peer(object):
             for peer in  cls.list_peers(config.peer_dir):
                 print(peer)
 
+    @classmethod
+    def random_peer_random_address(cls, base_dir):
+        """Return a random address of a random peer"""
+        peers = cls.list_random_peers(base_dir, 1)
+
+        address = peers[0].random_address()
+
+        log.debug("Selected random peer %s with random address %s" % (peers[0], address))
+        return address
+
 
     @classmethod
     def list_random_peers(cls, base_dir, num_peers, notthispeer=None):

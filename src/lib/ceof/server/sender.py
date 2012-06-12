@@ -35,7 +35,7 @@ class Sender(object):
         self.interval = interval
 
         self._upstream_queue = queue
-        self._noise = ceof.Noise(noise_dir)
+        self._noise = ceof.OnionNoise(noise_dir)
         self._noise.start()
         self._peer_dir = peer_dir
         self._send_noise = send_noise
@@ -75,15 +75,6 @@ class Sender(object):
                 log.warn(e)
 
             time.sleep(self.interval)
-
-    def random_peer_random_address(self):
-        """Return a random address of a random peer"""
-        peers = ceof.Peer.list_random_peers(self._peer_dir, 1)
-
-        address = peers[0].random_address()
-
-        log.debug("Selected random address %s" % address)
-        return address
 
     @staticmethod
     def send(address, pkg):
