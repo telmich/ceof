@@ -20,6 +20,7 @@
 #
 
 import ceof
+import ceof.noise
 import logging
 
 log = logging.getLogger(__name__)
@@ -62,6 +63,73 @@ class EOFMsg(object):
         self.group      = message[index:index+ceof.EOF_L_GROUP]
         index = index + ceof.EOF_L_GROUP
         self.msgtext    = message[index:index+ceof.EOF_L_MESSAGE]
+
+    def noisify(self, noise):
+        """Insert noise into unused fields"""
+
+        log.debug("Inserting noise into EOFMsg")
+        index = 0
+
+        if not self.eofid:
+            self.eofid      = noise[index:index+ceof.EOF_L_ID]
+            index = index + ceof.EOF_L_ID
+
+        if not self.address:
+            self.address      = noise[index:index+ceof.EOF_L_ADDRESS]
+            index = index + ceof.EOF_L_ADDRESS
+
+        # Group is currently unused, pad it with noise
+        self.group      = noise[index:index+ceof.EOF_L_GROUP]
+        index = index + ceof.EOF_L_GROUP
+
+        if not self.msgtext:
+            self.msgtext      = noise[index:index+ceof.EOF_L_MESSAGE]
+            index = index + ceof.EOF_L_MESSAGE
+
+        log.debug("Used %d Bytes of noise" % (index))
+
+    @classmethod
+    def chain_noisified(cls, route, peer, message, noise_dir):
+        """Create chain including fields being noisified"""
+
+        noise = ceof.noise.Filesystem(noise_dir)
+        chain = cls.chain_plain(route, peer, message)
+
+        for proxy_pkg in chain:
+            noise_block = noise.get_next_block()
+            proxy_pkg['eofmsg'].noisify(noise_block)
+
+    @classmethod
+    def chain_plain(cls, route, peer, message):
+        """Create a chain of eofmsg that is used for encryption later"""
+
+        # First peer that receives is the last one that last decrypts
+        chain = []
+        for proxy in route:
+            proxy_pkg = {}
+            proxy_pkg['peer'] = proxy
+
+            if proxy == peer and message:
+                """If there is no message, we create a chain of noise => no recipient"""
+
+                proxy_pkg['eofmsg'].msgtext     = message
+                if len(chain) == 0:
+                    """First peer"""
+                    proxy_pkg['eofmsg']         = cls(cmd=ceof.EOF_CMD_ONION_MSG_DROP)
+                else:
+                    proxy_pkg['eofmsg']         = cls(cmd=ceof.EOF_CMD_ONION_MSG_FORWARD)
+                    proxy_pkg['eofmsg'].address = chain[-1]['peer'].random_address()
+            else:
+                if len(chain) == 0:
+                    """First peer"""
+                    proxy_pkg['eofmsg']         = cls(cmd=ceof.EOF_CMD_ONION_DROP)
+                else:
+                    proxy_pkg['eofmsg']         = cls(cmd=ceof.EOF_CMD_ONION_FORWARD)
+                    proxy_pkg['eofmsg'].address = chain[-1]['peer'].random_address()
+
+            chain.append(proxy_pkg)
+
+        return chain
 
     def get_version(self):
         return self._version
