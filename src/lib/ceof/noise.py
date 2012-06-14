@@ -105,14 +105,16 @@ class Generator(object):
         self.queue = queue
 
         # Read noise from here
-        self._low_level_noise = LowLevelNoise(noise_dir, block_size)
+        self._low_level_noise = Filesystem(noise_dir, block_size)
 
     def run(self):
         """Main loop"""
 
         try:
-            block = self._low_level_noise.get_next_block()
-            self.queue.put(block)
+            while True:
+                log.debug("Adding new noise to the queue")
+                block = self._low_level_noise.get_next_block()
+                self.queue.put(block)
 
         except KeyboardInterrupt:
             log.debug("Caught sigint, exiting noise generator")
@@ -126,7 +128,7 @@ class Filesystem(object):
         self.noise_dir = noise_dir
 
         self._file_handle = False
-        self._block_size = block_size
+        self.block_size = block_size
 
         # Buffer for partial blocks at end of file
         self._file_end_buffer=""
@@ -152,11 +154,11 @@ class Filesystem(object):
         """Return next file to be read for noise input"""
         file_index = random.randrange(0, len(self._files))
 
-        filename=os.path.join(self.noise_dir, self._files[file_index])
+        self._filename=os.path.join(self.noise_dir, self._files[file_index])
 
-        log.debug("Next file for reading noise: %s" % filename)
+        log.debug("Next file for reading noise: %s" % self._filename)
 
-        return filename
+        return self._filename
 
     def get_next_block(self):
         """Return next noise block"""
@@ -170,11 +172,16 @@ class Filesystem(object):
             # File end buffer is large enough
             if len(self._file_end_buffer) >= self.block_size:
                 block=self._file_end_buffer[0:self.block_size]
-                self._file_end_buffer=file_end_buffer[self.block_size:]
+                self._file_end_buffer=self._file_end_buffer[self.block_size:]
 
             # Read from file as usual
             else:
-                block = self._file_handle.read(self.block_size)
+                try:
+                    block = self._file_handle.read(self.block_size)
+                except UnicodeDecodeError:
+                    # Warn and continue
+                    log.warn("Cannot decode to unicode contents of %s" % self._filename)
+                    self.nextfile()
 
             # Not enough bytes in file and file_end_buffer => go to next file
             if len(block) < self.block_size:
