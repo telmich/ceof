@@ -74,102 +74,56 @@ class OnionNoise(object):
         return onion_chain
  
 
-class Noise(object):
+class Server(object):
     """Abstract away noise handling in a subprocess"""
 
-    def __init__(self, noise_dir, msg_size = ceof.EOF_L_MSG_FULL):
+    def __init__(self, noise_dir, block_size = ceof.EOF_L_MSG_FULL):
         self.noise_dir = noise_dir
         self._queue = multiprocessing.Queue()
-        self._noise_gen = Generator(self._queue, self.noise_dir, msg_size)
+        self._noise_gen = Generator(self._queue, self.noise_dir, block_size)
 
     def get(self, block=True):
         """Get next noise message"""
         return self._queue.get(block)
 
     def start(self):
-        """Run child to provide us with data"""
+        """Run child, which provides us with data"""
         try:
             self._process = multiprocessing.Process(target=self._noise_gen.run)
             self._process.start()
         except KeyboardInterrupt:
-            log.debug("Caught sigint in parent")
+            log.debug("Caught sigint in server")
             self._queue.close()
             self._queue.cancel_join_thread()
 
 class Generator(object):
     """Generate noise"""
 
-    def __init__(self, queue, noise_dir, msg_size):
+    def __init__(self, queue, noise_dir, block_size):
 
         # Receive real messages from here
         self.queue = queue
 
         # Read noise from here
-        self.noise_dir = noise_dir
-
-        # The size of the message we return
-        self.msg_size = msg_size
-
-        self._init_files()
-
-        random.seed()
-
-    def _init_files(self):
-        """(Re-) Init file list"""
-        self._files = os.listdir(self.noise_dir)
-
-        if len(self._files) < 1:
-            raise NoiseError("Need at least one file for noise input")
-
-    def nextfile(self):
-        """Return next file to be read for noise input"""
-        file_index = random.randrange(0, len(self._files))
-
-        filename=os.path.join(self.noise_dir, self._files[file_index])
-
-        log.debug("Next file for reading noise: %s" % filename)
-
-        return filename
-
+        self._low_level_noise = LowLevelNoise(noise_dir, block_size)
 
     def run(self):
         """Main loop"""
 
         try:
-            # everything that is not fitting in a message size is appended here
-            file_end_buffer=""
-            f = open(self.nextfile(), 'r')
-
-            while True:
-                # File end buffer is large enough
-                if len(file_end_buffer) >= self.msg_size:
-                    msg=file_end_buffer[0:self.msg_size]
-                    file_end_buffer=file_end_buffer[self.msg_size:]
-
-                # Read from file as usual
-                else:
-                    msg = f.read(self.msg_size)
-
-                # Not enough bytes in file and file_end_buffer => go to next file
-                if len(msg) < self.msg_size:
-                    f.close()
-                    f = open(self.nextfile(), 'r')
-                    file_end_buffer=file_end_buffer + msg
-
-                # Put noise into queue
-                else:
-                    self.queue.put(msg)
+            block = self._low_level_noise.get_next_block()
+            self.queue.put(block)
 
         except KeyboardInterrupt:
-            log.debug("Caught sigint in child")
+            log.debug("Caught sigint, exiting noise generator")
             self.queue.close()
             self.queue.cancel_join_thread()
 
-class LowLevelNoise(object):
+class Filesystem(object):
+    """Get noise from filesystem"""
 
     def __init__(self, noise_dir, block_size = ceof.EOF_L_MSG_FULL):
         self.noise_dir = noise_dir
-        #self._noise_gen = Generator(self._queue, self.noise_dir, msg_size)
 
         self._file_handle = False
         self._block_size = block_size
