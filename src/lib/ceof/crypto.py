@@ -27,10 +27,7 @@ import sys
 
 log = logging.getLogger(__name__)
 
-try:
-    import gnupg
-except ImportError:
-    raise ceof.Error("Required module gnupg not found.")
+import gnupg
 
 class CryptoError(ceof.Error):
     pass
