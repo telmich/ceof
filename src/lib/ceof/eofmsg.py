@@ -41,8 +41,10 @@ class EOFMsg(object):
         self._msgtext    = msgtext
 
     def __str__(self):
-        #return (self.cmd, self.eofid, self.address, self.group, self.msgtext)
         return self.message
+
+    def __repr__(self):
+        return ("<EOFMsg version=%s,cmd=%s, eofid=%s, address=%s, group=%s, msgtext=%s> " % (self.version , self.cmd , self.eofid , self.address , self.group , self.msgtext))
 
     def get_message(self):
         return self.version + self.cmd + self.eofid + self.address + self.group + self.msgtext
@@ -99,6 +101,8 @@ class EOFMsg(object):
             noise_block = noise.get_next_block()
             proxy_pkg['eofmsg'].noisify(noise_block)
 
+        return chain
+
     @classmethod
     def chain_plain(cls, route, peer, message):
         """Create a chain of eofmsg that is used for encryption later"""
@@ -112,13 +116,14 @@ class EOFMsg(object):
             if proxy == peer and message:
                 """If there is no message, we create a chain of noise => no recipient"""
 
-                proxy_pkg['eofmsg'].msgtext     = message
                 if len(chain) == 0:
                     """First peer"""
                     proxy_pkg['eofmsg']         = cls(cmd=ceof.EOF_CMD_ONION_MSG_DROP)
                 else:
                     proxy_pkg['eofmsg']         = cls(cmd=ceof.EOF_CMD_ONION_MSG_FORWARD)
                     proxy_pkg['eofmsg'].address = chain[-1]['peer'].random_address()
+
+                proxy_pkg['eofmsg'].msgtext     = message
             else:
                 if len(chain) == 0:
                     """First peer"""

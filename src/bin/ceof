@@ -103,6 +103,8 @@ def commandline():
          help='Name of the peer', action='store')
     parser['onion'].add_argument('-m', '--message',
          help='Create onion with this message for peer', action='store')
+    parser['onion'].add_argument('-p', '--plain',
+         help='Dump plain onion before encryption', action='store_true')
     parser['onion'].add_argument('-r', '--repeat-count', type=int,
          help='Repeat action n times (used for timing/profiling)', 
          action='store', default=1)
@@ -204,11 +206,12 @@ def commandline():
     args.func(args, config)
 
 def ceof_noise(args, config):
+    import ceof.noise
     noiseserver = ceof.noise.Server(config.noise_dir)
     noiseserver.start()
 
     while True:
-        print("Noise: ---\"%s\"---" % noise.get())
+        print("Noise: ---\"%s\"---" % noiseserver.get())
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)
@@ -250,7 +253,12 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-    except (ceof.Error, ImportError) as e:
+    except ImportError as e:
+        print(e)
+        exit_code = 1
+
+    except ceof.Error as e:
+        """ceof may not be defined if an importerror occured, see above"""
         print(e)
         exit_code = 1
 

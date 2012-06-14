@@ -21,8 +21,11 @@
 
 
 import ceof
+import ceof.eofmsg
+
 import logging
 import os.path
+import pprint
 import random
 import re
 
@@ -49,7 +52,12 @@ class Onion(object):
             if args.message:
                 peer = ceof.Peer.from_disk(config.peer_dir, args.name)
                 route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
-                chain = ceof.TransportProtocol.chain_to(route, peer, args.message)
+                chain = ceof.EOFMsg.chain_noisified(route, peer, args.message, config.noise_dir)
+
+                if args.plain:
+                    print("Plain Onion:")
+                    pprint.pprint(chain)
+
                 # Copy for debug
                 orig_chain = list(chain)
 
