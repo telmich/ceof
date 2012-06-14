@@ -134,7 +134,7 @@ from ceof.crypto            import Crypto
 from ceof.eofmsg            import EOFMsg
 from ceof.eofid             import EOFID
 from ceof.config.listener   import Listener
-from ceof.noise             import Noise
+#from ceof.noise             import Noise
 from ceof.onion             import Onion
 from ceof.config.peer       import Peer
 from ceof.server            import Server

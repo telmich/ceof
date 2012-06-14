@@ -204,8 +204,8 @@ def commandline():
     args.func(args, config)
 
 def ceof_noise(args, config):
-    noise = ceof.Noise(config.noise_dir)
-    noise.start()
+    noiseserver = ceof.noise.Server(config.noise_dir)
+    noiseserver.start()
 
     while True:
         print("Noise: ---\"%s\"---" % noise.get())
