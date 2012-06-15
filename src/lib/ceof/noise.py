@@ -36,51 +36,22 @@ class NoiseError(ceof.Error):
 class NoiseQueueEmptyError(NoiseError):
     pass
 
-class OnionNoise(object):
-    """Create an Onion out of noise"""
-
-    def __init__(self, noise_dir, peer_dir):
-        self._noise_dir = noise_dir
-        self._peer_dir = peer_dir
-        self._noise = Noise(self._noise_dir)
-
-    def get(self, block=True):
-        """Get next noise message"""
-
-        try:
-            noise_base = self._noise.get(block)
-        except queue.Empty:
-            raise NoiseQueueEmptyError
-
-        log.debug("Noise: %s" % noise_base)
-        eofmsg = ceof.EOFMsg()
-        eofmsg.set_message(noise_base)
-
-
-        # Mimic behaviour of server, which returns address + rest tuple
-        return (eofmsg.address, rest)
-
-    def start(self):
-        """Start noise generator"""
-        self._noise.start()
-
-    def create_noise_onion(self):
-        peer = ceof.Peer.random_peer_random_address(self._peer_dir)
-        route = ceof.TransportProtocol.route_to(self._peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
-        chain = ceof.TransportProtocol.chain_to(route, peer, message, noise=True)
-        onion = cls(gpg_config_dir)
-        onion_chain = onion.chain(chain)
-
-        return onion_chain
- 
-
 class Server(object):
-    """Abstract away noise handling in a subprocess"""
+    """
+    Abstract away noise creation in a subprocess
+    
+    Supports plain noise or encrypted noise generation
+    """
 
-    def __init__(self, noise_dir, block_size = ceof.EOF_L_MSG_FULL):
-        self.noise_dir = noise_dir
+    def __init__(self, noise_dir, plain=True, peer_dir="", gpg_config_dir=""):
+
+        if plain:
+            self._backend = Filesystem(noise_dir)
+        else:
+            self._backend = OnionNoise(noise_dir, peer_dir, gpg_config_dir)
+
         self._queue = multiprocessing.Queue()
-        self._noise_gen = Generator(self._queue, self.noise_dir, block_size)
+        self._noise_gen = Generator(self._queue, self._backend)
 
     def get(self, block=True):
         """Get next noise message"""
@@ -97,15 +68,14 @@ class Server(object):
             self._queue.cancel_join_thread()
 
 class Generator(object):
-    """Generate noise"""
+    """Generate noise (plain or onionised)"""
 
-    def __init__(self, queue, noise_dir, block_size):
-
+    def __init__(self, queue, backend):
         # Receive real messages from here
         self.queue = queue
 
         # Read noise from here
-        self._low_level_noise = Filesystem(noise_dir, block_size)
+        self._backend = backend
 
     def run(self):
         """Main loop"""
@@ -113,13 +83,38 @@ class Generator(object):
         try:
             while True:
                 log.debug("Adding new noise to the queue")
-                block = self._low_level_noise.get_next_block()
+                block = self._backend.get()
                 self.queue.put(block)
 
         except KeyboardInterrupt:
             log.debug("Caught sigint, exiting noise generator")
             self.queue.close()
             self.queue.cancel_join_thread()
+
+class OnionNoise(object):
+    """Create an Onion out of noise"""
+
+    def __init__(self, noise_dir, peer_dir, gpg_config_dir):
+        self._noise_dir = noise_dir
+        self._peer_dir = peer_dir
+        self._onion = ceof.Onion(gpg_config_dir)
+
+    def get(self, block=True):
+        """Get next onion that consists of noise only"""
+
+        peer = ceof.Peer.list_random_peers(self._peer_dir, 1)[0]
+        address = peer.random_address()
+
+        route = ceof.TransportProtocol.route_to(self._peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
+        chain = ceof.EOFMsg.chain_noisified(route, peer, message=False, noise_dir=self._noise_dir)
+        onion_chain = self._onion.chain(chain)
+
+        return (address, onion_chain)
+
+    def start(self):
+        """Start noise generator"""
+        self._noise.start()
+
 
 class Filesystem(object):
     """Get noise from filesystem"""
@@ -148,7 +143,7 @@ class Filesystem(object):
         """Return noise without server / queue approach"""
         noise = cls(noise_dir, block_size)
 
-        return noise.get_next_block()
+        return noise.get()
         
     def nextfile(self):
         """Return next file to be read for noise input"""
@@ -160,7 +155,7 @@ class Filesystem(object):
 
         return self._filename
 
-    def get_next_block(self):
+    def get(self):
         """Return next noise block"""
 
         block = ""

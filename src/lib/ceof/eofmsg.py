@@ -98,7 +98,7 @@ class EOFMsg(object):
         chain = cls.chain_plain(route, peer, message)
 
         for proxy_pkg in chain:
-            noise_block = noise.get_next_block()
+            noise_block = noise.get()
             proxy_pkg['eofmsg'].noisify(noise_block)
 
         return chain

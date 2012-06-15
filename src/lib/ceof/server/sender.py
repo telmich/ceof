@@ -31,14 +31,14 @@ class SenderError(ceof.Error):
 class Sender(object):
     """Sender server"""
 
-    def __init__(self, interval, queue, noise_dir, peer_dir, send_noise=True):
+    def __init__(self, interval, queue, noise_dir, peer_dir, gpg_config_dir, send_noise=True):
         self.interval = interval
 
         self._upstream_queue = queue
-        self._noise = ceof.OnionNoise(noise_dir)
-        self._noise.start()
-        self._peer_dir = peer_dir
+        self._noise = ceof.noise.Server(noise_dir, False, peer_dir, gpg_config_dir)
         self._send_noise = send_noise
+
+        self._noise.start()
 
     def run(self):
         """Main loop"""
@@ -56,17 +56,8 @@ class Sender(object):
 
             if not message and self._send_noise:
                 log.debug("No message received - acquiring noise")
-                try:
-                    # FIXME: need to create onion packet from it!
-                    pkg = self._noise.get()
-                    log.debug("Noise: %s" % pkg)
-                    pkg = ceof.encode(pkg)
-
-                    message = True
-                except queue.Empty:
-                    raise NoiseQueueEmptyError
-
-                destination = self.random_peer_random_address()
+                destination, pkg = self._noise.get()
+                message = True
 
             try:
                 if message:

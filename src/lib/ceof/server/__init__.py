@@ -86,12 +86,14 @@ class Server(object):
         self._onion = ceof.Onion(self.config.gpg_config_dir)
 
     def _init_sender(self):
-        # FIXME: monitor server for crashes and abort program, if sender server aborts
+        # FIXME: monitor server for crashes and abort program, if sender server aborts?
 
-        # This queue is special: we only submit data, don't poll
+        # This queue is special: we only submit data, don't poll - so don't add
+        # it to the queue list
         self.sender_queue = multiprocessing.Queue()
         self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
-            self.sender_queue, self.config.noise_dir, self.config.peer_dir, self.noise)
+            self.sender_queue, self.config.noise_dir, self.config.peer_dir, 
+            self.config.gpg_config_dir, self.noise)
         self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
 
     def _handle_listener(self, data):
