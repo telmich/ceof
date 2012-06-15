@@ -103,10 +103,14 @@ class OnionNoise(object):
         """Get next onion that consists of noise only"""
 
         peer = ceof.Peer.list_random_peers(self._peer_dir, 1)[0]
-        address = peer.random_address()
 
         route = ceof.TransportProtocol.route_to(self._peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
+
         chain = ceof.EOFMsg.chain_noisified(route, peer, message=False, noise_dir=self._noise_dir)
+
+        first_peer = chain[-1]['peer']
+        address = first_peer.random_address()
+
         onion_chain = self._onion.chain(chain)
 
         return (address, onion_chain)
