@@ -13,7 +13,7 @@ cd $dir
 cd $peerdir
 
 #for peer in *; do
-for peer in $(seq 0 2); do
+for peer in $(seq 0 5); do
 
     dir="$peerdir/$peer"
 
