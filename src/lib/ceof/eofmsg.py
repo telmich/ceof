@@ -32,13 +32,13 @@ class EOFMsg(object):
     """Be a message......"""
 
     def __init__(self, cmd="", eofid="", address="", group="", msgtext=""):
-        self._version    = "0"
 
-        self._cmd        = cmd
-        self._eofid      = eofid
-        self._address    = address
-        self._group      = group
-        self._msgtext    = msgtext
+        self.version    = "0"
+        self.cmd        = cmd
+        self.eofid      = eofid
+        self.address    = address
+        self.group      = group
+        self.msgtext    = msgtext
 
     def __str__(self):
         return self.message
