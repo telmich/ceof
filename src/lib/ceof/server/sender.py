@@ -35,10 +35,20 @@ class Sender(object):
         self.interval = interval
 
         self._upstream_queue = queue
-        self._noise = ceof.noise.Server(noise_dir, False, peer_dir, gpg_config_dir)
+        self._noise_dir = noise_dir
+        self._peer_dir = peer_dir
+        self._gpg_config_dir = gpg_config_dir
         self._send_noise = send_noise
 
-        self._noise.start()
+        self._init_noise()
+
+    def _init_noise(self):
+        """initalise noise handler, if requested"""
+
+        if self._send_noise:
+            self._noise = ceof.noise.Server(self._noise_dir, 
+                False, self._peer_dir, self._gpg_config_dir)
+            self._noise.start()
 
     def run(self):
         """Main loop"""
@@ -58,6 +68,9 @@ class Sender(object):
                 log.debug("No message received - acquiring noise")
                 destination, pkg = self._noise.get()
                 message = True
+            else:
+                log.debug("No message received - noise sending disabled")
+                
 
             try:
                 if message:
@@ -72,7 +85,8 @@ class Sender(object):
         """Send out message"""
 
         # FIXME: remove hard coded tcp
-        log.debug("Sending message %s to %s" % (str(pkg), str(address)))
+        #log.info("Sending message %s to %s" % (str(pkg), str(address)))
+        log.info("Sending message to %s" % (str(address)))
 
         import socket
         import urllib.parse

@@ -48,7 +48,7 @@ class TCPServer(object):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        log.info("Running Server on %s:%s" % (self.address, self.port))
+        log.debug("Binding TCPServer on %s:%s" % (self.address, self.port))
         s.bind((str(self.address), int(self.port)))
         s.listen(1)
 

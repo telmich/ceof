@@ -51,11 +51,9 @@ class Listener(object):
             url = urllib.parse.urlparse(listener)
 
             address, port = url.netloc.split(":")
-            name = address + port
+            name = "%s:%s" % (address, port)
 
-            print("Listening on %s:%s" % (address, port))
-            print(self.queue)
-            print(type(self.queue))
+            log.debug("Starting listener child %s" % name)
 
             self.queue[name]  = multiprocessing.Queue()
             self.process[name] = multiprocessing.Process(target=self.child, 
@@ -95,7 +93,7 @@ class Listener(object):
         try:
             server.run()
         except socket.error as e:
-            log.error("Failed to run on %s:%s: %s" % (address, port, e))
+            log.error("Failed to run listener on %s:%s: %s" % (address, port, e))
 
     def child_handler(self, conn, addr):
         log.debug("Connected by %s" % str(addr))

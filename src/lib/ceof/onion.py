@@ -71,7 +71,6 @@ class Onion(object):
                 address = peer.random_address()
                 log.debug("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
 
-                # FIXME: use SenderServer Function!
                 ceof.SenderServer.send(address, onion_chain)
 
     def chain(self, chain):

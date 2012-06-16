@@ -16,22 +16,22 @@ The following message types are defined:
 All messages have the same length and contain the same fields.
 Though not all fields are being used in every type, as seen in table
 \ref{eofmessageparameteroverview}.
-\begin{longtable}{|c|c|c|c|c|}
+\begin{longtable}{|c|c|c|c|c|c|}
 \caption{EOF Message Parameter Usage}
 \label{eofmessageparameteroverview}
 \\
 \hline
-\textbf{Command} & \textbf{id} & \textbf{addr} & \textbf{group} & \textbf{msgtext}\\
+\textbf{Command} & \textbf{version} & \textbf{id} & \textbf{addr} & \textbf{group} & \textbf{msgtext}\\
 \hline
-3000 & - & - & - & - \\
+3000 &x & - & - & - & - \\
 \hline
-3001 & - & x & - & - \\
+3001 &x & - & x & - & - \\
 \hline
-3002 & x & - & x & x \\
+3002 &x & x & - & x & x \\
 \hline
-3003 & x & x & x & x \\
+3003 &x & x & x & x & x \\
 \hline
-3004 & x & - & - & -\\
+3004 &x & x & - & - & -\\
 \hline
 \end{longtable}
 Where 

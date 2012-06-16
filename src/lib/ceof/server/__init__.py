@@ -44,7 +44,7 @@ class Server(object):
 
     """
 
-    def __init__(self, config, listener=True, noise=True, ui=True,
+    def __init__(self, config, listener=True, send_noise=True, ui=True,
         ui_addr='127.0.0.1', ui_port='4242'):
 
         self.config = config
@@ -54,7 +54,7 @@ class Server(object):
         self.handler = {}
 
         self.listener = listener
-        self.noise = noise
+        self.send_noise = send_noise
         self.ui = ui
         self.ui_addr = ui_addr
         self.ui_port = ui_port
@@ -93,7 +93,7 @@ class Server(object):
         self.sender_queue = multiprocessing.Queue()
         self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
             self.sender_queue, self.config.noise_dir, self.config.peer_dir, 
-            self.config.gpg_config_dir, self.noise)
+            self.config.gpg_config_dir, self.send_noise)
         self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
 
     def _handle_listener(self, data):
@@ -109,7 +109,7 @@ class Server(object):
             log.warn("Discarding bogus packet: %s" % e)
             return
 
-        log.debug(eofmsg)
+        log.debug("Incoming EOFMsg: %s" % eofmsg)
 
         cmd = eofmsg.cmd
 

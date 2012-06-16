@@ -38,7 +38,7 @@ executable \textit{bin/ceof}. If a subcommand is followed by the parameter
 All cryptographic operations are accessable by using the \textit{crypto}
 command, as shown in figure \ref{cryptohelp}.
 This module uses the python-gnupg module for cryptographic functionality.
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Crypto Command Usage}
 \label{cryptohelp}
 \begin{verbatim}
@@ -77,7 +77,7 @@ the \textit{-{}-gen-key} parameter (figure \ref{genkey}), which can
 be displayed using the \textit{-{}-show} parameter (figure \ref{showkey})
 and exported using the \textit{-{}-export}
 parameter (figure \ref{exportkey}).
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Generation of Public/Private Key Pair}
 \label{genkey}
 \begin{verbatim}
@@ -85,7 +85,7 @@ parameter (figure \ref{exportkey}).
     --name "Nico Schottelius" --email-address "nico@example.org"
 \end{verbatim}
 \end{figure}
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Show Public/Private Key Pair}
 \label{showkey}
 \begin{verbatim}
@@ -97,7 +97,7 @@ parameter (figure \ref{exportkey}).
 'uids': ['Nico Schottelius (EOF42KEY) <nico@example.org>']}
 \end{verbatim}
 \end{figure}
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Export Public Key}
 \label{exportkey}
 \begin{verbatim}
@@ -125,7 +125,7 @@ jXOLmX++gs2tPyM=
 \end{figure}
 Importing keys is possible via standard input (\textit{stdin})
 and shown in figure \ref{importkey}.
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Import Public Key}
 \label{importkey}
 \begin{verbatim}
@@ -141,7 +141,7 @@ Furthermore de- and encryption are supported.
 The \textit{listener} command is used
 to configures to which addresses the prototype is listening to (figure
 \ref{listenerusage}).
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Listener Command Usage}
 \label{listenerusage}
 \begin{verbatim}
@@ -167,7 +167,7 @@ For the initial setup it is required to configure at least one listener
 using the \textit{-{}-add} parameter, which can be shown afterwards using
 \textit{-{}-list} parameter (figure \ref{addandlistlistener}). 
 Protection against adding unsupported addreses is included.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Add and list listener addresses}
 \label{addandlistlistener}
 \begin{verbatim}
@@ -190,7 +190,7 @@ files to be present in the noise directory (\textit{\textasciitilde{}/.ceof/nois
 Possible sources of noise are the archive of RFCs or
 the Linux Kernel sources, which are copied
 into the noise directory as shown in figure \ref{initnoise}.
-\begin{figure}
+\begin{figure}[htbp]
 \caption{Init Noise Directory}
 \label{initnoise}
 \begin{verbatim}
@@ -208,7 +208,7 @@ The noise command is only provided for debugging purposes.
 The peer command is used to add, remove and list peers, as
 well as adding and removing addresses to peers. Its usage
 is shown in \ref{peerusage}.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Peer Command Usage}
 \label{peerusage}
 \begin{verbatim}
@@ -245,7 +245,7 @@ When adding a peer, it is required to import its public key using
 the \textit{crypto} command before (see figure \ref{importkey}).
 After adding a peer, addresses can be added or removed
 (see figure \ref{peeraddcore}).
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Peer Add}
 \label{peeraddcore}
 \begin{verbatim}
@@ -266,7 +266,7 @@ peer0/729BD24186E4E3F7EA3872FCAB29961528ACE126/['tcp://127.0.0.1:42222',
 \subsection{Onion}
 The onion command is used to create and send onions to other peers.
 The help page is shown in figure \ref{onionusage}.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Onion Command Usage}
 \label{onionusage}
 \begin{verbatim}
@@ -297,7 +297,7 @@ Get ceof at http://www.nico.schottelius.org/software/ceof/
 To create and display the onion, which would usually be send on the network,
 use the \textit{-{}-message} parameter (figure \ref{onioncreate}. 
 To actually send it, use the \textit{-{}-send} parameter.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Create and send an Onion}
 \label{onioncreate}
 \begin{verbatim}
@@ -319,7 +319,7 @@ makes it impossible to receive messages, disabling
 noise prevents the server from sending messages regulary
 and disabling the UI Server disables listening for chat
 UIs (see chapter \ref{chatui}).
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Server Command Usage}
 \label{serverusage}
 \begin{verbatim}
@@ -353,7 +353,7 @@ its usage is shown in figure \ref{tpusage}.
 The parameter \textit{-{}-list} shows the available protocols,
 the parameter \textit{-{}-route} generates a random route to
 a peer. Both commands are show in figure \ref{tplistroute}.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{TP Command Usage}
 \label{tpusage}
 \begin{verbatim}
@@ -377,7 +377,7 @@ optional arguments:
 Get ceof at http://www.nico.schottelius.org/software/ceof/
 \end{verbatim}
 \end{figure}
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{TP List and Route}
 \label{tplistroute}
 \begin{verbatim}
@@ -400,7 +400,7 @@ tcp
 The implementation has been splitted into several python
 modules, which are stored below \textit{src/lib/ceof} 
 (figure \ref{pythonmodules}).
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Modular Design}
 \label{pythonmodules}
 \begin{verbatim}
@@ -437,7 +437,7 @@ When running in server mode, the modular design helps
 to seperate parts into own processes in a way that
 every process could run on a seperate computing
 core. The big picture is shown in figure \ref{bigpicture}.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Implementation: Big Picture}
 \label{bigpicture}
 \includegraphics[scale=0.8]{bigpicture.png}
@@ -456,7 +456,7 @@ number (also called \textit{eofid}) is made based on transformation
 of a string and indeces. The \textit{get\_next()} method ensures returnes
 the next sequence number and takes care of range overflows.
 Code parts are show in figure \ref{eofid}.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{EOFID Code Example}
 \label{eofid}
 \begin{verbatim}
@@ -498,7 +498,7 @@ has been programmed generic, so the main server can use one loop
 to poll data on all queues and selects the right handler based on
 a dictionary entry, which has the same name as the queue dictionary
 entry (figure \ref{queuepoll}).
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Queues / Polling Code Exapmle}
 \label{queuepoll}
 \begin{verbatim}
@@ -533,7 +533,7 @@ The process to do so may look like this:
 \end{enumerate}
 The actual implementation can be found in \textit{src/lib/ceof/onion.py}.
 An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
-\begin{figure}[htb]
+\begin{figure}[htbp][htb]
 \caption{Onion Example Code}
 \label{onionexample}
 \begin{verbatim}
@@ -598,79 +598,224 @@ Several tests were made to verify the correct behaviour of the prototype.
 For most tests the network sniffer Wireshark was used to verify what can be
 seen on the wire.
 % ----------------------------------------------------------------------------
-\subsection{Noise Sending}
-
-To be onionised.
-
-
+\subsection{Onion Structure}
+This test verifies that an onion is constructed in the correct order and that
+the correct fields being setup and noisified for every peer.
+This test was done by running the implementation with the following
+parameters:\\ \verb=./bin/ceof onion --plain --debug --message Test peer0=.
+After analysing the output, it was verified that the onion is created in the
+correct order and fields contain noise.
 \subsubsection{Test Result}
 \begin{itemize}
-\item Test Failed
+\item Success
 \end{itemize}
 % ----------------------------------------------------------------------------
+\subsection{Noise Sending}
+\label{testnoisesending}
+This objective of this test is to verify that the implementation
+\begin{enumerate}[(a)]
+\item sends out packets regulary 
+\item selects different destination peers
+\item selects different addresses of each peer
+\end{enumerate}
+\subsubsection{Test Setup}
+The implementation was configured to know about 11 peers,
+with each one having at least two addresses in the format
+of \verb=tcp://127.0.0.1:4294=, where the port was a random
+port in the range of 4000-50000.
+The implementation was started using
+\\ \verb=./bin/ceof server --verbose=. The packets
+on the network were captured using the network sniffer.
+To be able to receive the packets, the \textit{socat} command was started
+to listen on all ports on which the peers would listen. The
+socat command line is shown in figure \ref{socatlisten}.
+\begin{figure}[htbp]
+\caption{Socat command line for testing}
+\label{socatlisten}
+\begin{verbatim}
+for port in $(cat ~/.ceof/peers/*/addresses | sed 's/.*://'); do
+    ( socat TCP4-LISTEN:$port,reuseaddr,fork - & );
+done
+\end{verbatim}
+\end{figure}
+\subsubsection{Test Result}
+\begin{itemize}
+\item Success
+\end{itemize}
+Using the timeline of the network sniffer and a filter
+to match only new packets
+(\textit{tcp.flags.syn == 1 and tcp.flags.ack == 0}),
+it was revealed that the sending interval equals to
+the one defined in the chat protocol. 
+To verify that all related component of the
+implementation depend on the specific internal sending
+interval, the sending interval was changed from 
+\textbf{0.250s} to \textbf{0.125s}. 
+The difference on the network traffic can be seen in figures
+\ref{sending0250} and \ref{sending0125}.
+\begin{figure}[htbp]
+\caption{Sending data at 0.250s interval}
+\label{sending0250}
+\centering
+\includegraphics[scale=0.5]{noise-at-0250s.png}
+\end{figure}
+\begin{figure}[htbp]
+\caption{Sending data at 0.125s interval}
+\label{sending0125}
+\centering
+\includegraphics[scale=0.5]{noise-at-0125s.png}
+\end{figure}
+The selected destination addresses as seen in the network
+sniffer were compared with the addresses of the peers to verify
+that the implementation does indeed select different peers
+and different addresses of each peer.
+% ----------------------------------------------------------------------------
 \subsection{Encryption}
-This test is used to verify that
+\label{testencryption}
+This test is used to verify that all network traffic is encrypted.
 % \begin{enumerate}[(a)]
 % \item real messages
 % \item and noise
 % \end{enumerate}
-\begin{enumerate}
-\item is encrypted
-\item cannot be distinguished from each other
-\end{enumerate}
-
-To be onionised.
-
+%% \begin{enumerate}
+%% \item is encrypted
+%% \item cannot be distinguished from each other
+%% \end{enumerate}
+\subsubsection{Test Setup}
+The setup was prepared identical to the one described
+in section \ref{testnoisesending}. All packets seen within
+an interval of 60 seconds, in the network sniffer and on 
+the receiving side, were analysed.
 \subsubsection{Test Result}
 \begin{itemize}
-\item Test Failed
+\item Success
 \end{itemize}
+All encrypted messages have been filtered out of the captured
+packet list. Zero packets have been left, no unencrypted traffic
+was produced by the implementation.
 % ----------------------------------------------------------------------------
 \subsection{Receiving Peers Can Decrypt Message}
-When sending out a real message to another peer, the real message should
-be readable by the receiving peer. Furthermore noise messages should be
-decryptable as well, because they contain commands to forward or drop a message.
-
+When sending out a message to another peer, the message should
+be decryptable and readable by the receiving peer, independent of the
+message type. This test verifies that messages can be decrypted.
+\subsubsection{Test Setup}
+In contrast to the tests described in sections
+\ref{testnoisesending} and \ref{testencryption}, only
+one postcard was produced. The number of known peers was shrunk
+to \textbf{6}, so that every participant needs to receive a postcard.
+Afterwards a test instance for every peer was started using
+the script \verb=start_peers.sh= (see \ref{scriptstartpeers}, p.
+\pageref{scriptstartpeers}).
+Afterwards a message was sent manually using
+\\ \verb=./bin/ceof onion -m "hallo peer0" -s peer0=.
 \subsubsection{Test Result}
 \begin{itemize}
-\item Test Failed
+\item Success
 \end{itemize}
+As can be seen in the log files of each implementation,
+the message was received by all peers and successfully decrypted,
+displayed (in case of \textit{peer0}) and forwarded until the last
+peer.
 % ----------------------------------------------------------------------------
 \subsection{Receiving Peer: Authenticity Verification}
 When sending out a real message to another peer, the message should be
-encrypted and signed. The current prototype does \textbf{not} contain
-the logic to sign messages.
+encrypted and signed. 
+The current prototype does \textbf{not} contain
+the logic to sign messages nor to verify signatures.
 \subsubsection{Test Result}
 \begin{itemize}
-\item Test Failed
+\item Fail
 \end{itemize}
 % ----------------------------------------------------------------------------
 \subsection{Effective Bandwidth Usage}
 The calculations in section \ref{bandwidthusage} are based on experimental
 packet sizes as seen in section \ref{pkgsizes}, which do not include
-protocol overhead. To test that the effective bandwidth usage is
-not much higher then the calculated, three steps are taken:
+protocol overhead. This test should reveal the effective required
+bandwidth.
+\subsubsection{Test Setup}
+To test the effective bandwidth usage three steps are taken:
 \begin{itemize}
 \item Measure idle bandwidth (a)
 \item Measure bandwidth while running the prototype (b)
 \item Calculate effective bandwidth as a difference of b and a
 \end{itemize}
-
-After protocol overhead...
+To simplify the test, it was ensured that the idle bandwidth on the
+loopback interface was 0 Bit per second.
+The setup was prepared identical to the one described
+in section \ref{testnoisesending}, with additonally changing
+the sending interval to the values \textbf{0.125s},
+\textbf{0.250s} and \textbf{0.500s}.
 \subsubsection{Test Result}
-\begin{itemize}
-\item Test Failed
-\end{itemize}
+When sending packets at the defined interval of
+\textbf{0.250s}, the effective bandwidth measured is
+circa 25000 Bytes (24 KiB) per second.
+When changing the interval to \textbf{0.500s},
+the effective bandwidth measured is
+12000 Bytes (12 KiB) per second, when changed
+to \textbf{0.125s}, it is 50000 Bytes (49KiB) per second.
+Figures \ref{bw0125}, \ref{bw0250} and
+\ref{bw0500} show the test results from the network sniffer.
+Comparing these numbers to the calculated bandwidth usage
+(section \ref{bwusagetheory}, p. \pageref{bwusagetheory}),
+the effective bandwidth usage is 1.5 times higher than 
+calculated ($50000 / 32768 = 1.52587890625$, $25000 / 16384 = 1.52587890625$,
+12000 / 8000 = 1.5). Thus, the measured bandwidth of 24 KiB/s or
+192 KBit/s is the required outgoing bandwidth to run the chat system.
+\begin{figure}[htbp]
+\caption{Effective Bandwidth Usage (0.125s)}
+\label{bw0125}
+\centering
+\includegraphics[scale=0.5]{bandwidth-0125.png}
+\end{figure}
+\begin{figure}[htbp]
+\caption{Effective Bandwidth Usage (0.250s)}
+\label{bw0250}
+\centering
+\includegraphics[scale=0.5]{bandwidth-0250.png}
+\end{figure}
+\begin{figure}[htbp]
+\caption{Effective Bandwidth Usage (0.500s)}
+\label{bw0500}
+\centering
+\includegraphics[scale=0.5]{bandwidth-0500.png}
+\end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Performance}
 It is important that the system generating noise is able to generate 
 and send noise at the given interval of \textbf{0.25s}.
-This test also considers CPU usage (measured using the \textit{top} command).
-
+\subsubsection{Test Setup}
+This test was inverted and instead of trying to send out data
+at an interval of \textbf{0.25s}, the artifical sending limit was removed
+and measured how many packets per second could be send.
+The setup was prepared identical to the one described
+in section \ref{testnoisesending}. 
 \subsubsection{Test Result}
 \begin{itemize}
-\item Test Failed
+\item Success
 \end{itemize}
+When sending without a limit, a maximum of 13 packets / second
+was measured (see figure \{noisenolimit). The cpu
+usage of one core was around 38\% during the test.
+\begin{figure}[htbp]
+\caption{Packets per second (without sending limit)}
+\label{noisenolimit}
+\centering
+\includegraphics[scale=0.5]{noise-no-limit.png}
+\end{figure}
+As the encryption was suspected to limit the number
+of outgoing packets, another test with plain text
+packets (i.e. no encryption) was made.
+When changing the implementation to send out 
+plain text packets instead of onions the
+cpu usage raised to 100\% and
+around 250 packets / second were sent (see figure
+\ref{noisenolimitplain}.
+\begin{figure}[htbp]
+\caption{Packets per second (without sending limit, plain text)}
+\label{noisenolimitplain}
+\centering
+\includegraphics[scale=0.5]{noise-plain-no-limit.png}
+\end{figure}
 % ----------------------------------------------------------------------------
 \section{Features}
 Based on the requirements defined in section \ref{protofeatures}, 

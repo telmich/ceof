@@ -104,9 +104,14 @@ EOF_UI_PEER_LIST            = "/peer list"
 EOF_UI_PEER_SEND            = "/peer send"
 EOF_UI_HELP                 = "/help"
 
-# Times for sending packets / polling on queues
-EOF_TIME_SEND                = 2
-EOF_TIME_QPOLL               = 2
+# Times for sending packets / polling on queues (in seconds)
+# Sender can be faster than polling, but polling queue may grow
+# due to more packets coming in.
+# In reality having QPOLL a bit  lower (i.e. 1/4 vs 1/5) of QPOLL
+# may be helpful to work through all incoming messages.
+# To be verified.
+EOF_TIME_SEND                = 4
+EOF_TIME_QPOLL               = 4
 
 def fill_and_trim(data, length):
     """Ensure exact length is given, strip away longer stuff"""

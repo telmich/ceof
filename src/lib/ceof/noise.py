@@ -46,7 +46,7 @@ class Server(object):
     def __init__(self, noise_dir, plain=True, peer_dir="", gpg_config_dir=""):
 
         if plain:
-            self._backend = Filesystem(noise_dir)
+            self._backend = FilesystemNoise(noise_dir, peer_dir)
         else:
             self._backend = OnionNoise(noise_dir, peer_dir, gpg_config_dir)
 
@@ -115,10 +115,22 @@ class OnionNoise(object):
 
         return (address, onion_chain)
 
-    def start(self):
-        """Start noise generator"""
-        self._noise.start()
+class FilesystemNoise(object):
+    """Create noise including address information"""
 
+    def __init__(self, noise_dir, peer_dir):
+        self._noise = Filesystem(noise_dir)
+        self._peer_dir = peer_dir
+
+    def get(self, block=True):
+        """Get next onion that consists of noise only"""
+
+        peer = ceof.Peer.list_random_peers(self._peer_dir, 1)[0]
+        address = peer.random_address()
+
+        noise = self._noise.get()
+
+        return (address, noise)
 
 class Filesystem(object):
     """Get noise from filesystem"""
