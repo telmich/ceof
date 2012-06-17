@@ -1,0 +1,5 @@
+Onion routing was developed by Michael G. Reed (formerly of Extreme Networks), Paul F. Syverson, and David M. Goldschlag, and patented by the United States Navy in US Patent No. 6266704 (1998). As of 2009, Tor is the predominant technology that employs onion routing.
+
+http://en.wikipedia.org/wiki/Onion_routing
+
+Even within these confines, onion routing does not provide any guarantee of privacy; rather, it provides a continuum in which the degree of privacy is generally a function of the number of participating routers versus the number of compromised or malicious routers.
