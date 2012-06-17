@@ -1,9 +1,10 @@
 % ----------------------------------------------------------------------------
 \section{Transport Protocols}
+Transport protocols are used to wrap an onion into a postcard
+and to submit the postcard to the next peer.
 This chat protocol does not rely on a specific underlying transport protocol,
-but is \textit{transport protocol independent}. 
-Transport protocols are used to submit an onion to the next peer.
-
+it is \textit{transport protocol independent}. It does however define, which
+transport protocols can be used to ensure interoperability.
 % -----------------------------------------------------------------------------
 \subsection{Network packets ("`postcards"')}
 \label{eofpostcard}
@@ -13,7 +14,7 @@ Transport protocols are used to submit an onion to the next peer.
 A postcard "`packet"' contains one onion packet plus the transport protocol
 shell. Postcard packets are the only packet type that is seen by a possible
 attacker ("`on the wire"'). 
-The name postcard was chosen to reflect the fact, that anyone
+The name postcard was chosen to reflect the fact that anyone
 passing the postcard can read what is written on it.
 % ----------------------------------------------------------------------------
 \subsection{Tunnelling}
@@ -23,7 +24,15 @@ be written into a variety of different transport protocol types.
 This helps to circumvent firewall rules and blocking of a specific
 traffic type. A lot of potential can be found in the reuse of
 common protocols like HTTP and DNS.\cite{rfc1034, rfc1035, rfc2616}
-The process is also called \textit{steganographic}.
+Figure \ref{tptunneling} shows how four different onions could be
+transmitted via four different transport protocols.
+\begin{figure}
+    \centering
+    \caption{Transport Protocol Tunneling}
+    \label{tptunneling}
+    \includegraphics[scale=0.8]{tp-tunneling.png}
+\end{figure}
+%The process is also called \textit{steganographic}.
 % ----------------------------------------------------------------------------
 \subsection{Multiplexing / Variable Addresses}
 \label{multiplexing}
