@@ -1,15 +1,28 @@
 % ----------------------------------------------------------------------------
 \chapter{Analysis and Comparison of Chat Systems}
 \label{chatsystems}
+In my analysis of chat systems, I will start with
+the Internet Relay Chat (IRC). It seems a natural starting point for me,
+as I am still an extensive user of this chat system for historical reasons.
+What worries me is its low security standard, which I will briefly describe.
+I will then turn to SILC, which has been developed to address IRC weakness
+regarding security. Secure message delivery has ben its main
+innovation. XMPP is of special interest, because it has been designed as an
+open and adaptive chat system featuring a high level of decentralisation.
+The last chat system in this comparison is Skype, the only commercial
+system analysed. Due to its questionable development history and present, it s
+a controversially viewed chat system, albeit with a huge user base.
+I will end this chapter by giving an overview of omitted chat systems
+and a comparison of the security features.
 %%    1. Detailed analysis and comparison of open and legacy chat systems
 %%        to summarise current chat system features and their
 %%        security characteristics.
 % ----------------------------------------------------------------------------
 \section{Internet Relay Chat (IRC)}
 \subsection{History}
-IRC has been developed since 1989, but was first formally documented in May 1993 in 
-RFC 1459. It is still widely being used as of today.\cite{rfc1459,ircusage}
-The current protocol is specified in the RFCs 2810-2813.\cite{rfc2810,rfc2811,rfc2812,rfc2813}
+IRC has been developed since 1989 and was first formally documented in May 1993 in 
+RFC 1459\cite{rfc1459}. It is still being widely used.\cite{ircusage}
+The current protocol is specified in the RFCs 2810-2813\cite{rfc2810,rfc2811,rfc2812,rfc2813}.
 %%\begin{quote}
 %%All client-to-server IRC protocols in use today are descended from the protocol implemented in the irc2.4.0 version of the IRC2 server, and documented in RFC 1459. Since RFC 1459 was published, the new features in the irc2.10 implementation led to the publication of several revised protocol documents (RFC 2810, RFC 2811, RFC 2812 and RFC 2813); however, these protocol changes have not been widely adopted among other implementations.\ref{irc-wp}
 %%\end{quote}
@@ -22,8 +35,8 @@ communicate.  All communication between clients is relayed by the
 server(s).
 \end{quote}
 There is, however, an unofficial client extension named 
-\textit{Direct Client-to-Client (DCC)} available in most IRC clients
-that enables direct connections.\footnote{See \cite{dcc}, \cite{ctcp}.}
+\textit{Direct Client-to-Client (DCC)}\cite{dcc,ctcp}
+available in most IRC clients that enables direct connections.
 Figure \ref{ircoverview} shows the schematic overview of an IRC network.
 \begin{figure}
     \caption{Schematic Overview of IRC}
@@ -39,15 +52,17 @@ realised by creating \textit{IRC channels}, sometimes also called
 \textit{chat rooms}.
 % ----------------------------------------------------------------------------
 \subsection{Security}
-The TLS protocol \cite{rfc2246} is being used in some networks,
-but its use is not standardised. Connections from clients to servers
+In general, all communications are based on a plaintext protocol.
+The TLS protocol \cite{rfc2246} is being used for encryption
+in some networks, but its use is not standardised. 
+Connections from clients to servers
 as well as servers to servers may be encrypted.
 Some networks support special channel modes to ensure all connected peers
-are connected using an encrypted connection. There is no such mode for
+use an encrypted connection. There is no such mode for
 direct chat. For normal IRC channels, there is no guarantee that all
 peers are connected using an encrypted connection.
 
-Due to its architecture, every operator of a server can listen to all
+Due to this architecture, every server operator can listen to all
 messages, even if encryption is being used. As the network usually consists
 of many clients, but only a small number of servers, an attacker needs
 to concentrate on a small number of victim hosts only.
@@ -55,18 +70,18 @@ to concentrate on a small number of victim hosts only.
 Usually IRC networks do not provide any kind of anonymisation features:
 every user can request detailed information about other users, including
 their IP address.  The freenode network\cite{freenode} however,
-supports so called \textit{cloaks}, which transfer the IP address information
+supports so called \textit{cloaks}, which transform the IP address information
 into a generic string like \textit{gpm/telmich}, in which gpm describe the
 project and telmich the name. There are various other cloaking expressions
-available
+available.
 % ----------------------------------------------------------------------------
 \section{Secure Internet Live Conferencing (SILC)}
 % ----------------------------------------------------------------------------
 \subsection{History}
-The \textit{secure Internet Live Conferencing (SILC)} protocol
+The \textit{Secure Internet Live Conferencing (SILC)} protocol
 has been developed by Pekka Riikonen since 1996. The first public release
-has been made in 2000. The last releases of SILC software (server and client)
-are dated at 2009. Silc can be considered a more secure successor of IRC,
+was made in 2000. The latest releases of SILC software (server and client)
+date back to 2009. SILC can be considered a more secure successor of IRC,
 as can be seen in the following quote:
 \begin{quote}
 \ldots{}
@@ -81,7 +96,7 @@ or IM-like system. \ldots{}\cite{silcwp}
 As far as the official website reports,
 there is no version controlled source code repository available,
 only tarballs from 2009 are download-able. This may indicate that the
-development of the SILC software has stagnated.
+development of the SILC software has stalled.
 % The SILC Project's goal is to fully standardize the SILC protocol in the IETF. 
 %Bug form does not return any bugs.
 Besides the official SILC Network, which is run by 7 SILC servers,
@@ -89,7 +104,7 @@ there are about 12 other SILC networks being run.\cite{wiki:silc}
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
 Figure \ref{silcoverview} shows 
-that SILC Network architecture looks similar to IRC network architecture: 
+that SILC network architecture looks similar to the IRC network architecture: 
 \begin{figure}
     \centering
     \caption[Schematic Overview of SILC]{Schematic Overview of SILC\\Image source: \protect\url{http://www.silcnet.org/img/silc_network.png}}
@@ -131,7 +146,7 @@ decrypt the message. Figure \ref{silcprivkey} illustrates this behaviour.
 % ----------------------------------------------------------------------------
 \subsection{Security}
 As all messages in the SILC network are encrypted, an external attacker
-cannot read the message content. In case Private message delivery with session keys
+cannot read the message content. In case private message delivery with session keys
 is utilised, a compromised SILC server may be used to intercept and read all
 messages. This is not possible, if messages are sent using
 private message delivery with private message key.
@@ -145,16 +160,16 @@ to query detailed information about a peer including the IP address.
 \section{Extensible Messaging and Presence Protocol (XMPP)}
 % ----------------------------------------------------------------------------
 \subsection{History}
-The \textit{Extensible Messaging and Presence Protocol (XMPP}
+The \textit{Extensible Messaging and Presence Protocol (XMPP)}
 was originally developed by Jeremie Miller in 1998 and released
 to the public as \textit{Jabber} in 1999. In 2004 Jabber
 was transferred to the IETF, renamed to XMPP
 and is now defined in several
-RFCs.\cite{rfc3920,rfc3921,rfc3922,rfc3923,rfc4622,rfc4854,rfc4979,rfc6120,rfc6121}
+RFCs\cite{rfc3920,rfc3921,rfc3922,rfc3923,rfc4622,rfc4854,rfc4979,rfc6120,rfc6121}.
 Since then, the \textit{XMPP Standards Foundation (XSF)} is responsible
 for standardising XMPP related protocols, the so called 
 \textit{XMPP Extension Protocols (XEP)}.
-It is estimated that by 2003 XMPP has been used by 10 million people.\cite{xmppuser}
+By 2003 XMPP has been used by an estimated 10 million people\cite{xmppuser}.
 AOL added experimental support for XMPP in the 
 \textit{AOL instant Messenger (AIM)} in 2008.
 In 2010 the social-networking site Facebook added support for
@@ -164,12 +179,12 @@ server implementations available.
 % ----------------------------------------------------------------------------
 \subsection{Architecture}
 The XMPP network is built upon the ideas of e-mail: Users are identified
-by e-mail alike usernames like \textit{nico@example.org}. The clients and
-servers of the network find the correct server to talk to by making an
+by e-mail like usernames like \textit{nico@example.org}. The clients and
+servers find the correct server to talk to by making a
 DNS SRV\cite{rfc2782} look-up. 
-Clients are asking for the \textit{xmpp-client} service
+Clients are asking for the \textit{xmpp-client} service and
 servers are asking for the \textit{xmpp-server} service.
-Thus a client thus may ask for a SRV record
+Thus a client may ask for a SRV record
 \url{_xmpp-client._tcp.example.net.} or a server for
 \url{_xmpp-server._tcp.im.example.com.}
 If there is no SRV record, the client or server can fall back
@@ -185,7 +200,7 @@ to \textit{nico@example.net}.
 \end{figure}
 XMPP formats messages based on the 
 \textit{Extensible Markup Language (XML)} and
-supports authentication using a 
+supports authentication using the
 Simple Authentication and Security Layer (SASL)\cite{rfc4422}.
 Clients never talk directly to each other in a XMPP network, but
 always use one or more servers in between. Compared to IRC and SILC,
@@ -193,12 +208,11 @@ XMPP is the only protocol that supports connecting other protocols
 like AIM or IRC.
 % ----------------------------------------------------------------------------
 \subsection{Security}
-Within XMPP TLS is being used for encryption 
-and SASL for authentication.
-XMPP does not have mechanism to support anonymity.
+Within XMPP, TLS is being used for encryption and SASL for authentication.
+XMPP does not have a mechanism to support anonymity.
 To create a DoS attack, an attacker can choose to take either the sending
 or the receiving server down. Due to its openness, an attacker can find out
-which server she needs to attack by doing DNS queries. Though when attacking
+which server needs to be attacked by doing DNS queries. Though when attacking
 the sending server, the sending client can just switch to another server,
 as figure \ref{jabbersendingserverattack} shows.
 \begin{figure}
@@ -233,12 +247,14 @@ has successfully managed to reverse engineer the
 protocol. The suspected results can be found on \cite{skype:source}.
 In May 2011 Microsoft acquired Skype. There are various efforts made to 
 keep up the reverse engineering of the program and the 
-protocol, some driven by Russian scientist.
+protocol, some driven by Russian scientist. During the research
+of this thesis multiple websites referencing protocol details have been
+made unaccessable, some of them were replaced by a website that claimed
+that the content is prohibited by the Digital Millennium Copyright Act (DMCA).
 Skype as of today is being used on many computers and mobile phones.
 
 There is also a variant of Skype available called TOM, which has been produced
 for the Chinese market after Skype's initial banning from the China.
-
 %% http://www1.cs.columbia.edu/~library/TR-repository/reports/reports-2004/cucs-039-04.pdf
 %% 
 %% 
@@ -286,9 +302,9 @@ In contrast to the previous three protocols, Skype use is more focused on voice 
 The connection is encrypted using AES-256, the keys are encrypted using
 1536 up to 2048 Bit RSA.
 Furthermore variants of RC4 are being used, which may be attackable.
-The website claiming this attack is not reachable, but still quoted
+The website describing this attack is not reachable anymore, but 
+is still quoted
 on Wikipedia.\footnote{\url{http://www.enrupt.com/index.php/2010/07/07/skype-biggest-secret-revealed}}
-
 % ----------------------------------------------------------------------------
 \subsection{Security}
 Although Skype makes use of secure encryption methods (AES, RSA), it has
@@ -316,18 +332,19 @@ captured messages contain words that are too common for extensive logging, sugge
 that there may be criteria, such as specific usernames, that determine whether messages are
 captured by the system.
 \end{quote}
-As the non-TOM Skype binary itself is encrypted, it is possible it contains similar
+As the non-TOM Skype binary itself is encrypted, it is possible that it contains similar
 functions.
 Another uncertainty is caused by statements of government agencies, which
-claim to be able to intercept all Skype traffic. As Skype is to be treated
-similar to traditional phone companies, this indicates truth of the given
-statements  Furthermore recent reports
+claim to be able to intercept all Skype traffic.
+Skype is treated
+similarly as traditional phone companies, which indicates truth of the given
+statements.
+Furthermore recent reports
 indicate that Microsoft changes the supernode structure so that instead of having
 supernodes at the user, the supernodes reside centrally at Microsoft's
 datacenters to allow easy wiretapping.\cite{skype:supernodechange}
 %% Skype konnte schon zuvor durch Ermittlungsbehörden abgehört werden.[8]
 %% Austrian public broadcasting service ORF, citing minutes from the meeting, reported that "the Austrian police are able to listen in on Skype connections". Skype declined to comment on the reports.
-%% 
 % ----------------------------------------------------------------------------
 \section{Other}
 There are further chat protocols, which have not been included into this
