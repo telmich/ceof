@@ -25,6 +25,9 @@ praesi: initial-meeting.tex
 spellcheck:
 	aspell -c ebs_v3 -d en_GB
 
-
 clean:
-	rm -f *.aux *.toc *.log *.pdf $(USDOC) $(USLDOC) $(MDOC)
+	rm -f *.aux *.toc *.log *.pdf *.idx $(USDOC) $(USLDOC) $(MDOC)
+	rm -f proto/*.aux proto/*.toc proto/*.log proto/*.pdf
+
+iso:
+	cd /home/users/nico/.bachelorarbeit && mkisofs -graft-points -J -R -file-mode 0755 -dir-mode 0755 doc/=doc src/=src README > thesis.iso
