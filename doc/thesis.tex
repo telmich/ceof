@@ -57,47 +57,47 @@
 \include{conclusions}
 % ----------------------------------------------------------------------------
 \appendix
-\chapter{UI and User integration}
-The following sections have been written and used in a parallel project to
-develop a chat UI that is independent on the actual chat server.
-The implemented chat ui can be used for chatting with the prototype
-implementation.
-\label{chatui}
-\include{proto/ui}
-\include{proto/user}
 \include{references}
-% ----------------------------------------------------------------------------
-\chapter{Test Results and Scripts}
-\section{start\_peers.sh}
-\label{scriptstartpeers}
-\begin{lstlisting}
-#!/bin/sh -ex
-# Nico Schottelius, Fri Apr  6 15:43:17 CEST 2012
-#
-# Add test peers to each other peer
-
-dir=/home/users/nico/privat/bildung/hsz-t/lernen/bachelorarbeit/src
-ceof=$dir/bin/ceof
-peerdir=$dir/../test/peers
-
-cd $dir
-. ./pythonenv 
-
-cd $peerdir
-
-#for peer in *; do
-for peer in $(seq 0 5); do
-
-    dir="$peerdir/$peer"
-
-    echo $peer ...
-    $ceof -c $dir listener --list
-    
-    $ceof -c $dir server -d --no-noise &
-
-#    read a
-done
-\end{lstlisting}
+%% \chapter{UI and User integration}
+%% The following sections have been written and used in a parallel project to
+%% develop a chat UI that is independent on the actual chat server.
+%% The implemented chat ui can be used for chatting with the prototype
+%% implementation.
+%% \label{chatui}
+%% \include{proto/ui}
+%% \include{proto/user}
+%% % ----------------------------------------------------------------------------
+%% \chapter{Test Results and Scripts}
+%% \section{start\_peers.sh}
+%% \label{scriptstartpeers}
+%% \begin{lstlisting}
+%% #!/bin/sh -ex
+%% # Nico Schottelius, Fri Apr  6 15:43:17 CEST 2012
+%% #
+%% # Add test peers to each other peer
+%% 
+%% dir=/home/users/nico/privat/bildung/hsz-t/lernen/bachelorarbeit/src
+%% ceof=$dir/bin/ceof
+%% peerdir=$dir/../test/peers
+%% 
+%% cd $dir
+%% . ./pythonenv 
+%% 
+%% cd $peerdir
+%% 
+%% #for peer in *; do
+%% for peer in $(seq 0 5); do
+%% 
+%%     dir="$peerdir/$peer"
+%% 
+%%     echo $peer ...
+%%     $ceof -c $dir listener --list
+%%     
+%%     $ceof -c $dir server -d --no-noise &
+%% 
+%% #    read a
+%% done
+%% \end{lstlisting}
 %% \lstset{
 %%    breakatwhitespace=true,
 %%    extendedchars=true,
@@ -108,8 +108,8 @@ done
 %%    showtabs=false,
 %%    captionpos=b
 %% }
-\section{Message Receiving Peers (Debug Output)}
-\label{debugoutputrecvpeers}
+%\section{Message Receiving Peers (Debug Output)}
+%\label{debugoutputrecvpeers}
 %% \lstinputlisting[breakatwhitespace=true, firstline=700, lastline=710, breaklines=true]{logs/message-receive-log-of-peers-debug-log}
 %\lstinputlisting[breakatwhitespace=true, firstline=1, lastline=50]{logs/message-receive-log-of-peers-debug-log}
 %\lstinputlisting[breakatwhitespace=true,breaklines=true]{logs/message-receive-log-of-peers-debug-log}
