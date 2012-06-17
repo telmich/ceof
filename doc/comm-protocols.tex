@@ -1,8 +1,18 @@
 \chapter{Analysis of related communication protocols}
 \label{commprotocols}
-
+In this chapter I will outline the related communication protocols.
+The Mix Networks, Tor and Freenet all focus on providing anonymity to
+the user, which slightly different approaches. I2P seems to be another
+interesting anonymity enhancing service, which is only
+briefly discussed due to the lack of documentation. A completly different
+approach for security and indirectly for anonymity is taken by
+Off-the-Record Messaging (OTR), which focuses on short time keys.
+In the end of this chapter is RUDP shown, which aims to provide reliable
+communication over an unreliable link.
+Due to the different fields of application of the shown protocols, a
+comparison is omitted.
 % ----------------------------------------------------------------------------
-\section{Mix networks}
+\section{Mix Networks}
 Mix networks are also known as onion routing or digital mixes and
 were invented by David Chaum in 1981.\cite{Chaum:1981:UEM:358549.358563}
 \begin{figure}
@@ -18,6 +28,12 @@ to send the packet to. Using this method, every peer only knows about
 its predecessor and successor. For encryption Public-Key-Cryptography (RSA) is used.
 The original approach was focusing on Mixes for e-mail delivery.
 % Patent \url{http://patft1.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=1&f=G&l=50&co1=AND&d=PTXT&s1=6266704.PN.&OS=PN/6266704&RS=PN/6266704}
+
+There are also various projects, which do not try to implement
+generic packet sending, but focus on sending only e-mails anonymously.
+Projects like Mixmaster\cite{mixmaster}, 
+Babel\cite{babel} or Mixminion\cite{mixminion} implement
+this technology.
 % ----------------------------------------------------------------------------
 \section{Tor}
 The Tor network has been published in 2004
@@ -74,26 +90,11 @@ the circuit.\footnote{Quote from \cite{tor}.}
 %% 
 %% \cite{tor}
 % ----------------------------------------------------------------------------
-\section{Off-the-Record Messaging (OTR)}
-Off-the-Record Messaging (OTR) has been introduced by
-Nikita Borisov, Ian Goldberg and Eric Brewer in 2004.\cite{otr}
-In contrast to other approaches OTR does not rely on long term
-keys as usually used in Public-Key-Cryptography. OTR instead
-uses short time keys, to prevent decryption of sniffed messages,
-if access to the private key is gained after some time.
-
-Furthermore OTR includes measures to include repudiability, though
-provide authentication during a session using
-message authentication codes (MAC).
-OTR works as a drop in for existing chat programs and offers auto-detection
-if the other side is capable of using OTR as well.
-%As of OTR 3.1 the protocol supports mutual authentication of users using a shared secret through the socialist millionaire protocol. This feature makes it possible for users to verify the identity of the remote party and avoid a man in the middle attack without the inconvenience of manually comparing public key fingerprints through an outside channel. 
-% \url{http://de.wikipedia.org/wiki/Off-the-Record_Messaging}
-% ----------------------------------------------------------------------------
 \section{Freenet}
 Freenet has been published in 2001 by
 Ian Clarke , Oskar Sandberg , Brandon Wiley and Theodore W. Hong.\cite{freenet}
-Its primary use the anonymous storage (and retrieval) of files.
+Its primary use the anonymous storage (and retrieval) of files. For this
+reason, it is not directly related to the requirements found in a chat system.
 Freenet is described as following:
 \begin{quote}
 Freenet is free software which lets you anonymously share files, browse and publish "freesites" (web sites accessible only through Freenet) and chat on forums, without fear of censorship. Freenet is decentralised to make it less vulnerable to attack, and if used in "darknet" mode, where users only connect to their friends, is very difficult to detect.\footnote{Quote from \url{https://freenetproject.org/whatis.html}}
@@ -111,7 +112,7 @@ following the roadmap.\footnote{Quote from \url{http://www.i2p2.de/how_intro}.}
 \\
 I2P is a scalable, self organizing, resilient packet switched anonymous network layer, upon which any number of different anonymity or security conscious applications can operate. Each of these applications may make their own anonymity, latency, and throughput tradeoffs without worrying about the proper implementation of a free route mixnet, allowing them to blend their activity with the larger anonymity set of users already running on top of I2P.\footnote{Quote from \url{http://www.i2p2.de/techintro.html}.}
 \end{quote}
-Although the overall of the impression of the website indicates that it may provide a
+Although the overall impression of the website indicates that it may provide a
 reasonable base for anonymous communications, the lack of a central architecture or
 design paper makes it hard to judge about it.
 %% I2P (initially short for Invisible Internet Project)
@@ -133,6 +134,22 @@ design paper makes it hard to judge about it.
 %% The first time a client wants to contact another client, they make a query against the fully distributed "network database" - a custom structured distributed hash table (DHT) based off the Kademlia algorithm. This is done to find the other client's inbound tunnels efficiently, but subsequent messages between them usually includes that data so no further network database lookups are required.
 %% 
 %% This "garlic encryption" lets Alice's router wrap up multiple messages into a single "garlic message",
+% ----------------------------------------------------------------------------
+\section{Off-the-Record Messaging (OTR)}
+Off-the-Record Messaging (OTR) has been introduced by
+Nikita Borisov, Ian Goldberg and Eric Brewer in 2004.\cite{otr}
+In contrast to other approaches OTR does not rely on long term
+keys as usually used in Public-Key-Cryptography. OTR instead
+uses short time keys, to prevent decryption of sniffed messages,
+if access to the private key is gained after some time.
+
+Furthermore OTR includes measures to include repudiability, though
+provide authentication during a session using
+message authentication codes (MAC).
+OTR works as a drop in for existing chat programs and offers auto-detection
+if the other side is capable of using OTR as well.
+%As of OTR 3.1 the protocol supports mutual authentication of users using a shared secret through the socialist millionaire protocol. This feature makes it possible for users to verify the identity of the remote party and avoid a man in the middle attack without the inconvenience of manually comparing public key fingerprints through an outside channel. 
+% \url{http://de.wikipedia.org/wiki/Off-the-Record_Messaging}
 % ----------------------------------------------------------------------------
 \section{Reliable UDP (RUDP)}
 Reliable UDP was specified in an internet draft at IETF written in 1999 by
@@ -220,12 +237,6 @@ with RUDP as well.
 %% 
 % ----------------------------------------------------------------------------
 %%% High latency:
-\section{Remailer}
-Besides anonymous networks for generic packet sending, the remailer approach
-to send emails anonymously, have been quite popular.
-Projects like Mixmaster\cite{mixmaster}, 
-Babel\cite{babel} or Mixminion\cite{mixminion} implement
-the Mixes principle\cite{Chaum:1981:UEM:358549.358563}.
 %% Low Latency:
 %% \section{Anonymizer}
 %% The simplest low-latency designs are single-hop proxies
@@ -250,5 +261,5 @@ the Mixes principle\cite{Chaum:1981:UEM:358549.358563}.
 %P5
 %go even further, requiring broadcast. 
 % ----------------------------------------------------------------------------
-\section{Summary}
-Report of related communication protocols including strength and weaknesses
+%\section{Summary}
+%Report of related communication protocols including strength and weaknesses
