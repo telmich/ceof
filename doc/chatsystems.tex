@@ -53,17 +53,17 @@ of many clients, but only a small number of servers, an attacker needs
 to concentrate on a small number of victim hosts only.
 
 Usually IRC networks do not provide any kind of anonymisation features:
-every user can request detailled information about other users, including
+every user can request detailed information about other users, including
 their IP address.  The freenode network\cite{freenode} however,
 supports so called \textit{cloaks}, which transfer the IP address information
 into a generic string like \textit{gpm/telmich}, in which gpm describe the
-project and telmich the name. There are various other cloacking expressions
+project and telmich the name. There are various other cloaking expressions
 available
 % ----------------------------------------------------------------------------
 \section{Secure Internet Live Conferencing (SILC)}
 % ----------------------------------------------------------------------------
 \subsection{History}
-The \textit{ecure Internet Live Conferencing (SILC)} protocol
+The \textit{secure Internet Live Conferencing (SILC)} protocol
 has been developed by Pekka Riikonen since 1996. The first public release
 has been made in 2000. The last releases of SILC software (server and client)
 are dated at 2009. Silc can be considered a more secure successor of IRC,
@@ -80,7 +80,7 @@ or IM-like system. \ldots{}\cite{silcwp}
 \end{quote}
 As far as the official website reports,
 there is no version controlled source code repository available,
-only tarballs from 2009 are downloadable. This may indicate that the
+only tarballs from 2009 are download-able. This may indicate that the
 development of the SILC software has stagnated.
 % The SILC Project's goal is to fully standardize the SILC protocol in the IETF. 
 %Bug form does not return any bugs.
@@ -106,7 +106,7 @@ In any case, all messages are travelling through supporting servers and are neve
 transmitted directly from one to another client.
 % ----------------------------------------------------------------------------
 \subsubsection{Private Message Delivery With Session Keys}
-When the silc client uses session keys, every message is send encrypted
+When the SILC client uses session keys, every message is send encrypted
 with the session key of the next peer, decrypted at the peer and re-encrypted
 for the next peer in the chain, as can be seen in figure \ref{silcsessionkey}.
 \begin{figure}
@@ -132,7 +132,7 @@ decrypt the message. Figure \ref{silcprivkey} illustrates this behaviour.
 \subsection{Security}
 As all messages in the SILC network are encrypted, an external attacker
 cannot read the message content. In case Private message delivery with session keys
-is utilised, a comproised SILC server may be used to intercept and read all
+is utilised, a compromised SILC server may be used to intercept and read all
 messages. This is not possible, if messages are sent using
 private message delivery with private message key.
 Due to the small number of servers (7 in the official network),
@@ -140,7 +140,7 @@ an attacker could run a \textit{Denial-of-Service (DoS)} attack to prevent
 users from chatting.
 
 The SILC network does not provide any kind of anonymity services and allows
-to query detailled information about a peer including the IP address.
+to query detailed information about a peer including the IP address.
 % ----------------------------------------------------------------------------
 \section{Extensible Messaging and Presence Protocol (XMPP)}
 % ----------------------------------------------------------------------------
@@ -148,7 +148,7 @@ to query detailled information about a peer including the IP address.
 The \textit{Extensible Messaging and Presence Protocol (XMPP}
 was originally developed by Jeremie Miller in 1998 and released
 to the public as \textit{Jabber} in 1999. In 2004 Jabber
-was transfered to the IETF, renamed to XMPP
+was transferred to the IETF, renamed to XMPP
 and is now defined in several
 RFCs.\cite{rfc3920,rfc3921,rfc3922,rfc3923,rfc4622,rfc4854,rfc4979,rfc6120,rfc6121}
 Since then, the \textit{XMPP Standards Foundation (XSF)} is responsible
@@ -166,7 +166,7 @@ server implementations available.
 The XMPP network is built upon the ideas of e-mail: Users are identified
 by e-mail alike usernames like \textit{nico@example.org}. The clients and
 servers of the network find the correct server to talk to by making an
-DNS SRV\cite{rfc2782} lookup. 
+DNS SRV\cite{rfc2782} look-up. 
 Clients are asking for the \textit{xmpp-client} service
 servers are asking for the \textit{xmpp-server} service.
 Thus a client thus may ask for a SRV record
@@ -197,7 +197,7 @@ Within XMPP TLS is being used for encryption
 and SASL for authentication.
 XMPP does not have mechanism to support anonymity.
 To create a DoS attack, an attacker can choose to take either the sending
-or the receiving server down. Due to its openess, an attacker can find out
+or the receiving server down. Due to its openness, an attacker can find out
 which server she needs to attack by doing DNS queries. Though when attacking
 the sending server, the sending client can just switch to another server,
 as figure \ref{jabbersendingserverattack} shows.
@@ -233,11 +233,11 @@ has successfully managed to reverse engineer the
 protocol. The suspected results can be found on \cite{skype:source}.
 In May 2011 Microsoft acquired Skype. There are various efforts made to 
 keep up the reverse engineering of the program and the 
-protocol, some driven by russian scientist.
+protocol, some driven by Russian scientist.
 Skype as of today is being used on many computers and mobile phones.
 
 There is also a variant of Skype available called TOM, which has been produced
-for the chinese market after Skype's inital banning from the China.
+for the Chinese market after Skype's initial banning from the China.
 
 %% http://www1.cs.columbia.edu/~library/TR-repository/reports/reports-2004/cucs-039-04.pdf
 %% 
@@ -261,7 +261,7 @@ As figure \ref{skypearch} shows, it consists of three entities:
 \item Ordinary Nodes
 \item Login Servers
 \end{itemize}
-The function os these three nodes is explained in \cite{skype-analysis}:
+The function of these three nodes is explained in \cite{skype-analysis}:
 \begin{quote}
 An ordinary host is
 a Skype application that can be used to place voice calls and send
@@ -296,7 +296,7 @@ various other security threads: The software itself is programmed to detect
 debugging scenarios and contains encrypted code. This may led to the
 assumption that the Skype developers are trying to hide information from the
 user. Although Skype is reported to support encryption between the two
-communicating peers\cite{skype:encrypted}, at least the chinese variant TOM
+communicating peers\cite{skype:encrypted}, at least the Chinese variant TOM
 supports surveillance operations:\cite{skype-tom}
 \begin{quote}
 The full text chat messages of TOM-Skype users, along with Skype users who have
@@ -318,12 +318,12 @@ captured by the system.
 \end{quote}
 As the non-TOM Skype binary itself is encrypted, it is possible it contains similar
 functions.
-Another uncertainty is caused by statements of government agencys, which
+Another uncertainty is caused by statements of government agencies, which
 claim to be able to intercept all Skype traffic. As Skype is to be treated
 similar to traditional phone companies, this indicates truth of the given
 statements  Furthermore recent reports
 indicate that Microsoft changes the supernode structure so that instead of having
-supernodes at the user, the supernodes reside centrally at Microsofts
+supernodes at the user, the supernodes reside centrally at Microsoft's
 datacenters to allow easy wiretapping.\cite{skype:supernodechange}
 %% Skype konnte schon zuvor durch Ermittlungsbehörden abgehört werden.[8]
 %% Austrian public broadcasting service ORF, citing minutes from the meeting, reported that "the Austrian police are able to listen in on Skype connections". Skype declined to comment on the reports.
@@ -334,15 +334,15 @@ There are further chat protocols, which have not been included into this
 analysis, either because of known weaknesses, irrelevance or small user base.
 ICQ, which has been published in 1996, is not being widely used anymore
 and its protocol, OSCAR\cite{oscar}, is based on plain text messages.
-ICQ used to be popular, but has been sold to the russian Mail.ru group.
+ICQ used to be popular, but has been sold to the Russian Mail.ru group.
 Furthermore the old \textit{Microsoft Messenger protocol (MSN)} has not
 been taken into account.
 % ----------------------------------------------------------------------------
-\section{Security features and Comparision}
+\section{Security features and Comparison}
 The different chat systems and their architectures have shown a variety
 of strength and weaknesses, which are summarised in the table below.
 \begin{longtable}{|c|c|c|c|c|}
-\caption{Chat system comparision with security features}\\
+\caption{Chat system comparison with security features}\\
 \hline
 \textbf{Name} & \textbf{IRC} & \textbf{SILC} & \textbf{XMPP} & \textbf{Skype}\\
 \hline
@@ -351,7 +351,7 @@ being centralised by Microsoft's work.}\\
 \hline
 \textbf{Encrypted messages} & optional & yes & yes & yes\\
 \hline
-\textbf{Anonymity Support} & yes/no\footnote{IP address cloacking}  & yes/no\footnote{IP address cloacking} & no & no\\
+\textbf{Anonymity Support} & yes/no\footnote{IP address cloaking}  & yes/no\footnote{IP address cloaking} & no & no\\
 \hline
 \textbf{Proprietary Protocol} & no  & no & no & yes\\
 \hline
@@ -359,7 +359,7 @@ being centralised by Microsoft's work.}\\
 \hline
 \textbf{Network being run by one (commercial) company} & no  & no & no & yes\\
 \hline
-\textbf{Source Code accessable} & yes  & yes & yes & no\\
+\textbf{Source Code accessible} & yes  & yes & yes & no\\
 \hline
 \textbf{Encrypted binary software} & no  & no & no & yes\\
 \hline
