@@ -16,7 +16,7 @@ number of peers (the mixes) as shown in figure \ref{mixesflow}.
 Every peer decrypts the message, which reveals which is the next peer
 to send the packet to. Using this method, every peer only knows about
 its predecessor and successor. For encryption Public-Key-Cryptography (RSA) is used.
-The original approach was focussing on Mixes for e-mail delivery.
+The original approach was focusing on Mixes for e-mail delivery.
 % Patent \url{http://patft1.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=1&f=G&l=50&co1=AND&d=PTXT&s1=6266704.PN.&OS=PN/6266704&RS=PN/6266704}
 % ----------------------------------------------------------------------------
 \section{Tor}
@@ -94,7 +94,7 @@ if the other side is capable of using OTR as well.
 Freenet has been published in 2001 by
 Ian Clarke , Oskar Sandberg , Brandon Wiley and Theodore W. Hong.\cite{freenet}
 Its primary use the anonymous storage (and retrieval) of files.
-Freenet is described as follwing:
+Freenet is described as following:
 \begin{quote}
 Freenet is free software which lets you anonymously share files, browse and publish "freesites" (web sites accessible only through Freenet) and chat on forums, without fear of censorship. Freenet is decentralised to make it less vulnerable to attack, and if used in "darknet" mode, where users only connect to their friends, is very difficult to detect.\footnote{Quote from \url{https://freenetproject.org/whatis.html}}
 \end{quote}
@@ -140,14 +140,14 @@ T. Bova and T. Krivoruchka.\cite{rudp}
 The relevant features RUDP enhanced UDP\cite{rfc768} with
 are:
 \begin{itemize}
-\item Acknowledgment of received packets
+\item Acknowledgement of received packets
 \item Retransmission of lost packets
 \end{itemize}
 RUDP relates to this thesis, because it provides a simple method
 to create reliability over an unreliable link. RUDP is
 featured by sequence numbers and a synchronisation at communication
 begin similar to TCP.\cite{rfc793}
-RUDP ensures reliability by providing a resend mechanismus, which may
+RUDP ensures reliability by providing a resend mechanism, which may
 be adjusted to resend messages infinitely until the the message has
 been acknowledged from the peer.
 Due to the use of sequence numbers packet duplication can be detected
@@ -222,7 +222,7 @@ with RUDP as well.
 %%% High latency:
 \section{Remailer}
 Besides anonymous networks for generic packet sending, the remailer approach
-to send emails anonymiously, have been quite popular.
+to send emails anonymously, have been quite popular.
 Projects like Mixmaster\cite{mixmaster}, 
 Babel\cite{babel} or Mixminion\cite{mixminion} implement
 the Mixes principle\cite{Chaum:1981:UEM:358549.358563}.
