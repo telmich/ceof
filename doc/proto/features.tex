@@ -23,17 +23,6 @@ This protocol specifies the use of
 \item and OpenPGP (\ref{openpgp}, p. \pageref{openpgp})
 \end{itemize}
 to achieve a high degree of anonymity.
-
-FIXME
-
-\subsubsection{Hide message receiver}
-The message packets are always sent indirectly via onion routing\cite{onion-1}.
-The idea is taken from the Tor project\cite{tor-1}, though EOF uses an enhanced
-version: EOF does not know about entry or exit nodes. If you are the intended
-receiver you may or may not continue to forward the message, which is defined
-by the sender of the message. That said, EOF must use source 
-routing\cite{source-routing-1}.
-
 % ----------------------------------------------------------------------------
 \subsubsection{Degree of Anonymity}
 \label{degreeofanonymity}
