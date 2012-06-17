@@ -1,0 +1,2 @@
+i=0; while [ $i -lt 8 ]; do peer="peer$i"; mkdir -p $peer; echo $peer > $peer/name; echo A0314E7124560CD3F8885B354918CADD1A6B3063 > $peer/fingerprint; port=$((6666+$i)); echo tcp:127.0.0.1:$port > $peer/addresses; port=$((7777+$i)); echo tcp:127.0.0.1:$port  >> $peer/addresses; i=$(($i+1)); done
+
