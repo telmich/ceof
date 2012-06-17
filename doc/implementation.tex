@@ -1,8 +1,8 @@
 % ----------------------------------------------------------------------------
 \chapter{Implementation of the Prototype}
-The prototype was developed using spiral software development model.
-It is named \textit{ceof}. The source code can be found in the subdirectory
-\textit{src}.
+The prototype was developed using the spiral software development model.
+It is named \textit{ceof}. The source code can be found in the 
+directory \textit{src}.
 % 5. Technical documentation and prototype for the new chat system
 % ----------------------------------------------------------------------------
 \section{Environment}
@@ -23,13 +23,14 @@ on all major platforms.
 All configurations are saved in the \textit{cconfig}\cite{cconfig} format.
 The path to the configuration directory is usually derived by taking
 the content of the environment variable \textit{HOME} and appending
-the subdirectory \textit{.ceof}. On Linux this is referenced as
+the subdirectory \textit{.ceof}. On Unix this is referenced as
 \textit{\textasciitilde{}/.ceof/}.
 % ----------------------------------------------------------------------------
 \section{Usage}
 % ----------------------------------------------------------------------------
 \subsection{Command Line Interface (CLI)}
-The implemented prototype can be used using a command line interface.
+The implemented prototype provides a command line interface to access
+all functionality.
 All operations are grouped into commands, which are handled by the
 executable \textit{bin/ceof}. If a subcommand is followed by the parameter
 \textit{-h}, then a usage screen is displayed.
@@ -139,7 +140,7 @@ Furthermore de- and encryption are supported.
 % -----------------------------------------------------------------------------
 \subsection{Listener}
 The \textit{listener} command is used
-to configures to which addresses the prototype is listening to (figure
+to configure to which addresses the prototype is listening to (figure
 \ref{listenerusage}).
 \begin{figure}[htbp]
 \caption{Listener Command Usage}
@@ -208,7 +209,7 @@ The noise command is only provided for debugging purposes.
 The peer command is used to add, remove and list peers, as
 well as adding and removing addresses to peers. Its usage
 is shown in \ref{peerusage}.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Peer Command Usage}
 \label{peerusage}
 \begin{verbatim}
@@ -245,7 +246,7 @@ When adding a peer, it is required to import its public key using
 the \textit{crypto} command before (see figure \ref{importkey}).
 After adding a peer, addresses can be added or removed
 (see figure \ref{peeraddcore}).
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Peer Add}
 \label{peeraddcore}
 \begin{verbatim}
@@ -266,7 +267,7 @@ peer0/729BD24186E4E3F7EA3872FCAB29961528ACE126/['tcp://127.0.0.1:42222',
 \subsection{Onion}
 The onion command is used to create and send onions to other peers.
 The help page is shown in figure \ref{onionusage}.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Onion Command Usage}
 \label{onionusage}
 \begin{verbatim}
@@ -297,7 +298,7 @@ Get ceof at http://www.nico.schottelius.org/software/ceof/
 To create and display the onion, which would usually be send on the network,
 use the \textit{-{}-message} parameter (figure \ref{onioncreate}. 
 To actually send it, use the \textit{-{}-send} parameter.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Create and send an Onion}
 \label{onioncreate}
 \begin{verbatim}
@@ -353,7 +354,7 @@ its usage is shown in figure \ref{tpusage}.
 The parameter \textit{-{}-list} shows the available protocols,
 the parameter \textit{-{}-route} generates a random route to
 a peer. Both commands are show in figure \ref{tplistroute}.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{TP Command Usage}
 \label{tpusage}
 \begin{verbatim}
@@ -377,7 +378,7 @@ optional arguments:
 Get ceof at http://www.nico.schottelius.org/software/ceof/
 \end{verbatim}
 \end{figure}
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{TP List and Route}
 \label{tplistroute}
 \begin{verbatim}
@@ -400,11 +401,10 @@ tcp
 The implementation has been splitted into several python
 modules, which are stored below \textit{src/lib/ceof} 
 (figure \ref{pythonmodules}).
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Modular Design}
 \label{pythonmodules}
 \begin{verbatim}
-config  crypto.py  eofid.py  eofmsg.py  __init__.py  noise.py  onion.py  __pycache__  server  test  tp  ui
 [13:42] brief:.bachelorarbeit% find src/lib/ceof -name \*.py
 src/lib/ceof/__init__.py
 src/lib/ceof/config/__init__.py
@@ -437,7 +437,7 @@ When running in server mode, the modular design helps
 to separate parts into own processes in a way that
 every process could run on a separate computing
 core. The big picture is shown in figure \ref{bigpicture}.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Implementation: Big Picture}
 \label{bigpicture}
 \includegraphics[scale=0.8]{bigpicture.png}
@@ -448,17 +448,17 @@ integrated using a separate UIServer process.
 % ----------------------------------------------------------------------------
 \subsection{Sequence Numbers}
 Sequence numbers for packets are encoded in a custom base 64 encoding to
-define the used characters. Sequence numbers are 6 bytes
-long and range from 0 to 68719476735 ($(64^6)-1$).
+define the used characters. Sequence numbers are stored in the
+ID field (section \ref{eofid}) and can range from 0 to 68719476735 ($(64^6)-1$).
 
 The transformation from an integer to an sequence 
 number (also called \textit{eofid}) is made based on transformation
-of a string and indexes. The \textit{get\_next()} method ensures returns
+of a string and indexes. The \textit{get\_next()} method returns
 the next sequence number and takes care of range overflows.
-Code parts are show in figure \ref{eofid}.
-\begin{figure}[htbp][htb]
+Code parts are show in figure \ref{eofidexample}.
+\begin{figure}[htbp]
 \caption{EOFID Code Example}
-\label{eofid}
+\label{eofidexample}
 \begin{verbatim}
 ...
 EOF_ID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!"
@@ -490,15 +490,15 @@ EOF_ID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!
 \subsection{Queuing}
 Several queues have been implemented for use of 
 \textit{inter process communication (IPC)} as shown in figure \ref{bigpicture}.
-The main server process creates and polls dynamically queues on startup.
+The main server process creates queues on startup and polls them regularly.
 As it is not clear, whether using the \textit{select()} method
-for polling is interoperable, manual polling with a sleep has been 
+for polling is interoperable, manual polling with a sleep timeout has been 
 implemented. The queue and polling process
 has been programmed generic, so the main server can use one loop
 to poll data on all queues and selects the right handler based on
 a dictionary entry, which has the same name as the queue dictionary
 entry (figure \ref{queuepoll}).
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Queues / Polling Code Example}
 \label{queuepoll}
 \begin{verbatim}
@@ -533,7 +533,7 @@ The process to do so may look like this:
 \end{enumerate}
 The actual implementation can be found in \textit{src/lib/ceof/onion.py}.
 An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Onion Example Code}
 \label{onionexample}
 \begin{verbatim}
@@ -549,7 +549,6 @@ An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
                 onion = cls(config.gpg_config_dir)
                 onion_chain = onion.chain(chain)
 ...
-# Create onion as a chain of onions
     def chain(self, chain):
         """Create an onion chain"""
 
@@ -560,33 +559,13 @@ An excerpt on how the onion is created can be seen in figure \ref{onionexample}.
         # If there is more, call us again
         if chain:
             inner_part = self.chain(chain)
-        else:
+        else:   
             inner_part = ""
 
-        cmd = pkg['cmd']
+        eofmsg = pkg['eofmsg']
+        fingerprint = pkg['peer'].fingerprint
 
-        # create empty core of the onion
-        eofmsg = ceof.EOFMsg(cmd=cmd)
-
-        # Nothing added when dropping the package
-        if cmd == ceof.EOF_CMD_ONION_DROP:
-            pass
-        elif cmd == ceof.EOF_CMD_ONION_FORWARD:
-            # FIXME: add noise?
-            eofmsg.address = pkg['forward_address']
-
-        elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
-            # FIXME: add noise?
-            eofmsg.msgtext = pkg['message']
-            
-        elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
-            eofmsg.msgtext = pkg['message']
-            eofmsg.address = pkg['forward_address']
-
-        # We have the eofmsg and the inner part
-        # Encrypt both and return
-
-        onion = self.crypto.encrypt(str(eofmsg) + str(inner_part), pkg['peer'].fingerprint)
+        onion = self.crypto.encrypt(str(eofmsg) + str(inner_part), fingerprint)
 
         return str(onion)
 \end{verbatim}
@@ -894,6 +873,7 @@ as an example.
 %% % Nico: 1.0 
 % ----------------------------------------------------------------------------
 \section{Related Project: Chat User Interface}
+\label{chatui}
 In addition to the described prototype, in a different
 project a chat user interfaces has been
 developed that can talk to the prototype using a chat server.
