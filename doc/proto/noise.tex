@@ -1,6 +1,6 @@
 \section{Noise}
 \label{noise}
-Noise is being used to constantly send out data out to the network.
+Noise is being used to constantly send out data on the network.
 This prevents statistical analysis of the behaviour of a user and makes
 de-anonymisation more unpractical due to the amount of data that needs
 to be tracked and analysed.
@@ -9,7 +9,7 @@ to be tracked and analysed.
 %sends packets in a fixed interval, it needs to have data to encrypt and send.
 Furthermore noise is used to fill in the unused fields in the EOF messages.
 Noise can be any type of random data. As the current random number generators
-are quite expensive, it is recommend to use a huge dictionary, old 
+are quite expensive, it is recommend to use a dictionary like old 
 messages, log files, public emails, etc. for noise input.
 The reference implementation uses the archive of RFCs as base for noise.
 The noise workflow is shown in figure \ref{noiseworkflow}.
@@ -19,28 +19,27 @@ The noise workflow is shown in figure \ref{noiseworkflow}.
     \label{noiseworkflow}
     \includegraphics[scale=0.8]{noiseworkflow.png}
 \end{figure}
-
 % ----------------------------------------------------------------------------
 \subsection{Latency}
 \label{latency}
 Latency is important for the user experience of the chat system.
 This is especially important after the initial \textit{human handshake}
-of saying hello has been made (before nobody knows when to expect
+of saying hello has been made (before that nobody knows when to expect
 a message).
+The paper about
 \textit{System Response Time and User Satisfaction}\cite{responsetime}
 indicates that response times up to 6 seconds are tolerable. These numbers
 cannot be related directly to the tolerated delay, because the receiving
-peer does not exactly know when the she can expect the sending peer to write
-a message.
+peer does not exactly know when the sending peer wrote a message.
 Every additional proxy peers adds an amount of time to the latency until the
 message arrives, as can be seen below.
 % ----------------------------------------------------------------------------
 \subsubsection{Average Latency}
-The average latency for a peer is calculated as follows (+1 is needed to
-included the receiving peer itself):
+The average latency for a peer is calculated as follows:
 $$\frac{\sum\limits_{i=0}^{(Proxy peers count +1)}}{Proxy peers count + 1}$$
+An additional count (+1) is needed to include the receiving peer itself.
 Depending on the sending interval this results in different average
-waiting times for message to arrive, as expressed in
+waiting times for a message to arrive, as expressed in
 the following formula:
 $$Intervaltime * \frac{\sum\limits_{i=0}^{(Proxy peers +1)}}{Proxy peers + 1}$$
 The average latency depending on the number of hosts and the sending interval
@@ -109,14 +108,14 @@ to be taken into account as well, which is shown in table \ref{maxlatencypeers}.
 \subsection{Bandwidth Usage}
 \label{bwusagetheory}
 Based on the calculated packet sizes (section \ref{pkgsizes}, p. \pageref{pkgsizes}), 
-the following \textbf{outgoing bandwidth}
-is needed, as can be seen in table \ref{bandwidth}.
+the \textbf{minimal outgoing bandwidth capability}, as shown in table \ref{bandwidth},
+is required.
 The highest needed bandwidth
 in case of 10 proxy peers sending at an interval of 0.125s results in 64 KiB/s
 (equivalent of 512 KBit/s).
- Today DSL connections usually exceed this limit by magnitudes.
+Today DSL connections usually exceed this limit by magnitudes.
 \begin{longtable}{|c|c|c|c|c|c|}
-\caption{Outgoing bandwidth usage}
+\caption{Minimal Outgoing Bandwidth Capability}
 \label{bandwidth}\\
 \hline
 \multirow{2}{*}{\textbf{Proxy peers}} & \multicolumn{5}{|l|}{\textbf{Intervals / Bandwidth usage in KiB/s}} \\
@@ -144,16 +143,14 @@ in case of 10 proxy peers sending at an interval of 0.125s results in 64 KiB/s
 \hline
 \end{longtable}
 Even on mobile networks, HSUPA Category 1 delivers 0.73 Mbit/s upstream bandwidth.
-Older ISDN and Modem connections would not suffice, though
-today there are a lot of alternative connections
- available.\cite{wiki:bitrates}
+Older ISDN and Modem connections would not suffice,
+though today there are a lot of alternative connections available.\cite{wiki:bitrates}
 If using only 9 proxy servers with 0.125s delay or
 10 proxy servers with a delay of 0.25s, EDGE could be supported.
-
 The total required network bandwidth is the product of peers in the
 network multiplied by the outgoing bandwidth per peer:
 $$Required Network Bandwidth = Network Peers * Peer Bandwidth$$
-Thus a network with 100 peers, all of them which use 10 proxy peers
+Thus in a network with 100 peers, all of them using 10 proxy peers
 and send at a rate of 0.125s, the total required network bandwidth would be
 $$RNB = 100 * 64 KiB/s = 6400 KiB/s = 6.25MiB/s = 50 MBit/s$$
 If also the receiving side is inside the same network, the required network
@@ -163,14 +160,14 @@ can deliver, because fast Ethernet provides full duplex 100Mbit/s streams
 and thus a single fast Ethernet fabric would support 200 simultaneous users.
 As the network bandwidth cannot be controlled or influenced by the user
 directly, these calculations may simply indicate the network bandwidth
-usage for network providers. The user can focus on the bandwidth specifications
+usage for network providers. The user can focus on the bandwidth requirements
 found in table \ref{bandwidth}.
 % ----------------------------------------------------------------------------
 \subsection{Fixed interval for sending}
 To prevent de-anonymisation by doing statistical analysis on the traffic,
-postcards are being send at a fixed rate.
-In case there is not message to be send, onions with no receiving
-peer (\textit{noise}) must be used instead.
+postcards are being sent at a fixed rate.
+In case there is nt message to be send, onions with no receiving
+peer (\textit{noise}) are used instead.
 
 To avoid problems with different sending intervals
 (queuing, buffer exceeding) a network wide fixed sending interval
@@ -181,5 +178,5 @@ latency, anonymity and bandwidth usage.
 The number of proxy peers can be chosen by every peer individually
 and can be used to focus on smaller bandwidth usage and less latency
 or a higher degree of anonymity. A value of 5 in a network of 100 peers
-would make de-anonymising less probable than winning Lotto in Germany
-(6 of 49).
+would make de-anonymising less probable than winning the game
+Lotto (6 out of 49) in Germany (see table \ref{deanontable}).
