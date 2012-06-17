@@ -123,7 +123,7 @@ class FilesystemNoise(object):
         self._peer_dir = peer_dir
 
     def get(self, block=True):
-        """Get next onion that consists of noise only"""
+        """Get next noise block and return random address"""
 
         peer = ceof.Peer.list_random_peers(self._peer_dir, 1)[0]
         address = peer.random_address()
