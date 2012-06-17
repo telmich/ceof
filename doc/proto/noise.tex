@@ -2,7 +2,7 @@
 \label{noise}
 Noise is being used to constantly send out data out to the network.
 This prevents statistical analysis of the behaviour of a user and makes
-de-anonmysation more unpractical due to the amount of data that needs
+de-anonymisation more unpractical due to the amount of data that needs
 to be tracked and analysed.
 %There are many situations in which an EOFi sends out data to the network,
 %although you did not write a message: In fact, as EOFi \textbf{always}
@@ -10,7 +10,7 @@ to be tracked and analysed.
 Furthermore noise is used to fill in the unused fields in the EOF messages.
 Noise can be any type of random data. As the current random number generators
 are quite expensive, it is recommend to use a huge dictionary, old 
-messages, logfiles, public emails, etc. for noise input.
+messages, log files, public emails, etc. for noise input.
 The reference implementation uses the archive of RFCs as base for noise.
 The noise workflow is shown in figure \ref{noiseworkflow}.
 \begin{figure}
@@ -113,8 +113,8 @@ the following \textbf{outgoing bandwidth}
 is needed, as can be seen in table \ref{bandwidth}.
 The highest needed bandwidth
 in case of 10 proxy peers sending at an interval of 0.125s results in 64 KiB/s
-(aequivalent of 512 KBit/s).
- Todays DSL connections usually exceed this limit by magnitudes.
+(equivalent of 512 KBit/s).
+ Today DSL connections usually exceed this limit by magnitudes.
 \begin{longtable}{|c|c|c|c|c|c|}
 \caption{Outgoing bandwidth usage}
 \label{bandwidth}\\
@@ -157,13 +157,13 @@ Thus a network with 100 peers, all of them which use 10 proxy peers
 and send at a rate of 0.125s, the total required network bandwidth would be
 $$RNB = 100 * 64 KiB/s = 6400 KiB/s = 6.25MiB/s = 50 MBit/s$$
 If also the receiving side is inside the same network, the required network
-bandwith has to be multiplied by two and thus results in 
-\textit{100 MBit/s}. This is exactly half of what a fast ethernet switch
-can deliver, because fast ethernet provides full duplex 100Mbit/s streams
-and thus a single fast ethernet fabric would support 200 simultaneous users.
+bandwidth has to be multiplied by two and thus results in 
+\textit{100 MBit/s}. This is exactly half of what a fast Ethernet switch
+can deliver, because fast Ethernet provides full duplex 100Mbit/s streams
+and thus a single fast Ethernet fabric would support 200 simultaneous users.
 As the network bandwidth cannot be controlled or influenced by the user
 directly, these calculations may simply indicate the network bandwidth
-usage for network providers. The user can focus on the bandwith specifications
+usage for network providers. The user can focus on the bandwidth specifications
 found in table \ref{bandwidth}.
 % ----------------------------------------------------------------------------
 \subsection{Fixed interval for sending}
@@ -175,10 +175,10 @@ peer (\textit{noise}) must be used instead.
 To avoid problems with different sending intervals
 (queuing, buffer exceeding) a network wide fixed sending interval
 should be chosen. From the calculations made above, an interval
-of \textbf{0.25s} seems to provide a good tradeoff between
+of \textbf{0.25s} seems to provide a good trade-off between
 latency, anonymity and bandwidth usage.
 
-The number of proxy peers can be choosen by every peer individually
+The number of proxy peers can be chosen by every peer individually
 and can be used to focus on smaller bandwidth usage and less latency
 or a higher degree of anonymity. A value of 5 in a network of 100 peers
 would make de-anonymising less probable than winning Lotto in Germany

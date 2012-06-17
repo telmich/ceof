@@ -16,7 +16,7 @@ can range from from 0 up to the maximum number of proxy peers. The sum
 of both proxy peers is the \textit{chosen number of proxy peers} and
 usually stays consistent for one peer.
 
-The recommended number of proxy peers is \textbf{5}, as a tradeoff between
+The recommended number of proxy peers is \textbf{5}, as a trade-off between
 latency, bandwidth and anonymity. Section \ref{noise}, p. \pageref{noise}
 explains in detail why 5 is the recommended number.
 % BT: ok
@@ -50,7 +50,7 @@ an example onion is shown in figure \ref{onion}.
 %% already encrypted packets. It may look like as follows:
 Every layer of an onion is encrypted for the specific peer
 and the previous encrypted layer is appended after the EOF message
-in reencrypted.
+in re-encrypted.
 In case the onion layer contains the EOF message
 3002 or 3003, the layer should also be signed. In all other
 cases the onion layer should only be encrypted.
@@ -72,7 +72,7 @@ but does not include transport protocol headers.
 \caption{Packet sizes (experimental)}
 \label{pkgsizes}\\
 \hline
-\textbf{Proxy peers} & \textbf{Packet size (in KiBiBytes)}\\
+\textbf{Proxy peers} & \textbf{Packet size (in KiB)}\\
 \hline
 \textbf{1} & 1.2\\
 \hline

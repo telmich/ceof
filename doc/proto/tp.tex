@@ -13,36 +13,36 @@ Transport protocols are used to submit an onion to the next peer.
 A postcard "`packet"' contains one onion packet plus the transport protocol
 shell. Postcard packets are the only packet type that is seen by a possible
 attacker ("`on the wire"'). 
-The name postcard was choosen to reflect the fact, that anyone
+The name postcard was chosen to reflect the fact, that anyone
 passing the postcard can read what is written on it.
 % ----------------------------------------------------------------------------
-\subsection{Tunneling}
+\subsection{Tunnelling}
 \label{tunneling}
 Due to the transport protocol independence, postcards can and should
 be written into a variety of different transport protocol types.
 This helps to circumvent firewall rules and blocking of a specific
-traffic type. A lot of potential can be found in the reusage of
+traffic type. A lot of potential can be found in the reuse of
 common protocols like HTTP and DNS.\cite{rfc1034, rfc1035, rfc2616}
 The process is also called \textit{steganographic}.
 % ----------------------------------------------------------------------------
 \subsection{Multiplexing / Variable Addresses}
 \label{multiplexing}
-One peer should consider the availbility of itself via a variety
+One peer should consider the availability of itself via a variety
 of addresses, so the chance of not being reachable is minimised.
 Figure \ref{addressmultiplexing} shows an example list of addresses
 a peer could be reachable.
 \begin{figure}
     \centering
-    \caption{Adress Multiplexing}
+    \caption{Address Multiplexing}
     \label{addressmultiplexing}
     \includegraphics[scale=0.8]{addressmultiplexing.png}
 \end{figure}
-Theis multiplexing of addresses allows different transports to be used
+This multiplexing of addresses allows different transports to be used
 for one peer, so that there is a higher diversity in outgoing packets.
 % ----------------------------------------------------------------------------
 \subsection{Access Methods}
 \label{accessmethods}
-Transport protocols can either be accessable \textit{directly} or 
+Transport protocols can either be accessible \textit{directly} or 
 \textit{indirectly}. In case of direct access (figure \ref{directaccess})
 the sending peer directly connects to the receiving peer.
 \begin{figure}
