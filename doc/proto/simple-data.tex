@@ -13,6 +13,16 @@ A command is represented as an ASCII number in a fixed length string of
 \item 2200
 \end{itemize}
 % -----------------------------------------------------------------------------
+\subsection{Version (version)}
+\label{versionfield}
+To identify which protocol version has been used, an
+ASCII number in a fixed length string of 2 Bytes is used.
+The version field must be "`0"' followed by a zero byte.
+Example:
+\begin{itemize}
+\item \verb=0\x00=
+\end{itemize}
+% -----------------------------------------------------------------------------
 \subsection{Identification string (id)}
 \label{eofid}
 To identify a message, a message may contain an identification string,
@@ -53,21 +63,21 @@ Use is made of the Python reference implementation:
 0
 \end{verbatim}
 % Nico: 1.0
-% -----------------------------------------------------------------------------
-\subsection{Size (size)}
-A size is represented as an ASCII number in a fixed length
-string of 6 bytes.
-\subsubsection{Examples}
-\begin{verbatim}
->>> import ceof
->>> ceof.fillup("10", 6)
-'10\x00\x00\x00\x00'
->>> ceof.fillup("10000", 6)
-'10000\x00'
->>> ceof.fillup("100000", 6)
-'100000'
-\end{verbatim}
-% Nico: 1.0
+%% % -----------------------------------------------------------------------------
+%% \subsection{Size (size)}
+%% A size is represented as an ASCII number in a fixed length
+%% string of 6 bytes.
+%% \subsubsection{Examples}
+%% \begin{verbatim}
+%% >>> import ceof
+%% >>> ceof.fillup("10", 6)
+%% '10\x00\x00\x00\x00'
+%% >>> ceof.fillup("10000", 6)
+%% '10000\x00'
+%% >>> ceof.fillup("100000", 6)
+%% '100000'
+%% \end{verbatim}
+%% % Nico: 1.0
 % -----------------------------------------------------------------------------
 \subsection{Peer name (name)}
 The peer name is a 128 byte fixed length string.
