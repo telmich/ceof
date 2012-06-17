@@ -683,15 +683,17 @@ In contrast to the tests described in sections
 one postcard was produced. The number of known peers was shrunk
 to \textbf{6}, so that every participant needs to receive a postcard.
 Afterwards a test instance for every peer was started using
-the script \verb=start_peers.sh= (see \ref{scriptstartpeers}, p.
-\pageref{scriptstartpeers}).
+the script \verb=start_peers.sh=
+(stored at \textit{test/start\_peers.sh}).
 Afterwards a message was sent manually using
 \\ \verb=./bin/ceof onion -m "hallo peer0" -s peer0=.
 \subsubsection{Test Result}
 \begin{itemize}
 \item Success
 \end{itemize}
-As can be seen in the log files of each implementation,
+As can be seen in the log files
+(\textit{doc/logs/message-receive-log-of-peers-debug-log} and
+\textit{doc/logs/message-send-debug-log})
 the message was received by all peers and successfully decrypted,
 displayed (in case of \textit{peer0}) and forwarded until the last
 peer.
@@ -707,7 +709,7 @@ the logic to sign messages nor to verify signatures.
 \end{itemize}
 % ----------------------------------------------------------------------------
 \subsection{Effective Bandwidth Usage}
-The calculations in section \ref{bandwidthusage} are based on experimental
+The calculations in section \ref{bwusagetheory} are based on experimental
 packet sizes as seen in section \ref{pkgsizes}, which do not include
 protocol overhead. This test should reveal the effective required
 bandwidth.
@@ -773,7 +775,7 @@ in section \ref{testnoisesending}.
 \item Success
 \end{itemize}
 When sending without a limit, a maximum of 13 packets / second
-was measured (see figure \{noisenolimit). The CPU
+was measured (see figure \ref{noisenolimit}). The CPU
 usage of one core was around 38\% during the test.
 \begin{figure}[htbp]
 \caption{Packets per second (without sending limit)}
@@ -788,7 +790,7 @@ When changing the implementation to send out
 plain text packets instead of onions the
 CPU usage raised to 100\% and
 around 250 packets / second were sent (see figure
-\ref{noisenolimitplain}.
+\ref{noisenolimitplain}).
 \begin{figure}[htbp]
 \caption{Packets per second (without sending limit, plain text)}
 \label{noisenolimitplain}
@@ -841,8 +843,8 @@ Availability should be provided by
 \item Transport protocol tunnelling (\ref{tunneling}, p. \pageref{tunneling})
 \end{itemize}
 The current prototype supports only one transport protocol, but allows to listen on
-a number of tcp ports. Thus the onions are encoded and tunnelled only into
-one transport protocol. The source code allows to seamless integrate a new
+a number of tcp ports. Thus the onions are encoded and tunnelled into
+one transport protocol only. The source code allows to seamless integrate a new
 transport protocol, by creating a new folder below
 \textit{src/lib/ceof/tp/} with the name of the transport protocol and adding
 a python module into it. The existing implementation of tcp can be used
