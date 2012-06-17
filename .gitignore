@@ -6,3 +6,4 @@ infos
 python-env
 #/test
 __pycache__/
+logs
