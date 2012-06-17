@@ -18,8 +18,8 @@ can be created using the following commands:
 % (cd python-env/bin && ln -s python python3)
 \end{verbatim}
 Because python is an interpreted scripting language with interpreters
-available for all major plattforms, the prototype should be runable
-on all major plattforms.
+available for all major platforms, the prototype should be runnable
+on all major platforms.
 All configurations are saved in the \textit{cconfig}\cite{cconfig} format.
 The path to the configuration directory is usually derived by taking
 the content of the environment variable \textit{HOME} and appending
@@ -35,7 +35,7 @@ executable \textit{bin/ceof}. If a subcommand is followed by the parameter
 \textit{-h}, then a usage screen is displayed.
 % ----------------------------------------------------------------------------
 \subsection{Cryptographic Operations}
-All cryptographic operations are accessable by using the \textit{crypto}
+All cryptographic operations are accessible by using the \textit{crypto}
 command, as shown in figure \ref{cryptohelp}.
 This module uses the python-gnupg module for cryptographic functionality.
 \begin{figure}[htbp]
@@ -166,7 +166,7 @@ Get ceof at http://www.nico.schottelius.org/software/ceof/
 For the initial setup it is required to configure at least one listener
 using the \textit{-{}-add} parameter, which can be shown afterwards using
 \textit{-{}-list} parameter (figure \ref{addandlistlistener}). 
-Protection against adding unsupported addreses is included.
+Protection against adding unsupported addresses is included.
 \begin{figure}[htbp][htb]
 \caption{Add and list listener addresses}
 \label{addandlistlistener}
@@ -316,7 +316,7 @@ the server and does usually not take any arguments,
 though specific servers parts can be disabled
 (see figure \ref{serverusage}). Disabling the listener
 makes it impossible to receive messages, disabling
-noise prevents the server from sending messages regulary
+noise prevents the server from sending messages regularly
 and disabling the UI Server disables listening for chat
 UIs (see chapter \ref{chatui}).
 \begin{figure}[htbp][htb]
@@ -434,8 +434,8 @@ src/lib/ceof/ui/net.py
 \end{verbatim}
 \end{figure}
 When running in server mode, the modular design helps
-to seperate parts into own processes in a way that
-every process could run on a seperate computing
+to separate parts into own processes in a way that
+every process could run on a separate computing
 core. The big picture is shown in figure \ref{bigpicture}.
 \begin{figure}[htbp][htb]
 \caption{Implementation: Big Picture}
@@ -444,7 +444,7 @@ core. The big picture is shown in figure \ref{bigpicture}.
 \end{figure}
 As can be seen further in this figure, the processes communicate with
 each other using queues. The optional chat user interface is also
-integrated using a seperate UIServer process.
+integrated using a separate UIServer process.
 % ----------------------------------------------------------------------------
 \subsection{Sequence Numbers}
 Sequence numbers for packets are encoded in a custom base 64 encoding to
@@ -453,7 +453,7 @@ long and range from 0 to 68719476735 ($(64^6)-1$).
 
 The transformation from an integer to an sequence 
 number (also called \textit{eofid}) is made based on transformation
-of a string and indeces. The \textit{get\_next()} method ensures returnes
+of a string and indexes. The \textit{get\_next()} method ensures returns
 the next sequence number and takes care of range overflows.
 Code parts are show in figure \ref{eofid}.
 \begin{figure}[htbp][htb]
@@ -487,7 +487,7 @@ EOF_ID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!
 \end{verbatim}
 \end{figure}
 % ----------------------------------------------------------------------------
-\subsection{Queueing}
+\subsection{Queuing}
 Several queues have been implemented for use of 
 \textit{inter process communication (IPC)} as shown in figure \ref{bigpicture}.
 The main server process creates and polls dynamically queues on startup.
@@ -499,7 +499,7 @@ to poll data on all queues and selects the right handler based on
 a dictionary entry, which has the same name as the queue dictionary
 entry (figure \ref{queuepoll}).
 \begin{figure}[htbp][htb]
-\caption{Queues / Polling Code Exapmle}
+\caption{Queues / Polling Code Example}
 \label{queuepoll}
 \begin{verbatim}
         while True:
@@ -614,7 +614,7 @@ correct order and fields contain noise.
 \label{testnoisesending}
 This objective of this test is to verify that the implementation
 \begin{enumerate}[(a)]
-\item sends out packets regulary 
+\item sends out packets regularly 
 \item selects different destination peers
 \item selects different addresses of each peer
 \end{enumerate}
@@ -696,7 +696,7 @@ was produced by the implementation.
 % ----------------------------------------------------------------------------
 \subsection{Receiving Peers Can Decrypt Message}
 When sending out a message to another peer, the message should
-be decryptable and readable by the receiving peer, independent of the
+be decrypt-able and readable by the receiving peer, independent of the
 message type. This test verifies that messages can be decrypted.
 \subsubsection{Test Setup}
 In contrast to the tests described in sections
@@ -742,7 +742,7 @@ To test the effective bandwidth usage three steps are taken:
 To simplify the test, it was ensured that the idle bandwidth on the
 loopback interface was 0 Bit per second.
 The setup was prepared identical to the one described
-in section \ref{testnoisesending}, with additonally changing
+in section \ref{testnoisesending}, with additionally changing
 the sending interval to the values \textbf{0.125s},
 \textbf{0.250s} and \textbf{0.500s}.
 \subsubsection{Test Result}
@@ -785,7 +785,7 @@ It is important that the system generating noise is able to generate
 and send noise at the given interval of \textbf{0.25s}.
 \subsubsection{Test Setup}
 This test was inverted and instead of trying to send out data
-at an interval of \textbf{0.25s}, the artifical sending limit was removed
+at an interval of \textbf{0.25s}, the artificial sending limit was removed
 and measured how many packets per second could be send.
 The setup was prepared identical to the one described
 in section \ref{testnoisesending}. 
@@ -794,7 +794,7 @@ in section \ref{testnoisesending}.
 \item Success
 \end{itemize}
 When sending without a limit, a maximum of 13 packets / second
-was measured (see figure \{noisenolimit). The cpu
+was measured (see figure \{noisenolimit). The CPU
 usage of one core was around 38\% during the test.
 \begin{figure}[htbp]
 \caption{Packets per second (without sending limit)}
@@ -807,7 +807,7 @@ of outgoing packets, another test with plain text
 packets (i.e. no encryption) was made.
 When changing the implementation to send out 
 plain text packets instead of onions the
-cpu usage raised to 100\% and
+CPU usage raised to 100\% and
 around 250 packets / second were sent (see figure
 \ref{noisenolimitplain}.
 \begin{figure}[htbp]
@@ -844,7 +844,7 @@ limit can easily be changed and made a command line parameter.
 % ----------------------------------------------------------------------------
 \subsection{Authenticity and Confidentiality}
 The prototype does not sign messages and thus the authenticity is not
-verifyable. It does encrypt the messages multiple times, though.
+verifiable. It does encrypt the messages multiple times, though.
 Adding authenticity requires two modifications to the source code:
 \begin{itemize}
 \item Sign real messages (EOFmsg 3002 / 3003)
@@ -859,10 +859,10 @@ prototype does not support authenticity verification.
 Availability should be provided by
 \begin{itemize}
 \item Transport protocol multiplexing (\ref{multiplexing}, p. \pageref{multiplexing})
-\item Transport protocol tunneling (\ref{tunneling}, p. \pageref{tunneling})
+\item Transport protocol tunnelling (\ref{tunneling}, p. \pageref{tunneling})
 \end{itemize}
 The current prototype supports only one transport protocol, but allows to listen on
-a number of tcp ports. Thus the onions are encoded and tunneled only into
+a number of tcp ports. Thus the onions are encoded and tunnelled only into
 one transport protocol. The source code allows to seamless integrate a new
 transport protocol, by creating a new folder below
 \textit{src/lib/ceof/tp/} with the name of the transport protocol and adding
