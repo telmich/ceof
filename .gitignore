@@ -8,3 +8,4 @@ python-env
 __pycache__/
 logs
 thesis.iso
+thesis.tar.xz

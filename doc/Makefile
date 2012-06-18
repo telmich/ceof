@@ -29,5 +29,8 @@ clean:
 	rm -f *.aux *.toc *.log *.pdf *.idx $(USDOC) $(USLDOC) $(MDOC)
 	rm -f proto/*.aux proto/*.toc proto/*.log proto/*.pdf
 
+tar: thesis.pdf
+	cd /home/users/nico/.bachelorarbeit && tar cfvJ thesis.tar.xz doc src/ README
+
 iso:
 	cd /home/users/nico/.bachelorarbeit && mkisofs -graft-points -J -R -file-mode 0755 -dir-mode 0755 doc/=doc src/=src README > thesis.iso
