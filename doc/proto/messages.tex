@@ -4,11 +4,11 @@
 The following message types are defined:
 
 \begin{itemize}
-\item 3000: Drop packet
-\item 3001: Forward packet
-\item 3002: Message / drop packet
-\item 3003: Message / forward packet
-\item 3004: Acknowledge
+\item Drop packet (command: 3000)
+\item Forward packet (command: 3001)
+\item Message / drop packet (command: 3002)
+\item Message / forward packet (command: 3003)
+\item Acknowledge (command: 3004)
 \end{itemize}
 % Nico: 1.0
 % -----------------------------------------------------------------------------
@@ -89,8 +89,8 @@ anymore: You are the last peer in the chain.
 % -----------------------------------------------------------------------------
 \subsection{3003: Message / forward packet}
 The command 3002 is a combination of command 3001 and 3002
-and instructs the peer to read the message text and to forward the rest of
-the packet.
+and instructs the peer to read the message text and to forward the
+rest of the packet to the specified peer in the \textbf{addr} field.
 % -----------------------------------------------------------------------------
 \subsection{3004: Acknowledge}
 Acknowledge the receipt of a received message. The ID must be the same as
