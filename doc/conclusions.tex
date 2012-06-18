@@ -3,24 +3,28 @@
 \section{Review}
 The given objectives as defined in section
 \ref{objectives} have been reached. 
-The development of this thesis revealed some interesting aspects
-of anonymity systems:
+The analysis of existing anonymity systems generally revealed the
+following aspects:
 \begin{itemize}
 \item Anonymity systems have been built for a long time
-\item Anonymity systems are often taken a conservative approach regarding resources usage
+\item Anonymity systems often take a conservative approach regarding resource usage
 \item Anonymity systems are usually built as an abstract network, not for a specific application
 \end{itemize}
-The two latter topics are what differentiates this thesis from the older
-approaches: Constantly sending data out is not tried to be avoided, but
-actually used to improve the degree of anonymity twice:
+%% The two latter topics are what differentiates this thesis from the older
+%% approaches: Constantly sending data out is not tried to be avoided, but
+%% actually used to improve the degree of anonymity twice:
+My thesis deviates from other approaches with regard to the latter two topics.
+Instead of avoiding to constantly send out data, this technique is actually
+used to improve the degree of anonymity. It does so in two ways:
 \begin{enumerate}
 \item Avoid statistical packet analysis
 \item More traffic means more effort needed for potential attackers
 \end{enumerate}
-There are however situations, in which this approach may not be desirable.
-For instance in an environment when high volume traffic is expensive
+However, it has to be acknowledged that there are situations
+in which this approach may not be desirable.
+For instance in a situation when high volume traffic is expensive
 (like on some mobile device contracts).
-Furthermore due to the constant sending, it is easy to detect and probably
+Furthermore, due to the constant sending, it is easy to detect and probably
 impossible to hide that someone is participating in this chat network.
 With the use of transport protocol multiplexing and transport protocol
 tunnelling it is possible to enhance the availability, but in case an
@@ -54,7 +58,7 @@ systems, but this has to be verified.
 \subsection{Transport Protocol Support}
 The current prototype only supports TCP for sending and receiving data.
 To effectively support transport protocol multiplexing, the number of supported
-protocols must be grown. Table \ref{newtps} shows a proposal of some
+protocols should be increased. Table \ref{newtps} shows a proposal of some
 transport protocols, which could be supported.
 \begin{longtable}{|c|c|c|c|}
 \caption{Upcoming transport protocols}
@@ -81,25 +85,25 @@ tcps & IP/TCP/SSL & \verb=tcps//host:port= & TCP encrypted with SSL\\
 udp & IP/UPD      & \verb=udp://host:port= & Plain UDP\\
 \hline
 \end{longtable}
-In case a transport protocols is used for indirect traffic 
+In case a transport protocol is used for indirect traffic 
 (see section \ref{accessmethods}),
-one may need to specify two separate addresses, as can be seen
+two separate addresses need to be specified, as can be seen
 in an example for e-mail:
 \begin{enumerate}
-\item one public for announcing: (mailto://nico@example.org)
-\item one for private for polling (imap://nico@example.org:password@imapserver.example.org)
+\item a public address for announcing: (mailto://nico@example.org)
+\item a private address for polling (imap://nico@example.org:password@imapserver.example.org)
 \end{enumerate}
 % ------------------------------------------------------------------------------
 \subsection{Impact of decreasing packet size}
 The current approach does not take care of message size decreasing on its
-path due to removal of onion layers. This may or may not allow an attacker
+path due to removal of onion layers. This could potentially allow an attacker
 to gain knowledge about the communication. Thus the implications of missing
-padding in the given scenario has to be analysed.
+padding remain to be analysed.
 % ------------------------------------------------------------------------------
 \subsection{Adding Peers / Key Exchange}
 \label{keyexchange}
 Currently all peers are added manually by the user. 
-This process is tedious and prevents the network from fast growth.
+This process is tedious and prevents the network from growing quickly.
 There are several possibilities to support automatic finding and
 adding peers:
 % ------------------------------------------------------------------------------
@@ -142,7 +146,7 @@ As can be seen in section \ref{degreeofanonymity} on page \pageref{degreeofanony
 the degree of anonymity highly depends on the number of nodes in the network.
 Therefore to enhance anonymity, a certain set of nodes needs to be established,
 before a high degree of anonymity can be expected.
-To spread usage, (semi-)automatic key exchanges, as described
+To spread usage, semi or fully automatic key exchanges, as described
 in section \ref{keyexchange}, could be used. Additionally 
 games or screensaver could be built, which are participating in the
 chat network and support it by noise sending.
