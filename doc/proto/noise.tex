@@ -2,12 +2,12 @@
 \label{noise}
 Noise is being used to constantly send out data on the network.
 This prevents statistical analysis of the behaviour of a user and makes
-de-anonymisation more unpractical due to the amount of data that needs
+de-anonymisation more impractical due to the amount of data that needs
 to be tracked and analysed.
 %There are many situations in which an EOFi sends out data to the network,
 %although you did not write a message: In fact, as EOFi \textbf{always}
 %sends packets in a fixed interval, it needs to have data to encrypt and send.
-Furthermore noise is used to fill in the unused fields in the EOF messages.
+Furthermore, noise is used to fill in the unused fields in the EOF messages.
 Noise can be any type of random data. As the current random number generators
 are quite expensive, it is recommend to use a dictionary like old 
 messages, log files, public emails, etc. for noise input.
@@ -22,7 +22,7 @@ The noise workflow is shown in figure \ref{noiseworkflow}.
 % ----------------------------------------------------------------------------
 \subsection{Latency}
 \label{latency}
-Latency is important for the user experience of the chat system.
+It is important for the user experience of the chat system to minimise latency.
 This is especially important after the initial \textit{human handshake}
 of saying hello has been made (before that nobody knows when to expect
 a message).
@@ -113,7 +113,7 @@ is required.
 The highest needed bandwidth
 in case of 10 proxy peers sending at an interval of 0.125s results in 64 KiB/s
 (equivalent of 512 KBit/s).
-Today DSL connections usually exceed this limit by magnitudes.
+Today DSL connections usually exceed this limit by orders of magnitudes.
 \begin{longtable}{|c|c|c|c|c|c|}
 \caption{Minimal Outgoing Bandwidth Capability}
 \label{bandwidth}\\
@@ -151,7 +151,7 @@ The total required network bandwidth is the product of peers in the
 network multiplied by the outgoing bandwidth per peer:
 $$Required Network Bandwidth = Network Peers * Peer Bandwidth$$
 Thus in a network with 100 peers, all of them using 10 proxy peers
-and send at a rate of 0.125s, the total required network bandwidth would be
+and sending at a rate of 0.125s, the total required network bandwidth would be
 $$RNB = 100 * 64 KiB/s = 6400 KiB/s = 6.25MiB/s = 50 MBit/s$$
 If also the receiving side is inside the same network, the required network
 bandwidth has to be multiplied by two and thus results in 
@@ -165,8 +165,8 @@ found in table \ref{bandwidth}.
 % ----------------------------------------------------------------------------
 \subsection{Fixed interval for sending}
 To prevent de-anonymisation by doing statistical analysis on the traffic,
-postcards are being sent at a fixed rate.
-In case there is nt message to be send, onions with no receiving
+postcards are sent at a fixed rate.
+In case there is no message to be send, onions with no receiving
 peer (\textit{noise}) are used instead.
 
 To avoid problems with different sending intervals

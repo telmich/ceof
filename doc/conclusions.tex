@@ -25,7 +25,7 @@ The analysis of existing anonymity systems generally revealed the
 following aspects:
 \begin{itemize}
 \item Anonymity systems have been built for a long time
-\item Anonymity systems often take a conservative approach regarding resource usage
+\item Anonymity systems often taking a conservative approach regarding resource usage
 \item Anonymity systems are usually built as an abstract network, not for a specific application
 \end{itemize}
 %% The two latter topics are what differentiates this thesis from the older
@@ -41,8 +41,8 @@ used to improve the degree of anonymity. It does so in two ways:
 However, it has to be acknowledged that there are situations
 in which this approach may not be desirable.
 For instance in a situation when high volume traffic is expensive
-(like on some mobile device contracts).
-Furthermore, due to the constant sending, it is easy to detect and probably
+(e.g. on some mobile device contracts).
+Furthermore, due to the constant traffic, it is easy to detect and probably
 impossible to hide that someone is participating in this chat network.
 With the use of transport protocol multiplexing and transport protocol
 tunnelling it is possible to enhance the availability, but in case an
@@ -52,14 +52,14 @@ detect people using it and terminate the complete network link.
 Developing the anonymity system specific for an application has the advantage
 of ease of use, but the disadvantage of knowledge and resource duplication
 for the implementation. On the other hand, this work
-chat could be used as a basis for expansion: taken the
+chat could be used as a basis for expansion: taking the
 defined protocol and its prototype, it is possible to generalise
 the protocol to support more features and to enhance the prototype.
 % ------------------------------------------------------------------------------
 \section{Future Work}
 Although the defined chat protocol is in a usable
 state and the proof-of-concept implementation works, there are further
-enhancements that are to be considered for future work.
+enhancements that can be considered for future work.
 % ------------------------------------------------------------------------------
 \subsection{Prototype Enhancements}
 % ------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ systems, but this has to be verified.
 The current prototype only supports TCP for sending and receiving data.
 To effectively support transport protocol multiplexing, the number of supported
 protocols should be increased. Table \ref{newtps} shows a proposal of some
-transport protocols, which could be supported.
+transport protocols which could be supported.
 \begin{longtable}{|c|c|c|c|}
 \caption{Upcoming transport protocols}
 \label{newtps}\\
@@ -122,14 +122,14 @@ padding remain to be analysed.
 \label{keyexchange}
 Currently all peers are added manually by the user. 
 This process is tedious and prevents the network from growing quickly.
-There are several possibilities to support automatic finding and
-adding peers:
+There are several possibilities to support automatic discovery and
+additiion of peers:
 % ------------------------------------------------------------------------------
 \subsubsection{Peer Exchange Messages}
 \label{peerexchange}
 The existing set of messages (see \ref{eofmsg}) could be expanded to a message
-type that allows to send peer information (name, address, keyid) to another
-peer. Furthermore a new message type could be introduced to request a random
+type that allows sending peer information (name, address, keyid) to another
+peer. Furthermore, a new message type could be introduced to request a random
 peer from another peer, which may or may not include the public key 
 and/or one or all addresses of the random peer as well.
 % ------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ and/or one or all addresses of the random peer as well.
 PGP keys are usually stored on public key servers.
 If all public keys that are used for the chat network have a special comment
 in them, like \textit{EOF42KEY}, it is easy to search for participants of the
-network. After a peer selected a random key from a keyserver with the
+network. After a peer selects a random key from a keyserver with the
 special comment, it can contact it by using the given e-mail address.
 The contacted peer can then reply with a \textit{peer exchange message}
 (see \ref{peerexchange}) to submit all of its addresses.
@@ -161,10 +161,10 @@ to a specific group.
 % ------------------------------------------------------------------------------
 \subsection{Spread Usage}
 As can be seen in section \ref{degreeofanonymity} on page \pageref{degreeofanonymity},
-the degree of anonymity highly depends on the number of nodes in the network.
+the degree of anonymity greatly depends on the number of nodes in the network.
 Therefore to enhance anonymity, a certain set of nodes needs to be established,
 before a high degree of anonymity can be expected.
 To spread usage, semi or fully automatic key exchanges, as described
 in section \ref{keyexchange}, could be used. Additionally 
-games or screensaver could be built, which are participating in the
-chat network and support it by noise sending.
+games or screensavers could be built, which participate in the
+chat network and support it by sending noise.

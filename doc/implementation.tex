@@ -136,13 +136,13 @@ and shown in figure \ref{importkey}.
     ./bin/ceof crypto --import
 \end{verbatim}
 \end{figure}
-Furthermore de- and encryption are supported.
+Furthermore decryption and encryption are supported.
 % -----------------------------------------------------------------------------
 \subsection{Listener}
 The \textit{listener} command is used
 to configure to which addresses the prototype is listening to (figure
 \ref{listenerusage}).
-\begin{figure}[htbp]
+\begin{figure}[tbp]
 \caption{Listener Command Usage}
 \label{listenerusage}
 \begin{verbatim}
@@ -168,7 +168,7 @@ For the initial setup it is required to configure at least one listener
 using the \textit{-{}-add} parameter, which can be shown afterwards using
 \textit{-{}-list} parameter (figure \ref{addandlistlistener}). 
 Protection against adding unsupported addresses is included.
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Add and list listener addresses}
 \label{addandlistlistener}
 \begin{verbatim}
@@ -209,7 +209,7 @@ The noise command is only provided for debugging purposes.
 The peer command is used to add, remove and list peers, as
 well as adding and removing addresses to peers. Its usage
 is shown in \ref{peerusage}.
-\begin{figure}[htbp]
+\begin{figure}[tbp]
 \caption{Peer Command Usage}
 \label{peerusage}
 \begin{verbatim}
@@ -295,7 +295,7 @@ optional arguments:
 Get ceof at http://www.nico.schottelius.org/software/ceof/
 \end{verbatim}
 \end{figure}
-To create and display the onion, which would usually be send on the network,
+To create and display the onion, which would usually be sent on the network,
 use the \textit{-{}-message} parameter (figure \ref{onioncreate}. 
 To actually send it, use the \textit{-{}-send} parameter.
 \begin{figure}[htbp]
@@ -320,7 +320,7 @@ makes it impossible to receive messages, disabling
 noise prevents the server from sending messages regularly
 and disabling the UI Server disables listening for chat
 UIs (see chapter \ref{chatui}).
-\begin{figure}[htbp][htb]
+\begin{figure}[htbp]
 \caption{Server Command Usage}
 \label{serverusage}
 \begin{verbatim}
@@ -398,7 +398,7 @@ tcp
 \section{Code Examples}
 % ----------------------------------------------------------------------------
 \subsection{Modular Design}
-The implementation has been splitted into several python
+The implementation has been split into several python
 modules, which are stored below \textit{src/lib/ceof} 
 (figure \ref{pythonmodules}).
 \begin{figure}[htbp]
@@ -434,7 +434,7 @@ src/lib/ceof/ui/net.py
 \end{verbatim}
 \end{figure}
 When running in server mode, the modular design helps
-to separate parts into own processes in a way that
+to separate parts into own processes in such a way that
 every process could run on a separate computing
 core. The big picture is shown in figure \ref{bigpicture}.
 \begin{figure}[htbp]
@@ -451,7 +451,7 @@ Sequence numbers for packets are encoded in a custom base 64 encoding to
 define the used characters. Sequence numbers are stored in the
 ID field (section \ref{eofid}) and can range from 0 to 68719476735 ($(64^6)-1$).
 
-The transformation from an integer to an sequence 
+The transformation from an integer to sequence 
 number (also called \textit{eofid}) is made based on transformation
 of a string and indexes. The \textit{get\_next()} method returns
 the next sequence number and takes care of range overflows.
@@ -488,14 +488,14 @@ EOF_ID_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-!
 \end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Queuing}
-Several queues have been implemented for use of 
+Several queues have been implemented for using of 
 \textit{inter process communication (IPC)} as shown in figure \ref{bigpicture}.
 The main server process creates queues on startup and polls them regularly.
-As it is not clear, whether using the \textit{select()} method
+As it is not clear whether using the \textit{select()} method
 for polling is interoperable, manual polling with a sleep timeout has been 
 implemented. The queue and polling process
-has been programmed generic, so the main server can use one loop
-to poll data on all queues and selects the right handler based on
+has been programmed in such a way that the main server can use one loop
+to poll data on all queues and select the right handler based on
 a dictionary entry, which has the same name as the queue dictionary
 entry (figure \ref{queuepoll}).
 \begin{figure}[htbp]
@@ -520,7 +520,7 @@ entry (figure \ref{queuepoll}).
 \end{figure}
 % ----------------------------------------------------------------------------
 \subsection{Onion Creation}
-To support onion routing, the sender of a messages needs to encrypt the packet
+To support onion routing, the sender of a message needs to encrypt the packet
 multiple times, once for each host that receives the packet. 
 The process to do so may look like this:
 \begin{enumerate}
@@ -632,7 +632,7 @@ interval, the sending interval was changed from
 \textbf{0.250s} to \textbf{0.125s}. 
 The difference on the network traffic can be seen in figures
 \ref{sending0250} and \ref{sending0125}.
-\begin{figure}[htbp]
+\begin{figure}[tbp]
 \caption{Sending data at 0.250s interval}
 \label{sending0250}
 \centering
@@ -675,12 +675,12 @@ was produced by the implementation.
 % ----------------------------------------------------------------------------
 \subsection{Receiving Peers Can Decrypt Message}
 When sending out a message to another peer, the message should
-be decrypt-able and readable by the receiving peer, independent of the
+be decryptable and readable by the receiving peer, independent of the
 message type. This test verifies that messages can be decrypted.
 \subsubsection{Test Setup}
 In contrast to the tests described in sections
 \ref{testnoisesending} and \ref{testencryption}, only
-one postcard was produced. The number of known peers was shrunk
+one postcard was produced. The number of known peers was reduced
 to \textbf{6}, so that every participant needs to receive a postcard.
 Afterwards a test instance for every peer was started using
 the script \verb=start_peers.sh=
@@ -695,14 +695,14 @@ As can be seen in the log files
 (\textit{doc/logs/message-receive-log-of-peers-debug-log} and
 \textit{doc/logs/message-send-debug-log})
 the message was received by all peers and successfully decrypted,
-displayed (in case of \textit{peer0}) and forwarded until the last
+displayed (in case of \textit{peer0}) and forwarded to the last
 peer.
 % ----------------------------------------------------------------------------
 \subsection{Receiving Peer: Authenticity Verification}
 When sending out a real message to another peer, the message should be
 encrypted and signed. 
 The current prototype does \textbf{not} contain
-the logic to sign messages nor to verify signatures.
+the logic to sign messages or to verify signatures.
 \subsubsection{Test Result}
 \begin{itemize}
 \item Fail
@@ -714,7 +714,7 @@ packet sizes as seen in section \ref{pkgsizes}, which do not include
 protocol overhead. This test should reveal the effective required
 bandwidth.
 \subsubsection{Test Setup}
-To test the effective bandwidth usage three steps are taken:
+To test the effective bandwidth usage, three steps are taken:
 \begin{itemize}
 \item Measure idle bandwidth (a)
 \item Measure bandwidth while running the prototype (b)
@@ -722,14 +722,14 @@ To test the effective bandwidth usage three steps are taken:
 \end{itemize}
 To simplify the test, it was ensured that the idle bandwidth on the
 loopback interface was 0 Bit per second.
-The setup was prepared identical to the one described
-in section \ref{testnoisesending}, with additionally changing
+The setup was prepared identically to the one described
+in section \ref{testnoisesending}, additionally changing
 the sending interval to the values \textbf{0.125s},
 \textbf{0.250s} and \textbf{0.500s}.
 \subsubsection{Test Result}
 When sending packets at the defined interval of
 \textbf{0.250s}, the effective bandwidth measured is
-circa 25000 Bytes (24 KiB) per second.
+approximately 25000 Bytes (24 KiB) per second.
 When changing the interval to \textbf{0.500s},
 the effective bandwidth measured is
 12000 Bytes (12 KiB) per second, when changed
@@ -767,8 +767,8 @@ and send noise at the given interval of \textbf{0.25s}.
 \subsubsection{Test Setup}
 This test was inverted and instead of trying to send out data
 at an interval of \textbf{0.25s}, the artificial sending limit was removed
-and measured how many packets per second could be send.
-The setup was prepared identical to the one described
+and measured how many packets per second could be sent.
+The setup was prepared identically to the one described
 in section \ref{testnoisesending}. 
 \subsubsection{Test Result}
 \begin{itemize}
@@ -832,8 +832,8 @@ Adding authenticity requires two modifications to the source code:
 \item Check signature on real messages
 \end{itemize}
 Integrity checking can be done with any signed messages, sender verification
-is only possible for messages which have been signed with a reasonable
-trusted public key. As this includes the implementation of trustlevels, the
+is only possible for messages which have been signed with a
+trusted public key. As this includes the implementation of trust levels, the
 prototype does not support authenticity verification.
 % ----------------------------------------------------------------------------
 \subsection{Availability}
@@ -842,9 +842,9 @@ Availability should be provided by
 \item Transport protocol multiplexing (\ref{multiplexing}, p. \pageref{multiplexing})
 \item Transport protocol tunnelling (\ref{tunneling}, p. \pageref{tunneling})
 \end{itemize}
-The current prototype supports only one transport protocol, but allows to listen on
+The current prototype supports only one transport protocol, but allows for listening on
 a number of tcp ports. Thus the onions are encoded and tunnelled into
-one transport protocol only. The source code allows to seamless integrate a new
+one transport protocol only. The source code allows to seamlessly integrate a new
 transport protocol, by creating a new folder below
 \textit{src/lib/ceof/tp/} with the name of the transport protocol and adding
 a python module into it. The existing implementation of tcp can be used
@@ -877,7 +877,7 @@ as an example.
 \section{Related Project: Chat User Interface}
 \label{chatui}
 In addition to the described prototype, in a different
-project a chat user interfaces has been
+project a chat user interface has been
 developed that can talk to the prototype using a chat server.
 This chat UI is documented in the file \textit{doc/appendix/chat-ui.pdf},
 which is included in the digital distribution.

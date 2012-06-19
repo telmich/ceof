@@ -25,7 +25,7 @@ explains in detail why 5 is the recommended number.
 Before creation of an onion, a random route to the receiver is generated.
 The route is calculated as follows:
 \begin{enumerate}
-\item Select random peers from known peer times the number of required proxy peers
+\item Select random peer from known peer list, repeat for the number of required proxy peers
 \item Shuffle the list and insert the receiver at a random position
 \item Retrieve a random transport protocol address from each peer
 \end{enumerate}
@@ -33,7 +33,7 @@ For each onion, a new random routes must be calculated.
 % ----------------------------------------------------------------------------
 \subsection{Onions}
 \label{eofonion}
-Onions are building the base for the EOF protocol.
+Onions build the base for the EOF protocol.
 The EOF messages described in section \ref{eofmsg}
 are multiple times encrypted and assembled according to 
 the previously calculated random route. 
@@ -54,7 +54,7 @@ in re-encrypted.
 In case the onion layer contains the EOF message
 3002 or 3003, the layer should also be signed. In all other
 cases the onion layer should only be encrypted. The following
-pseudo algorithmus shows how an onion is created:
+pseudo algorithms shows how an onion is created:
 \begin{enumerate}
 \item Create EOF message for the last peer
 \item Encrypt EOF message for the last peer (first and innermost onion layer)

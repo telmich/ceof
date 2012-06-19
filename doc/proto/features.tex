@@ -15,7 +15,7 @@ features relate to the used technologies.
 \label{featanonymity}
 One of the main objectives of this protocol is to provide a chat system that
 hides who is talking to whom (\textit{Sender-Receiver Anonymity}). 
-In practise there are limits on the degree of anonymity that can be reached.
+In practice there are limits on the degree of anonymity that can be reached.
 This protocol specifies the use of
 \begin{itemize}
 \item Onion Routing (\ref{onionrouting}, p. \pageref{onionrouting}),
@@ -28,7 +28,7 @@ to achieve a high degree of anonymity.
 \label{degreeofanonymity}
 If an attacker controls all hosts that are part of the chat network, 
 it is impossible to guarantee anonymity at all.
-Thus to allow any degree of anonymity, there must be hosts in the network,
+Thus, to allow any degree of anonymity there must be hosts in the network,
 which are not run by the attacker besides the sender and the receiver.
 As specified by Onion Routing, there are a number of proxy peers used
 to hide the message receiver.
@@ -47,7 +47,8 @@ $$P_r = \frac{{\binom{6}{r}}{\binom{N-6}{6-r}}}{{\binom{N}{6}}}, r \in \{0, \ldo
 Depending on the number of hosts in a network (number of possible
 numbers in lotto) and on the number of hosts in a specific route
 (number of correct numbers in lotto), the de-anonymisation
-probabilities (lotto: winning probabilities) are shown in table \ref{deanontable}.
+probabilities (winning probabilities in lotto) are shown in 
+table \ref{deanontable}.
 \begin{longtable}{|c|c|c|c|c|c|}
 \caption{De-Anonymisation Probabilities (for one packet)}
 \label{deanontable}\\
@@ -77,7 +78,7 @@ probabilities (lotto: winning probabilities) are shown in table \ref{deanontable
 \hline
 \end{longtable}
 As can be seen in this table, the probability of an attacker being able to
-de-anonymise in a network of 100 peers using 5 proxy peers is less then
+de-anonymise in a network of 100 peers using 5 proxy peers is less than
 the probability of winning Lotto with 6 of 49 (1:13983816).
 To support a high chance of not hitting the attackers peers and thus
 avoiding de-anonymisation, the number of peers in the network as well 
@@ -85,7 +86,7 @@ as the number of proxy peers should be increased as much as possible.
 The number of peers in the network are
 depending on how many peers are actually using the network. This can be
 increased to a certain degree by adding artificial peers.
-The number of proxy peers cannot be increased infinitely, 
+The number of proxy peers cannot be increased indefinitely, 
 as shown in section \ref{latency}, p. \pageref{latency}.
 % ----------------------------------------------------------------------------
 \subsection{Authenticity and Confidentiality}

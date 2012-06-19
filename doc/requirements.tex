@@ -83,7 +83,7 @@ a message.
     \includegraphics[scale=0.8]{receiver-anon.png}
 \end{figure}
 If the observer cannot find out whether a given pair of peers
-is communicating, Sender-Receiver anonymity is given.
+are communicating, Sender-Receiver anonymity is given.
 \begin{figure}
     \centering
     \caption[Sender-Receiver Anonymity]{Sender-Receiver Anonymity\\Image source: \protect\url{http://www.cs.virginia.edu/crab/anonymity.ppt}}
@@ -105,13 +105,13 @@ that provides anonymity, without requiring an additional network stack
 to be present.
 % -----------------------------------------------------------------------------
 \subsection{Confidentiality}
-Confidentiality is defined to allow only authorised parties to access
+Confidentiality is defined as allowing only authorised parties to access
 a given set of information. Besides hiding the real content of a conversation,
 confidentiality indirectly assists anonymity, because it is not possible to
 derive who is talking from the content.
 
-For this reason all messages that are send using the defined chat protocol
-have to be treated confidential.
+For this reason all messages that are sent using the defined chat protocol
+have to be treated as confidential.
 % FIXME: solution:
 % We encrypt every message via public-key cryptography\cite{pgp-1},
 % so that only the receiver can decrypt and view the message content.
@@ -132,12 +132,12 @@ Availability in a chat system is important in two directions:
 \item Ensure that sending messages is possible
 \end{enumerate}
 Most traditional systems rely on central infrastructure to operate, in which a
-single party (like the operator) can disable the service, either for an individual
+single party (such as the operator) can disable the service, either for an individual
 participant or for the whole network.
 Even if a decentralised architecture is given,
-no service can be run reliable, if an attacker with infinite resources is assumed.
+no service can be run reliably, if an attacker with infinite resources is assumed.
 
-Thus the requirement for this chat system is to survive the attack of 
-a single denial of service attack, which continuing to
+Thus the requirement for this chat system is to survive
+a single denial of service attack, while continuing to
 be able to send and receive messages.
 
