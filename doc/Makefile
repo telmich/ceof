@@ -8,6 +8,11 @@ PARTS+= proto/pgp.tex
 PARTS+= proto/basic-data.tex proto/simple-data.tex proto/packet-types.tex
 PARTS+= nico.bib
 
+zhaw-kurzfassung.pdf: zhaw-kurzfassung.tex
+	pdflatex $<
+	pdflatex $<
+	pdflatex $<
+
 thesis.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
 	bibtex thesis.aux
