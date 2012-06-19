@@ -150,6 +150,14 @@ If using only 9 proxy servers with 0.125s delay or
 The total required network bandwidth is the product of peers in the
 network multiplied by the outgoing bandwidth per peer:
 $$Required Network Bandwidth = Network Peers * Peer Bandwidth$$
+The relation between the bandwidth usage of a single peer and the required
+network bandwidth is visualised in figure \ref{bandwidthfigure}.
+\begin{figure}
+    \centering
+    \caption{Peer and Network Bandwidth}
+    \label{bandwidthfigure}
+    \includegraphics[scale=0.8]{bandwidth.png}
+\end{figure}
 Thus in a network with 100 peers, all of them using 10 proxy peers
 and sending at a rate of 0.125s, the total required network bandwidth would be
 $$RNB = 100 * 64 KiB/s = 6400 KiB/s = 6.25MiB/s = 50 MBit/s$$

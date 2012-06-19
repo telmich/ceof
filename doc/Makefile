@@ -32,5 +32,5 @@ clean:
 tar: thesis.pdf
 	cd /home/users/nico/.bachelorarbeit && tar cfvJ thesis.tar.xz doc src/ README
 
-iso:
+iso: thesis.pdf
 	cd /home/users/nico/.bachelorarbeit && mkisofs -graft-points -J -R -file-mode 0755 -dir-mode 0755 doc/=doc src/=src README > thesis.iso
