@@ -93,43 +93,51 @@
      \begin{itemize}
         \item Support Freedom of Speech
         \item Close the gap between chat systems and anonymity systems (like TOR)
-        \pause \item \alert{Mistrust in Skype reinforced}
     \end{itemize}
   \end{itemize}
 }
 
-\section{Analysis}
+\section{Project Planning}
 \frame
 {
-  \frametitle{Chat Systems}
-  \begin{itemize}
-          \item IRC (Internet Relay Chat): Centralised
-          \item SILC (Secure Internet Live Chat): Centralised
-          \item XMPP (also know as Jabber): No anonymity
-          \item Skype: Untrustworthy, information being censored (DMCA)
-   \end{itemize}
+    \frametitle{Status Design Review}
+    \begin{center}
+    \includegraphics[width=10cm]{status-design-review-percent2.pdf}
+    \end{center}
 }
 
 \frame
 {
-  \frametitle{Skype - Deobfuscated Source Code Website}
-  
-  \begin{center}
-   \includegraphics[width=10cm]{dmca-skype.png}
-  \end{center}
+    \frametitle{Work after the Design Review}
+    \begin{itemize}
+    \item Chat Systems: Phrasing cleaned up
+    \item Communication Protocols: Added more systems and cleaned up
+    \item Security Features: Clarified security related terms
+    \item Chat Protocol Definition: Revised many parts, detailed descriptions added
+    \item Prototype: Minor enhancements, mostly for tests
+    \item Demo: Prepared special scenario and tested
+    \end{itemize}
 }
 
 \frame
 {
-  \frametitle{Communication Protocols}
-      \begin{itemize}
-          \item Mix Networks: Original ideas - Used for E-Mail
-          \item Tor: No end-to-end anonymity designed
-          \item OTR: Short term keys
-          \item Freenet: Anonymous file storage
-          \item I2P: Non-academic, but interesting anonymous network approach
-          \item RUDP: Reliable communication with connection orientation
-      \end{itemize}
+    \frametitle{Review Project Planning}
+    \begin{itemize}
+    \item Started Bachelor Thesis on 2012-03-14 (idea: 2007)
+    \item Design Review: 2012-05-19 (\textasciitilde{}70\% finished)
+    \item Finished: 2012-06-20 (Presentation: 2012-07-04)
+    \item Changed from Chaos to Spiral Model
+    \end{itemize}
+}
+
+\section{Development Review}
+\frame
+{
+    \frametitle{Skype - Deobfuscated Source Code Website}
+
+    \begin{center}
+        \includegraphics[width=10cm]{dmca-skype.png}
+    \end{center}
 }
 
 \frame
@@ -138,37 +146,19 @@
   \begin{itemize}
           \item Anonymity: Sender-Receiver Anonymity
           \item Confidentiality: Hide message content
-          \item Integrity: Ensure unchanged data
+          \item Authenticity: Ensure unchanged data and allow sender verification
           \item Availability: Prevent one attacker from shutting down the network
    \end{itemize}
 }
 
-\section{Chat Protocol Definition}
 \frame
 {
-  \frametitle{Chat Protocol Definition}
+  \frametitle{Transport Protocols}
   \begin{itemize}
-      \item Details: Data Types 
-      \begin{itemize}
-          \item Basic: Strings, Encoding
-          \item Simple: Commands, Messages, IDs \pause (Demo: base 64 encoding)
-          \pause \item Messages
-      \end{itemize}
-   \end{itemize}
-}
-
-\frame
-{
-  \frametitle{Chat Protocol Definition (2)}
-  \begin{itemize}
-      \item OpenPGP
-      \item Transport Protocols
-      \begin{itemize}
-          \item Multiplexing
-          \item Tunneling
-          \item Indirect and direct access
-       \end{itemize}
-   \end{itemize}
+      \item Multiplexing
+      \item Tunneling
+      \item Indirect and direct access
+  \end{itemize}
   \begin{center}
    \includegraphics[width=9cm]{../addressmultiplexing.png}
   \end{center}
@@ -176,9 +166,9 @@
 
 \frame
 {
-  \frametitle{Chat Protocol Definition (3)}
+  \frametitle{Onion Routing}
   \begin{itemize}
-      \item Onion Routing (aka Mixes)
+      \item (Re-)Encrypted for every peer
    \end{itemize}
   \begin{center}
    \includegraphics[width=8cm]{../Decryption_mix_net.png}
@@ -187,9 +177,9 @@
 
 \frame
 {
-  \frametitle{Chat Protocol Definition (3)}
+  \frametitle{Onion Routing (2)}
   \begin{itemize}
-      \item Onion and EOFMessage 
+      \item Construction of an onion
    \end{itemize}
   \begin{center}
    \includegraphics[width=8cm]{../onion.png}
@@ -198,9 +188,9 @@
 
 \frame
 {
-  \frametitle{Chat Protocol Definition (3)}
+  \frametitle{Onion Routing (3)}
   \begin{itemize}
-      \item Onion Routing: Peer is somewhere in the chain
+      \item Receiver is somewhere in the chain
    \end{itemize}
   \begin{center}
    \includegraphics[width=8cm]{../onionrouting.png}
@@ -209,9 +199,9 @@
 
 \frame
 {
-  \frametitle{Chat Protocol Definition (4)}
+  \frametitle{Noise}
   \begin{itemize}
-      \item Noise - prevent statistical analysis
+      \item Prevent statistical analysis
    \end{itemize}
   \begin{center}
    \includegraphics[width=8cm]{../noiseworkflow.png}
@@ -256,25 +246,12 @@
   \end{center}
 }
 
-
-
 \frame
 {
-  \frametitle{Tests}
+  \frametitle{Test: Bandwidth usage}
   \begin{itemize}
-          \item Onion Structure (right order, fields)
-          \item Noise Sending (regulary, different peers, different addresses)
-          \item Encryption (no plain packets on the wire)
-          \item Decryption (all peers can read their message)
-          \item Authenticity Verification (\alert{not implemented})
-   \end{itemize}
-}
-
-\frame
-{
-  \frametitle{Tests (2)}
-  \begin{itemize}
-          \item Bandwidth usage (125ms, 250ms)
+          \item 125ms
+          \item 250ms
    \end{itemize}
   \begin{center}
    \includegraphics[width=4cm]{../bandwidth-0125.png}
@@ -285,10 +262,7 @@
 
 \frame
 {
-  \frametitle{Tests (2)}
-  \begin{itemize}
-          \item Bandwidth usage (network)
-   \end{itemize}
+  \frametitle{Bandwidth usage (network)}
   \begin{center}
    \includegraphics[width=8cm]{../bandwidth.png}
   \end{center}
@@ -296,9 +270,10 @@
 
 \frame
 {
-  \frametitle{Tests (3)}
+  \frametitle{Test: Performance}
   \begin{itemize}
-          \item Performance (plain, encrypted)
+          \item plain
+          \item encrypted
    \end{itemize}
   \begin{center}
    \includegraphics[width=4cm]{../noise-plain-no-limit.png}
@@ -307,6 +282,7 @@
   \end{center}
 }
 
+\section{Demo}
 \frame
 {
   \frametitle{Live Demo}
@@ -317,47 +293,159 @@
 }
 
 
-%% \frame
-%% {
-%%   \frametitle{Miscellaneous}
-%%   \begin{itemize}
-%%       \item Planned
-%%       \begin{itemize}
-%%           \item Poster
-%%           \item Live Demo
-%%           \item Final Presentation
-%%       \end{itemize}
-%%       \item Additional
-%%       \begin{itemize}
-%%           \item UI Project
-%%       \end{itemize}
-%%       \item Status
-%%       \begin{itemize}
-%%           \item OK (planned at the end)
-%%       \end{itemize}
-%%   \end{itemize}
-%% }
-
-%% \section{Conclusions}
-%% \frame
-%% {
-%%   \frametitle{Projectphases and Dates}
-%%   \begin{itemize}
-%%      \item Kick-Off: 2012-03-14
-%%       \begin{itemize}
-%%          \item Current state analysis
-%%          \item Initial protocol design
-%%       \end{itemize}
-%%      \item Design-Review: \sout{End of April} \alert{2012-05-09}
-%%      \begin{itemize}
-%%          \item Final protocol design
-%%          \item Implementation (including testing) of Prototype
-%%      \end{itemize}
-%%      \item Final presentation: \sout{End of June} \alert{2012-07-05}
-%%   \end{itemize}
-%% }
-
 \section{Conclusions}
+\frame
+{
+  \frametitle{Review Objectives}
+\begin{tiny}
+\begin{enumerate}
+\item Report and comparison of current chat systems including strengths and weaknesses (\alert{done})
+\item Report of related communication protocols including strengths and weaknesses (\alert{no strength and weaknesses})
+\item Requirement analysis (\alert{focussed on security})
+\item Protocol definition paper (containing chat features, data types, transport methods, security measures) (\alert{done})
+\item Technical documentation and prototype for the new chat system (\alert{done})
+\item Description of test results (\alert{done})
+\item Presentation of a successful anonymous, decentralised chat session, which includes proof of the required security by using example attacks (\alert{done})
+\end{enumerate}
+\end{tiny}
+
+}
+
+\frame
+{
+  \frametitle{Future Work}
+  \begin{itemize}
+    \item Authenticity Checks
+    \item Key Exchange
+    \item Spread Usage
+  \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Conclusions}
+  \begin{itemize}
+    \item Long time research on anonymous system available
+    \item Working Prototype created
+    \item Chat Protocol defined
+    \item A lot of potential to move forward ...
+  \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Questions?}
+  \begin{center}
+  ?
+  \end{center}
+}
+
+\frame
+{
+  \frametitle{Backup Slides}
+  \begin{center}
+  In depth information
+  \end{center}
+}
+
+\frame
+{
+  \frametitle{Chat Systems Analysis}
+  \begin{itemize}
+          \item IRC (Internet Relay Chat): Centralised
+          \item SILC (Secure Internet Live Chat): Centralised
+          \item XMPP (also know as Jabber): No anonymity
+          \item Skype: Untrustworthy, information being censored (DMCA)
+   \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Communication Protocols}
+    \begin{itemize}
+        \item Mix Networks: Original ideas - Used for E-Mail
+        \item Tor: No end-to-end anonymity designed
+        \item OTR: Short term keys
+        \item Freenet: Anonymous file storage
+        \item I2P: Non-academic, but interesting anonymous network approach
+        \item RUDP: Reliable communication with connection orientation
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Status Design Review (Table)}
+    \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    Topic & Planned & Actual & Left\\
+    \hline
+    Chat Systems & 80\% & 100\% & 20\%\\
+    \hline
+    Security Features & 80\% & 100\% & 20\%\\
+    \hline
+    Communication Protocols & 80\% & 100\% & 20\%\\
+    \hline
+    Chat Protocol Definition & 80\% & 50\% & 20\%\\
+    \hline
+    Prototype & 0\% & 70\% & 30\%\\
+    \hline
+    Demo & 0\% & 0\% & 100\%\\
+    \hline
+    \end{tabular}
+    \end{center}
+}
+
+\frame
+{
+  \frametitle{Chat Protocol Definition}
+  \begin{itemize}
+      \item Details: Data Types 
+      \begin{itemize}
+          \item Basic: Strings, Encoding
+          \item Simple: Commands, Messages, IDs \pause (Demo: base 64 encoding)
+          \pause \item Messages
+      \end{itemize}
+   \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Chat Protocol Definition (2)}
+  \begin{itemize}
+      \item OpenPGP
+      \item Transport Protocols
+      \begin{itemize}
+          \item Multiplexing
+          \item Tunneling
+          \item Indirect and direct access
+       \end{itemize}
+   \end{itemize}
+  \begin{center}
+   \includegraphics[width=9cm]{../addressmultiplexing.png}
+  \end{center}
+}
+
+\frame
+{
+  \frametitle{Chat Protocol Definition}
+  \begin{itemize}
+    \item Own Base64 transformation (ID)
+   \end{itemize}
+}
+
+\frame
+{
+  \frametitle{Tests (Overview)}
+  \begin{itemize}
+          \item Onion Structure (right order, fields)
+          \item Noise Sending (regulary, different peers, different addresses)
+          \item Encryption (no plain packets on the wire)
+          \item Decryption (all peers can read their message)
+          \item Authenticity Verification (\alert{not implemented})
+   \end{itemize}
+}
+
 \frame
 {
   \frametitle{Future Work}
@@ -383,22 +471,11 @@
 
 \frame
 {
-  \frametitle{Conclusions}
-  \begin{itemize}
-    \item Long time research on anonymous system available
-    \item Working Prototype created
-    \item Chat Protocol defined
-    \item A lot of potential to move forward ...
-  \end{itemize}
+  \frametitle{Time Spent (estimated)}
+    $$(8+6) = 14$$
+    $$(0+5+5+0+0+7+7)*14 = 336$$
 }
 
-\frame
-{
-  \frametitle{Questions?}
-  \begin{center}
-  ?
-  \end{center}
-}
 
 
 % -----------------------------------------------------------------------------
@@ -509,6 +586,25 @@
 %%      \item Kick-Off: 2012-03-14
 %%      \item Design-Review: End of April
 %%      \item Defense: End of June
+%%   \end{itemize}
+%% }
+
+%% \section{Conclusions}
+%% \frame
+%% {
+%%   \frametitle{Projectphases and Dates}
+%%   \begin{itemize}
+%%      \item Kick-Off: 2012-03-14
+%%       \begin{itemize}
+%%          \item Current state analysis
+%%          \item Initial protocol design
+%%       \end{itemize}
+%%      \item Design-Review: \sout{End of April} \alert{2012-05-09}
+%%      \begin{itemize}
+%%          \item Final protocol design
+%%          \item Implementation (including testing) of Prototype
+%%      \end{itemize}
+%%      \item Final presentation: \sout{End of June} \alert{2012-07-05}
 %%   \end{itemize}
 %% }
 
