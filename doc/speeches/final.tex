@@ -157,7 +157,7 @@
   \begin{itemize}
       \item Multiplexing
       \item Tunneling
-      \item Indirect and direct access
+%      \item Indirect and direct access
   \end{itemize}
   \begin{center}
    \includegraphics[width=9cm]{../addressmultiplexing.png}
@@ -217,29 +217,6 @@
 \section{Implementation}
 \frame
 {
-  \frametitle{Prototype}
-  \begin{itemize}
-     \item Overview
-      \begin{itemize}
-          \item Python Implementation
-          \item Tested with 10 Peers
-      \end{itemize}
-      \item Components
-      \begin{itemize}
-          \item Configuration (peer)
-          \item Crypto Engine (python-gnupg)
-          \item EofID (Base 64 ID String)
-          \item EOFMsg (Messages, from protocol)
-          \item Noise (Hiding)
-          \item Onion (Encapsulation)
-          \item Server (Listener, Sender)
-          \item Transport Protocol (tcp)
-          \item \textit{UI} (Additional code from other project)
-      \end{itemize}
-   \end{itemize}
-}
-\frame
-{
   \frametitle{Big Picture}
   \begin{center}
    \includegraphics[width=5cm]{../bigpicture.png}
@@ -248,15 +225,32 @@
 
 \frame
 {
-  \frametitle{Test: Bandwidth usage}
+  \frametitle{Test: Performance}
   \begin{itemize}
-          \item 125ms
-          \item 250ms
+          \item Outgoing encrypted Packets per second
+%          \item plain
    \end{itemize}
   \begin{center}
-   \includegraphics[width=4cm]{../bandwidth-0125.png}
+   \includegraphics[width=4cm]{../noise-no-limit.png}
+%   \includegraphics[width=4cm]{../noise-plain-no-limit.png}
+   $$4 < 10!$$
+  \end{center}
+}
+
+
+\frame
+{
+  \frametitle{Test: Bandwidth Usage}
+  \begin{itemize}
+%          \item 125ms
+          \item 250ms - 4 packets/s - 4 vs. 6. KiB
+   \end{itemize}
+  \begin{center}
+%   \includegraphics[width=4cm]{../bandwidth-0125.png}
    \includegraphics[width=4cm]{../bandwidth-0250.png}
-   $$24 KiB/s$$
+   $$\frac{24 KiB/s}{16 KiB/s} = 1.5$$
+%   $$\frac{50 KiB/s}{ 32 KiB/s$$
+%   Factor: \textasciitilde{1.5}
   \end{center}
 }
 
@@ -265,20 +259,6 @@
   \frametitle{Bandwidth usage (network)}
   \begin{center}
    \includegraphics[width=8cm]{../bandwidth.png}
-  \end{center}
-}
-
-\frame
-{
-  \frametitle{Test: Performance}
-  \begin{itemize}
-          \item plain
-          \item encrypted
-   \end{itemize}
-  \begin{center}
-   \includegraphics[width=4cm]{../noise-plain-no-limit.png}
-   \includegraphics[width=4cm]{../noise-no-limit.png}
-   $$10 > 4!$$
   \end{center}
 }
 
@@ -326,8 +306,8 @@
   \frametitle{Conclusions}
   \begin{itemize}
     \item Long time research on anonymous system available
-    \item Working Prototype created
     \item Chat Protocol defined
+    \item Working Prototype created
     \item A lot of potential to move forward ...
   \end{itemize}
 }
@@ -476,6 +456,29 @@
     $$(0+5+5+0+0+7+7)*14 = 336$$
 }
 
+\frame
+{
+  \frametitle{Prototype}
+  \begin{itemize}
+     \item Overview
+      \begin{itemize}
+          \item Python Implementation
+          \item Tested with 10 Peers
+      \end{itemize}
+      \item Components
+      \begin{itemize}
+          \item Configuration (peer)
+          \item Crypto Engine (python-gnupg)
+          \item EofID (Base 64 ID String)
+          \item EOFMsg (Messages, from protocol)
+          \item Noise (Hiding)
+          \item Onion (Encapsulation)
+          \item Server (Listener, Sender)
+          \item Transport Protocol (tcp)
+          \item \textit{UI} (Additional code from other project)
+      \end{itemize}
+   \end{itemize}
+}
 
 
 % -----------------------------------------------------------------------------
