@@ -33,7 +33,7 @@
 \frame{\titlepage}
 
 %\section[Outline]{}
-\frame{\tableofcontents}
+%% \frame{\tableofcontents}
 
 \section{Introduction}
 \frame
@@ -53,6 +53,34 @@
   \end{enumerate}
   \end{itemize}
 }
+
+\frame
+{
+    \frametitle{Skype - Deobfuscated Source Code Website}
+
+    \begin{center}
+        \includegraphics[width=10cm]{dmca-skype.png}
+    \end{center}
+}
+
+\frame
+{
+  \frametitle{Motivation}
+  \begin{itemize}
+     \item Client (local.ch, Thomas Gresch)
+     \begin{itemize}
+        \item Using Skype that, due to its nature, is untrustworthy, but usable
+        \item Client seeks for long term replacement 
+        \item Sponsors research
+    \end{itemize}
+     \item Personal
+     \begin{itemize}
+        \item Support Freedom of Speech
+        \item Close the gap between chat systems and anonymity systems (like TOR)
+    \end{itemize}
+  \end{itemize}
+}
+
 
 \frame
 {
@@ -79,24 +107,6 @@
   \end{itemize}
 }
 
-\frame
-{
-  \frametitle{Motivation}
-  \begin{itemize}
-     \item Client (local.ch, Thomas Gresch)
-     \begin{itemize}
-        \item Using Skype that, due to its nature, is untrustworthy, but usable
-        \item Client seeks for long term replacement 
-        \item Sponsors research
-    \end{itemize}
-     \item Personal
-     \begin{itemize}
-        \item Support Freedom of Speech
-        \item Close the gap between chat systems and anonymity systems (like TOR)
-    \end{itemize}
-  \end{itemize}
-}
-
 \section{Project Planning}
 \frame
 {
@@ -119,26 +129,8 @@
     \end{itemize}
 }
 
-\frame
-{
-    \frametitle{Review Project Planning}
-    \begin{itemize}
-    \item Started Bachelor Thesis on 2012-03-14 (idea: 2007)
-    \item Design Review: 2012-05-19 (\textasciitilde{}70\% finished)
-    \item Finished: 2012-06-20 (Presentation: 2012-07-04)
-    \item Changed from Chaos to Spiral Model
-    \end{itemize}
-}
-
 \section{Development Review}
-\frame
-{
-    \frametitle{Skype - Deobfuscated Source Code Website}
 
-    \begin{center}
-        \includegraphics[width=10cm]{dmca-skype.png}
-    \end{center}
-}
 
 \frame
 {
@@ -167,28 +159,6 @@
 \frame
 {
   \frametitle{Onion Routing}
-  \begin{itemize}
-      \item (Re-)Encrypted for every peer
-   \end{itemize}
-  \begin{center}
-   \includegraphics[width=8cm]{../Decryption_mix_net.png}
-  \end{center}
-}
-
-\frame
-{
-  \frametitle{Onion Routing (2)}
-  \begin{itemize}
-      \item Construction of an onion
-   \end{itemize}
-  \begin{center}
-   \includegraphics[width=8cm]{../onion.png}
-  \end{center}
-}
-
-\frame
-{
-  \frametitle{Onion Routing (3)}
   \begin{itemize}
       \item Receiver is somewhere in the chain
    \end{itemize}
@@ -231,7 +201,7 @@
 %          \item plain
    \end{itemize}
   \begin{center}
-   \includegraphics[width=4cm]{../noise-no-limit.png}
+   \includegraphics[width=6cm]{../noise-no-limit.png}
 %   \includegraphics[width=4cm]{../noise-plain-no-limit.png}
    $$4 < 10!$$
   \end{center}
@@ -247,7 +217,7 @@
    \end{itemize}
   \begin{center}
 %   \includegraphics[width=4cm]{../bandwidth-0125.png}
-   \includegraphics[width=4cm]{../bandwidth-0250.png}
+   \includegraphics[width=6cm]{../bandwidth-0250.png}
    $$\frac{24 KiB/s}{16 KiB/s} = 1.5$$
 %   $$\frac{50 KiB/s}{ 32 KiB/s$$
 %   Factor: \textasciitilde{1.5}
@@ -277,7 +247,7 @@
 \frame
 {
   \frametitle{Review Objectives}
-\begin{tiny}
+\begin{small}
 \begin{enumerate}
 \item Report and comparison of current chat systems including strengths and weaknesses (\alert{done})
 \item Report of related communication protocols including strengths and weaknesses (\alert{no strength and weaknesses})
@@ -287,7 +257,7 @@
 \item Description of test results (\alert{done})
 \item Presentation of a successful anonymous, decentralised chat session, which includes proof of the required security by using example attacks (\alert{done})
 \end{enumerate}
-\end{tiny}
+\end{small}
 
 }
 
@@ -378,6 +348,18 @@
 
 \frame
 {
+    \frametitle{Review Project Planning}
+    \begin{itemize}
+    \item Started Bachelor Thesis on 2012-03-14 (idea: 2007)
+    \item Design Review: 2012-05-19 (\textasciitilde{}70\% finished)
+    \item Finished: 2012-06-20 (Presentation: 2012-07-04)
+    \item Changed from Chaos to Spiral Model
+    \end{itemize}
+}
+
+
+\frame
+{
   \frametitle{Chat Protocol Definition}
   \begin{itemize}
       \item Details: Data Types 
@@ -413,6 +395,29 @@
     \item Own Base64 transformation (ID)
    \end{itemize}
 }
+
+\frame
+{
+  \frametitle{Onion Routing}
+  \begin{itemize}
+      \item (Re-)Encrypted for every peer
+   \end{itemize}
+  \begin{center}
+   \includegraphics[width=8cm]{../Decryption_mix_net.png}
+  \end{center}
+}
+
+\frame
+{
+  \frametitle{Onion Routing}
+  \begin{itemize}
+      \item Construction of an onion
+   \end{itemize}
+  \begin{center}
+   \includegraphics[width=8cm]{../onion.png}
+  \end{center}
+}
+
 
 \frame
 {

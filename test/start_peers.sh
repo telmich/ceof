@@ -21,6 +21,4 @@ for peer in $(seq 0 5); do
     $ceof -c $dir listener --list
     
     $ceof -c $dir server -d --no-noise &
-
-#    read a
 done

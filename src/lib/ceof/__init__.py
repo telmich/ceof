@@ -110,8 +110,8 @@ EOF_UI_HELP                 = "/help"
 # In reality having QPOLL a bit  lower (i.e. 1/4 vs 1/5) of QPOLL
 # may be helpful to work through all incoming messages.
 # To be verified.
-EOF_TIME_SEND                = 4
-EOF_TIME_QPOLL               = 4
+EOF_TIME_SEND                = 2
+EOF_TIME_QPOLL               = 2
 
 def fill_and_trim(data, length):
     """Ensure exact length is given, strip away longer stuff"""

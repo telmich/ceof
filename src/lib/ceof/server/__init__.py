@@ -127,16 +127,17 @@ class Server(object):
             # Add to UIServer queue
             # FIXME: get sender info, verify signature
             #self.queue['ui'].put(eofmsg.msgtext)
-            print(eofmsg.msgtext)
+            log.debug("Received REALMSG (%s), last peer" % (eofmsg.msgtext))
+            # print(eofmsg.msgtext)
     
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             # Forward to next
             # FIXME: add padding?
-            log.debug("Scheduling packet for forward: %s" % rest)
+            log.debug("REALMSG (%s) + forward scheduling %s" % (eofmsg.msgtext, rest))
             self.sender_queue.put((eofmsg.address, rest))
             # Forward to UI
             # FIXME: get sender info, verify signature
-            print(eofmsg.msgtext)
+            #print(eofmsg.msgtext)
             ##self.queue['ui'].put(eofmsg.msgtext)
 
         else:
