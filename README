@@ -9,3 +9,10 @@ pip install python-gnupg
 
 3) Generate public/private key pair (may take some time)
 ./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
+
+
+--------------------------------------------------------------------------------
+
+Connecting to the test peers:
+
+./test/add_peers.sh 77.109.138.222 <your-public-ip>

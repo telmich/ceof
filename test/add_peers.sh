@@ -3,17 +3,25 @@
 #
 # Add test peers to each other peer
 
-dir=/home/users/nico/privat/bildung/hsz-t/lernen/bachelorarbeit/src
-ceof=$dir/bin/ceof
-peerdir=$dir/../test/peers
+if [ $# -ne 2 ]; then
+    echo "$0 your-public-ip-address ip-address-of-test-peers"
+    exit 1
+fi
 
-cd $dir
+my_ip=$1; shift
+remote_ip=$1; shift
+
+testdir=$(cd ${0%/*} && pwd -P)
+peerdir="$testdir/peers"
+srcdir=$(cd "$testdir/../src" && pwd -P)
+ceof=$srcdir/bin/ceof
+
+cd "$srcdir"
 . ./pythonenv 
 
-cd $peerdir
+cd "$peerdir"
 
 lastpeer=5
-#for peer in *; do
 for peer in $(seq 0 $lastpeer); do
 
     dir="$peerdir/$peer"
@@ -32,6 +40,8 @@ for peer in $(seq 0 $lastpeer); do
         $ceof -c $dir peer peer$frompeer --add --fingerprint "$fromfingerprint"
 
         for address in $($ceof -c "$fromdir" listener -l); do
+            # Test peers are all running on the same box
+            address=$(echo $address | sed 's/0.0.0.0/127.0.0.1/')
             echo "Adding to peer $peer from $frompeer address $address"
             $ceof -c $dir peer peer$frompeer --add-address "$address"
         done
@@ -43,7 +53,8 @@ for peer in $(seq 0 $lastpeer); do
     # And now TO the main (my) account
     $ceof peer peer$peer --add --fingerprint "$fingerprint"
     for address in $($ceof -c "$dir" listener -l); do
-        echo "Adding $peer to myself with address $address"
+        address=$(echo $address | sed "s/0.0.0.0/$remote_ip/")
+        echo "Adding peer $peer to myself with address $address"
             $ceof peer peer$peer --add-address "$address"
     done
 
@@ -55,6 +66,7 @@ for peer in $(seq 0 $lastpeer); do
     fromfingerprint=$($ceof crypto --fingerprint)
     $ceof -c $dir peer nico --add --fingerprint "$fromfingerprint"
     for address in $($ceof listener -l); do
+        address=$(echo $address | sed "s/0.0.0.0/$my_ip/")
         echo "Adding myself to peer $peer with address $address"
         $ceof -c $dir peer nico --add-address "$address"
     done
