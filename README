@@ -1,6 +1,6 @@
 Bootstrap ceof:
 
-1) create python env
+1) create python env (in this directory, some tests refer to it)
 virtualenv -p /usr/bin/python3 python-env
 
 2) active python env and install gnupg
