@@ -3,16 +3,15 @@
 #
 # Add test peers to each other peer
 
-dir=/home/users/nico/privat/bildung/hsz-t/lernen/bachelorarbeit/src
-ceof=$dir/bin/ceof
-peerdir=$dir/../test/peers
+testdir=$(cd ${0%/*} && pwd -P)
+peerdir="$testdir/peers"
+srcdir=$(cd "$testdir/../src" && pwd -P)
+ceof=$srcdir/bin/ceof
 
-cd $dir
+cd "$srcdir"
 . ./pythonenv 
 
 cd $peerdir
-
-#for peer in *; do
 for peer in $(seq 0 5); do
 
     dir="$peerdir/$peer"
