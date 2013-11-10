@@ -1,7 +1,7 @@
 #!/bin/sh -e
 # Nico Schottelius, Fri Apr  6 15:43:17 CEST 2012
 
-dir=/home/users/nico/privat/bildung/hsz-t/lernen/bachelorarbeit/src
+dir=$(pwd -P)/../src
 ceof=$dir/bin/ceof
 peerdir=$dir/../test/peers
 
