@@ -15,4 +15,4 @@ pip install python-gnupg
 
 Connecting to the test peers:
 
-./test/add_peers.sh 77.109.138.222 <your-public-ip>
+./test/add_peers.sh <your-public-ip> 77.109.138.222
