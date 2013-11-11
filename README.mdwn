@@ -12,14 +12,8 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
 ## Dependencies
 
  * python3
-
-### When the distro ships a package for python3-gnupg (e.g. Debian):
-
- * python3-gnupg
-
-### Otherwise:
-
- * virtualenv
+ * python-gnupg (the package python3-gnupg exists for Debian)
+ * virtualenv (optional, if isolating the environment for ceof)
 
 ## Installation
 
@@ -38,8 +32,12 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
     . ./python-env/bin/activate
     pip install python-gnupg
 
-  * Generate public/private key pair (may take some time, try to keep your computer busy so you can gather more entropy)
+### Create public/private key pair
 
+This may take some time, try to keep your computer busy so you can gather 
+more entropy.
+
+    cd ceof
     ./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
 
 ## Support
