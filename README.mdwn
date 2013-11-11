@@ -1,0 +1,42 @@
+## Introduction
+
+ceof is the implementation and documentation
+of ***EOF*** (Eris Onion Forwarding),
+the secure, peer-to-peer (p2p), decentralised anonymous chat network.
+
+You can read the 
+[bachelor thesis](http://git.schottelius.org/?p=ceof;a=blob;f=doc/thesis.pdf),
+which describes the motivation and goals or you
+can view [the poster that was used on the presentation](http://git.schottelius.org/?p=ceof;a=blob;f=doc/appendix/poster.pdf).
+
+## Installation
+
+You can get ceof via git:
+
+    git clone git://git.schottelius.org/ceof
+
+Create python env
+
+    virtualenv -p /usr/bin/python3 python-env
+
+Activate python env and install gnupg
+
+    . ./python-env/bin/activate
+    pip install python-gnupg
+
+Generate public/private key pair (may take some time)
+
+    ./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
+
+## Support
+
+There are two IRC (!) channels, in which development takes places:
+
+ * [!eof](irc://IRCNet/!eof) - German
+ * [#cstar](irc://irc.freenode.org/#cstar) - Multi language (German/English)
+
+You can subscribe to the
+[!eof mailinglist](http://l.schottelius.org/mailman/listinfo/eof).
+You can also [[contact me directly|about]].
+
+[[!tag ceof crypot chat net unix]]
