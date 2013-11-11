@@ -92,7 +92,6 @@ class Sender(object):
         import urllib.parse
         url = urllib.parse.urlparse(address)
         host, port = url.netloc.split(":")
-        host = "127.0.0.1"
         try:
             mysocket = socket.create_connection((host, port))
         except socket.error as e:
