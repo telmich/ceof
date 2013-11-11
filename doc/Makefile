@@ -17,7 +17,7 @@ zhaw-kurzfassung.pdf: zhaw-kurzfassung.tex
 
 eof.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
-	bibtex thesis.aux
+	bibtex eof.aux
 	pdflatex $<
 	pdflatex $<
 
