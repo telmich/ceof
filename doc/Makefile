@@ -1,4 +1,4 @@
-SDOC=thesis.tex
+SDOC=eof.tex
 PARTS=chatsystems.tex comm-protocols.tex conclusions.tex
 PARTS+=implementation.tex references.tex requirements.tex
 PARTS+= introduction.tex othersystems.tex protocol.tex
@@ -8,14 +8,14 @@ PARTS+= proto/pgp.tex
 PARTS+= proto/basic-data.tex proto/simple-data.tex proto/packet-types.tex
 PARTS+= nico.bib
 
-all: zhaw-kurzfassung.pdf thesis.pdf
+all: zhaw-kurzfassung.pdf eof.pdf
 
 zhaw-kurzfassung.pdf: zhaw-kurzfassung.tex
 	pdflatex $<
 	pdflatex $<
 	pdflatex $<
 
-thesis.pdf: $(SDOC) $(PARTS)
+eof.pdf: $(SDOC) $(PARTS)
 	pdflatex $<
 	bibtex thesis.aux
 	pdflatex $<
