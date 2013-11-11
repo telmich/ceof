@@ -30,7 +30,7 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
     . ./python-env/bin/activate
     pip install python-gnupg
 
-  * Generate public/private key pair (may take some time)
+  * Generate public/private key pair (may take some time, try to keep your computer busy so you can gather more entropy)
 
     ./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
 
