@@ -20,9 +20,6 @@ thesis.pdf: $(SDOC) $(PARTS)
 	bibtex thesis.aux
 	pdflatex $<
 	pdflatex $<
-	#pdflatex EOF.tex
-	#pdflatex EOF.tex
-	#pdflatex EOF.tex
 
 praesi: initial-meeting.tex
 	pdflatex $<
