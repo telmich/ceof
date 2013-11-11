@@ -9,22 +9,28 @@ You can read the
 which describes the motivation and goals or you
 can view [the poster that was used on the presentation](http://git.schottelius.org/?p=ceof;a=blob;f=doc/appendix/poster.pdf).
 
+## Dependencies
+
+    * python3 including virtualenv
+    * virtualenv is present (python-virtualenv on Debian)
+
+
 ## Installation
 
-You can get ceof via git:
+ * Clone the git repo
 
     git clone git://git.schottelius.org/ceof
 
-Create python env
+ * Create an isolated python environment
 
     virtualenv -p /usr/bin/python3 python-env
 
-Activate python env and install gnupg
+ * Activate the python environment and install gnupg
 
     . ./python-env/bin/activate
     pip install python-gnupg
 
-Generate public/private key pair (may take some time)
+  * Generate public/private key pair (may take some time)
 
     ./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
 
