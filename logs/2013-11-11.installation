@@ -1,0 +1,58 @@
+Dependencies:
+
+    * python3 including virtualenv
+    * virtualenv is present (python-virtualenv on Debian)
+
+git clone git://git.schottelius.org/ceof
+
+
+
+
+apic
+    ...
+    
+
+schreiber
+    (python-env)schreiber% ./src/bin/ceof peer --add loch --fingerprint A3065DC820407FC2E38E329076268A5A5F6E5CB9
+    (python-env)schreiber% ./src/bin/ceof peer --add-address tcp://192.168.88.249:42342 loch
+    (python-env)schreiber% ./src/bin/ceof peer --list
+
+
+loch
+    A3065DC820407FC2E38E329076268A5A5F6E5CB9
+    192.168.88.249:42342
+
+    (python-env)[17:24] loch:ceof% curl -s http://home.schottelius.org/~nico/unix/progs/ceof/apic.asc | ./src/bin/ceof crypto --import
+    (python-env)[17:25] loch:ceof% curl -s http://home.schottelius.org/~nico/unix/progs/ceof/schreiber.asc | ./src/bin/ceof crypto --import
+
+    (python-env)[17:25] loch:ceof% ./src/bin/ceof peer --add apic --fingerprint CF7F9EE965AFA1B5A4D1D4D1385D23177A80B7B0
+    (python-env)[17:27] loch:ceof% ./src/bin/ceof peer --add schreiber --fingerprint FEE39F22B525B0895CE12B6F44345DE041635C76
+    (python-env)[17:27] loch:ceof% ./src/bin/ceof peer --add-address tcp://192.168.90.251:42342  apic 
+    (python-env)[17:28] loch:ceof% ./src/bin/ceof peer --add-address tcp://192.168.90.250:42342 schreiber                                                                        
+    (python-env)[17:32] loch:ceof% ./src/bin/ceof listener --add tcp://0.0.0.0:42342
+    (python-env)[17:33] loch:ceof% ./src/bin/ceof server -v
+
+    (python-env)schreiber% ./src/bin/ceof ui
+
+
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+mQENBFKBA68BCADf69RFxodPyi3LFaITDZRYAZLtAXyLRcfdewxsxJO8TvcjRCPN
+fg1d3lXIzwYDqOwVkj3pV7bPlTp2ajtc3dcda37IKlbM5wdUNOWvEoZL0d8k9r0r
+SAnEtf4lj4T5Nli8/avfIl9MWMXaaaMRPL5zwaCKyjXUCUP2wWK6hXMHPN0AtiEM
+ibT19HDRVWNAaod1eTU39hi0ELtxsKtBdP1L5P+V6DqVPia8RIEavIiikZQuHQkC
+37NDP3gCUSi7PRl/4R9omU9kRem2TzahIWP2l3gCA2qhsc824Fn12z3k/BZ2fWXX
+cHYCJRZu8RI2lJbY8wlyGS+uWXatCbaRhhGvABEBAAG0M05pY29AVGVlIChFT0Y0
+MktFWSkgPG5pY28tY2VvZkB0ZWUuc2Nob3R0ZWxpdXMub3JnPokBOQQTAQIAIwUC
+UoEDrwIbLwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEHYmilpfbly5FGoI
+AIRnvzS6q9Sqew+J4uyRkML6f3lQ6BF1TdQ2bIerNldyGcRqxhUvYHTpWdWo9onV
+e4h7x+w1c0xGWT/pwHLVFw0UrRu1MLpXNSIUgIjc58IPkcLIpZao3TPkzy7C0Tup
+aYrlioMbFntQQq0JRH+KTm+KxBUTBegsVliS0vxoHm4JbVfsDJPvUXW90EYyvH7/
+sMj5UvAqUvpkH1I1VNbVS/tHEKxjc68eGAOIzTBft/FtSOal2mwdw+2RqcESWakQ
+j5XKA+EruzFGzv9Z0fEO0ZOczsnqwxsXjZPCOmGEq0YqCtM4axn+mbVPzHsnRbxH
+inN/2vAqvLC32LhTYZmEMPg=
+=dC1i
+-----END PGP PUBLIC KEY BLOCK-----
+
