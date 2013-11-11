@@ -10,15 +10,16 @@ which describes the motivation and goals or you
 can view [the poster that was used on the presentation](http://git.schottelius.org/?p=ceof;a=blob;f=doc/appendix/poster.pdf).
 
 ## Dependencies
-    * python3
+
+ * python3
 
 ### When the distro ships a package for python3-gnupg (e.g. Debian):
 
-    * python3-gnupg
+ * python3-gnupg
 
 ### Otherwise:
 
-    * virtualenv
+ * virtualenv
 
 ## Installation
 
@@ -27,11 +28,12 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
     git clone git://git.schottelius.org/ceof
 
 ### When the distro does not ship a Package for python3-gnupg
-    * Create an isolated python environment
+
+  * Create an isolated python environment
 
     virtualenv -p /usr/bin/python3 python-env
 
-    * Activate the python environment and install gnupg
+  * Activate the python environment and install gnupg
 
     . ./python-env/bin/activate
     pip install python-gnupg
