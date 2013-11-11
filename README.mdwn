@@ -21,6 +21,8 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
 
     git clone git://git.schottelius.org/ceof
 
+It is mirrored on github: git@github.com:telmich/ceof.git
+
 ### When the distro does not ship a Package for python3-gnupg
 
   * Create an isolated python environment
