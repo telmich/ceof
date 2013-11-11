@@ -43,7 +43,7 @@ class Server(object):
     Supports plain noise or encrypted noise generation
     """
 
-    def __init__(self, noise_dir, plain=True, peer_dir="", gpg_config_dir=""):
+    def __init__(self, noise_dir, plain=True, peer_dir=False, gpg_config_dir=False):
 
         if plain:
             self._backend = FilesystemNoise(noise_dir, peer_dir)
@@ -125,12 +125,18 @@ class FilesystemNoise(object):
     def get(self, block=True):
         """Get next noise block and return random address"""
 
-        peer = ceof.Peer.list_random_peers(self._peer_dir, 1)[0]
-        address = peer.random_address()
-
         noise = self._noise.get()
 
-        return (address, noise)
+        if self._peer_dir:
+            peer = ceof.Peer.list_random_peers(self._peer_dir, 1)[0]
+            address = peer.random_address()
+
+            block = (address, noise)
+        else:
+            block = ("no peer dir specified", noise)
+
+
+        return block
 
 class Filesystem(object):
     """Get noise from filesystem"""
