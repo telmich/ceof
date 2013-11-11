@@ -36,6 +36,9 @@ class PeerError(ceof.Error):
 class NoSuchPeerError(PeerError):
     pass
 
+class NoPeerAddressError(PeerError):
+    pass
+
 
 @functools.total_ordering
 class Peer(object):
@@ -232,7 +235,13 @@ class Peer(object):
 
     def random_address(self):
         """Return random address of peer"""
-        return self.addresses[random.randrange(len(self.addresses))]
+        num_addr = len(self.addresses)
+
+        # Canot return a random address without at least one peer
+        if not num_addr > 0:
+            raise NoPeerAddressError
+
+        return self.addresses[random.randrange(num_addr)]
 
     def list_addresses(self):
         """List address of peer"""
