@@ -207,12 +207,13 @@ def commandline():
 
 def ceof_noise(args, config):
     import ceof.noise
-    noiseserver = ceof.noise.Server(config.noise_dir, True, config.peer_dir)
+    noiseserver = ceof.noise.Server(noise_dir=config.noise_dir, plain=True)
+
     noiseserver.start()
 
     while True:
         address, noise = noiseserver.get()
-        print("Noise: ---\"%s\"---" % noise)
+        print("<noise>\n%s\n</noise>" % noise)
 
 def ceof_ui(args, config):
     ui = ceof.UI(args)
