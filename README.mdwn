@@ -32,6 +32,8 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
     . ./python-env/bin/activate
     pip install python-gnupg
 
+## Usage preparation
+
 ### Create public/private key pair
 
 This may take some time, try to keep your computer busy so you can gather 
@@ -39,6 +41,53 @@ more entropy.
 
     cd ceof
     ./src/bin/ceof crypto -g --name "Nico@Tee" --email-address nico-ceof@tee.schottelius.org
+
+Verify that everything worked fine:
+
+    ./src/bin/ceof crypto --show
+
+### Prepare a peer to chat with
+
+Do the following commands on your host and tell your friend
+to do the same vice versa:
+
+Show the fingerprint of your PGP key
+
+    ./src/bin/ceof crypto --fingerprint
+
+Show your public key for export
+
+    ./src/bin/ceof crypto --export
+
+Once you have retrieved the public key, import it
+
+    ./src/bin/ceof crypto -i < public-key-file
+
+Create your friend as a peer using a name and its fingerprint
+
+    ./src/bin/ceof peer --add yourfriend --fingerprint CF7F9EE965AFA1B5A4D1D4D1385D23177A80B7B0
+
+Add an address of your peer:
+
+    ./src/bin/ceof peer apic  --add-address tcp://192.168.90.251:42342
+
+### Prepare noise
+
+ceof sends regulary noise to prevent people from recognising when you
+send messages. To do so, ceof requires input for noise. You can use any kind
+files, but for debugging purpose text files are recommened.
+
+For example, you could use the content of /usr/share/doc as a base:
+
+    mkdir -p ~/.ceof/noise
+    find /usr/share/doc -name \*.gz -exec zcat {} \; > ~/.ceof/noise/usr-share-doc
+
+(abort after a minute or so)
+
+Test that ceof can use the noise:
+
+    ./src/bin/ceof noise
+
 
 ## Support
 
