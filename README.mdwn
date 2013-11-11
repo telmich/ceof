@@ -71,6 +71,10 @@ Add an address of your peer:
 
     ./src/bin/ceof peer apic  --add-address tcp://192.168.90.251:42342
 
+***Warning*** You need at least 6 peers for ceof to work.
+6 peers is the minimum number of peers required by the protocol to function 
+safely.
+
 ### Prepare noise
 
 ceof sends regulary noise to prevent people from recognising when you
@@ -87,6 +91,20 @@ For example, you could use the content of /usr/share/doc as a base:
 Test that ceof can use the noise:
 
     ./src/bin/ceof noise
+
+### Prepare addresses to listen on
+
+Add one tcp address to listen on
+
+    ./src/bin/ceof listener --add tcp://0.0.0.0:42342
+
+Show enabled listeners:
+
+    ./src/bin/ceof listener --list
+
+### Start the server
+
+    ./src/bin/ceof server
 
 
 ## Support
