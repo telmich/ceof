@@ -11,9 +11,13 @@ can view [the poster that was used on the presentation](http://git.schottelius.o
 
 ## Dependencies
     * python3
+
 ### When the distro ships a package for python3-gnupg (e.g. Debian):
+
     * python3-gnupg
+
 ### Otherwise:
+
     * virtualenv
 
 ## Installation
