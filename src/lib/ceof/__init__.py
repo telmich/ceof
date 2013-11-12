@@ -48,7 +48,7 @@ EOF_ID_CHARS            = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
 EOF_ID_BASE             = len(EOF_ID_CHARS)
 EOF_ID_MAX              = (EOF_ID_BASE**EOF_L_ID)-1
 
-# /* commands */
+# transport protocol commands
 EOF_CMD_TPS                 = "1000"
 EOF_CMD_TPL_START           = "1001"
 EOF_CMD_TPL_STOP            = "1002"
@@ -61,7 +61,7 @@ EOF_CMD_TPS_NOT_SENT        = "2001"
 EOF_CMD_TPL_RECV            = "2002"
 EOF_CMD_TPL_LISTENING       = "2003"
 
-# /* user interfaces: already implemented */
+# commands to exchange with the user interface
 EOF_CMD_UI_ACK              = "1100"
 EOF_CMD_UI_FAIL             = "1101"
 EOF_CMD_UI_EXITREQUEST      = "1102"
@@ -70,7 +70,6 @@ EOF_CMD_UI_PEER_LISTING     = "1104"
 EOF_CMD_UI_PEER_INFO        = "1105"
 EOF_CMD_UI_PEER_RENAMED     = "1106"
 
-EOF_CMD_UI_DEFAULT          = "21xx"
 EOF_CMD_UI_REGISTER         = "2100"
 EOF_CMD_UI_DEREGISTER       = "2101"
 EOF_CMD_UI_PEER_ADD         = "2102"
@@ -107,7 +106,7 @@ EOF_UI_HELP                 = "/help"
 # Times for sending packets / polling on queues (in seconds)
 # Sender can be faster than polling, but polling queue may grow
 # due to more packets coming in.
-# In reality having QPOLL a bit  lower (i.e. 1/4 vs 1/5) of QPOLL
+# In reality having QPOLL a bit lower (i.e. 1/4 vs 1/5) of QPOLL
 # may be helpful to work through all incoming messages.
 # To be verified.
 EOF_TIME_SEND                = 2

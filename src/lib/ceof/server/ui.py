@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 class UI(object):
     """Server to accept UI connections"""
 
-    def __init__(self, address, port):
+    def __init__(self, address, port, queue=None):
         self.tcpserver = ceof.server.tcp.TCPServer(address, port, self.handler)
 
         self.eofid = ceof.EOFID()
@@ -41,13 +41,15 @@ class UI(object):
 
         self.do_exit = False
 
+        self.upstream_queue = queue
+
     def run(self):
         self.tcpserver.run()
 
     def handler(self, conn, addr):
         """Handle incoming connection"""
 
-        log.info("Connected by %s" % str(addr))
+        log.info("UI connected by %s" % str(addr))
 
         self.conn = conn
 

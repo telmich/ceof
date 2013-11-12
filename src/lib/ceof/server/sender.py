@@ -46,8 +46,10 @@ class Sender(object):
         """initalise noise handler, if requested"""
 
         if self._send_noise:
-            self._noise = ceof.noise.Server(self._noise_dir, 
-                False, self._peer_dir, self._gpg_config_dir)
+            self._noise = ceof.noise.Server(noise_dir=self._noise_dir, 
+                plain=False, 
+                peer_dir=self._peer_dir, 
+                gpg_config_dir=self._gpg_config_dir)
             self._noise.start()
 
     def run(self):

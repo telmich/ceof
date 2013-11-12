@@ -1,4 +1,4 @@
-# 2012 Nico Schottelius (nico-ceof at schottelius.org)
+# 2012-2013 Nico Schottelius (nico-ceof at schottelius.org)
 #
 # This file is part of ceof.
 #
@@ -28,9 +28,6 @@ import urllib.parse
 import time
 
 log = logging.getLogger(__name__)
-
-#class ServerError(ceof.Error):
-#    pass
 
 class Listener(object):
     """Listen server"""
@@ -64,9 +61,6 @@ class Listener(object):
             self.fds.append(self.queue[name]._reader)
 
         while True:
-            # wait for input - unportable it seems
-            #(select_res,[],[]) = select.select(self.fds,[],[])
-
             for q in self.queue.values():
                 data = False
                 try:

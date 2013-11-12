@@ -20,8 +20,8 @@
 #
 
 
+import ceof
 import ceof.server.listener
-#import ceof.server.ui
 import logging
 import multiprocessing
 import queue
@@ -30,9 +30,6 @@ import time
 from ceof.server.listener import Listener
 
 log = logging.getLogger(__name__)
-
-
-#from ceof.server.listener import Listener
 
 class Server(object):
     """
@@ -62,7 +59,7 @@ class Server(object):
         self._init_listener()
         self._init_onion()
         self._init_sender()
-        #self._init_ui()
+        self._init_ui()
 
     @staticmethod
     def commandline(args, config):
@@ -85,16 +82,26 @@ class Server(object):
     def _init_onion(self):
         self._onion = ceof.Onion(self.config.gpg_config_dir)
 
-    def _init_sender(self):
-        # FIXME: monitor server for crashes and abort program, if sender server aborts?
+    def _init_ui(self):
+        if self.ui:
+            self.queue['ui']   = multiprocessing.Queue()
+            self.server['ui']  = ceof.UIServer(self.ui_addr, self.ui_port)
+            self.process['ui'] = multiprocessing.Process(target=self.server['ui'].run)
+            self.handler['ui'] = self._handle_ui
 
-        # This queue is special: we only submit data, don't poll - so don't add
-        # it to the queue list
+    def _init_sender(self):
+        # This server is special: 
+        # we only submit data, but don't poll 
+        # so don't add it to the queue list
         self.sender_queue = multiprocessing.Queue()
         self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
             self.sender_queue, self.config.noise_dir, self.config.peer_dir, 
             self.config.gpg_config_dir, self.send_noise)
         self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
+
+    def _handle_ui(self, data):
+        """React on commands from the UI"""
+        pass
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
@@ -147,30 +154,32 @@ class Server(object):
     def run(self):
         """Run specified servers"""
 
-        log.debug("run,....")
-
         # Start servers in their subprocesses
         for name, process in self.process.items():
             log.debug("Starting process of %s" % name)
             process.start()
 
         # Iterate over input from servers
-        while True:
-            for name, q in self.queue.items():
-                log.debug("Polling on %s queue" % name)
-                data = False
-                try:
-                    data = q.get(block=False)
-                except queue.Empty:
-                    pass
+        continue_running = True
+        while continue_running:
+            try:
+                for name, q in self.queue.items():
+                    log.debug("Polling on %s queue" % name)
+                    data = False
+                    try:
+                        data = q.get(block=False)
+                    except queue.Empty:
+                        pass
 
-                if data:
-                    log.debug("Got message from: %s:%s" % (name, data))
-                    self.handler[name](data)
+                    if data:
+                        log.debug("Got message from: %s:%s" % (name, data))
+                        self.handler[name](data)
 
-            # Spinner - ugly, but not as ugly as searching for fds
-            # returned by select and match on queue and get then...
-            time.sleep(ceof.EOF_TIME_QPOLL)
+                # Spinner - ugly, but not as ugly as searching for fds
+                # returned by select and match on queue and get then...
+                time.sleep(ceof.EOF_TIME_QPOLL)
+            except KeyboardInterrupt:
+                continue_running = False
 
         # FIXME: Kill and join on exit
         for process in self.process.values():
