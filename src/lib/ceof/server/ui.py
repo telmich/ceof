@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# 2012 Nico Schottelius (nico-ceof at schottelius.org)
+# 2012-2013 Nico Schottelius (nico-ceof at schottelius.org)
 #
 # This file is part of ceof.
 #
@@ -22,16 +22,21 @@
 #
 
 import ceof
+import ceof.config.peer
 import ceof.server.tcp
 import logging
 import socket
+
 
 log = logging.getLogger(__name__)
 
 class UI(object):
     """Server to accept UI connections"""
 
-    def __init__(self, address, port, queue=None):
+    def __init__(self, address, port, config, queue=None):
+
+        self.config = config
+
         self.tcpserver = ceof.server.tcp.TCPServer(address, port, self.handler)
 
         self.eofid = ceof.EOFID()
@@ -67,11 +72,12 @@ class UI(object):
                     log.debug("CMD: " + cmd)
                     fnname = "cmd_" + cmd
                     f = getattr(self, fnname)
-                    log.debug("Supported: %s" % (cmd))
-                    f()
                 except AttributeError:
                     log.error("Unsupported command: %s" % (cmd))
                     break
+
+                log.debug("Supported command %s" % (cmd))
+                f()
 
         except (socket.error, KeyboardInterrupt):
             conn.close()
@@ -83,7 +89,7 @@ class UI(object):
         """Register UI"""
         
         self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
-        self.ui_name = self.conn.recv(ceof.EOF_L_UI_NAME)
+        self.ui_name = ceof.decode(self.conn.recv(ceof.EOF_L_UI_NAME))
 
         log.debug("recv id " + self.ui_eofid)
         log.info("Registered UI: %s" % self.ui_name)
@@ -152,12 +158,19 @@ class UI(object):
         """/peer list"""
 
         self.ui_eofid = ceof.decode(self.conn.recv(ceof.EOF_L_ID))
-        size = ceof.fillup("2", ceof.EOF_L_SIZE)
-        name1=ceof.fillup("telmich", ceof.EOF_L_PEERNAME)
-        name2=ceof.fillup("Hans-Jürgen", ceof.EOF_L_PEERNAME)
 
-        answer = ceof.encode("%s%s%s%s%s" % (ceof.EOF_CMD_UI_PEER_LISTING, self.ui_eofid, size, name1, name2))
-        self.conn.sendall(answer)
+        peers = ceof.config.peer.Peer.list_peers(self.config.peer_dir)
+
+        size = ceof.fillup(str(len(peers)), ceof.EOF_L_SIZE)
+        names=[]
+        for peer in peers:
+            encoded_name = ceof.fillup(peer.name, ceof.EOF_L_PEERNAME)
+            names.append(encoded_name)
+
+        answer = "%s%s%s" % (ceof.EOF_CMD_UI_PEER_LISTING, self.ui_eofid, size)
+        answer = answer + "".join(names)
+        answer_encoded = ceof.encode(answer)
+        self.conn.sendall(answer_encoded)
 
 
     def cmd_2107(self):

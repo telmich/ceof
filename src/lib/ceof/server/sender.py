@@ -58,7 +58,6 @@ class Sender(object):
         log.debug("Sender child started")
 
         while True:
-            log.debug("Sender polling for data to be sent")
             # Try to get message, send noise otherwise
             try:
                 destination, pkg = self._upstream_queue.get(block=False)
@@ -71,12 +70,13 @@ class Sender(object):
                 destination, pkg = self._noise.get()
                 message = True
             else:
-                log.debug("No message received - noise sending disabled")
-                
+                log.debug("NOT sending any packet - noise sending disabled")
 
             try:
                 if message:
+                    log.debug("Sending packet to %s" % destination)
                     self.send(destination, pkg)
+
             except SenderError as e:
                 log.warn(e)
 

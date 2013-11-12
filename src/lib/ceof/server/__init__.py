@@ -41,7 +41,8 @@ class Server(object):
 
     """
 
-    def __init__(self, config, listener=True, send_noise=True, ui=True,
+    def __init__(self, config, 
+        listener=True, send_noise=True, ui=True,
         ui_addr='127.0.0.1', ui_port='4242'):
 
         self.config = config
@@ -85,7 +86,10 @@ class Server(object):
     def _init_ui(self):
         if self.ui:
             self.queue['ui']   = multiprocessing.Queue()
-            self.server['ui']  = ceof.UIServer(self.ui_addr, self.ui_port)
+            self.server['ui']  = ceof.UIServer(address=self.ui_addr, 
+                port=self.ui_port, 
+                config=self.config,
+                queue=self.queue['ui'])
             self.process['ui'] = multiprocessing.Process(target=self.server['ui'].run)
             self.handler['ui'] = self._handle_ui
 
@@ -156,7 +160,7 @@ class Server(object):
 
         # Start servers in their subprocesses
         for name, process in self.process.items():
-            log.debug("Starting process of %s" % name)
+            log.debug("Starting server: %s" % name)
             process.start()
 
         # Iterate over input from servers

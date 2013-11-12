@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# 2012 Nico Schottelius (nico-ceof at schottelius.org)
+# 2012-2013 Nico Schottelius (nico-ceof at schottelius.org)
 #
 # This file is part of ceof.
 #
