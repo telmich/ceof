@@ -9,4 +9,4 @@ web:
 	cd $(WEBDIR) && git add ceof.mdwn && git commit -m "Update ceof" ceof.mdwn
 
 test:
-	PYTHONPATH=$$(pwd -P)/src/lib/
+	python3 -m ceof.test
