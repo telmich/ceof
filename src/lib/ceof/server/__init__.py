@@ -106,8 +106,9 @@ class Server(object):
     def _handle_ui(self, data):
         """React on commands from the UI Server"""
         # FIXME: implement commands? currently only message sending is supported
+
         first_address, onion_chain = data
-        log.info("Messages from UI Server: %s -> %s" % (onion_chain, first_address))
+        log.info("Received message from UI Server for %s" % first_address)
         self.sender_queue.put((first_address, onion_chain))
 
     def _handle_listener(self, data):
