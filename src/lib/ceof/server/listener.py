@@ -60,24 +60,28 @@ class Listener(object):
             # File deskriptors for select()
             self.fds.append(self.queue[name]._reader)
 
-        while True:
-            for q in self.queue.values():
-                data = False
-                try:
-                    data = q.get(block=False)
-                except queue.Empty:
-                    pass
+        continue_running = True
+        try:
+            while continue_running:
+                for q in self.queue.values():
+                    data = False
+                    try:
+                        data = q.get(block=False)
+                    except queue.Empty:
+                        pass
 
-                if data:
-                    message = data.decode('utf-8')
-                    self.upstream_queue.put(message)
-                    log.debug("Forwarded message: %s to upstream" % (message))
+                    if data:
+                        message = data.decode('utf-8')
+                        self.upstream_queue.put(message)
+                        log.debug("Forwarded message: %s to upstream" % (message))
 
-            # Spinner - ugly, but not as ugly as searching for fds
-            # returned by select and match on queue and get then...
-            time.sleep(ceof.EOF_TIME_QPOLL)
+                # Spinner - ugly, but not as ugly as searching for fds
+                # returned by select and match on queue and get then...
+                time.sleep(ceof.EOF_TIME_QPOLL)
 
-        #p.join()
+            #p.join()
+        except KeyboardInterrupt:
+            continue_running = False
 
     def child(self, address, port, queue):
         log.debug("Running in child of listener for address %s:%s" % (address, port))
