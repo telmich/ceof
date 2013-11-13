@@ -109,7 +109,7 @@ class Server(object):
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
-        log.info("Packet received from listener: %s" % data)
+        log.info("Packet received from listener:\n%s" % data)
 
         # Decode into eofmsg and do appropriate action
         msg, rest = self._onion.unpack(data)
@@ -124,9 +124,8 @@ class Server(object):
 
         cmd = eofmsg.cmd
 
-        # Drop? done.
         if cmd == ceof.EOF_CMD_ONION_DROP:
-            pass
+            log.info("Dropping packet that told me to drop it")
 
         elif cmd == ceof.EOF_CMD_ONION_FORWARD:
             # Forward to next
