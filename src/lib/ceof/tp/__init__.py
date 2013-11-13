@@ -96,9 +96,12 @@ class TransportProtocol(object):
     @staticmethod
     def route_to(peer_dir, peer, num_peers):
         """Get route to a peer"""
+
+        # Get some random peers, not the target included
         peers = ceof.Peer.list_random_peers(peer_dir, num_peers, notthispeer=peer)
 
-        peer_index = random.randrange(len(peers))
+        # Insert the target at a random position (including last one!)
+        peer_index = random.randrange(len(peers) + 1)
         peers.insert(peer_index, peer)
 
         return peers

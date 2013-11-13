@@ -44,7 +44,7 @@ class EOFMsg(object):
         return self.message
 
     def __repr__(self):
-        return ("<EOFMsg version=%s,cmd=%s, eofid=%s, address=%s, group=%s, msgtext=%s> " % (self.version , self.cmd , self.eofid , self.address , self.group , self.msgtext))
+        return ("<EOFMsg version=%s,cmd=%s, eofid=%s, next_address=%s, group=%s, msgtext=%s> " %           (self.version , self.cmd , self.eofid , self.address, self.group , self.msgtext))
 
     def get_message(self):
         return self.version + self.cmd + self.eofid + self.address + self.group + self.msgtext
@@ -97,6 +97,7 @@ class EOFMsg(object):
         noise = ceof.noise.Filesystem(noise_dir)
         chain = cls.chain_plain(route, peer, message)
 
+        # Add noise into the eofmsg field
         for proxy_pkg in chain:
             noise_block = noise.get()
             proxy_pkg['eofmsg'].noisify(noise_block)
