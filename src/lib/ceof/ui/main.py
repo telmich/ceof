@@ -114,6 +114,8 @@ class Main(object):
                 if len(line) > 0:
                     line.pop()
                     self.window.clrtoeol()
+                else:
+                    break
             else:
                 try:
                     line.append(chr(c))
