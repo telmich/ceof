@@ -113,6 +113,7 @@ class Main(object):
             elif c == curses.KEY_BACKSPACE:
                 if len(line) > 0:
                     line.pop()
+                    self.window.clrtoeol()
             else:
                 try:
                     line.append(chr(c))
