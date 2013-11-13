@@ -74,7 +74,6 @@ class Sender(object):
 
             try:
                 if message:
-                    log.debug("Sending packet to %s" % destination)
                     self.send(destination, pkg)
 
             except SenderError as e:
@@ -86,8 +85,7 @@ class Sender(object):
     def send(address, pkg):
         """Send out message"""
 
-        # FIXME: remove hard coded tcp
-        log.info("Sending packet to %s" % (str(address)))
+        log.warn("Sending packet to %s" % (str(address)))
 
         import socket
         import urllib.parse
