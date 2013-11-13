@@ -34,7 +34,7 @@ def commandline():
         default=False)
     parser['all'].add_argument('-v', '--verbose',
         help='Set log level to info, be more verbose',
-        action='store_true', default=False)
+        action='count', default=0)
     parser['all'].add_argument('-c', '--config-dir',
         help='Select configuration directory ($HOME/.ceof by default)',
         action='store')
@@ -189,9 +189,15 @@ def commandline():
 
     args = parser['main'].parse_args(sys.argv[1:])
 
-    # Loglevels are handled globally in here and debug wins over verbose
-    if args.verbose:
+    # Log errors only by default
+    logging.root.setLevel(logging.ERROR)
+
+    if args.verbose == 1:
+        logging.root.setLevel(logging.WARNING)
+
+    if args.verbose >= 2:
         logging.root.setLevel(logging.INFO)
+
     if args.debug:
         logging.root.setLevel(logging.DEBUG)
 
