@@ -1,4 +1,7 @@
 
+0.9.3: 2013-11-13
+	* UI Server: Support /peer add
+
 0.9.2: 2013-11-12
 	* Integrate UI Server into "ceof server" command
 	* UI Server: return real results for /peer list

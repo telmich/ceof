@@ -117,8 +117,23 @@ class UI(object):
         address = ceof.decode(self.conn.recv(ceof.EOF_L_ADDRESS))
         keyid = ceof.decode(self.conn.recv(ceof.EOF_L_KEYID))
 
-        answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
-        self.conn.sendall(answer)
+        peer_exists = True
+        try:
+            ceof.Peer.from_disk(self.config.peer_dir, name)
+        except ceof.config.peer.NoSuchPeerError:
+            peer_exists = False
+
+        if peer_exists:
+            answer = (ceof.EOF_CMD_UI_ACK, self.ui_eofid)
+            answer_encoded = ceof.encode("%s%s" % answer)
+        else:
+            answer = (ceof.EOF_CMD_UI_FAIL, self.ui_eofid, "Peer already exists")
+            answer_encoded = ceof.encode("%s%s%s" % answer)
+
+        peer = ceof.Peer(name, keyid, [address])
+        peer.to_disk(self.config.peer_dir)
+
+        self.conn.sendall(answer_encoded)
 
     def cmd_2103(self):
         """/peer del"""

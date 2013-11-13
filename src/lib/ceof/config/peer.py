@@ -130,7 +130,7 @@ class Peer(object):
     @classmethod
     def random_peer_random_address(cls, base_dir):
         """Return a random address of a random peer"""
-        peers = cls.list_random_peers(base_dir, 1)
+        peers = cls.list_random_peers(base_dir, num_peers=1)
 
         address = peers[0].random_address()
 
@@ -143,7 +143,6 @@ class Peer(object):
         peers = cls.list_peers(base_dir)
         random_peers = []
 
-        # FIXME: if notthispeer is in the list, we need even +1!
         if notthispeer:
             need_peers = num_peers + 1
         else:
