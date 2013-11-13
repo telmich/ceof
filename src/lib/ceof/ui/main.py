@@ -111,7 +111,8 @@ class Main(object):
             elif c == -1:
                 continue
             elif c == curses.KEY_BACKSPACE:
-                line.pop()
+                if len(line) > 0:
+                    line.pop()
             else:
                 try:
                     line.append(chr(c))
