@@ -1,0 +1,50 @@
+To support the bootstrap of an EOF network, at least
+two things are missing:
+
+- a services that provides addresses of random peers
+    
+    So that bootstrapping / getting the minimal number
+    of peers is easily done.
+
+    Idea:
+
+    Registering an address:
+        - users can register by sending an encrypted packet with 
+            - register command
+            - an address
+            - public gpg key
+        - services imports the gpg key
+        - services saves address / keyid for verification
+        - the services verifies this address
+            - service connects directly to this address 
+            - sends a secret
+        - if an answer is received
+            - add address to verified addresses
+            - record time of verification
+
+    Returning addresses:
+        - only user that are registered (!) can request addresses
+        - user sends an encrypted signed packet to the server
+            - address request command
+            - the destination address
+        - server selects a random verified address
+
+    Optional / later:
+        - regulary check the verified addresses
+            - begin with the oldest?
+            - sort them by freshness?
+            - ensure database is not completly outdated
+
+- many peers
+
+    Create a very simple bootstrap:
+
+    git clone
+    python-gnupg
+
+    ./src/bin/ceof bootstrap
+        -> create public/private key pair
+        -> registers listeners
+            -> how to find out on which addresses to listen?
+                -> manually / commandline?
+        -> registers itself to a list of the public address servers
