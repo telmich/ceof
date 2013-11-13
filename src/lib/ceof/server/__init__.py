@@ -130,7 +130,7 @@ class Server(object):
         elif cmd == ceof.EOF_CMD_ONION_FORWARD:
             # Forward to next
             # FIXME: add padding?
-            log.debug("Scheduling packet for forward: %s" % rest)
+            log.info("Forwarding packet to: %s" % eofmsg.address)
             self.sender_queue.put((eofmsg.address, rest))
 
         elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
