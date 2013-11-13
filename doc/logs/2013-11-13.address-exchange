@@ -29,11 +29,16 @@ two things are missing:
             - the destination address
         - server selects a random verified address
 
+    Implementation notes:
+        - Can be integrated into normal packet receiving
+        - turn on/off functionality by command line switch
+
     Optional / later:
         - regulary check the verified addresses
             - begin with the oldest?
             - sort them by freshness?
             - ensure database is not completly outdated
+        - deregister
 
 - many peers
 
@@ -48,3 +53,4 @@ two things are missing:
             -> how to find out on which addresses to listen?
                 -> manually / commandline?
         -> registers itself to a list of the public address servers
+            -> included into ceof
