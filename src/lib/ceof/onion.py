@@ -95,7 +95,8 @@ class Onion(object):
 
         # Get our packet to work on
         pkg = chain.pop()
-        log.debug("Onion: Encrypting for %s, chain = %s" % (str(pkg), str(chain)))
+        log.info("Onion: Encrypting %s" % (str(pkg)))
+        log.debug("Chain: %s" % str(chain))
 
         # If there is more, call us again
         if chain:
