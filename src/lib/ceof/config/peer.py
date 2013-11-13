@@ -226,8 +226,7 @@ class Peer(object):
 
     def add_address(self, address):
         """Add address to peer"""
-        if not ceof.TransportProtocol.verify_scheme(address):
-            raise ListenerError("Unknown protocol in address %s" % address)
+        ceof.TransportProtocol.verify_scheme(address)
 
         if not address in self.addresses:
             self.addresses.append(address)

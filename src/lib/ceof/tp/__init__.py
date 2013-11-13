@@ -31,6 +31,9 @@ log = logging.getLogger(__name__)
 class TransportProtocolError(ceof.Error):
     pass
 
+class NoSuchTransportProtocolError(ceof.Error):
+    pass
+
 class TransportProtocol(object):
     """Common transport helper"""
 
@@ -91,7 +94,8 @@ class TransportProtocol(object):
 
         url = urllib.parse.urlparse(address)
 
-        return url.scheme in protocols
+        if not url.scheme in protocols:
+            raise NoSuchTransportProtocolError
 
     @staticmethod
     def route_to(peer_dir, peer, num_peers):
