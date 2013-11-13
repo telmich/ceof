@@ -73,6 +73,23 @@ class Onion(object):
 
                 ceof.SenderServer.send(address, onion_chain)
 
+    @classmethod
+    def create(cls, config, peername, message):
+
+        peer = ceof.Peer.from_disk(config.peer_dir, peername)
+        route = ceof.TransportProtocol.route_to(config.peer_dir, peer, ceof.EOF_L_ADDITIONAL_PEERS)
+        chain = ceof.EOFMsg.chain_noisified(route, peer, message, config.noise_dir)
+
+        # chain will be modified below, get the address now
+        first_link      = chain[-1]
+        first_peer      = first_link['peer']
+        first_address   = peer.random_address()
+
+        onion = cls(config.gpg_config_dir)
+        onion_chain = onion.chain(chain)
+
+        return (first_address, onion_chain)
+
     def chain(self, chain):
         """Create an onion chain"""
 

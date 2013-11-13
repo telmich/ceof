@@ -180,6 +180,9 @@ class UI(object):
         name = ceof.decode(self.conn.recv(ceof.EOF_L_PEERNAME))
         message = ceof.decode(self.conn.recv(ceof.EOF_L_MESSAGE))
 
+        (first_address, onion_chain) = ceof.Onion.create(self.config, name, message)
+        self.upstream_queue.put((first_address, onion_chain))
+
         answer = ceof.encode("%s%s" % (ceof.EOF_CMD_UI_ACK, self.ui_eofid))
         self.conn.sendall(answer)
 

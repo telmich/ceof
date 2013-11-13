@@ -104,8 +104,11 @@ class Server(object):
         self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
 
     def _handle_ui(self, data):
-        """React on commands from the UI"""
-        pass
+        """React on commands from the UI Server"""
+        # FIXME: implement commands? currently only message sending is supported
+        first_address, onion_chain = data
+        log.info("Messages from UI Server: %s -> %s" % (onion_chain, first_address))
+        self.sender_queue.put((first_address, onion_chain))
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
@@ -138,7 +141,6 @@ class Server(object):
             # FIXME: get sender info, verify signature
             log.info("Received message: %s (last peer)" % eofmsg.msgtext)
             #self.queue['ui'].put(eofmsg.msgtext)
-            # print(eofmsg.msgtext)
     
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
             # Forward to next
@@ -147,7 +149,6 @@ class Server(object):
             self.sender_queue.put((eofmsg.address, rest))
             # Forward to UI
             # FIXME: get sender info, verify signature
-            #print(eofmsg.msgtext)
             ##self.queue['ui'].put(eofmsg.msgtext)
 
         else:
