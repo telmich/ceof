@@ -118,14 +118,13 @@ class Server(object):
 
         # Decode into eofmsg and do appropriate action
         msg, rest = self._onion.unpack(data)
+        log.info("msg/rest: %s/%s" % msg, rest)
         eofmsg = ceof.EOFMsg()
         try:
             eofmsg.set_message(msg)
         except ceof.eofmsg.EOFMsgError as e:
             log.warn("Discarding bogus packet: %s" % e)
             return
-
-        log.debug("Incoming EOFMsg: %s" % eofmsg)
 
         cmd = eofmsg.cmd
 
