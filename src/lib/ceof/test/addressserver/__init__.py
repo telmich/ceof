@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# 2012 Nico Schottelius (nico-ceof at schottelius.org)
+# 2013 Nico Schottelius (nico-ceof at schottelius.org)
 #
 # This file is part of ceof.
 #
@@ -23,52 +22,7 @@
 import ceof
 import unittest
 
-class SocketMock(object):
-    """Mock socket behaviour needed for uiserver testing"""
-
-    def __init__(self, data):
-        # Data to be used for answers
-        self.recv_buf = data
-        self.recv_buf_index = 0
-
-        self.sendall_buf = b''
-
-        self.closed = False
-
-    def recv(self, length):
-        """Return data from pre allocated buffer"""
-
-        newend = self.recv_buf_index + length
-
-        if newend <= len(self.recv_buf):
-            begin = self.recv_buf_index
-            self.recv_buf_index = newend
-
-            data = self.recv_buf[begin:newend]
-        else:
-            print("Index: %d, length: %d, readlength: %d" % (self.recv_buf_index, len(self.recv_buf), length))
-            data = False
-
-        return data
-
-    def close(self):
-        """Register close call"""
-        self.closed = True
-        
-    def sendall(self, data):
-        """Return data the client wanted to send"""
-        self.sendall_buf = self.sendall_buf + data
-
-    def __str__(self):
-        return str({ 'recv': self.recv_buf,
-                 'sendall': self.sendall_buf })
-
-class MockArgs(object):
-    def __init__(self):
-        self.address = "127.0.0.1"
-        self.port = "9993"
-
-class UI(unittest.TestCase):
+class AddressServer(unittest.TestCase):
 
     def setUp(self):
         self.mockargs = MockArgs()

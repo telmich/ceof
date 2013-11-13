@@ -52,6 +52,12 @@ class AddressServer(object):
 
 
     def register(self, eofmsg, rest):
+
+        address = ceof.Address(eofmsg.address)
+
+        if address.
+
+        if not 
         pass
 
     def deregister(self, eofmsg, rest):

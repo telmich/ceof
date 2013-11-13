@@ -93,9 +93,10 @@ EOF_CMD_ONION_MSG_DROP      = "3002"
 EOF_CMD_ONION_MSG_FORWARD   = "3003"
 EOF_CMD_ONION_ACK           = "3004"
 
-EOF_CMD_ONION_ADDR_REG      = "3100"
-EOF_CMD_ONION_ADDR_ASK      = "3101"
-EOF_CMD_ONION_ADDR_DEREG    = "3102"
+EOF_CMD_ONION_ADDR_REG      = "3005"
+EOF_CMD_ONION_ADDR_DEREG    = "3006"
+EOF_CMD_ONION_ADDR_VERIFY   = "3007"
+EOF_CMD_ONION_ADDR_ASK      = "3008"
 
 # /* UI commands */
 EOF_UI_EXIT                 = "/exit"
@@ -143,13 +144,14 @@ from ceof.config            import Config
 from ceof.crypto            import Crypto
 from ceof.eofmsg            import EOFMsg
 from ceof.eofid             import EOFID
+from ceof.config.address    import Address
 from ceof.config.listener   import Listener
 from ceof.onion             import Onion
 from ceof.config.peer       import Peer
 from ceof.server            import Server
 from ceof.tp                import TransportProtocol
 from ceof.ui.main           import Main     as UI
-from ceof.server.address    import Address  as AddressServer
+#from ceof.server.address    import Address  as AddressServer
 from ceof.server.listener   import Listener as ListenerServer
 from ceof.server.sender     import Sender   as SenderServer
 from ceof.server.ui         import UI       as UIServer
