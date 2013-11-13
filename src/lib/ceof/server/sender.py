@@ -87,8 +87,7 @@ class Sender(object):
         """Send out message"""
 
         # FIXME: remove hard coded tcp
-        #log.info("Sending message %s to %s" % (str(pkg), str(address)))
-        log.info("Sending message to %s" % (str(address)))
+        log.info("Sending packet to %s" % (str(address)))
 
         import socket
         import urllib.parse

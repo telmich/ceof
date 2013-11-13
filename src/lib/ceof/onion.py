@@ -63,13 +63,13 @@ class Onion(object):
 
                 onion = cls(config.gpg_config_dir)
                 onion_chain = onion.chain(chain)
-                print("Onion chain: %s" % onion_chain)
+                print("Onion chain:\n%s" % onion_chain)
 
             if args.send:
                 first_link = orig_chain[-1]
                 peer = first_link['peer']
                 address = peer.random_address()
-                log.debug("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
+                log.info("Sending generated message via %s to %s @ %s" % (str(orig_chain), str(peer), str(address)))
 
                 ceof.SenderServer.send(address, onion_chain)
 
