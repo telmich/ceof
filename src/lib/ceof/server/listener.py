@@ -90,7 +90,7 @@ class Listener(object):
             log.error("Failed to run listener on %s:%s: %s" % (address, port, e))
 
     def child_handler(self, conn, addr):
-        log.debug("Connected by %s" % str(addr))
+        log.info("Receiving data from %s ..." % str(addr))
 
         data = []
         while 1:
