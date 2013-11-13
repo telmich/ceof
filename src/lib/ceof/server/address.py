@@ -27,7 +27,7 @@ import time
 
 log = logging.getLogger(__name__)
 
-class Adress(object):
+class AddressServer(object):
     """Sender server"""
 
     def __init__(self, config, queue=None):
@@ -51,20 +51,30 @@ class Adress(object):
             continue_running = False
 
 
+    def register(self, eofmsg, rest):
+        pass
+
+    def deregister(self, eofmsg, rest):
+        pass
+
+    def ask(self, eofmsg, rest):
+        pass
+
     def handle_request(self, eofmsg, rest):
         """Dispatch requests to method"""
 
         cmd = eofmsg.cmd
 
         if cmd == ceof.EOF_CMD_ONION_ADDR_REG:
-            self.queue['address'].put((eofmsg, rest))
+            handler = register
 
         elif cmd == ceof.EOF_CMD_ONION_ADDR_ASK:
-            self.queue['address'].put((eofmsg, rest))
+            handler = ask
 
         elif cmd == ceof.EOF_CMD_ONION_ADDR_DEREG:
-            self.queue['address'].put((eofmsg, rest))
+            handler = deregister
     
         else:
             raise ceof.UnsupportedCommandError(cmd)
 
+        handler(eofmsg, rest)
