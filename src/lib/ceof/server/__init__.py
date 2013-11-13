@@ -42,11 +42,12 @@ class Server(object):
     """
 
     def __init__(self, config, 
-        listener=True, send_noise=True, ui=True,
+        listener=True, send_noise=True, ui=True, address=True,
         ui_addr='127.0.0.1', ui_port='4242'):
 
         self.config = config
         self.queue  = {}
+        self.queue_poll  = {}
         self.server = {}
         self.process = {}
         self.handler = {}
@@ -56,6 +57,8 @@ class Server(object):
         self.ui = ui
         self.ui_addr = ui_addr
         self.ui_port = ui_port
+
+        self.address = address
 
         self._init_listener()
         self._init_onion()
@@ -75,6 +78,7 @@ class Server(object):
         if self.listener:
             listener = ceof.Listener(self.config.listener)
             self.queue['listener']  = multiprocessing.Queue()
+            self.queue_poll['listener']  = True
             self.server['listener'] = Listener(listener.listener, 
                 self.queue['listener'])
             self.process['listener'] = multiprocessing.Process(target=self.server['listener'].run)
@@ -86,6 +90,7 @@ class Server(object):
     def _init_ui(self):
         if self.ui:
             self.queue['ui']   = multiprocessing.Queue()
+            self.queue_poll['ui']  = True
             self.server['ui']  = ceof.UIServer(address=self.ui_addr, 
                 port=self.ui_port, 
                 config=self.config,
@@ -94,14 +99,23 @@ class Server(object):
             self.handler['ui'] = self._handle_ui
 
     def _init_sender(self):
-        # This server is special: 
-        # we only submit data, but don't poll 
-        # so don't add it to the queue list
-        self.sender_queue = multiprocessing.Queue()
+        self.queue['sender']   = multiprocessing.Queue()
+        self.queue_poll['sender']  = False
         self.server['sender'] = ceof.SenderServer(ceof.EOF_TIME_SEND, 
-            self.sender_queue, self.config.noise_dir, self.config.peer_dir, 
+            self.queue['sender'], self.config.noise_dir, self.config.peer_dir, 
             self.config.gpg_config_dir, self.send_noise)
         self.process['sender'] = multiprocessing.Process(target=self.server['sender'].run)
+
+    def _init_address(self):
+        if self.address:
+            self.queue['address']   = multiprocessing.Queue()
+            self.queue_poll['address']  = True
+            self.server['address']  = ceof.AddressServer(
+                config=self.config,
+                queue=self.queue['address'])
+            self.process['address'] = multiprocessing.Process(target=self.server['address'].run)
+            self.handler['address'] = self._handle_address
+
 
     def _handle_ui(self, data):
         """React on commands from the UI Server"""
@@ -109,6 +123,12 @@ class Server(object):
 
         first_address, onion_chain = data
         log.info("Received message from UI Server for %s" % first_address)
+        self.sender_queue.put((first_address, onion_chain))
+
+    def _handle_address(self, data):
+        """React on address replies from address server"""
+
+        first_address, onion_chain = data
         self.sender_queue.put((first_address, onion_chain))
 
     def _handle_listener(self, data):
@@ -136,7 +156,7 @@ class Server(object):
             # Forward to next
             # FIXME: add padding?
             log.info("Forwarding packet to: %s" % eofmsg.address)
-            self.sender_queue.put((eofmsg.address, rest))
+            self.queue['sender'].put((eofmsg.address, rest))
 
         elif cmd == ceof.EOF_CMD_ONION_MSG_DROP:
             # Add to UIServer queue
@@ -145,13 +165,21 @@ class Server(object):
             #self.queue['ui'].put(eofmsg.msgtext)
     
         elif cmd == ceof.EOF_CMD_ONION_MSG_FORWARD:
-            # Forward to next
-            # FIXME: add padding?
             log.info("Received message: %s (forwarding packet)" % eofmsg.msgtext)
-            self.sender_queue.put((eofmsg.address, rest))
+            self.queue['sender'].put((eofmsg.address, rest))
             # Forward to UI
             # FIXME: get sender info, verify signature
             ##self.queue['ui'].put(eofmsg.msgtext)
+
+        ## New address server commands
+        elif cmd == ceof.EOF_CMD_ONION_ADDR_REG:
+            self.queue['address'].put((eofmsg, rest))
+
+        elif cmd == ceof.EOF_CMD_ONION_ADDR_ASK:
+            self.queue['address'].put((eofmsg, rest))
+
+        elif cmd == ceof.EOF_CMD_ONION_ADDR_DEREG:
+            self.queue['address'].put((eofmsg, rest))
 
         else:
             log.warn("Ignoring unknown cmd: %s (%s)" % (cmd, data))

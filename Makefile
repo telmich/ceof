@@ -7,3 +7,6 @@ pub:
 web:
 	cp README.mdwn $(WEBDIR)/ceof.mdwn
 	cd $(WEBDIR) && git add ceof.mdwn && git commit -m "Update ceof" ceof.mdwn
+
+test:
+	PYTHONPATH=$$(pwd -P)/src/lib/
