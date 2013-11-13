@@ -113,7 +113,8 @@ class Server(object):
 
     def _handle_listener(self, data):
         """Handle incoming packet from listener"""
-        log.info("Packet received from listener:\n%s" % data)
+        log.info("Packet received from listener")
+        log.debug("<data>\n%s\n</data>" % data)
 
         # Decode into eofmsg and do appropriate action
         msg, rest = self._onion.unpack(data)
