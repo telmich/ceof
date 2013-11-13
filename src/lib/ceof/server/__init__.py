@@ -118,7 +118,8 @@ class Server(object):
 
         # Decode into eofmsg and do appropriate action
         msg, rest = self._onion.unpack(data)
-        log.info("msg/rest: %s/%s" % msg, rest)
+        log.debug("<msg>\n%s\n</msg>" % msg)
+        log.debug("<rest>\n%s\n</rest>" % rest)
         eofmsg = ceof.EOFMsg()
         try:
             eofmsg.set_message(msg)
