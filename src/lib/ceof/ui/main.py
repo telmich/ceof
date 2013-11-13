@@ -110,6 +110,8 @@ class Main(object):
             # Read error on SIGWINCH (not documented, but found in reality)
             elif c == -1:
                 continue
+            elif c == curses.KEY_BACKSPACE:
+                line.pop()
             else:
                 try:
                     line.append(chr(c))
